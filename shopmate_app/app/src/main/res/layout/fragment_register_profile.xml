@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/neutral"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".view.login.ui.RegisterProfileFragment">
+
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height"
+        android:fontFamily="@font/poppins"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/strProfile"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/defaultTextSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivProfilePicker"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/profile_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+
+    <!-- USER EDITEXT -->
+    <LinearLayout
+        android:id="@+id/et_lyt_username"
+        android:layout_width="@dimen/maxWidth"
+        android:layout_height="@dimen/height"
+        android:layout_marginTop="@dimen/defaultMarginTop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivProfilePicker">
+
+        <RelativeLayout
+            android:layout_width="@dimen/height"
+            android:layout_height="@dimen/height"
+            android:gravity="center"
+            android:background="@drawable/custom_bg_icon">
+            <ImageView
+                android:layout_width="@dimen/iconMiddleSize"
+                android:layout_height="@dimen/iconMiddleSize"
+                android:contentDescription="@string/iconStr"
+                android:src="@drawable/user_icon" />
+        </RelativeLayout>
+
+
+        <EditText
+            android:id="@+id/et_username"
+            android:layout_width="270dp"
+            android:layout_height="@dimen/height"
+            android:autofillHints="username"
+            android:background="@drawable/custom_input"
+            android:ems="10"
+            android:fontFamily="@font/poppins_medium"
+            android:hint="@string/hintUser"
+            android:inputType="text"
+            android:paddingStart="@dimen/defaultPaddingLeft"
+            android:textAlignment="viewStart"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <!-- EMAIL EDITEXT -->
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="@dimen/maxWidth"
+        android:layout_height="@dimen/height"
+        android:layout_marginTop="@dimen/defaultMarginTop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_lyt_username">
+
+        <RelativeLayout
+            android:layout_width="@dimen/height"
+            android:layout_height="@dimen/height"
+            android:background="@drawable/custom_bg_icon"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="@dimen/iconMiddleSize"
+                android:layout_height="@dimen/iconMiddleSize"
+                android:contentDescription="@string/iconStr"
+                android:src="@drawable/email_icon" />
+        </RelativeLayout>
+
+
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="270dp"
+            android:layout_height="@dimen/height"
+            android:autofillHints="password"
+            android:background="@drawable/custom_input"
+            android:ems="10"
+            android:fontFamily="@font/poppins_medium"
+            android:hint="@string/hintEmail"
+            android:inputType="textPassword"
+            android:enabled="false"
+            android:paddingStart="@dimen/defaultPaddingLeft"
+            android:textSize="@dimen/defaultTextSize" />
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSave"
+        android:layout_width="@dimen/maxWidth"
+        android:layout_height="@dimen/height"
+        android:backgroundTint="@color/primary"
+        android:layout_marginTop="@dimen/defaultMarginTop"
+        android:text="@string/btnSave"
+        android:insetBottom="0dp"
+        android:insetTop="0dp"
+        android:textSize="@dimen/defaultTextSize"
+        android:fontFamily="@font/poppins_bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <TextView
+        android:id="@+id/lblConfigLater"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:gravity="center"
+        android:text="Configurar más tarde..."
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        android:layout_marginTop="@dimen/littleMarginTop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSave" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

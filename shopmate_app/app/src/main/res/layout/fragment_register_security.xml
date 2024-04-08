@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/neutral"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+tools:context=".view.login.ui.RegisterSecurityFragment">
+
+
+
+<TextView
+    android:id="@+id/textView"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height"
+    android:fontFamily="@font/poppins"
+    android:gravity="center"
+    android:padding="5dp"
+    android:text="@string/strSecurity"
+    android:textAlignment="center"
+    android:textColor="@color/white"
+    android:textSize="@dimen/defaultTextSize"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<ImageView
+    android:id="@+id/ivProfilePicker"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:src="@drawable/profile_icon"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+
+<!-- PASSWORD EDITEXT -->
+<LinearLayout
+    android:id="@+id/lytEtPassword"
+    android:layout_width="@dimen/maxWidth"
+    android:layout_height="@dimen/height"
+    android:layout_marginTop="@dimen/defaultMarginTop"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/ivProfilePicker">
+
+    <RelativeLayout
+        android:layout_width="@dimen/height"
+        android:layout_height="@dimen/height"
+        android:gravity="center"
+        android:background="@drawable/custom_bg_icon">
+        <ImageView
+            android:layout_width="@dimen/iconMiddleSize"
+            android:layout_height="@dimen/iconMiddleSize"
+            android:contentDescription="@string/iconStr"
+            android:src="@drawable/lock_icon" />
+    </RelativeLayout>
+
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="270dp"
+        android:layout_height="@dimen/height"
+        android:autofillHints="username"
+        android:background="@drawable/custom_input"
+        android:ems="10"
+        android:fontFamily="@font/poppins_medium"
+        android:hint="@string/hintPassword"
+        android:inputType="textPassword"
+        android:paddingStart="@dimen/defaultPaddingLeft"
+        android:textAlignment="viewStart"
+        android:textSize="16sp" />
+
+</LinearLayout>
+
+<!-- CONFIRM PASSOWRD EDITEXT -->
+<LinearLayout
+    android:id="@+id/lytEtConfirmPassword"
+    android:layout_width="@dimen/maxWidth"
+    android:layout_height="@dimen/height"
+    android:layout_marginTop="@dimen/defaultMarginTop"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/lytEtPassword">
+
+    <RelativeLayout
+        android:layout_width="@dimen/height"
+        android:layout_height="@dimen/height"
+        android:background="@drawable/custom_bg_icon"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="@dimen/iconMiddleSize"
+            android:layout_height="@dimen/iconMiddleSize"
+            android:contentDescription="@string/iconStr"
+            android:src="@drawable/lock_icon" />
+    </RelativeLayout>
+
+
+    <EditText
+        android:id="@+id/etConfirmPassword"
+        android:layout_width="270dp"
+        android:layout_height="@dimen/height"
+        android:autofillHints="password"
+        android:background="@drawable/custom_input"
+        android:drawablePadding="10dp"
+        android:ems="10"
+        android:fontFamily="@font/poppins_medium"
+        android:hint="@string/hintConfirmPassword"
+        android:inputType="textPassword"
+        android:paddingStart="@dimen/defaultPaddingLeft"
+        android:textSize="@dimen/defaultTextSize" />
+
+</LinearLayout>
+
+<com.google.android.material.button.MaterialButton
+    android:id="@+id/btnSave"
+    android:layout_width="@dimen/maxWidth"
+    android:layout_height="@dimen/height"
+    android:backgroundTint="@color/primary"
+    android:layout_marginTop="@dimen/defaultMarginTop"
+    android:text="@string/btnSave"
+    android:insetBottom="0dp"
+    android:insetTop="0dp"
+    android:textSize="@dimen/defaultTextSize"
+    android:fontFamily="@font/poppins_bold"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/lytEtConfirmPassword" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
