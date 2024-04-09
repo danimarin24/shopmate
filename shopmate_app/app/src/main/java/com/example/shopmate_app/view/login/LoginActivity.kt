@@ -13,6 +13,7 @@ import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialException
 import com.example.shopmate_app.R
 import com.example.shopmate_app.databinding.ActivityLoginBinding
+import com.example.shopmate_app.view.user.UserProfileActivity
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
@@ -39,16 +40,10 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-        binding.txtForgotPassword.setOnClickListener {
-            val intent = Intent(this, ForgotPasswordActivity::class.java)
-            startActivity(intent)
-        }
+        checkLogged()
 
-        binding.txtRegister.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
-        }
 
+        // LISTENERS
         binding.btnGoogle.setOnClickListener {
             signGoogleIn()
         }
@@ -61,7 +56,34 @@ class LoginActivity : AppCompatActivity() {
             signEmailIn()
         }
 
+        binding.txtForgotPassword.setOnClickListener {
+            val intent = Intent(this, ForgotPasswordActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.txtRegister.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+
     }
+
+
+    // A function to check if user is already Login
+    // redirect to home page.
+    private fun checkLogged() {
+        /* TODO('') */
+        val isLogged = true;
+
+        if (isLogged) {
+            val intent = Intent(this, UserProfileActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+
+
+
 
     private fun signGoogleIn() {
         val context = this@LoginActivity

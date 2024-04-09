@@ -45,9 +45,12 @@
     <string name="btnResetLink">Enviar enlace de reinicio</string>
 
     <!-- REGISTER STEPS FRAGMENTs -->
-    <string name="strProfile">Tú perfil</string>
-    <string name="strSecurity">Seguridad</string>
+    <string name="strProfileStep">Tú perfil</string>
+    <string name="strSecurityStep">Seguridad</string>
     <string name="strUsername">Tú nombre de usuario</string>
+
+    <!-- USER PROFILE -->
+    <string name="strProfile">Perfil</string>
 
 
     <!-- GENERAL USES -->

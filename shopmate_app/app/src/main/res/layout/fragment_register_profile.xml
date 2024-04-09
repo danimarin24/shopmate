@@ -16,7 +16,7 @@
         android:fontFamily="@font/poppins"
         android:gravity="center"
         android:padding="5dp"
-        android:text="@string/strProfile"
+        android:text="@string/strProfileStep"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="@dimen/defaultTextSize"
