@@ -1,13 +1,13 @@
-package com.example.shopmate_app.model
+package com.example.shopmate_app.api
 
 import android.util.Log
+import com.example.shopmate_app.model.User
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -16,11 +16,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.coroutines.CoroutineContext
 
 class CrudApi : CoroutineScope {
+    private val baseIp = "https://172.16.24.173"
+    private val port = "5934"
+    private val apiUrl = "${baseIp}:${port}/"
+
     private val job = Job()
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
-
-    val apiUrl = "http://172.16.24.50"
 
     private fun getRetrofit(): Retrofit {
         val gson = GsonBuilder()
