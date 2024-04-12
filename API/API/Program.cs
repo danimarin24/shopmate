@@ -1,9 +1,9 @@
-using API.Authentication;
+using API.Context;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers(x => x.Filters.Add<ApiKeyAuthFilter>());
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -17,6 +17,8 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.AddDbContext<ShopMateContext>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -27,7 +29,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseMiddleware<ApiKeyAuthMiddleware>();
+app.UseRouting();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+
+//app.UseMiddleware<ApiKeyAuthMiddleware>();
 
 var summaries = new[]
 {
