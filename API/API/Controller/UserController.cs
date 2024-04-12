@@ -29,10 +29,24 @@ namespace API.Controller
         }
 
         // GET: api/User/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<User>> GetUser(uint id)
         {
             var user = await _context.Users.FindAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
+        }
+        
+        // GET: api/User/danimarin24
+        [HttpGet("{username}")]
+        public async Task<ActionResult<User>> GetUser(string username)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username.Equals(username));
 
             if (user == null)
             {
@@ -78,6 +92,9 @@ namespace API.Controller
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
+            // hash password before add
+            user.Password = Repository.HashPassword(user.Password);
+            
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
