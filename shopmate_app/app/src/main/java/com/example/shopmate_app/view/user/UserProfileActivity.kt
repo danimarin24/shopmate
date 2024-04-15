@@ -23,10 +23,6 @@ class UserProfileActivity : AppCompatActivity() {
             insets
         }
 
-        binding.btnSignOut.setOnClickListener {
-            signGoogleOut()
-        }
-
     }
 
     private fun signGoogleOut(){

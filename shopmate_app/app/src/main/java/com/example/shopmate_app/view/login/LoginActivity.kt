@@ -12,7 +12,9 @@ import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialException
 import com.example.shopmate_app.R
+import com.example.shopmate_app.api.CrudApi
 import com.example.shopmate_app.databinding.ActivityLoginBinding
+import com.example.shopmate_app.model.PasswordUtils
 import com.example.shopmate_app.view.user.UserProfileActivity
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
@@ -40,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-        checkLogged()
+        //checkLogged()
 
 
         // LISTENERS
@@ -72,7 +74,10 @@ class LoginActivity : AppCompatActivity() {
     // A function to check if user is already Login
     // redirect to home page.
     private fun checkLogged() {
-        /* TODO('') */
+
+
+
+
         val isLogged = true;
 
         if (isLogged) {
@@ -139,6 +144,24 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signEmailIn() {
+        var crudApi = CrudApi()
+
+
+
+        val username = binding.etUsername.text.toString()
+        val password = binding.etPassword.text.toString()
+        val hashedPassword = PasswordUtils.hashString(password)
+
+        Log.i("PASSWORD HASH", hashedPassword)
+
+        val user = crudApi.getUser("danimarin24")
+
+        if (user!!.password == hashedPassword) {
+            Log.i("USER NAME", user.name)
+            Log.i("USER EMAIL", user.email)
+            Log.i("USER PASSWORD HASH", user.password)
+        }
+
 
     }
 }

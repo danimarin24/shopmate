@@ -7,7 +7,7 @@
 
 
 
-    <string name="iconStr">Icon</string>
+    <string name="iconStr" translatable="false">Icon</string>
 
     <string name="hintUser">Escribe tu nombre</string>
     <string name="hintUsername">Escribe tu usuario</string>

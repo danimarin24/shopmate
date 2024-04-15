@@ -6,6 +6,7 @@ data class User(
     // PK
     val id: Int,
     val username: String,
+    val password: String,
     val name: String,
     val email: String,
     val phoneNumber: Int,

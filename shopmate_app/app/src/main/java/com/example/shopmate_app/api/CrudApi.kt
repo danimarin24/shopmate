@@ -1,6 +1,7 @@
 package com.example.shopmate_app.api
 
 import android.util.Log
+import com.bumptech.glide.load.engine.Resource
 import com.example.shopmate_app.model.User
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.CoroutineScope
@@ -16,9 +17,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.coroutines.CoroutineContext
 
 class CrudApi : CoroutineScope {
-    private val baseIp = "https://172.16.24.173"
-    private val port = "5934"
+    private val baseIp = "http://172.16.24.21"
+    private val port = "6385"
     private val apiUrl = "${baseIp}:${port}/"
+    private val apiKey = "c11cddd5b1554b78b6532b41287bd243"
+
 
     private val job = Job()
     override val coroutineContext: CoroutineContext
@@ -43,12 +46,12 @@ class CrudApi : CoroutineScope {
     }
 
 
-    fun getUser(token: String): User? {
+    fun getUser(username: String): User? {
         var res : Response<User>? = null
 
         runBlocking {
             val coroutine = launch {
-                res = getRetrofit().create(APIService::class.java).getUser(token)
+                res = getRetrofit().create(APIService::class.java).getUser(username, apiKey)
             }
             coroutine.join()
         }
@@ -66,7 +69,7 @@ class CrudApi : CoroutineScope {
 
         runBlocking {
             val corrutina = launch {
-                resposta = getRetrofit().create(APIService::class.java).addUser(user)
+                resposta = getRetrofit().create(APIService::class.java).addUser(user, apiKey)
             }
             corrutina.join()
         }
