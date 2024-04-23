@@ -64,6 +64,25 @@ class CrudApi : CoroutineScope {
         }
     }
 
+    fun getGoogleUser(token: String): User? {
+        var res : Response<User>? = null
+
+        runBlocking {
+            val coroutine = launch {
+                res = getRetrofit().create(APIService::class.java).getGoogleUser(token, apiKey)
+            }
+            coroutine.join()
+        }
+
+        return if (res?.isSuccessful!!) {
+            res!!.body()
+        } else {
+            Log.d("getGoogleUser", res?.code().toString())
+            null
+        }
+    }
+
+
     fun addUser(user: User): Boolean {
         var resposta : Response<Message>? = null
 
@@ -81,4 +100,6 @@ class CrudApi : CoroutineScope {
             return false
         }
     }
+
+
 }

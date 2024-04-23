@@ -12,17 +12,15 @@ import retrofit2.http.Query
 
 interface APIService {
 
-    // CATEGORY
-    @GET("/api/Categories/{id}")
-    suspend fun getCategory(@Path("id") id: Int, @Header("x-api-key") apiKey: String): Response<Category>
 
-    @GET("/api/Categories/")
-    suspend fun getCategories(@Header("x-api-key") apiKey: String): Response<Categories>
 
 
     // USER
     @GET("/api/User/{username}")
     suspend fun getUser(@Path("username") username: String, @Header("x-api-key") apiKey: String): Response<User>
+
+    @GET("/api/User/google/{token}")
+    suspend fun getGoogleUser(@Path("token") token: String, @Header("x-api-key") apiKey: String): Response<User>
 
     @GET("/api/User/{id}")
     suspend fun getUser(@Path("id") id: Int, @Header("x-api-key") apiKey: String): Response<User>
@@ -36,5 +34,21 @@ interface APIService {
 
     @GET("/api/users")
     suspend fun deleteUser(@Body user: User, @Header("x-api-key") apiKey: String): Response<Message>
+
+
+
+
+
+
+
+
+
+
+    // CATEGORY
+    @GET("/api/Categories/{id}")
+    suspend fun getCategory(@Path("id") id: Int, @Header("x-api-key") apiKey: String): Response<Category>
+
+    @GET("/api/Categories/")
+    suspend fun getCategories(@Header("x-api-key") apiKey: String): Response<Categories>
 
 }

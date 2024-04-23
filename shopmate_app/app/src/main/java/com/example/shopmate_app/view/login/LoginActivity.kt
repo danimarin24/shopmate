@@ -1,10 +1,12 @@
 package com.example.shopmate_app.view.login
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -15,6 +17,9 @@ import com.example.shopmate_app.R
 import com.example.shopmate_app.api.CrudApi
 import com.example.shopmate_app.databinding.ActivityLoginBinding
 import com.example.shopmate_app.model.PasswordUtils
+import com.example.shopmate_app.model.Setting
+import com.example.shopmate_app.model.Stat
+import com.example.shopmate_app.model.User
 import com.example.shopmate_app.view.user.UserProfileActivity
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
@@ -25,11 +30,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 import java.security.MessageDigest
+import java.time.LocalDateTime
 import java.util.UUID
 
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding : ActivityLoginBinding
+
+    private var googleId = "544701638538-ccp0cp41t4r10ofpl8biku4ckh457hm8.apps.googleusercontent.com"
+
+    private var crudApi = CrudApi()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -90,6 +100,7 @@ class LoginActivity : AppCompatActivity() {
 
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun signGoogleIn() {
         val context = this@LoginActivity
 
@@ -103,7 +114,7 @@ class LoginActivity : AppCompatActivity() {
 
         val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(false)
-            .setServerClientId("544701638538-ccp0cp41t4r10ofpl8biku4ckh457hm8.apps.googleusercontent.com")
+            .setServerClientId(googleId)
             .setNonce(hashedNonce)
             .build()
 
@@ -125,8 +136,56 @@ class LoginActivity : AppCompatActivity() {
                     .createFrom(credential.data)
 
                 val googleIdToken = googleIdTokenCredential.idToken
+                Log.i("googleIdToken", googleIdToken)
 
-                Log.i("token", googleIdToken)
+                val googleUser = crudApi.getGoogleUser(googleIdToken)
+
+                if (googleUser != null) {
+                    // existe
+                    signInIntent()
+                } else {
+                    // registrarlo
+
+
+                    // si no existe, antes de crear el usuario debemos crear sus settings, y sus stats.
+                    // Para despues vincularlo al user.
+
+                    val setting : Setting = Setting(null, LocalDateTime.now(),
+                        1u, 1u, 1u, 0u, LocalDateTime.now(), "")
+
+                    val stat : Stat = Stat(null, 0u, 0u, 0u, 0u)
+
+                    val user : User = User(null, "danimarin24", "Dani Marín", "123456",
+                        "dani4marin@gmail.com", "693485248", "image.jpg", null, null,
+                        LocalDateTime.now(), LocalDateTime.now(), 1u, 1u)
+
+
+                    val usernameGenerated = ""
+                    val email = googleIdTokenCredential.id
+                    val name = googleIdTokenCredential.displayName
+                    val phoneNumber = googleIdTokenCredential.phoneNumber
+                    val profileImage = googleIdTokenCredential.profilePictureUri.toString()
+                    val googleTokenHashed = PasswordUtils.hashString(googleIdToken)
+
+                    Log.i("token", googleIdToken)
+                    Log.i("email", email)
+                    if (name != null) {
+                        Log.i("nombre", name)
+                    }
+                    Log.i("imagenPerfil", profileImage.toString())
+
+
+                    //crudApi.addUser(googleNewUser)
+
+                }
+
+
+
+
+                // Puedes acceder a otros campos según la documentación de Google Sign-In
+
+
+                
 
                 Toast.makeText(context, "You are signed in!", Toast.LENGTH_SHORT).show()
             } catch (e: GetCredentialException) {
@@ -144,7 +203,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signEmailIn() {
-        var crudApi = CrudApi()
 
 
 
@@ -157,11 +215,17 @@ class LoginActivity : AppCompatActivity() {
         val user = crudApi.getUser("danimarin24")
 
         if (user!!.password == hashedPassword) {
-            Log.i("USER NAME", user.name)
-            Log.i("USER EMAIL", user.email)
-            Log.i("USER PASSWORD HASH", user.password)
+            user.name?.let { Log.i("USER NAME", it) }
+            user.email?.let { Log.i("USER EMAIL", it) }
+            user.password?.let { Log.i("USER PASSWORD HASH", it) }
         }
 
 
+    }
+
+
+    private fun signInIntent() {
+        val intent = Intent(this, UserProfileActivity::class.java)
+        startActivity(intent)
     }
 }

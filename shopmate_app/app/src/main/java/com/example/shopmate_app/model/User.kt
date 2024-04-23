@@ -1,23 +1,23 @@
 package com.example.shopmate_app.model
 
-import java.sql.Time
+import java.time.LocalDateTime
 
 data class User(
-    // PK
-    val id: Int,
-    val username: String,
-    val password: String,
-    val name: String,
-    val email: String,
-    val phoneNumber: Int,
-    val idGoogleToken: String,
-    val idFacebookToken: String,
-    val profileImage: String,
-    val registerDate: Time,
-    val lastConnection: Time,
-    // FK
-    val settingId: Int
+    //PK
+    var userId: UInt?,
+    var username: String,
+    var name: String,
+    var password: String?,
+    var email: String,
+    var phoneNumber: String,
+    var profileImage: String,
+    var googleToken: String?,
+    var facebookToken: String?,
+    var registerDate: LocalDateTime,
+    var lastConnection: LocalDateTime?,
+    //FK
+    var settingId: UInt,
+    var statId: UInt
 )
-
 
 class Users : ArrayList<User>()
