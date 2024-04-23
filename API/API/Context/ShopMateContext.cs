@@ -72,6 +72,7 @@ public partial class ShopMateContext : DbContext
 
             entity.HasOne(d => d.Owner).WithMany(p => p.Boards)
                 .HasForeignKey(d => d.OwnerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Board_ibfk_1");
 
             entity.HasMany(d => d.Cards).WithMany(p => p.Boards)
@@ -105,29 +106,19 @@ public partial class ShopMateContext : DbContext
 
             entity.HasIndex(e => e.OwnerId, "IX_Card_OwnerId");
 
-            entity.Property(e => e.EstimatedPrice)
-                .HasMaxLength(50)
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
-            entity.Property(e => e.IsArchived)
-                .HasMaxLength(50)
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
-            entity.Property(e => e.IsPublic)
-                .HasMaxLength(50)
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
-            entity.Property(e => e.IsTemplate)
-                .HasMaxLength(50)
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
+            entity.Property(e => e.EstimatedPrice).HasColumnType("double unsigned");
+            entity.Property(e => e.IsArchived).HasColumnType("bit(1)");
+            entity.Property(e => e.IsPublic).HasColumnType("bit(1)");
+            entity.Property(e => e.IsTemplate).HasColumnType("bit(1)");
 
             entity.HasOne(d => d.Color).WithMany(p => p.Cards)
                 .HasForeignKey(d => d.ColorId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Card_ibfk_2");
 
             entity.HasOne(d => d.Owner).WithMany(p => p.Cards)
                 .HasForeignKey(d => d.OwnerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Card_ibfk_1");
         });
 
@@ -136,8 +127,6 @@ public partial class ShopMateContext : DbContext
             entity.HasKey(e => e.CategoryId).HasName("PRIMARY");
 
             entity.ToTable("Category");
-
-            entity.HasIndex(e => e.Name, "IX_Category_Name");
 
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -161,22 +150,11 @@ public partial class ShopMateContext : DbContext
 
             entity.ToTable("Color");
 
-            entity.Property(e => e.ColorBlue)
-                .HasMaxLength(3)
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
-            entity.Property(e => e.ColorGreen)
-                .HasMaxLength(3)
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
             entity.Property(e => e.ColorHex)
                 .HasMaxLength(6)
                 .UseCollation("utf8mb3_general_ci")
                 .HasCharSet("utf8mb3");
-            entity.Property(e => e.ColorRed)
-                .HasMaxLength(3)
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
+            entity.Property(e => e.Name).HasMaxLength(30);
         });
 
         modelBuilder.Entity<Invoice>(entity =>
@@ -187,23 +165,21 @@ public partial class ShopMateContext : DbContext
 
             entity.HasIndex(e => e.CardId, "IX_Invoice_CardId");
 
-            entity.Property(e => e.PaidBy)
-                .HasMaxLength(50)
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
-            entity.Property(e => e.PaidDate)
-                .HasMaxLength(50)
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
-            entity.Property(e => e.TicketImage).HasColumnType("bit(1)");
-            entity.Property(e => e.TotalPrice)
-                .HasMaxLength(50)
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
+            entity.HasIndex(e => e.PaidBy, "Invoice_User_FK");
+
+            entity.Property(e => e.PaidDate).HasColumnType("datetime");
+            entity.Property(e => e.TicketImage).HasColumnType("text");
+            entity.Property(e => e.TotalPrice).HasColumnType("double unsigned");
 
             entity.HasOne(d => d.Card).WithMany(p => p.Invoices)
                 .HasForeignKey(d => d.CardId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Invoice_ibfk_1");
+
+            entity.HasOne(d => d.PaidByNavigation).WithMany(p => p.Invoices)
+                .HasForeignKey(d => d.PaidBy)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Invoice_User_FK");
         });
 
         modelBuilder.Entity<InvoiceLine>(entity =>
@@ -215,19 +191,10 @@ public partial class ShopMateContext : DbContext
             entity.HasIndex(e => e.ItemId, "IX_InvoiceLine_ItemId");
 
             entity.Property(e => e.InvoiceId).ValueGeneratedOnAdd();
-            entity.Property(e => e.Amount)
-                .HasMaxLength(50)
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
             entity.Property(e => e.CostXunit)
-                .HasMaxLength(50)
-                .HasColumnName("CostXUnit")
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
-            entity.Property(e => e.Price)
-                .HasMaxLength(50)
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
+                .HasColumnType("double unsigned")
+                .HasColumnName("CostXUnit");
+            entity.Property(e => e.Price).HasColumnType("double unsigned");
 
             entity.HasOne(d => d.Invoice).WithOne(p => p.InvoiceLine)
                 .HasForeignKey<InvoiceLine>(d => d.InvoiceId)
@@ -236,6 +203,7 @@ public partial class ShopMateContext : DbContext
 
             entity.HasOne(d => d.Item).WithMany(p => p.InvoiceLines)
                 .HasForeignKey(d => d.ItemId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("InvoiceLine_ItemCardLine_FK");
         });
 
@@ -263,10 +231,12 @@ public partial class ShopMateContext : DbContext
 
             entity.HasOne(d => d.Category).WithMany(p => p.Items)
                 .HasForeignKey(d => d.CategoryId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Item_ibfk_1");
 
             entity.HasOne(d => d.ReferenceItem).WithMany(p => p.Items)
                 .HasForeignKey(d => d.ReferenceItemId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Item_UserItem_FK");
         });
 
@@ -286,29 +256,31 @@ public partial class ShopMateContext : DbContext
 
             entity.HasIndex(e => e.UnitId, "ItemCardLine_Unit_FK");
 
-            entity.Property(e => e.Amount)
-                .HasMaxLength(50)
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
+            entity.Property(e => e.Price).HasColumnType("double unsigned");
 
             entity.HasOne(d => d.AssignedToNavigation).WithMany(p => p.ItemCardLineAssignedToNavigations)
                 .HasForeignKey(d => d.AssignedTo)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("ItemCardLine_ibfk_3");
 
             entity.HasOne(d => d.Card).WithMany(p => p.ItemCardLines)
                 .HasForeignKey(d => d.CardId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("ItemCardLine_ibfk_1");
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.ItemCardLineCreatedByNavigations)
                 .HasForeignKey(d => d.CreatedBy)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("ItemCardLine_ibfk_2");
 
             entity.HasOne(d => d.Item).WithMany(p => p.ItemCardLines)
                 .HasForeignKey(d => d.ItemId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("ItemCardLine_Item_FK");
 
             entity.HasOne(d => d.Unit).WithMany(p => p.ItemCardLines)
                 .HasForeignKey(d => d.UnitId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("ItemCardLine_Unit_FK");
         });
 
@@ -364,6 +336,8 @@ public partial class ShopMateContext : DbContext
             entity.Property(e => e.IsOnline).HasColumnType("bit(1)");
             entity.Property(e => e.IsPrivate).HasColumnType("bit(1)");
             entity.Property(e => e.LastConnection).HasColumnType("datetime");
+            entity.Property(e => e.LastPasswordChanged).HasColumnType("datetime");
+            entity.Property(e => e.LastPasswordHash).HasColumnType("text");
         });
 
         modelBuilder.Entity<Stat>(entity =>
@@ -389,7 +363,7 @@ public partial class ShopMateContext : DbContext
                 .UseCollation("utf8mb3_general_ci")
                 .HasCharSet("utf8mb3");
             entity.Property(e => e.Prefix)
-                .HasMaxLength(4)
+                .HasMaxLength(6)
                 .UseCollation("utf8mb3_general_ci")
                 .HasCharSet("utf8mb3");
         });
@@ -399,12 +373,6 @@ public partial class ShopMateContext : DbContext
             entity.HasKey(e => e.UserId).HasName("PRIMARY");
 
             entity.ToTable("User");
-
-            entity.HasIndex(e => e.Email, "IX_User_Email");
-
-            entity.HasIndex(e => e.LastConnection, "IX_User_LastConnection");
-
-            entity.HasIndex(e => e.Username, "IX_User_Username");
 
             entity.HasIndex(e => e.SettingId, "SettingId");
 
@@ -417,9 +385,8 @@ public partial class ShopMateContext : DbContext
             entity.Property(e => e.FacebookToken).HasColumnType("text");
             entity.Property(e => e.GoogleToken).HasColumnType("text");
             entity.Property(e => e.LastConnection)
-                .HasMaxLength(50)
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("datetime");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .UseCollation("utf8mb3_general_ci")
@@ -430,13 +397,12 @@ public partial class ShopMateContext : DbContext
                 .UseCollation("utf8mb3_general_ci")
                 .HasCharSet("utf8mb3");
             entity.Property(e => e.ProfileImage)
-                .HasMaxLength(50)
+                .HasColumnType("text")
                 .UseCollation("utf8mb3_general_ci")
                 .HasCharSet("utf8mb3");
             entity.Property(e => e.RegisterDate)
-                .HasMaxLength(50)
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("datetime");
             entity.Property(e => e.Username)
                 .HasMaxLength(50)
                 .UseCollation("utf8mb3_general_ci")
@@ -444,10 +410,12 @@ public partial class ShopMateContext : DbContext
 
             entity.HasOne(d => d.Setting).WithMany(p => p.Users)
                 .HasForeignKey(d => d.SettingId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("User_ibfk_1");
 
             entity.HasOne(d => d.Stat).WithMany(p => p.Users)
                 .HasForeignKey(d => d.StatId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("User_ibfk_2");
 
             entity.HasMany(d => d.CardsNavigation).WithMany(p => p.Users)
@@ -534,10 +502,12 @@ public partial class ShopMateContext : DbContext
 
             entity.HasOne(d => d.Category).WithMany(p => p.UserItems)
                 .HasForeignKey(d => d.CategoryId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("UserItem_ibfk_1");
 
             entity.HasOne(d => d.Creator).WithMany(p => p.UserItems)
                 .HasForeignKey(d => d.CreatorId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("UserItem_ibfk_2");
         });
 

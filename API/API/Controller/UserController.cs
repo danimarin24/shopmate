@@ -20,7 +20,7 @@ namespace API.Controller
         {
             _context = context;
         }
-
+        
         // GET: api/User
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
@@ -120,9 +120,6 @@ namespace API.Controller
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
-            // hash password before add
-            user.Password = Repository.HashString(user.Password);
-            
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 

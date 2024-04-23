@@ -7,33 +7,35 @@ public partial class User
 {
     public uint UserId { get; set; }
 
-    public string? Username { get; set; }
+    public string Username { get; set; } = null!;
 
-    public string? Name { get; set; }
+    public string Name { get; set; } = null!;
 
     public string? Password { get; set; }
 
-    public string? Email { get; set; }
+    public string Email { get; set; } = null!;
 
-    public string? PhoneNumber { get; set; }
+    public string PhoneNumber { get; set; } = null!;
 
-    public string? ProfileImage { get; set; }
+    public string ProfileImage { get; set; } = null!;
 
     public string? GoogleToken { get; set; }
 
     public string? FacebookToken { get; set; }
 
-    public string? RegisterDate { get; set; }
+    public DateTime RegisterDate { get; set; }
 
-    public string? LastConnection { get; set; }
+    public DateTime? LastConnection { get; set; }
 
-    public uint? SettingId { get; set; }
+    public uint SettingId { get; set; }
 
-    public uint? StatId { get; set; }
+    public uint StatId { get; set; }
 
     public virtual ICollection<Board> Boards { get; set; } = new List<Board>();
 
     public virtual ICollection<Card> Cards { get; set; } = new List<Card>();
+
+    public virtual ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
 
     public virtual ICollection<ItemCardLine> ItemCardLineAssignedToNavigations { get; set; } = new List<ItemCardLine>();
 
@@ -41,9 +43,9 @@ public partial class User
 
     public virtual ICollection<MembersFromCard> MembersFromCards { get; set; } = new List<MembersFromCard>();
 
-    public virtual Setting? Setting { get; set; }
+    public virtual Setting Setting { get; set; } = null!;
 
-    public virtual Stat? Stat { get; set; }
+    public virtual Stat Stat { get; set; } = null!;
 
     public virtual ICollection<UserItem> UserItems { get; set; } = new List<UserItem>();
 

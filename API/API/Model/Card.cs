@@ -7,19 +7,19 @@ public partial class Card
 {
     public uint CardId { get; set; }
 
-    public uint? OwnerId { get; set; }
+    public uint OwnerId { get; set; }
 
-    public string? IsPublic { get; set; }
+    public ulong IsPublic { get; set; }
 
-    public string? IsTemplate { get; set; }
+    public ulong IsTemplate { get; set; }
 
-    public string? IsArchived { get; set; }
+    public ulong IsArchived { get; set; }
 
-    public string? EstimatedPrice { get; set; }
+    public double? EstimatedPrice { get; set; }
 
-    public uint? ColorId { get; set; }
+    public uint ColorId { get; set; }
 
-    public virtual Color? Color { get; set; }
+    public virtual Color Color { get; set; } = null!;
 
     public virtual ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
 
@@ -27,7 +27,7 @@ public partial class Card
 
     public virtual ICollection<MembersFromCard> MembersFromCards { get; set; } = new List<MembersFromCard>();
 
-    public virtual User? Owner { get; set; }
+    public virtual User Owner { get; set; } = null!;
 
     public virtual ICollection<Board> Boards { get; set; } = new List<Board>();
 

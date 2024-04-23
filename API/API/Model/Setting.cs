@@ -17,5 +17,9 @@ public partial class Setting
 
     public ulong IsInfluencer { get; set; }
 
+    public DateTime LastPasswordChanged { get; set; }
+
+    public string LastPasswordHash { get; set; } = null!;
+
     public virtual ICollection<User> Users { get; set; } = new List<User>();
 }
