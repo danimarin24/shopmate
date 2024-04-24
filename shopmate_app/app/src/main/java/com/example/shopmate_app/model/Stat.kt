@@ -8,4 +8,9 @@ data class Stat (
     val nyourSaves : ULong
 )
 
+data class StatId(
+    val statId: String
+)
+
+
 class Stats : ArrayList<Stat>()

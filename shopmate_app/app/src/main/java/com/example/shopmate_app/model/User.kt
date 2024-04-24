@@ -1,6 +1,6 @@
 package com.example.shopmate_app.model
 
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 data class User(
     //PK
@@ -13,11 +13,15 @@ data class User(
     var profileImage: String,
     var googleToken: String?,
     var facebookToken: String?,
-    var registerDate: LocalDateTime,
-    var lastConnection: LocalDateTime?,
+    var registerDate: String,
+    var lastConnection: String?,
     //FK
     var settingId: UInt,
     var statId: UInt
+)
+
+data class UserId (
+    val userId: String
 )
 
 class Users : ArrayList<User>()

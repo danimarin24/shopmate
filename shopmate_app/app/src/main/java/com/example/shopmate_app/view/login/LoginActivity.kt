@@ -30,7 +30,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 import java.security.MessageDigest
-import java.time.LocalDateTime
+import java.time.LocalDate
 import java.util.UUID
 
 
@@ -138,6 +138,8 @@ class LoginActivity : AppCompatActivity() {
                 val googleIdToken = googleIdTokenCredential.idToken
                 Log.i("googleIdToken", googleIdToken)
 
+                // el googleIdToken pensaba que no cambiaba y si que me cambia así que habra que cambiar la manera de hacer esto.
+                // con el email?
                 val googleUser = crudApi.getGoogleUser(googleIdToken)
 
                 if (googleUser != null) {
@@ -145,34 +147,30 @@ class LoginActivity : AppCompatActivity() {
                     signInIntent()
                 } else {
                     // registrarlo
-
-
-                    // si no existe, antes de crear el usuario debemos crear sus settings, y sus stats.
-                    // Para despues vincularlo al user.
-
-                    val setting : Setting = Setting(null, LocalDateTime.now(),
-                        1u, 1u, 1u, 0u, LocalDateTime.now(), "")
-
-                    val stat : Stat = Stat(null, 0u, 0u, 0u, 0u)
-
-                    val user : User = User(null, "danimarin24", "Dani Marín", "123456",
-                        "dani4marin@gmail.com", "693485248", "image.jpg", null, null,
-                        LocalDateTime.now(), LocalDateTime.now(), 1u, 1u)
-
-
-                    val usernameGenerated = ""
-                    val email = googleIdTokenCredential.id
                     val name = googleIdTokenCredential.displayName
+                    val usernameGenerated = name?.let { crudApi.getUsernameGenerated(it) }
+                    val email = googleIdTokenCredential.id
                     val phoneNumber = googleIdTokenCredential.phoneNumber
                     val profileImage = googleIdTokenCredential.profilePictureUri.toString()
                     val googleTokenHashed = PasswordUtils.hashString(googleIdToken)
 
-                    Log.i("token", googleIdToken)
-                    Log.i("email", email)
-                    if (name != null) {
-                        Log.i("nombre", name)
-                    }
-                    Log.i("imagenPerfil", profileImage.toString())
+                    // si no existe, antes de crear el usuario debemos crear sus settings, y sus stats.
+                    // Para despues vincularlo al user.
+
+                    val setting : Setting = Setting(null, LocalDate.now().toString(),
+                        1u, 1u, 1u, 0u, LocalDate.now().toString(), googleTokenHashed)
+
+                    val stat : Stat = Stat(null, 0u, 0u, 0u, 0u)
+
+                    val user : User = User(null, usernameGenerated!!, name, null,
+                        email, phoneNumber!!, profileImage, googleTokenHashed, null,
+                        LocalDate.now().toString(), LocalDate.now().toString(), 0u, 0u)
+
+
+                    var userInserted = crudApi.addUserCompleted(setting, stat, user)
+                    Log.i("userInserted", userInserted.toString())
+
+
 
 
                     //crudApi.addUser(googleNewUser)
