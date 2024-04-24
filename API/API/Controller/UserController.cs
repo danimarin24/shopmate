@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Context;
 using API.Model;
+using API.Model.ViewModel;
 
 namespace API.Controller
 {
@@ -15,6 +16,8 @@ namespace API.Controller
     public class UserController : ControllerBase
     {
         private readonly ShopMateContext _context;
+        private readonly string _pathServer = "/var/www/html";
+        private readonly string _pathImatge = "api/user/images";
 
         public UserController(ShopMateContext context)
         {
@@ -55,6 +58,29 @@ namespace API.Controller
 
             return user;
         }
+        
+        // GET: api/User/generate/dani
+        [HttpGet("generate/{name}")]
+        public async Task<ActionResult<string>> GetGenerateUniqueUsername(string name)
+        {
+            string username = name.Replace(" ", String.Empty);
+            username = name.Replace(".", String.Empty);
+            username = username.ToLower();
+
+            Random random = new Random();
+            while (true)
+            {
+                string candidateUsername = username + random.Next(100000, 999999);
+                
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Username.Equals(candidateUsername));
+
+                if (user == null)
+                {
+                    return candidateUsername;
+                }
+            }
+        }
+        
         
         // GET: api/User/google/53412efadsfa582134e5sfads87f5dasf4asdf8asdfasdf5asf5a4sdf5asdf5asdf52c4xz81234r6fardfa2f3ad5sfa6sdfas9fv5c8127425daf4as2xc.....
         [HttpGet("google/{token}")]
@@ -125,6 +151,64 @@ namespace API.Controller
 
             return CreatedAtAction("GetUser", new { id = user.UserId }, user);
         }
+        
+        // POST: api/User/profileImage
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost("profileImage")]
+        public async Task<ActionResult<User>> PostUserImage([FromForm] UserViewModel model)
+        {
+            if (model.ProfileImage == null)
+            {
+                return BadRequest("No se proporcionó una imagen.");
+            }
+
+            try
+            {
+                var file = model.ProfileImage;
+                var fileSize = file.Length;
+
+                if (fileSize > 0)
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+                    var filePath = Path.Combine(_pathServer, _pathImatge, fileName);
+
+                    await using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+
+                    var profileImageUrl = $"{_pathImatge}/{fileName}";
+
+                    var user = new User
+                    {
+                        Name = model.Name,
+                        Username = model.Username,
+                        Password = model.Password,
+                        Email = model.Email,
+                        PhoneNumber = model.PhoneNumber,
+                        ProfileImage = profileImageUrl,
+                        RegisterDate = model.RegisterDate,
+                        LastConnection = model.LastConnection,
+                        SettingId = model.SettingId,
+                        StatId = model.StatId
+                    };
+
+                    _context.Users.Add(user);
+                    await _context.SaveChangesAsync();
+
+                    return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+                }
+                else
+                {
+                    return BadRequest("La imagen está vacía.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno del servidor: {ex.Message}");
+            }
+        }
+        
 
         // DELETE: api/User/5
         [HttpDelete("{id}")]
