@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using API.Authentication;
 using API.Context;
 using Microsoft.OpenApi.Models;
@@ -18,6 +19,11 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.AddControllers().AddJsonOptions(x =>
+    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+builder.Services.AddControllers(
+    options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
+
 builder.Services.AddDbContext<ShopMateContext>();
 
 var app = builder.Build();
@@ -37,6 +43,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 
-app.UseMiddleware<ApiKeyAuthMiddleware>();
+//app.UseMiddleware<ApiKeyAuthMiddleware>();
 
 app.Run();

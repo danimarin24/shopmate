@@ -79,12 +79,12 @@ class CrudApi : CoroutineScope {
         }
     }
 
-    fun getGoogleUser(token: String): User? {
+    fun getUserByEmail(token: String): User? {
         var res : Response<User>? = null
 
         runBlocking {
             val coroutine = launch {
-                res = getRetrofit().create(APIService::class.java).getGoogleUser(token, apiKey)
+                res = getRetrofit().create(APIService::class.java).getUserByEmail(token, apiKey)
             }
             coroutine.join()
         }
@@ -93,6 +93,24 @@ class CrudApi : CoroutineScope {
             res!!.body()
         } else {
             Log.d("getGoogleUser", res?.code().toString())
+            null
+        }
+    }
+
+    fun validateGoogleToken(idTokenString: String): Any? {
+        var res : Response<Any>? = null
+
+        runBlocking {
+            val coroutine = launch {
+                res = getRetrofit().create(APIService::class.java).validateGoogleToken(idTokenString, apiKey)
+            }
+            coroutine.join()
+        }
+
+        return if (res?.isSuccessful!!) {
+            res!!.body()
+        } else {
+            Log.d("validateGoogleToken", res?.code().toString())
             null
         }
     }
@@ -232,38 +250,65 @@ class CrudApi : CoroutineScope {
         var resUser : Response<UserId>? = null
 
         runBlocking {
-            val resSettingDeferred = async { getRetrofit().create(APIService::class.java).addSetting(setting, apiKey) }
-            val resStatDeferred = async { getRetrofit().create(APIService::class.java).addStat(stat, apiKey) }
-
-            resSetting = resSettingDeferred.await()
-            resStat = resStatDeferred.await()
-
-            if (!resSetting?.isSuccessful!! || !resStat?.isSuccessful!!) {
-                Log.e("addUserCompleted", "no se ha insertado correctamente el setting o el stat")
-                return@runBlocking false
+            val corrutina = launch {
+                resSetting = getRetrofit().create(APIService::class.java).addSetting(setting, apiKey)
             }
+            corrutina.join()
+        }
 
-            val settingId = resSetting?.body()?.settingId
-            val statId = resStat?.body()?.statId
+        Log.i("test", resSetting?.body()?.settingId!!)
 
-            if (settingId == null || statId == null) {
-                Log.d("addUserCompleted", "los ids son nullos")
-                return@runBlocking false
+        if (!resSetting?.isSuccessful!!) {
+            Log.e("addUserCompleted", "no se ha insertado correctamente el setting")
+            return false
+        }
+        val settingId = resSetting?.body()?.settingId
+
+        runBlocking {
+            val corrutina = launch {
+                resStat = getRetrofit().create(APIService::class.java).addStat(stat, apiKey)
             }
+            corrutina.join()
+        }
+        if (!resStat?.isSuccessful!!) {
+            Log.e("addUserCompleted", "no se ha insertado correctamente el stat")
+            runBlocking {
+                val corrutina = launch {
+                    getRetrofit().create(APIService::class.java).deleteSetting(settingId!!.toInt(), apiKey)
+                }
+                corrutina.join()
+            }
+            return false
+        }
+        val statId = resStat?.body()?.statId
 
-            // Add settingId y statId to user
-            user.settingId = settingId.toUInt()
-            user.statId = statId.toUInt()
-            val resUserDeferred =
-                async { getRetrofit().create(APIService::class.java).addUser(user, apiKey) }
+        if (settingId == null || statId == null) {
+            Log.d("addUserCompleted", "Los ids son nulos")
+            return false
+        }
 
-            resUser = resUserDeferred.await()
+        // Add settingId y statId to user
+        user.settingId = settingId.toUInt()
+        user.statId = statId.toUInt()
+
+        runBlocking {
+            val corrutina = launch {
+                resUser = getRetrofit().create(APIService::class.java).addUser(user, apiKey)
+            }
+            corrutina.join()
         }
 
         if (resUser?.isSuccessful!!) {
             return true
         } else {
-            Log.d("addUserCompleted", resSetting?.code().toString())
+            Log.d("addUserCompleted", "No se ha insertado correctamente el usuario: ${resSetting?.code().toString()}")
+            runBlocking {
+                val corrutina = launch {
+                    getRetrofit().create(APIService::class.java).deleteSetting(settingId.toInt(), apiKey)
+                    getRetrofit().create(APIService::class.java).deleteStat(statId.toInt(), apiKey)
+                }
+                corrutina.join()
+            }
             return false
         }
     }

@@ -292,3 +292,11 @@
 /media/danimarin/Dades/DAM2/M13/final-project/shopmate/app/shopmate/API/API/bin/Debug/net8.0/runtimes/win-x64/native/e_sqlite3.dll
 /media/danimarin/Dades/DAM2/M13/final-project/shopmate/app/shopmate/API/API/bin/Debug/net8.0/runtimes/win-x86/native/e_sqlite3.dll
 /media/danimarin/Dades/DAM2/M13/final-project/shopmate/app/shopmate/API/API/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Runtime.Caching.dll
+/media/danimarin/Dades/DAM2/M13/final-project/shopmate/app/shopmate/API/API/bin/Debug/net8.0/Microsoft.AspNetCore.JsonPatch.dll
+/media/danimarin/Dades/DAM2/M13/final-project/shopmate/app/shopmate/API/API/bin/Debug/net8.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+/media/danimarin/Dades/DAM2/M13/final-project/shopmate/app/shopmate/API/API/bin/Debug/net8.0/Newtonsoft.Json.Bson.dll
+/media/danimarin/Dades/DAM2/M13/final-project/shopmate/app/shopmate/API/API/bin/Debug/net8.0/Google.Apis.dll
+/media/danimarin/Dades/DAM2/M13/final-project/shopmate/app/shopmate/API/API/bin/Debug/net8.0/Google.Apis.Auth.dll
+/media/danimarin/Dades/DAM2/M13/final-project/shopmate/app/shopmate/API/API/bin/Debug/net8.0/Google.Apis.Core.dll
+/media/danimarin/Dades/DAM2/M13/final-project/shopmate/app/shopmate/API/API/bin/Debug/net8.0/System.Management.dll
+/media/danimarin/Dades/DAM2/M13/final-project/shopmate/app/shopmate/API/API/bin/Debug/net8.0/runtimes/win/lib/net7.0/System.Management.dll

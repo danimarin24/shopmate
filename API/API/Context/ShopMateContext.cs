@@ -374,9 +374,9 @@ public partial class ShopMateContext : DbContext
 
             entity.ToTable("User");
 
-            entity.HasIndex(e => e.SettingId, "SettingId");
+            entity.HasIndex(e => e.SettingId, "User_ibfk_1");
 
-            entity.HasIndex(e => e.StatId, "StatId");
+            entity.HasIndex(e => e.StatId, "User_ibfk_2");
 
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
@@ -410,12 +410,10 @@ public partial class ShopMateContext : DbContext
 
             entity.HasOne(d => d.Setting).WithMany(p => p.Users)
                 .HasForeignKey(d => d.SettingId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("User_ibfk_1");
 
             entity.HasOne(d => d.Stat).WithMany(p => p.Users)
                 .HasForeignKey(d => d.StatId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("User_ibfk_2");
 
             entity.HasMany(d => d.CardsNavigation).WithMany(p => p.Users)

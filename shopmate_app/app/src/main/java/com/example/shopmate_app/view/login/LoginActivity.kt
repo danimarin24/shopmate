@@ -1,8 +1,10 @@
 package com.example.shopmate_app.view.login
 
+
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.provider.ContactsContract.Directory.PACKAGE_NAME
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -17,20 +19,16 @@ import com.example.shopmate_app.R
 import com.example.shopmate_app.api.CrudApi
 import com.example.shopmate_app.databinding.ActivityLoginBinding
 import com.example.shopmate_app.model.PasswordUtils
-import com.example.shopmate_app.model.Setting
-import com.example.shopmate_app.model.Stat
-import com.example.shopmate_app.model.User
 import com.example.shopmate_app.view.user.UserProfileActivity
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
-
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
+import java.lang.String
 import java.security.MessageDigest
-import java.time.LocalDate
+import java.util.Arrays
 import java.util.UUID
 
 
@@ -38,6 +36,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding : ActivityLoginBinding
 
     private var googleId = "544701638538-ccp0cp41t4r10ofpl8biku4ckh457hm8.apps.googleusercontent.com"
+
 
     private var crudApi = CrudApi()
 
@@ -100,7 +99,6 @@ class LoginActivity : AppCompatActivity() {
 
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun signGoogleIn() {
         val context = this@LoginActivity
 
@@ -135,22 +133,23 @@ class LoginActivity : AppCompatActivity() {
                 val googleIdTokenCredential = GoogleIdTokenCredential
                     .createFrom(credential.data)
 
-                val googleIdToken = googleIdTokenCredential.idToken
-                Log.i("googleIdToken", googleIdToken)
+                val email = googleIdTokenCredential.id
+                Log.e("token", googleIdTokenCredential.idToken)
 
-                // el googleIdToken pensaba que no cambiaba y si que me cambia así que habra que cambiar la manera de hacer esto.
-                // con el email?
-                val googleUser = crudApi.getGoogleUser(googleIdToken)
+                Log.e("token validado?", crudApi.validateGoogleToken(googleIdTokenCredential.idToken).toString())
+                //val googleUser = crudApi.getUserByEmail(email)
 
+
+                /*
                 if (googleUser != null) {
                     // existe
                     signInIntent()
                 } else {
                     // registrarlo
                     val name = googleIdTokenCredential.displayName
-                    val usernameGenerated = name?.let { crudApi.getUsernameGenerated(it) }
-                    val email = googleIdTokenCredential.id
-                    val phoneNumber = googleIdTokenCredential.phoneNumber
+                    val usernameGenerated = crudApi.getUsernameGenerated(name!!)!!
+                    var phoneNumber = googleIdTokenCredential.phoneNumber
+                    if (phoneNumber == null) phoneNumber = ""
                     val profileImage = googleIdTokenCredential.profilePictureUri.toString()
                     val googleTokenHashed = PasswordUtils.hashString(googleIdToken)
 
@@ -162,9 +161,20 @@ class LoginActivity : AppCompatActivity() {
 
                     val stat : Stat = Stat(null, 0u, 0u, 0u, 0u)
 
-                    val user : User = User(null, usernameGenerated!!, name, null,
-                        email, phoneNumber!!, profileImage, googleTokenHashed, null,
+                    Log.i("name", name.toString())
+                    Log.i("usernameGenerated", usernameGenerated.toString())
+                    Log.i("email", email.toString())
+                    Log.i("phoneNumber", phoneNumber.toString())
+                    Log.i("profileImage", profileImage.toString())
+                    Log.i("googleTokenHashed", googleTokenHashed.toString())
+
+
+                    val user : User = User(null, usernameGenerated, name, null,
+                        email, phoneNumber, profileImage, googleTokenHashed, null,
                         LocalDate.now().toString(), LocalDate.now().toString(), 0u, 0u)
+
+
+
 
 
                     var userInserted = crudApi.addUserCompleted(setting, stat, user)
@@ -176,6 +186,7 @@ class LoginActivity : AppCompatActivity() {
                     //crudApi.addUser(googleNewUser)
 
                 }
+                 */
 
 
 

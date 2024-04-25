@@ -13,12 +13,21 @@ import retrofit2.http.*
 
 interface APIService {
 
+    @POST("api/User/validate-google-token")
+    suspend fun validateGoogleToken(
+        @Body idTokenString: String,
+        @Header("x-api-key") apiKey: String
+    ): Response<Any>
+
     // USER
     @GET("/api/User/{username}")
     suspend fun getUser(@Path("username") username: String, @Header("x-api-key") apiKey: String): Response<User>
 
-    @GET("/api/User/google/{token}")
-    suspend fun getGoogleUser(@Path("token") token: String, @Header("x-api-key") apiKey: String): Response<User>
+    @GET("/api/User/checkemail/{email}")
+    suspend fun getUserByEmail(@Path("email") email: String, @Header("x-api-key") apiKey: String): Response<User>
+
+    @GET("/api/User/checkemail/{username}")
+    suspend fun getUserByUsername(@Path("username") username: String, @Header("x-api-key") apiKey: String): Response<User>
 
     @GET("/api/User/{id}")
     suspend fun getUser(@Path("id") id: Int, @Header("x-api-key") apiKey: String): Response<User>
@@ -49,17 +58,21 @@ interface APIService {
     @GET("/api/users")
     suspend fun updateUser(@Body user: User, @Header("x-api-key") apiKey: String): Response<Message>
 
-    @GET("/api/users")
-    suspend fun deleteUser(@Body user: User, @Header("x-api-key") apiKey: String): Response<Message>
+
 
 
     // SETTING
     @POST("/api/Setting")
     suspend fun addSetting(@Body setting: Setting, @Header("x-api-key") apiKey: String): Response<SettingId>
 
+    @DELETE("/api/Setting/{id}")
+    suspend fun deleteSetting(@Path("id") id: Int, @Header("x-api-key") apiKey: String): Response<Message>
 
     // STAT
     @POST("/api/Stat")
     suspend fun addStat(@Body stat: Stat, @Header("x-api-key") apiKey: String): Response<StatId>
+
+    @DELETE("/api/Stat/{id}")
+    suspend fun deleteStat(@Path("id") id: Int, @Header("x-api-key") apiKey: String): Response<Message>
 
 }
