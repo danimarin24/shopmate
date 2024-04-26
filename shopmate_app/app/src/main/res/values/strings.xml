@@ -11,10 +11,10 @@
 
     <string name="hintUser">Escribe tu nombre</string>
     <string name="hintUsername">Escribe tu usuario</string>
-    <string name="hintEmail">Escribe tu correo electronico</string>
+    <string name="hintEmail">Escribe tu mail</string>
 
     <string name="labelEmail">¿Cúal es tú dirección de correo?</string>
-    <string name="labelUsername">¿Cúal será tu nombre de usuario</string>
+    <string name="labelUsername">¿Cúal será tu nombre de usuario?</string>
     <string name="hintPassword">Escribe tu contraseña</string>
     <string name="hintConfirmPassword">Confirmar contraseña</string>
 

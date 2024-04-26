@@ -49,7 +49,7 @@ namespace API.Controller
             return user;
         }
 
-        // GET: api/User/dani4marin@gmail.com
+        // GET: api/User/checkusername/danimarin24
         [HttpGet("checkusername/{username}")]
         public async Task<ActionResult<User>> GetUserByUsername(string username)
         {
@@ -63,11 +63,25 @@ namespace API.Controller
             return user;
         }
 
-        // GET: api/User/dani4marin@gmail.com
-        [HttpGet("checkemail{email}")]
+        // GET: api/User/checkemail/dani4marin@gmail.com
+        [HttpGet("checkemail/{email}")]
         public async Task<ActionResult<User>> GetUserByEmail(string email)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
+        }
+        
+        // GET: api/User/checkgooglesub/1231542341342413
+        [HttpGet("checkgooglesub/{sub}")]
+        public async Task<ActionResult<User>> GetUserByGoogleSub(string sub)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.GoogleToken != null && u.GoogleToken.Equals(sub));
 
             if (user == null)
             {

@@ -1,4 +1,4 @@
-package com.example.shopmate_app.model
+package com.example.shopmate_app.controller
 
 import java.security.MessageDigest
 import java.math.BigInteger

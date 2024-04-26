@@ -9,7 +9,7 @@ data class User(
     var name: String,
     var password: String?,
     var email: String,
-    var phoneNumber: String,
+    var phoneNumber: String?,
     var profileImage: String,
     var googleToken: String?,
     var facebookToken: String?,

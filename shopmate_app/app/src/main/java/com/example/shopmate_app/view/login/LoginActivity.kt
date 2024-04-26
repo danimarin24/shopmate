@@ -4,21 +4,28 @@ package com.example.shopmate_app.view.login
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.provider.ContactsContract.Directory.PACKAGE_NAME
 import android.util.Log
+import android.view.View
+import android.view.WindowInsetsController
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialException
 import com.example.shopmate_app.R
 import com.example.shopmate_app.api.CrudApi
 import com.example.shopmate_app.databinding.ActivityLoginBinding
-import com.example.shopmate_app.model.PasswordUtils
+import com.example.shopmate_app.controller.PasswordUtils
+import com.example.shopmate_app.controller.PasswordUtils.Companion.checkPassword
+import com.example.shopmate_app.model.Setting
+import com.example.shopmate_app.model.Stat
+import com.example.shopmate_app.model.User
 import com.example.shopmate_app.view.user.UserProfileActivity
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
@@ -26,9 +33,8 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingExcept
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.lang.String
 import java.security.MessageDigest
-import java.util.Arrays
+import java.time.LocalDate
 import java.util.UUID
 
 
@@ -40,11 +46,16 @@ class LoginActivity : AppCompatActivity() {
 
     private var crudApi = CrudApi()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
+
+        // Ocultar la barra de navegación
+        hideSystemUI()
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -99,6 +110,7 @@ class LoginActivity : AppCompatActivity() {
 
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun signGoogleIn() {
         val context = this@LoginActivity
 
@@ -120,10 +132,18 @@ class LoginActivity : AppCompatActivity() {
             .addCredentialOption(googleIdOption)
             .build()
 
+        var googleUser : User?
+        var googleName : String = ""
+        var googleUsernameGenerated : String = ""
+        var googleEmail : String = ""
+        var googlePhoneNumber : String? = ""
+        var googleSub : String = ""
+        var googleProfileImage : String = ""
+        var googleSubHashed : String = ""
+
         val coroutineScope = CoroutineScope(Dispatchers.Main)
         coroutineScope.launch {
             try {
-
                 val result = credentialManager.getCredential(
                     request = request,
                     context = context,
@@ -133,68 +153,17 @@ class LoginActivity : AppCompatActivity() {
                 val googleIdTokenCredential = GoogleIdTokenCredential
                     .createFrom(credential.data)
 
-                val email = googleIdTokenCredential.id
-                Log.e("token", googleIdTokenCredential.idToken)
+                var googleTokenSub = crudApi.validateGoogleToken(googleIdTokenCredential.idToken)
 
-                Log.e("token validado?", crudApi.validateGoogleToken(googleIdTokenCredential.idToken).toString())
-                //val googleUser = crudApi.getUserByEmail(email)
-
-
-                /*
-                if (googleUser != null) {
-                    // existe
-                    signInIntent()
-                } else {
-                    // registrarlo
-                    val name = googleIdTokenCredential.displayName
-                    val usernameGenerated = crudApi.getUsernameGenerated(name!!)!!
-                    var phoneNumber = googleIdTokenCredential.phoneNumber
-                    if (phoneNumber == null) phoneNumber = ""
-                    val profileImage = googleIdTokenCredential.profilePictureUri.toString()
-                    val googleTokenHashed = PasswordUtils.hashString(googleIdToken)
-
-                    // si no existe, antes de crear el usuario debemos crear sus settings, y sus stats.
-                    // Para despues vincularlo al user.
-
-                    val setting : Setting = Setting(null, LocalDate.now().toString(),
-                        1u, 1u, 1u, 0u, LocalDate.now().toString(), googleTokenHashed)
-
-                    val stat : Stat = Stat(null, 0u, 0u, 0u, 0u)
-
-                    Log.i("name", name.toString())
-                    Log.i("usernameGenerated", usernameGenerated.toString())
-                    Log.i("email", email.toString())
-                    Log.i("phoneNumber", phoneNumber.toString())
-                    Log.i("profileImage", profileImage.toString())
-                    Log.i("googleTokenHashed", googleTokenHashed.toString())
-
-
-                    val user : User = User(null, usernameGenerated, name, null,
-                        email, phoneNumber, profileImage, googleTokenHashed, null,
-                        LocalDate.now().toString(), LocalDate.now().toString(), 0u, 0u)
-
-
-
-
-
-                    var userInserted = crudApi.addUserCompleted(setting, stat, user)
-                    Log.i("userInserted", userInserted.toString())
-
-
-
-
-                    //crudApi.addUser(googleNewUser)
-
+                if (googleTokenSub == null) {
+                    return@launch
                 }
-                 */
 
-
-
-
-                // Puedes acceder a otros campos según la documentación de Google Sign-In
-
-
-                
+                googleName = googleIdTokenCredential.displayName.toString()
+                googleEmail = googleIdTokenCredential.id
+                googlePhoneNumber = googleIdTokenCredential.phoneNumber
+                googleProfileImage = googleIdTokenCredential.profilePictureUri.toString()
+                googleSubHashed = PasswordUtils.hashString(googleTokenSub)
 
                 Toast.makeText(context, "You are signed in!", Toast.LENGTH_SHORT).show()
             } catch (e: GetCredentialException) {
@@ -204,6 +173,28 @@ class LoginActivity : AppCompatActivity() {
                 Log.e("GetCredentialException", e.message.toString())
                 Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
             }
+
+            googleUser = crudApi.getUserByGoogleSub(googleSubHashed)
+            if (googleUser == null) {
+                // error no existe un usuario, hay que crearlo
+                val setting : Setting = Setting(null, LocalDate.now().toString(),
+                    1u, 1u, 1u, 0u, LocalDate.now().toString(), googleSubHashed)
+
+                val stat : Stat = Stat(null, 0u, 0u, 0u, 0u)
+
+                // generar username
+                googleUsernameGenerated = crudApi.getUsernameGenerated(googleName)!!
+
+                // user has setting and stat id set to null, because in addUserCompleted method, we will assign the correct new ones.
+                val user : User = User(null, googleUsernameGenerated, googleName, null,
+                    googleEmail, googlePhoneNumber, googleProfileImage, googleSubHashed, null,
+                    LocalDate.now().toString(), LocalDate.now().toString(), 0u, 0u)
+
+                val userInserted = crudApi.addUserCompleted(setting, stat, user)
+                Log.i("userInserted", userInserted.toString())
+            }
+            // existe, y esta verificado
+            signInIntent()
         }
     }
 
@@ -212,22 +203,17 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signEmailIn() {
-
-
-
         val username = binding.etUsername.text.toString()
         val password = binding.etPassword.text.toString()
         val hashedPassword = PasswordUtils.hashString(password)
 
-        Log.i("PASSWORD HASH", hashedPassword)
-
         val user = crudApi.getUser("danimarin24")
 
-        if (user!!.password == hashedPassword) {
-            user.name?.let { Log.i("USER NAME", it) }
-            user.email?.let { Log.i("USER EMAIL", it) }
-            user.password?.let { Log.i("USER PASSWORD HASH", it) }
+        if (checkPassword(user!!.password!!, hashedPassword)) {
+            // existe el usuario, y su contraseña coincide, inciciar sesión
+            signInIntent()
         }
+
 
 
     }
@@ -236,5 +222,25 @@ class LoginActivity : AppCompatActivity() {
     private fun signInIntent() {
         val intent = Intent(this, UserProfileActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun hideSystemUI() {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val controller = window.insetsController
+            controller?.hide(WindowInsetsCompat.Type.navigationBars())
+            controller?.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        } else {
+            @Suppress("DEPRECATION")
+            window.decorView.systemUiVisibility = (
+                    View.SYSTEM_UI_FLAG_IMMERSIVE
+                            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_FULLSCREEN
+                            or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    )
+        }
     }
 }

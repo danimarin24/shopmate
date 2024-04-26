@@ -97,8 +97,26 @@ class CrudApi : CoroutineScope {
         }
     }
 
-    fun validateGoogleToken(idTokenString: String): Any? {
-        var res : Response<Any>? = null
+    fun getUserByGoogleSub(sub: String): User? {
+        var res : Response<User>? = null
+
+        runBlocking {
+            val coroutine = launch {
+                res = getRetrofit().create(APIService::class.java).getUserByGoogleSub(sub, apiKey)
+            }
+            coroutine.join()
+        }
+
+        return if (res?.isSuccessful!!) {
+            res!!.body()
+        } else {
+            Log.d("getGoogleUser", res?.code().toString())
+            null
+        }
+    }
+
+    fun validateGoogleToken(idTokenString: String): String? {
+        var res : Response<String>? = null
 
         runBlocking {
             val coroutine = launch {

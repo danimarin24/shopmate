@@ -57,20 +57,26 @@ tools:context=".view.login.ui.RegisterSecurityFragment">
     </RelativeLayout>
 
 
-    <EditText
-        android:id="@+id/etPassword"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etPasswordLayout"
         android:layout_width="270dp"
-        android:layout_height="@dimen/height"
-        android:autofillHints="username"
-        android:background="@drawable/custom_input"
-        android:ems="10"
-        android:fontFamily="@font/poppins_medium"
-        android:hint="@string/hintPassword"
-        android:inputType="textPassword"
-        android:paddingStart="@dimen/defaultPaddingLeft"
-        android:textAlignment="viewStart"
-        android:textSize="16sp" />
+        android:layout_height="50dp"
+        app:hintEnabled="false"
+        app:passwordToggleEnabled="true">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:autofillHints="password"
+            android:background="@drawable/custom_input"
+            android:fontFamily="@font/poppins_medium"
+            android:hint="@string/hintPassword"
+            android:inputType="textPassword"
+            android:padding="0dp"
+            android:textSize="16sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>
 
 <!-- CONFIRM PASSOWRD EDITEXT -->
@@ -97,20 +103,26 @@ tools:context=".view.login.ui.RegisterSecurityFragment">
     </RelativeLayout>
 
 
-    <EditText
-        android:id="@+id/etConfirmPassword"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etConfirmPasswordLayout"
         android:layout_width="270dp"
-        android:layout_height="@dimen/height"
-        android:autofillHints="password"
-        android:background="@drawable/custom_input"
-        android:drawablePadding="10dp"
-        android:ems="10"
-        android:fontFamily="@font/poppins_medium"
-        android:hint="@string/hintConfirmPassword"
-        android:inputType="textPassword"
-        android:paddingStart="@dimen/defaultPaddingLeft"
-        android:textSize="@dimen/defaultTextSize" />
+        android:layout_height="50dp"
+        app:hintEnabled="false"
+        app:passwordToggleEnabled="true">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:autofillHints="password"
+            android:background="@drawable/custom_input"
+            android:fontFamily="@font/poppins_medium"
+            android:hint="@string/hintConfirmPassword"
+            android:inputType="textPassword"
+            android:padding="0dp"
+            android:textSize="16sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>
 
 <com.google.android.material.button.MaterialButton

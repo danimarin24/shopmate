@@ -39,7 +39,7 @@
         android:layout_height="30dp"
         android:fontFamily="@font/poppins_medium"
         android:gravity="center"
-        android:text="@string/labelEmail"
+        android:text="@string/labelUsername"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:layout_marginTop="@dimen/defaultMarginTop"
@@ -71,19 +71,25 @@
         </RelativeLayout>
 
 
-        <EditText
-            android:id="@+id/etUsername"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etUsernameLayout"
             android:layout_width="270dp"
-            android:layout_height="@dimen/height"
-            android:autofillHints="username"
-            android:background="@drawable/custom_input"
-            android:ems="10"
-            android:fontFamily="@font/poppins_medium"
-            android:hint="@string/hintUsername"
-            android:inputType="text"
-            android:paddingStart="@dimen/defaultPaddingLeft"
-            android:textAlignment="viewStart"
-            android:textSize="16sp" />
+            android:layout_height="50dp"
+            app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etUsername"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints="username"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/poppins_medium"
+                android:hint="@string/hintUsername"
+                android:includeFontPadding="false"
+                android:inputType="text"
+                android:padding="0dp"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 

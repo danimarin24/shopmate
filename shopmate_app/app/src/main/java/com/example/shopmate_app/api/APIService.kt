@@ -17,7 +17,7 @@ interface APIService {
     suspend fun validateGoogleToken(
         @Body idTokenString: String,
         @Header("x-api-key") apiKey: String
-    ): Response<Any>
+    ): Response<String>
 
     // USER
     @GET("/api/User/{username}")
@@ -25,6 +25,9 @@ interface APIService {
 
     @GET("/api/User/checkemail/{email}")
     suspend fun getUserByEmail(@Path("email") email: String, @Header("x-api-key") apiKey: String): Response<User>
+
+    @GET("/api/User/checkgooglesub/{sub}")
+    suspend fun getUserByGoogleSub(@Path("sub") sub: String, @Header("x-api-key") apiKey: String): Response<User>
 
     @GET("/api/User/checkemail/{username}")
     suspend fun getUserByUsername(@Path("username") username: String, @Header("x-api-key") apiKey: String): Response<User>
