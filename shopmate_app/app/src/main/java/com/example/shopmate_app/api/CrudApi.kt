@@ -9,6 +9,7 @@ import com.example.shopmate_app.model.Stat
 import com.example.shopmate_app.model.StatId
 import com.example.shopmate_app.model.User
 import com.example.shopmate_app.model.UserId
+import com.example.shopmate_app.model.Users
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -106,6 +107,9 @@ class CrudApi : CoroutineScope {
             }
             coroutine.join()
         }
+
+        Log.i("user object", res!!.body().toString())
+
 
         return if (res?.isSuccessful!!) {
             res!!.body()
@@ -240,27 +244,7 @@ class CrudApi : CoroutineScope {
     }
 
 
-
-    // setting
-    fun addSetting(setting: Setting): String? {
-        var resposta : Response<SettingId>? = null
-
-        runBlocking {
-            val corrutina = launch {
-                resposta = getRetrofit().create(APIService::class.java).addSetting(setting, apiKey)
-            }
-            corrutina.join()
-        }
-
-        if (resposta?.isSuccessful!!) {
-            return resposta?.body()?.settingId
-        } else {
-            Log.d("addUser", resposta?.code().toString())
-            return null
-        }
-    }
-
-
+    /*
     // multi insert para el user
     fun addUserCompleted(setting: Setting, stat: Stat, user: User): Boolean {
         var resSetting : Response<SettingId>? = null
@@ -330,6 +314,7 @@ class CrudApi : CoroutineScope {
             return false
         }
     }
+     */
 
 
 

@@ -5,48 +5,37 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
+import androidx.fragment.app.findFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.shopmate_app.R
+import com.example.shopmate_app.databinding.FragmentRegisterBinding
 import com.example.shopmate_app.databinding.FragmentRegisterProfileBinding
+import org.w3c.dom.Text
 
-private const val ARG_USER_EMAIL = "userEmail"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [RegisterProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class RegisterProfileFragment : Fragment() {
-    private var userEmail: String? = null
     private lateinit var binding: FragmentRegisterProfileBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        binding = FragmentRegisterProfileBinding.inflate(layoutInflater)
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            userEmail = it.getString(ARG_USER_EMAIL)
-        }
+    val args: RegisterProfileFragmentArgs by navArgs()
 
-        if (userEmail != null) {
-            binding.etEmail.setText(userEmail)
-        }
-
-        binding.btnSave.setOnClickListener {
-
-        }
-
-        binding.lblConfigLater.setOnClickListener {
-
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val userEmail = args.userEmail
+        binding.etEmail.setText(userEmail)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-        binding = FragmentRegisterProfileBinding.inflate(layoutInflater)
-        if (userEmail != null) {
-            binding.etEmail.setText(userEmail)
+        binding = FragmentRegisterProfileBinding.inflate(inflater, container, false)
+
+        binding.btnSave.setOnClickListener {
+            findNavController().navigate(R.id.action_registerProfileFragment_to_registerUsernameFragment)
         }
+
+
         return binding.root
     }
 }

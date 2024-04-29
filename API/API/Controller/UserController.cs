@@ -60,7 +60,7 @@ namespace API.Controller
                 return NotFound();
             }
 
-            return user;
+            return users;
         }
 
         // GET: api/User/checkemail/dani4marin@gmail.com
@@ -87,6 +87,7 @@ namespace API.Controller
             {
                 return NotFound();
             }
+
 
             return user;
         }

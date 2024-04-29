@@ -8,18 +8,16 @@
     android:background="@color/black"
     tools:context=".MainActivity">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnLogin"
-        android:layout_width="@dimen/maxWidth"
-        android:layout_height="@dimen/height"
-        android:backgroundTint="@color/primary"
-        android:fontFamily="@font/poppins_bold"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:text="@string/strLogin"
-        android:textSize="@dimen/defaultTextSize"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/navHostMainFragmentContainer"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/main_graph"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

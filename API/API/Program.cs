@@ -21,8 +21,10 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddControllers().AddJsonOptions(x =>
     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+
 builder.Services.AddControllers(
-    options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
+   options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
+ 
 
 builder.Services.AddDbContext<ShopMateContext>();
 

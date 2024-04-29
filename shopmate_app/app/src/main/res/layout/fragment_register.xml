@@ -3,12 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@color/neutral"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.login.LoginActivity">
-
-
+    android:background="@color/neutral"
+    tools:context=".view.login.ui.RegisterFragment">
 
     <!-- Header -->
     <LinearLayout
@@ -26,7 +24,9 @@
             android:layout_width="15dp"
             android:layout_height="20dp"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="5dp" />
+            android:layout_marginEnd="5dp"
+            android:contentDescription="Go Back Button"
+            android:src="@drawable/goback_icon" />
 
         <TextView
             android:id="@+id/txtHeaderTitle"
@@ -35,7 +35,7 @@
             android:fontFamily="@font/poppins"
             android:gravity="center"
             android:padding="5dp"
-            android:text="@string/strLogin"
+            android:text="@string/strRegister"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="@dimen/defaultTextSize"
@@ -61,15 +61,31 @@
         app:layout_constraintTop_toBottomOf="@+id/lytHeader" />
 
 
-    <!-- USERNAME EDITEXT -->
-    <LinearLayout
-        android:id="@+id/et_lyt_username"
-        android:layout_width="@dimen/maxWidth"
-        android:layout_height="@dimen/height"
+    <TextView
+        android:id="@+id/lblQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:fontFamily="@font/poppins_medium"
+        android:gravity="center"
+        android:text="@string/labelEmail"
+        android:textAlignment="center"
+        android:textColor="@color/white"
         android:layout_marginTop="@dimen/defaultMarginTop"
+        android:textSize="@dimen/defaultTextSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivLogo">
+        app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
+
+
+    <!-- EMAIL EDITEXT -->
+    <LinearLayout
+        android:id="@+id/et_lyt_email"
+        android:layout_width="@dimen/maxWidth"
+        android:layout_height="@dimen/height"
+        android:layout_marginTop="@dimen/littleMarginTop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblQuestion">
 
         <RelativeLayout
             android:layout_width="@dimen/height"
@@ -80,91 +96,45 @@
                 android:layout_width="@dimen/iconMiddleSize"
                 android:layout_height="@dimen/iconMiddleSize"
                 android:contentDescription="@string/iconStr"
-                android:src="@drawable/username_icon" />
+                android:src="@drawable/email_icon" />
         </RelativeLayout>
 
+
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/etUsernameLayout"
+            android:id="@+id/etEmailLayout"
             android:layout_width="270dp"
             android:layout_height="50dp"
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etUsername"
+                android:id="@+id/etEmail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:autofillHints="username"
+                android:autofillHints="emailAddress"
                 android:background="@drawable/custom_input"
                 android:fontFamily="@font/poppins_medium"
-                android:hint="@string/hintUsername"
+                android:hint="@string/hintEmail"
                 android:includeFontPadding="false"
-                android:inputType="text"
+                android:inputType="textEmailAddress"
                 android:padding="0dp"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
-
-    </LinearLayout>
-
-    <!-- PASSWORD EDITEXT -->
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="@dimen/maxWidth"
-        android:layout_height="@dimen/height"
-        android:layout_marginTop="@dimen/defaultMarginTop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_lyt_username">
-
-        <RelativeLayout
-            android:layout_width="@dimen/height"
-            android:layout_height="@dimen/height"
-            android:background="@drawable/custom_bg_icon"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="@dimen/iconMiddleSize"
-                android:layout_height="@dimen/iconMiddleSize"
-                android:contentDescription="@string/iconStr"
-                android:src="@drawable/lock_icon" />
-        </RelativeLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/etPasswordLayout"
-            android:layout_width="270dp"
-            android:layout_height="50dp"
-            app:hintEnabled="false"
-            app:passwordToggleEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etPassword"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:autofillHints="password"
-                android:background="@drawable/custom_input"
-                android:fontFamily="@font/poppins_medium"
-                android:hint="@string/hintPassword"
-                android:inputType="textPassword"
-                android:padding="0dp"
-                android:textSize="16sp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnNext"
         android:layout_width="@dimen/maxWidth"
         android:layout_height="@dimen/height"
         android:backgroundTint="@color/primary"
         android:layout_marginTop="@dimen/defaultMarginTop"
-        android:text="@string/strLogin"
+        android:text="@string/btnNext"
         android:insetBottom="0dp"
         android:insetTop="0dp"
         android:textSize="@dimen/defaultTextSize"
         android:fontFamily="@font/poppins_bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/et_lyt_email" />
 
 
 
@@ -174,10 +144,10 @@
         android:layout_height="40dp"
         android:gravity="center"
         android:weightSum="12"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/defaultMarginTop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin">
+        app:layout_constraintTop_toBottomOf="@+id/btnNext">
 
         <View
             android:layout_width="0dp"
@@ -191,7 +161,7 @@
             android:layout_weight="2"
             android:fontFamily="@font/poppins_semibold"
             android:gravity="center"
-            android:text="O continuar con"
+            android:text="@string/strRegisterSeparator"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="@dimen/defaultTextSize" />
@@ -217,7 +187,6 @@
 
         <!-- Google Box -->
         <LinearLayout
-            android:id="@+id/btnGoogle"
             android:layout_width="150dp"
             android:layout_height="match_parent"
             android:background="@drawable/custom_bg_rrss"
@@ -252,7 +221,6 @@
 
         <!-- Facebook Box -->
         <LinearLayout
-            android:id="@+id/btnFacebook"
             android:layout_width="150dp"
             android:layout_height="match_parent"
             android:background="@drawable/custom_bg_rrss"
@@ -282,6 +250,7 @@
 
     </LinearLayout>
 
+
     <!-- WAVES -->
 
     <ImageView
@@ -295,29 +264,11 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/txtForgotPassword"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:fontFamily="@font/poppins_medium"
-        android:gravity="center"
-        android:text="@string/strLoginBottomForgotPassword"
-        android:textColor="@color/white"
-        android:textSize="14dp"
-        app:layout_constraintBottom_toTopOf="@+id/txtRegister"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-         />
-
-    <TextView
-        android:id="@+id/txtRegister"
+        android:id="@+id/txtLogin"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:clickable="true"
-        android:focusable="true"
         android:fontFamily="@font/poppins_medium"
-        android:text="@string/strLoginBottomRegister"
+        android:text="@string/strRegisterBottomHaveAccount"
         android:textColor="@color/white"
         android:textSize="16dp"
         android:gravity="center"
