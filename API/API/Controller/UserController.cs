@@ -151,10 +151,46 @@ namespace API.Controller
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var setting = new Setting(DateTime.Now, 1, 0, 1, 0, DateTime.Now);
+                    if (user.Password != null)
+                    {
+                        setting.LastPasswordHash = user.Password;
+                    }
+                    else if (user.GoogleToken != null)
+                    {
+                        setting.LastPasswordHash = user.GoogleToken;
+                    }
+                    else if (user.FacebookToken != null)
+                    {
+                        setting.LastPasswordHash = user.FacebookToken;
+                    }
+                    var stat = new Stat(0u, 0u, 0u, 0u);
 
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+                    _context.Settings.Add(setting);
+                    _context.Stats.Add(stat);
+
+                    await _context.SaveChangesAsync();
+
+                    user.SettingId = setting.SettingId;
+                    user.StatId = stat.StatId;
+
+                    _context.Users.Add(user);
+                    await _context.SaveChangesAsync();
+
+                    transaction.Commit(); // Confirma la transacción ya que todo ha ido bien
+                    return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+                }
+                catch (Exception)
+                {
+                    // Si algo falla, revierte los cambios
+                    transaction.Rollback();
+                    throw; // Lanza la excepción para manejarla en un nivel superior si es necesario
+                }
+            }
         }
 
         // POST: api/User/profileImage
