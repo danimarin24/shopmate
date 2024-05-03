@@ -1,6 +1,4 @@
-package com.example.shopmate_app.model
-
-import java.time.LocalDate
+package com.example.shopmate_app.model.api
 
 data class Setting(
     val settingId: UInt?,

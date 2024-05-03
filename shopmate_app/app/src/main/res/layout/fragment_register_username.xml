@@ -3,22 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/neutral"
+    android:background="?android:attr/colorForegroundInverse"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.login.ui.RegisterUsernameFragment">
 
 
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height"
-        android:fontFamily="@font/poppins"
+        android:fontFamily="@font/poppins_medium"
         android:gravity="center"
         android:padding="5dp"
         android:text="@string/strUsername"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="?android:attr/colorForeground"
         android:textSize="@dimen/defaultTextSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,15 +33,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lblQuestion"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:fontFamily="@font/poppins_medium"
+        android:textStyle="bold"
         android:gravity="center"
         android:text="@string/labelUsername"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="?android:attr/colorForeground"
         android:layout_marginTop="@dimen/defaultMarginTop"
         android:textSize="@dimen/defaultTextSize"
         app:layout_constraintEnd_toEndOf="parent"
@@ -83,6 +84,8 @@
                 android:layout_height="match_parent"
                 android:autofillHints="username"
                 android:background="@drawable/custom_input"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textColorHint="?attr/colorOnPrimaryContainer"
                 android:fontFamily="@font/poppins_medium"
                 android:hint="@string/hintUsername"
                 android:includeFontPadding="false"
@@ -99,7 +102,7 @@
         android:id="@+id/btnConfirm"
         android:layout_width="@dimen/maxWidth"
         android:layout_height="@dimen/height"
-        android:backgroundTint="@color/primary"
+        android:textColor="?android:attr/colorForegroundInverse"
         android:layout_marginTop="@dimen/defaultMarginTop"
         android:text="@string/btnConfirm"
         android:insetBottom="0dp"

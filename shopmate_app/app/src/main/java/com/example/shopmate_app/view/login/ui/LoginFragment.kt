@@ -1,8 +1,6 @@
 package com.example.shopmate_app.view.login.ui
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -15,13 +13,16 @@ import androidx.annotation.RequiresApi
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialException
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.shopmate_app.R
-import com.example.shopmate_app.api.CrudApi
+import com.example.shopmate_app.controller.DataStoreManager
+import com.example.shopmate_app.model.api.CrudApi
 import com.example.shopmate_app.controller.PasswordUtils
 import com.example.shopmate_app.databinding.FragmentLoginBinding
-import com.example.shopmate_app.model.User
-import com.example.shopmate_app.view.user.UserProfileActivity
+import com.example.shopmate_app.model.MainViewModel
+import com.example.shopmate_app.model.api.User
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
@@ -29,7 +30,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.internal.wait
 import java.security.MessageDigest
 import java.time.LocalDate
 import java.util.UUID
@@ -38,6 +38,8 @@ class LoginFragment : Fragment() {
     private var googleId = "544701638538-ccp0cp41t4r10ofpl8biku4ckh457hm8.apps.googleusercontent.com"
 
     private lateinit var binding: FragmentLoginBinding
+    private lateinit var dataStoreManager: DataStoreManager
+    private lateinit var viewModel: MainViewModel
 
     private var crudApi = CrudApi()
 
@@ -50,8 +52,9 @@ class LoginFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentLoginBinding.inflate(inflater, container, false)
-
         context = requireContext()
+        viewModel = ViewModelProvider(this@LoginFragment)[MainViewModel::class.java]
+        dataStoreManager = DataStoreManager(context)
 
         binding.btnGoogle.setOnClickListener {
             signGoogleIn()
@@ -133,16 +136,29 @@ class LoginFragment : Fragment() {
                     // user has setting and stat id set to null, because in the api, we will create automatically a new setting and a new stat.
                     val user : User = User(null, googleUsernameGenerated, googleName, null,
                         googleEmail, googlePhoneNumber, googleProfileImage, googleSubHashed, null,
-                        LocalDate.now().toString(), LocalDate.now().toString(), 0u, 0u)
+                        LocalDate.now().toString(), LocalDate.now().toString(), 0, 0)
 
                     val userInserted = crudApi.addUser(user)
                     Log.i("userInserted", userInserted.toString())
-                    withContext(Dispatchers.Main) {
-                        findNavController().navigate(R.id.action_loginFragment_to_userProfileActivity)
+
+                    binding.apply {
+                        lifecycleScope.launch {
+                            viewModel.setUserId(userInserted!!.userId!!)
+                        }
                     }
-                } else {
+
                     withContext(Dispatchers.Main) {
-                        findNavController().navigate(R.id.action_loginFragment_to_userProfileActivity)
+                        findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
+                    }
+
+                } else {
+                    binding.apply {
+                        lifecycleScope.launch {
+                            viewModel.setUserId(googleUser!!.userId!!)
+                        }
+                    }
+                    withContext(Dispatchers.Main) {
+                        findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
                     }
                 }
 
@@ -172,7 +188,7 @@ class LoginFragment : Fragment() {
 
         val user = crudApi.getUser("danimarin24")
 
-        if (PasswordUtils.checkPassword(user!!.password!!, hashedPassword)) {
+        if (PasswordUtils.checkPasswordHash(user!!.password!!, hashedPassword)) {
             // existe el usuario, y su contraseña coincide, inciciar sesión
             signInIntent()
         }

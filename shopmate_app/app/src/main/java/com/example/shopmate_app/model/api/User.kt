@@ -1,10 +1,10 @@
-package com.example.shopmate_app.model
+package com.example.shopmate_app.model.api
 
 import java.time.LocalDate
 
 data class User(
     //PK
-    var userId: UInt?,
+    var userId: Int?,
     var username: String,
     var name: String,
     var password: String?,
@@ -16,12 +16,12 @@ data class User(
     var registerDate: String,
     var lastConnection: String?,
     //FK
-    var settingId: UInt,
-    var statId: UInt
+    var settingId: Int,
+    var statId: Int
 )
 
 data class UserId (
     val userId: String
 )
 
-class Users : ArrayList<User>()
+//class Users : ArrayList<User>()

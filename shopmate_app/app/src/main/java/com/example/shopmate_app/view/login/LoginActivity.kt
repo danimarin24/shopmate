@@ -1,4 +1,4 @@
-package com.example.shopmate_app
+package com.example.shopmate_app.view.login
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -7,25 +7,40 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import com.example.shopmate_app.databinding.ActivityMainBinding
+import com.example.shopmate_app.R
+import com.example.shopmate_app.controller.DataStoreManager
+import com.example.shopmate_app.databinding.ActivityLoginBinding
+import com.example.shopmate_app.databinding.FragmentLoginBinding
+import com.example.shopmate_app.model.MainViewModel
+import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityLoginBinding
+    private lateinit var dataStoreManager: DataStoreManager
+    private lateinit var viewModel: MainViewModel
+
     private var shouldGoBack : Boolean = false
 
-    private lateinit var navController: NavController
 
+    private lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        viewModel = ViewModelProvider(this@LoginActivity)[MainViewModel::class.java]
+        dataStoreManager = DataStoreManager(this)
+
+        setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
     }
 
 

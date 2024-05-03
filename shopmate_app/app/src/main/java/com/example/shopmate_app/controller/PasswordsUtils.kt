@@ -19,7 +19,7 @@ class PasswordUtils {
         }
 
         // Función para verificar si la contraseña ingresada coincide con la contraseña hasheada almacenada
-        fun checkPassword(inputPassword: String, storedHashedPassword: String): Boolean {
+        fun checkPasswordHash(inputPassword: String, storedHashedPassword: String): Boolean {
             val hashedInputPassword = hashString(inputPassword)
             return hashedInputPassword == storedHashedPassword
         }

@@ -1,20 +1,11 @@
-package com.example.shopmate_app.api
+package com.example.shopmate_app.model.api
 
 import android.text.TextUtils
 import android.util.Log
-import com.bumptech.glide.load.engine.Resource
-import com.example.shopmate_app.model.Setting
-import com.example.shopmate_app.model.SettingId
-import com.example.shopmate_app.model.Stat
-import com.example.shopmate_app.model.StatId
-import com.example.shopmate_app.model.User
-import com.example.shopmate_app.model.UserId
-import com.example.shopmate_app.model.Users
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -27,7 +18,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Part
 import java.io.File
 import java.time.LocalDateTime
 import kotlin.coroutines.CoroutineContext
@@ -80,12 +70,12 @@ class CrudApi : CoroutineScope {
         }
     }
 
-    fun getUserByEmail(token: String): User? {
+    fun getUserByEmail(email: String): User? {
         var res : Response<User>? = null
 
         runBlocking {
             val coroutine = launch {
-                res = getRetrofit().create(APIService::class.java).getUserByEmail(token, apiKey)
+                res = getRetrofit().create(APIService::class.java).getUserByEmail(email, apiKey)
             }
             coroutine.join()
         }
@@ -93,7 +83,25 @@ class CrudApi : CoroutineScope {
         return if (res?.isSuccessful!!) {
             res!!.body()
         } else {
-            Log.d("getGoogleUser", res?.code().toString())
+            Log.d("getUserByEmail", res?.code().toString())
+            null
+        }
+    }
+
+    fun getUserByUsername(username: String): User? {
+        var res : Response<User>? = null
+
+        runBlocking {
+            val coroutine = launch {
+                res = getRetrofit().create(APIService::class.java).getUserByUsername(username, apiKey)
+            }
+            coroutine.join()
+        }
+
+        return if (res?.isSuccessful!!) {
+            res!!.body()
+        } else {
+            Log.d("getUserByUsername", res?.code().toString())
             null
         }
     }
@@ -156,8 +164,8 @@ class CrudApi : CoroutineScope {
     }
 
 
-    fun addUser(user: User): Boolean {
-        var resposta : Response<UserId>? = null
+    fun addUser(user: User): User? {
+        var resposta : Response<User>? = null
 
         runBlocking {
             val corrutina = launch {
@@ -167,10 +175,10 @@ class CrudApi : CoroutineScope {
         }
 
         if (resposta?.isSuccessful!!) {
-            return true
+            return resposta?.body()
         } else {
             Log.d("addUser", resposta?.code().toString())
-            return false
+            return null
         }
     }
 

@@ -3,22 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/neutral"
+    android:background="?android:attr/colorForegroundInverse"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.login.ui.RegisterProfileFragment">
 
 
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height"
-        android:fontFamily="@font/poppins"
+        android:fontFamily="@font/poppins_medium"
         android:gravity="center"
         android:padding="5dp"
         android:text="@string/strProfileStep"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="?android:attr/colorForeground"
         android:textSize="@dimen/defaultTextSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,19 +58,21 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/etUsernameLayout"
+            android:id="@+id/etNameLayout"
             android:layout_width="270dp"
             android:layout_height="50dp"
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etUsername"
+                android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:autofillHints="username"
                 android:background="@drawable/custom_input"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textColorHint="?attr/colorOnPrimaryContainer"
                 android:fontFamily="@font/poppins_medium"
-                android:hint="@string/hintUsername"
+                android:hint="@string/hintUser"
                 android:includeFontPadding="false"
                 android:inputType="text"
                 android:padding="0dp"
@@ -128,7 +130,7 @@
         android:id="@+id/btnSave"
         android:layout_width="@dimen/maxWidth"
         android:layout_height="@dimen/height"
-        android:backgroundTint="@color/primary"
+        android:textColor="?android:attr/colorForegroundInverse"
         android:layout_marginTop="@dimen/defaultMarginTop"
         android:text="@string/btnSave"
         android:insetBottom="0dp"

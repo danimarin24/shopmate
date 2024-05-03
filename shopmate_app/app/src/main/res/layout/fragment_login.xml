@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:id="@+id/main"
-android:background="@color/neutral"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".view.login.ui.LoginFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:background="?android:attr/colorForegroundInverse"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.login.ui.LoginFragment">
 
 <!-- Header -->
 <LinearLayout
@@ -26,16 +26,16 @@ tools:context=".view.login.ui.LoginFragment">
         android:layout_marginStart="20dp"
         android:layout_marginEnd="5dp" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txtHeaderTitle"
         android:layout_width="300dp"
         android:layout_height="@dimen/height"
-        android:fontFamily="@font/poppins"
+        android:fontFamily="@font/poppins_medium"
         android:gravity="center"
         android:padding="5dp"
         android:text="@string/strLogin"
+        android:textColor="?android:attr/colorForeground"
         android:textAlignment="center"
-        android:textColor="@color/white"
         android:textSize="@dimen/defaultTextSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -93,6 +93,8 @@ tools:context=".view.login.ui.LoginFragment">
             android:layout_height="match_parent"
             android:autofillHints="username"
             android:background="@drawable/custom_input"
+            android:textColor="?attr/colorOnPrimaryContainer"
+            android:textColorHint="?attr/colorOnPrimaryContainer"
             android:fontFamily="@font/poppins_medium"
             android:hint="@string/hintUsername"
             android:includeFontPadding="false"
@@ -139,6 +141,8 @@ tools:context=".view.login.ui.LoginFragment">
             android:layout_height="match_parent"
             android:autofillHints="password"
             android:background="@drawable/custom_input"
+            android:textColor="?attr/colorOnPrimaryContainer"
+            android:textColorHint="?attr/colorOnPrimaryContainer"
             android:fontFamily="@font/poppins_medium"
             android:hint="@string/hintPassword"
             android:inputType="textPassword"
@@ -153,9 +157,9 @@ tools:context=".view.login.ui.LoginFragment">
     android:id="@+id/btnLogin"
     android:layout_width="@dimen/maxWidth"
     android:layout_height="@dimen/height"
-    android:backgroundTint="@color/primary"
     android:layout_marginTop="@dimen/defaultMarginTop"
     android:text="@string/strLogin"
+    android:textColor="?android:attr/colorForegroundInverse"
     android:insetBottom="0dp"
     android:insetTop="0dp"
     android:textSize="@dimen/defaultTextSize"
@@ -179,11 +183,11 @@ tools:context=".view.login.ui.LoginFragment">
 
     <View
         android:layout_width="0dp"
-        android:layout_height="1dp"
+        android:layout_height="2dp"
         android:layout_weight="5"
-        android:background="@color/white" />
+        android:background="?colorOnBackground" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="2"
@@ -191,14 +195,14 @@ tools:context=".view.login.ui.LoginFragment">
         android:gravity="center"
         android:text="O continuar con"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="?colorOnBackground"
         android:textSize="@dimen/defaultTextSize" />
 
     <View
         android:layout_width="0dp"
-        android:layout_height="1dp"
+        android:layout_height="2dp"
         android:layout_weight="5"
-        android:background="@color/white" />
+        android:background="?colorOnBackground" />
 
 </LinearLayout>
 
@@ -233,14 +237,14 @@ tools:context=".view.login.ui.LoginFragment">
             android:layout_width="5dp"
             android:layout_height="wrap_content" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:fontFamily="@font/poppins_semibold"
             android:gravity="center_vertical"
+            android:textColor="?android:attr/colorForegroundInverse"
             android:text="@string/strGoogle"
             android:contentDescription="@string/strGoogle"
-            android:textColor="@color/neutral"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -267,14 +271,14 @@ tools:context=".view.login.ui.LoginFragment">
             android:layout_width="5dp"
             android:layout_height="wrap_content" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:fontFamily="@font/poppins_semibold"
             android:gravity="center_vertical"
             android:text="@string/strFacebook"
+            android:textColor="?android:attr/colorForegroundInverse"
             android:contentDescription="@string/strFacebook"
-            android:textColor="@color/neutral"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -292,37 +296,37 @@ tools:context=".view.login.ui.LoginFragment">
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent" />
 
-<TextView
-    android:id="@+id/txtForgotPassword"
-    android:layout_width="match_parent"
-    android:layout_height="20dp"
-    android:clickable="true"
-    android:focusable="true"
-    android:fontFamily="@font/poppins_medium"
-    android:gravity="center"
-    android:text="@string/strLoginBottomForgotPassword"
-    android:textColor="@color/white"
-    android:textSize="14dp"
-    app:layout_constraintBottom_toTopOf="@+id/txtRegister"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    />
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txtForgotPassword"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/poppins_medium"
+        android:gravity="center"
+        android:text="@string/strLoginBottomForgotPassword"
+        android:textColor="#ffffff"
+        android:textSize="14dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtRegister"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
-<TextView
-    android:id="@+id/txtRegister"
-    android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:clickable="true"
-    android:focusable="true"
-    android:fontFamily="@font/poppins_medium"
-    android:text="@string/strLoginBottomRegister"
-    android:textColor="@color/white"
-    android:textSize="16dp"
-    android:gravity="center"
-    android:layout_marginBottom="10dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"/>
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txtRegister"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/strLoginBottomRegister"
+        android:textColor="#ffffff"
+        android:textSize="16dp"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 
 

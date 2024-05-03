@@ -1,11 +1,5 @@
-package com.example.shopmate_app.api
+package com.example.shopmate_app.model.api
 
-import com.example.shopmate_app.model.Setting
-import com.example.shopmate_app.model.SettingId
-import com.example.shopmate_app.model.Stat
-import com.example.shopmate_app.model.StatId
-import com.example.shopmate_app.model.User
-import com.example.shopmate_app.model.UserId
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -29,7 +23,7 @@ interface APIService {
     @GET("/api/User/checkgooglesub/{sub}")
     suspend fun getUserByGoogleSub(@Path("sub") sub: String, @Header("x-api-key") apiKey: String): Response<User>
 
-    @GET("/api/User/checkemail/{username}")
+    @GET("/api/User/checkusername/{username}")
     suspend fun getUserByUsername(@Path("username") username: String, @Header("x-api-key") apiKey: String): Response<User>
 
     @GET("/api/User/{id}")
@@ -40,7 +34,7 @@ interface APIService {
 
 
     @POST("/api/User")
-    suspend fun addUser(@Body user: User, @Header("x-api-key") apiKey: String): Response<UserId>
+    suspend fun addUser(@Body user: User, @Header("x-api-key") apiKey: String): Response<User>
 
 
     @Multipart

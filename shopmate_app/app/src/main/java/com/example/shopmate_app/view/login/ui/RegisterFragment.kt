@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.shopmate_app.R
-import com.example.shopmate_app.api.CrudApi
+import com.example.shopmate_app.model.api.CrudApi
 import com.example.shopmate_app.controller.ValidatorUtils
 import com.example.shopmate_app.databinding.FragmentRegisterBinding
 
@@ -37,8 +37,8 @@ class RegisterFragment : Fragment() {
 
 
         binding.btnNext.setOnClickListener {
-            val email = binding.etEmail.text.toString()
-            val isEmailValidated = ValidatorUtils.emailValidation(email, context)
+            val userEmail = binding.etEmail.text.toString()
+            val isEmailValidated = ValidatorUtils.emailValidation(userEmail, context)
 
             if (!isEmailValidated) {
                 // err no ha pasado los test de validacion
@@ -46,7 +46,7 @@ class RegisterFragment : Fragment() {
             }
 
 
-            val user = crudApi.getUserByEmail(email)
+            val user = crudApi.getUserByEmail(userEmail)
 
             if (user != null) {
                 Toast.makeText(context, "Ya existe un usuario con esta dirección", Toast.LENGTH_SHORT).show()
@@ -54,7 +54,7 @@ class RegisterFragment : Fragment() {
             }
 
 
-            var action = RegisterFragmentDirections.actionRegisterFragmentToRegisterProfileFragment(email)
+            var action = RegisterFragmentDirections.actionRegisterFragmentToRegisterProfileFragment(userEmail)
             findNavController().navigate(action)
         }
 

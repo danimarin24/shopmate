@@ -1,4 +1,4 @@
-package com.example.shopmate_app.model
+package com.example.shopmate_app.model.api
 
 data class Stat (
     val statId : UInt?,

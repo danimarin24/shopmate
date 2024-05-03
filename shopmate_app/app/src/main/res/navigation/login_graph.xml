@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/registerProfileFragment"
+        android:name="com.example.shopmate_app.view.login.ui.RegisterProfileFragment"
+        android:label="fragment_register_profile"
+        tools:layout="@layout/fragment_register_profile" >
+        <action
+            android:id="@+id/action_registerProfileFragment_to_registerUsernameFragment"
+            app:destination="@id/registerUsernameFragment" />
+        <argument
+            android:name="email"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerUsernameFragment"
+        android:name="com.example.shopmate_app.view.login.ui.RegisterUsernameFragment"
+        android:label="fragment_register_username"
+        tools:layout="@layout/fragment_register_username" >
+        <action
+            android:id="@+id/action_registerUsernameFragment_to_registerSecurityFragment"
+            app:destination="@id/registerSecurityFragment" />
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerSecurityFragment"
+        android:name="com.example.shopmate_app.view.login.ui.RegisterSecurityFragment"
+        android:label="fragment_register_security"
+        tools:layout="@layout/fragment_register_security" >
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="username"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.shopmate_app.view.login.ui.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.shopmate_app.view.login.ui.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_registerProfileFragment"
+            app:destination="@id/registerProfileFragment" >
+            <argument
+                android:name="email"
+                app:argType="string" />
+        </action>
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.example.shopmate_app.view.login.ui.ForgotPasswordFragment"
+        android:label="fragment_forgot_password"
+        tools:layout="@layout/fragment_forgot_password" >
+        <action
+            android:id="@+id/action_forgotPasswordFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.shopmate_app.view.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+</navigation>

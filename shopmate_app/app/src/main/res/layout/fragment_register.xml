@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/neutral"
+    android:background="?android:attr/colorForegroundInverse"
     tools:context=".view.login.ui.RegisterFragment">
 
     <!-- Header -->
@@ -28,16 +28,16 @@
             android:contentDescription="Go Back Button"
             android:src="@drawable/goback_icon" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txtHeaderTitle"
             android:layout_width="300dp"
             android:layout_height="@dimen/height"
-            android:fontFamily="@font/poppins"
+            android:fontFamily="@font/poppins_medium"
             android:gravity="center"
             android:padding="5dp"
             android:text="@string/strRegister"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="?android:attr/colorForeground"
             android:textSize="@dimen/defaultTextSize"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +61,7 @@
         app:layout_constraintTop_toBottomOf="@+id/lytHeader" />
 
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lblQuestion"
         android:layout_width="match_parent"
         android:layout_height="30dp"
@@ -69,7 +69,7 @@
         android:gravity="center"
         android:text="@string/labelEmail"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="?android:attr/colorForeground"
         android:layout_marginTop="@dimen/defaultMarginTop"
         android:textSize="@dimen/defaultTextSize"
         app:layout_constraintEnd_toEndOf="parent"
@@ -112,6 +112,8 @@
                 android:layout_height="match_parent"
                 android:autofillHints="emailAddress"
                 android:background="@drawable/custom_input"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textColorHint="?attr/colorOnPrimaryContainer"
                 android:fontFamily="@font/poppins_medium"
                 android:hint="@string/hintEmail"
                 android:includeFontPadding="false"
@@ -125,9 +127,9 @@
         android:id="@+id/btnNext"
         android:layout_width="@dimen/maxWidth"
         android:layout_height="@dimen/height"
-        android:backgroundTint="@color/primary"
         android:layout_marginTop="@dimen/defaultMarginTop"
         android:text="@string/btnNext"
+        android:textColor="?android:attr/colorForegroundInverse"
         android:insetBottom="0dp"
         android:insetTop="0dp"
         android:textSize="@dimen/defaultTextSize"
@@ -153,9 +155,9 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="5"
-            android:background="@color/white" />
+            android:background="?colorOnBackground" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2"
@@ -163,14 +165,14 @@
             android:gravity="center"
             android:text="@string/strRegisterSeparator"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="?android:attr/colorForeground"
             android:textSize="@dimen/defaultTextSize" />
 
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="5"
-            android:background="@color/white" />
+            android:background="?colorOnBackground" />
 
     </LinearLayout>
 
@@ -204,14 +206,14 @@
                 android:layout_width="5dp"
                 android:layout_height="wrap_content" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/poppins_semibold"
                 android:gravity="center_vertical"
                 android:text="@string/strGoogle"
+                android:textColor="?android:attr/colorForegroundInverse"
                 android:contentDescription="@string/strGoogle"
-                android:textColor="@color/neutral"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -237,14 +239,14 @@
                 android:layout_width="5dp"
                 android:layout_height="wrap_content" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/poppins_semibold"
                 android:gravity="center_vertical"
                 android:text="@string/strFacebook"
+                android:textColor="?android:attr/colorForegroundInverse"
                 android:contentDescription="@string/strFacebook"
-                android:textColor="@color/neutral"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -263,13 +265,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txtLogin"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:fontFamily="@font/poppins_medium"
         android:text="@string/strRegisterBottomHaveAccount"
-        android:textColor="@color/white"
+        android:textColor="#ffffff"
         android:textSize="16dp"
         android:gravity="center"
         android:layout_marginBottom="10dp"

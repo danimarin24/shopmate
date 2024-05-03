@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:layout_margin="5dp"
-    app:cardBackgroundColor="@color/white"
+    android:background="?android:attr/colorForegroundInverse"
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp"
     app:cardMaxElevation="10dp"
@@ -26,12 +26,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_weight="20"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:background="@color/white"
+                android:background="#ffffff"
                 android:layout_height="20dp"
                 android:text="Receta"/>
 
@@ -111,13 +111,13 @@
                     android:layout_width="5dp"
                     android:layout_height="match_parent"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/poppins_semibold"
                     android:gravity="center_vertical"
                     android:text="946"
-                    android:textColor="@color/white"
+                    android:textColor="#ffffff"
                     android:textSize="12sp" />
 
             </LinearLayout>
@@ -160,13 +160,13 @@
                     android:layout_width="5dp"
                     android:layout_height="match_parent"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/poppins_semibold"
                     android:gravity="center_vertical"
                     android:text="Ver lista"
-                    android:textColor="@color/white"
+                    android:textColor="#ffffff"
                     android:textSize="12sp" />
 
             </LinearLayout>
@@ -193,14 +193,14 @@
                     android:layout_height="match_parent"/>
 
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/poppins_semibold"
                     android:gravity="center"
                     android:text="Compartir"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="#ffffff"
                     android:textSize="12sp" />
 
             </LinearLayout>
@@ -228,14 +228,14 @@
                     android:layout_height="match_parent"/>
 
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/poppins_semibold"
                     android:gravity="center"
                     android:text="Añadir lista"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="#ffffff"
                     android:textSize="12sp" />
 
             </LinearLayout>

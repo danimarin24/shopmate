@@ -60,7 +60,8 @@ namespace API.Controller
                 return NotFound();
             }
 
-            return user;
+            return user
+                ;
         }
 
         // GET: api/User/checkemail/dani4marin@gmail.com
