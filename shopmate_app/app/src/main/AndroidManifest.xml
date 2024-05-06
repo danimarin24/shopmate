@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- PERMISSIONS -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
@@ -12,6 +13,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/logo_definitivo"
+        android:name=".ui.activities.SplashActivity"
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo_definitivo"
         android:supportsRtl="true"
@@ -19,7 +21,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".view.SplashActivity"
+            android:name=".ui.activities.SplashActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,13 +30,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.login.LoginActivity"
+            android:name=".ui.activities.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".view.MainActivity"
-            android:exported="false">
-
-        </activity>
+            android:name=".ui.activities.MainActivity"
+            android:exported="false" />
     </application>
-
 </manifest>
