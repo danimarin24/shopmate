@@ -47,6 +47,8 @@ public partial class ShopMateContext : DbContext
 
     public virtual DbSet<UserItem> UserItems { get; set; }
 
+    public virtual DbSet<UserStatistic> UserStatistics { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseMySql("server=localhost;port=3306;database=ShopMate;uid=root;pwd=123456", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.36-mysql"));
@@ -215,12 +217,9 @@ public partial class ShopMateContext : DbContext
 
             entity.HasIndex(e => e.CategoryId, "IX_Item_CategoryId");
 
-            entity.HasIndex(e => e.ReferenceItemId, "Item_UserItem_FK");
-
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("datetime");
-            entity.Property(e => e.IsDefault).HasColumnType("bit(1)");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .UseCollation("utf8mb3_general_ci")
@@ -233,11 +232,6 @@ public partial class ShopMateContext : DbContext
                 .HasForeignKey(d => d.CategoryId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Item_ibfk_1");
-
-            entity.HasOne(d => d.ReferenceItem).WithMany(p => p.Items)
-                .HasForeignKey(d => d.ReferenceItemId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Item_UserItem_FK");
         });
 
         modelBuilder.Entity<ItemCardLine>(entity =>
@@ -374,9 +368,13 @@ public partial class ShopMateContext : DbContext
 
             entity.ToTable("User");
 
-            entity.HasIndex(e => e.SettingId, "User_ibfk_1");
+            entity.HasIndex(e => e.SettingId, "User_Setting_FK");
 
-            entity.HasIndex(e => e.StatId, "User_ibfk_2");
+            entity.HasIndex(e => e.StatId, "User_Stat_FK");
+
+            entity.HasIndex(e => e.Email, "User_email_unique").IsUnique();
+
+            entity.HasIndex(e => e.Username, "User_username_unique").IsUnique();
 
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
@@ -410,11 +408,11 @@ public partial class ShopMateContext : DbContext
 
             entity.HasOne(d => d.Setting).WithMany(p => p.Users)
                 .HasForeignKey(d => d.SettingId)
-                .HasConstraintName("User_ibfk_1");
+                .HasConstraintName("User_Setting_FK");
 
             entity.HasOne(d => d.Stat).WithMany(p => p.Users)
                 .HasForeignKey(d => d.StatId)
-                .HasConstraintName("User_ibfk_2");
+                .HasConstraintName("User_Stat_FK");
 
             entity.HasMany(d => d.CardsNavigation).WithMany(p => p.Users)
                 .UsingEntity<Dictionary<string, object>>(
@@ -441,11 +439,9 @@ public partial class ShopMateContext : DbContext
                     "UserFollower",
                     r => r.HasOne<User>().WithMany()
                         .HasForeignKey("UserFollowed")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("UserFollower_ibfk_2"),
                     l => l.HasOne<User>().WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("UserFollower_ibfk_1"),
                     j =>
                     {
@@ -461,11 +457,9 @@ public partial class ShopMateContext : DbContext
                     "UserFollower",
                     r => r.HasOne<User>().WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("UserFollower_ibfk_1"),
                     l => l.HasOne<User>().WithMany()
                         .HasForeignKey("UserFollowed")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("UserFollower_ibfk_2"),
                     j =>
                     {
@@ -483,9 +477,9 @@ public partial class ShopMateContext : DbContext
 
             entity.ToTable("UserItem");
 
-            entity.HasIndex(e => e.CreatorId, "CreatorId");
-
             entity.HasIndex(e => e.CategoryId, "IX_UserItem_CategoryId");
+
+            entity.HasIndex(e => e.CreatorId, "UserItem_ibfk_2");
 
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -505,8 +499,19 @@ public partial class ShopMateContext : DbContext
 
             entity.HasOne(d => d.Creator).WithMany(p => p.UserItems)
                 .HasForeignKey(d => d.CreatorId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("UserItem_ibfk_2");
+        });
+
+        modelBuilder.Entity<UserStatistic>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("UserStatistics");
+
+            entity.Property(e => e.Nfollowers).HasColumnName("NFollowers");
+            entity.Property(e => e.Nfollows).HasColumnName("NFollows");
+            entity.Property(e => e.Nsaves).HasColumnName("NSaves");
+            entity.Property(e => e.NyourSaves).HasColumnName("NYourSaves");
         });
 
         OnModelCreatingPartial(modelBuilder);

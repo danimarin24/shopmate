@@ -1,4 +1,4 @@
-package com.example.shopmate_app.model
+package com.example.shopmate_app.ui
 
 import android.app.Application
 import android.util.Log

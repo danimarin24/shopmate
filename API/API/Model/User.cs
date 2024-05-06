@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace API.Model;
 
@@ -16,7 +15,7 @@ public partial class User
 
     public string Email { get; set; } = null!;
 
-    public string PhoneNumber { get; set; } = null!;
+    public string? PhoneNumber { get; set; }
 
     public string ProfileImage { get; set; } = null!;
 
@@ -43,7 +42,7 @@ public partial class User
     public virtual ICollection<ItemCardLine> ItemCardLineCreatedByNavigations { get; set; } = new List<ItemCardLine>();
 
     public virtual ICollection<MembersFromCard> MembersFromCards { get; set; } = new List<MembersFromCard>();
-    
+
     public virtual Setting Setting { get; set; } = null!;
 
     public virtual Stat Stat { get; set; } = null!;

@@ -20,6 +20,4 @@ public partial class UserItem
     public virtual Category Category { get; set; } = null!;
 
     public virtual User Creator { get; set; } = null!;
-
-    public virtual ICollection<Item> Items { get; set; } = new List<Item>();
 }
