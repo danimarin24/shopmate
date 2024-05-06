@@ -1,0 +1,16 @@
+C:\Users\cv\Desktop\DAM2024\M13\ShopMate_Client_V1\ShopMate_Client_V1\bin\Debug\ShopMate_Client_V1.exe.config
+C:\Users\cv\Desktop\DAM2024\M13\ShopMate_Client_V1\ShopMate_Client_V1\bin\Debug\ShopMate_Client_V1.exe
+C:\Users\cv\Desktop\DAM2024\M13\ShopMate_Client_V1\ShopMate_Client_V1\bin\Debug\ShopMate_Client_V1.pdb
+C:\Users\cv\Desktop\DAM2024\M13\ShopMate_Client_V1\ShopMate_Client_V1\obj\Debug\ShopMate_Client_V1.csproj.AssemblyReference.cache
+C:\Users\cv\Desktop\DAM2024\M13\ShopMate_Client_V1\ShopMate_Client_V1\obj\Debug\ShopMate_Client_V1.Form1.resources
+C:\Users\cv\Desktop\DAM2024\M13\ShopMate_Client_V1\ShopMate_Client_V1\obj\Debug\ShopMate_Client_V1.Properties.Resources.resources
+C:\Users\cv\Desktop\DAM2024\M13\ShopMate_Client_V1\ShopMate_Client_V1\obj\Debug\ShopMate_Client_V1.csproj.GenerateResource.cache
+C:\Users\cv\Desktop\DAM2024\M13\ShopMate_Client_V1\ShopMate_Client_V1\obj\Debug\ShopMate_Client_V1.csproj.CoreCompileInputs.cache
+C:\Users\cv\Desktop\DAM2024\M13\ShopMate_Client_V1\ShopMate_Client_V1\obj\Debug\ShopMate_Client_V1.exe
+C:\Users\cv\Desktop\DAM2024\M13\ShopMate_Client_V1\ShopMate_Client_V1\obj\Debug\ShopMate_Client_V1.pdb
+C:\Users\cv\Desktop\DAM2024\M13\ShopMate_Client_V1\ShopMate_Client_V1\bin\Debug\Newtonsoft.Json.dll
+C:\Users\cv\Desktop\DAM2024\M13\ShopMate_Client_V1\ShopMate_Client_V1\bin\Debug\Newtonsoft.Json.xml
+C:\Users\cv\Desktop\DAM2024\M13\ShopMate_Client_V1\ShopMate_Client_V1\obj\Debug\ShopMate.ACA2701B.Up2Date
+C:\Users\cv\Desktop\DAM2024\M13\ShopMate_Client_V1\ShopMate_Client_V1\obj\Debug\ShopMate_Client_V1.View.FormUser.resources
+C:\Users\cv\Desktop\DAM2024\M13\ShopMate_Client_V1\ShopMate_Client_V1\obj\Debug\ShopMate_Client_V1.View.FormCategory.resources
+C:\Users\cv\Desktop\DAM2024\M13\ShopMate_Client_V1\ShopMate_Client_V1\obj\Debug\ShopMate_Client_V1.View.FormItem.resources

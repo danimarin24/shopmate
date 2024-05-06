@@ -1,0 +1,202 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\shopmate_client_v1\\model\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|solutionrelative:shopmate_client_v1\\model\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\shopmate_client_v1\\view\\formuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|solutionrelative:shopmate_client_v1\\view\\formuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\shopmate_client_v1\\model\\repository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|solutionrelative:shopmate_client_v1\\model\\repository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\shopmate_client_v1\\view\\formcategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|solutionrelative:shopmate_client_v1\\view\\formcategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|c:\\users\\cv\\desktop\\dam2024\\m13\\shopmate_client_v1\\shopmate_client_v1\\controller\\controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|solutionrelative:shopmate_client_v1\\controller\\controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\shopmate_client_v1\\model\\item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|solutionrelative:shopmate_client_v1\\model\\item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\shopmate_client_v1\\model\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|solutionrelative:shopmate_client_v1\\model\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\shopmate_client_v1\\controller\\controllercategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|solutionrelative:shopmate_client_v1\\controller\\controllercategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\shopmate_client_v1\\view\\formitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|solutionrelative:shopmate_client_v1\\view\\formitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\shopmate_client_v1\\controller\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|solutionrelative:shopmate_client_v1\\controller\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\shopmate_client_v1\\view\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|solutionrelative:shopmate_client_v1\\view\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Item.cs",
+              "DocumentMoniker": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\ShopMate_Client_V1\\Model\\Item.cs",
+              "RelativeDocumentMoniker": "ShopMate_Client_V1\\Model\\Item.cs",
+              "ToolTip": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\ShopMate_Client_V1\\Model\\Item.cs",
+              "RelativeToolTip": "ShopMate_Client_V1\\Model\\Item.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABQAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-02T18:12:01.094Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Category.cs",
+              "DocumentMoniker": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\ShopMate_Client_V1\\Model\\Category.cs",
+              "RelativeDocumentMoniker": "ShopMate_Client_V1\\Model\\Category.cs",
+              "ToolTip": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\ShopMate_Client_V1\\Model\\Category.cs",
+              "RelativeToolTip": "ShopMate_Client_V1\\Model\\Category.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAADwvwsAAAAeAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-02T18:12:15.278Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\ShopMate_Client_V1\\Model\\User.cs",
+              "RelativeDocumentMoniker": "ShopMate_Client_V1\\Model\\User.cs",
+              "ToolTip": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\ShopMate_Client_V1\\Model\\User.cs",
+              "RelativeToolTip": "ShopMate_Client_V1\\Model\\User.cs",
+              "ViewState": "AQIAAAoAAAAAAAAAAAAwwBYAAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-02T16:49:51.693Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\ShopMate_Client_V1\\View\\Form1.cs",
+              "RelativeDocumentMoniker": "ShopMate_Client_V1\\View\\Form1.cs",
+              "ToolTip": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\ShopMate_Client_V1\\View\\Form1.cs",
+              "RelativeToolTip": "ShopMate_Client_V1\\View\\Form1.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAALAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-02T14:25:44.838Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "FormItem.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\ShopMate_Client_V1\\View\\FormItem.cs",
+              "RelativeDocumentMoniker": "ShopMate_Client_V1\\View\\FormItem.cs",
+              "ToolTip": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\ShopMate_Client_V1\\View\\FormItem.cs [Design]",
+              "RelativeToolTip": "ShopMate_Client_V1\\View\\FormItem.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-30T17:30:06.44Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FormUser.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\ShopMate_Client_V1\\View\\FormUser.cs",
+              "RelativeDocumentMoniker": "ShopMate_Client_V1\\View\\FormUser.cs",
+              "ToolTip": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\ShopMate_Client_V1\\View\\FormUser.cs [Design]",
+              "RelativeToolTip": "ShopMate_Client_V1\\View\\FormUser.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-30T16:59:50.553Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Repository.cs",
+              "DocumentMoniker": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\ShopMate_Client_V1\\Model\\Repository.cs",
+              "RelativeDocumentMoniker": "ShopMate_Client_V1\\Model\\Repository.cs",
+              "ToolTip": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\ShopMate_Client_V1\\Model\\Repository.cs",
+              "RelativeToolTip": "ShopMate_Client_V1\\Model\\Repository.cs",
+              "ViewState": "AQIAAEEAAAAAAAAAAAA2wGAAAAAuAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-30T13:47:43.437Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "FormCategory.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\ShopMate_Client_V1\\View\\FormCategory.cs",
+              "RelativeDocumentMoniker": "ShopMate_Client_V1\\View\\FormCategory.cs",
+              "ToolTip": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\ShopMate_Client_V1\\View\\FormCategory.cs [Design]",
+              "RelativeToolTip": "ShopMate_Client_V1\\View\\FormCategory.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-30T13:33:28.004Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Controller.cs",
+              "DocumentMoniker": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\ShopMate_Client_V1\\Controller\\Controller.cs",
+              "RelativeDocumentMoniker": "ShopMate_Client_V1\\Controller\\Controller.cs",
+              "ToolTip": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\ShopMate_Client_V1\\Controller\\Controller.cs",
+              "RelativeToolTip": "ShopMate_Client_V1\\Controller\\Controller.cs",
+              "ViewState": "AQIAAOgBAAAAAAAAAAD4v/UBAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-30T13:28:09.299Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ControllerCategory.cs",
+              "DocumentMoniker": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\ShopMate_Client_V1\\Controller\\ControllerCategory.cs",
+              "RelativeDocumentMoniker": "ShopMate_Client_V1\\Controller\\ControllerCategory.cs",
+              "ToolTip": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\ShopMate_Client_V1\\Controller\\ControllerCategory.cs",
+              "RelativeToolTip": "ShopMate_Client_V1\\Controller\\ControllerCategory.cs",
+              "ViewState": "AQIAABEAAAAAAAAAAAAtwEYAAAA1AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-29T17:57:45.894Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\ShopMate_Client_V1\\Controller\\Program.cs",
+              "RelativeDocumentMoniker": "ShopMate_Client_V1\\Controller\\Program.cs",
+              "ToolTip": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\ShopMate_Client_V1\\ShopMate_Client_V1\\Controller\\Program.cs",
+              "RelativeToolTip": "ShopMate_Client_V1\\Controller\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-15T15:19:01.719Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
