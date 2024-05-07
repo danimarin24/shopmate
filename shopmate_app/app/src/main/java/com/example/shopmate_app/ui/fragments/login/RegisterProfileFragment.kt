@@ -9,7 +9,10 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.shopmate_app.databinding.FragmentRegisterProfileBinding
+import com.example.shopmate_app.utils.ValidatorUtils
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterProfileFragment : Fragment() {
     private lateinit var binding: FragmentRegisterProfileBinding
     val args: RegisterProfileFragmentArgs by navArgs()

@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.shopmate_app.R
 
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ShareCardFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

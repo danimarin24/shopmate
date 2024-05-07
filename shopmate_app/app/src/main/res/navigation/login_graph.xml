@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/registerProfileFragment"
-        android:name="com.example.shopmate_app.view.login.ui.RegisterProfileFragment"
+        android:name="com.example.shopmate_app.ui.fragments.login.RegisterProfileFragment"
         android:label="fragment_register_profile"
         tools:layout="@layout/fragment_register_profile" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerUsernameFragment"
-        android:name="com.example.shopmate_app.view.login.ui.RegisterUsernameFragment"
+        android:name="com.example.shopmate_app.ui.fragments.login.RegisterUsernameFragment"
         android:label="fragment_register_username"
         tools:layout="@layout/fragment_register_username" >
         <action
@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerSecurityFragment"
-        android:name="com.example.shopmate_app.view.login.ui.RegisterSecurityFragment"
+        android:name="com.example.shopmate_app.ui.fragments.login.RegisterSecurityFragment"
         android:label="fragment_register_security"
         tools:layout="@layout/fragment_register_security" >
         <argument
@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.shopmate_app.view.login.ui.LoginFragment"
+        android:name="com.example.shopmate_app.ui.fragments.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -64,7 +64,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.shopmate_app.view.login.ui.RegisterFragment"
+        android:name="com.example.shopmate_app.ui.fragments.login.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action
@@ -80,7 +80,7 @@
     </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
-        android:name="com.example.shopmate_app.view.login.ui.ForgotPasswordFragment"
+        android:name="com.example.shopmate_app.ui.fragments.login.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password" >
         <action
@@ -89,7 +89,7 @@
     </fragment>
     <activity
         android:id="@+id/mainActivity"
-        android:name="com.example.shopmate_app.view.MainActivity"
+        android:name="com.example.shopmate_app.ui.activities.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
 </navigation>

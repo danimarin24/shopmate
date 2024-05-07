@@ -12,25 +12,24 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.example.shopmate_app.view.MainActivity
-import com.example.shopmate_app.model.api.CrudApi
-import com.example.shopmate_app.controller.PasswordUtils
 import com.example.shopmate_app.databinding.FragmentRegisterSecurityBinding
-import com.example.shopmate_app.ui.viewmodels.MainViewModel
-import com.example.shopmate_app.model.api.User
+import com.example.shopmate_app.domain.entities.newtworkEntities.UserEntity
+import com.example.shopmate_app.ui.activities.MainActivity
+import com.example.shopmate_app.ui.viewmodels.UserViewModel
+import com.example.shopmate_app.utils.PasswordUtils
 import java.time.LocalDate
 
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterSecurityFragment : Fragment() {
     private lateinit var binding: FragmentRegisterSecurityBinding
-    private lateinit var dataStoreManager: DataStoreManager
-    private lateinit var viewModel: MainViewModel
+    private val userViewModel: UserViewModel by viewModels()
     private val args: RegisterSecurityFragmentArgs by navArgs()
 
     private lateinit var context : Context
-
-    private var crudApi = CrudApi()
 
     private lateinit var userEmail : String
     private lateinit var userName : String
@@ -78,16 +77,18 @@ class RegisterSecurityFragment : Fragment() {
 
             userHashedPassword = PasswordUtils.hashString(userPassword)
 
-            val user = User(null, userUsername, userName, userHashedPassword, userEmail, "",
+            val user = UserEntity(null, userUsername, userName, userHashedPassword, userEmail, "",
                 "", null, null, LocalDate.now().toString(), LocalDate.now().toString(), 0, 0)
 
-            val addedUser = crudApi.addUser(user)
+            var addedUser: UserEntity? = null
+            userViewModel.addUser(user)
+            userViewModel.userEntity.observe(viewLifecycleOwner) { user ->
+                addedUser = user
+            }
+
             if (addedUser != null) {
                 // user added
                 val intent = Intent(context, MainActivity::class.java)
-                val bundle = Bundle()
-                bundle.putString("userId", addedUser.userId.toString())
-                intent.putExtras(bundle)
                 startActivity(intent)
             } else {
                 // user not added,

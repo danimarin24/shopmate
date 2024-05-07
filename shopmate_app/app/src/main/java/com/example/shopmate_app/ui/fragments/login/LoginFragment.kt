@@ -1,6 +1,7 @@
 package com.example.shopmate_app.ui.fragments.login
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -16,8 +17,6 @@ import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.shopmate_app.R
 import com.example.shopmate_app.data.constants.AppConstants
@@ -25,11 +24,7 @@ import com.example.shopmate_app.utils.PasswordUtils
 import com.example.shopmate_app.databinding.FragmentLoginBinding
 import com.example.shopmate_app.domain.entities.newtworkEntities.UserEntity
 import com.example.shopmate_app.domain.usecases.user.AddUserUseCase
-import com.example.shopmate_app.domain.usecases.user.GetGoogleSubByGoogleTokenUseCase
-import com.example.shopmate_app.domain.usecases.user.GetUserByEmailUseCase
-import com.example.shopmate_app.domain.usecases.user.GetUserByGoogleSubUseCase
-import com.example.shopmate_app.domain.usecases.user.GetUserByUsernameUseCase
-import com.example.shopmate_app.domain.usecases.user.GetUsernameGeneratedUseCase
+import com.example.shopmate_app.ui.activities.MainActivity
 import com.example.shopmate_app.ui.viewmodels.MainViewModel
 import com.example.shopmate_app.ui.viewmodels.UserViewModel
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
@@ -42,21 +37,13 @@ import kotlinx.coroutines.withContext
 import java.security.MessageDigest
 import java.time.LocalDate
 import java.util.UUID
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private val mainViewModel: MainViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels()
-
-
-    // usecases
-    var getGoogleSubByGoogleTokenUseCase = GetGoogleSubByGoogleTokenUseCase()
-    var getUsernameGeneratedUseCase = GetUsernameGeneratedUseCase()
-    var getUserByUsernameUseCase = GetUserByUsernameUseCase()
-    var getUserByGoogleSubUseCase = GetUserByGoogleSubUseCase()
-    var addUserUseCase = AddUserUseCase()
-
-
 
     private lateinit var context : Context
 
@@ -136,53 +123,54 @@ class LoginFragment : Fragment() {
                 var googleTokenSub : String? = null
                 userViewModel.googleSub.observe(viewLifecycleOwner, Observer {googleSub ->
                     googleTokenSub = googleSub
+                    if (googleTokenSub != null) {
+                        googleName = googleIdTokenCredential.displayName.toString()
+                        googleEmail = googleIdTokenCredential.id
+                        googlePhoneNumber = googleIdTokenCredential.phoneNumber
+                        googleProfileImage = googleIdTokenCredential.profilePictureUri.toString()
+                        googleSubHashed = PasswordUtils.hashString(googleTokenSub!!)
+
+                        // Aquí puedes realizar las operaciones que dependen de los datos obtenidos de Google
+                        userViewModel.getUserByGoogleSub(googleSubHashed)
+                        userViewModel.userEntity.observe(viewLifecycleOwner) { user ->
+                            googleUser = user
+
+                            if (googleUser == null) {
+                                // error no existe un usuario, hay que crearlo
+
+                                // generar username
+                                userViewModel.getUserByGoogleSub(googleSubHashed)
+                                userViewModel.usernameGenerated.observe(viewLifecycleOwner) { usernameGenerated ->
+                                    googleUsernameGenerated = usernameGenerated
+
+                                    // user has setting and stat id set to null, because in the api, we will create automatically a new setting and a new stat.
+                                    val user : UserEntity = UserEntity(null, googleUsernameGenerated!!, googleName, null,
+                                        googleEmail, googlePhoneNumber, googleProfileImage, googleSubHashed, null,
+                                        LocalDate.now().toString(), LocalDate.now().toString(), 0, 0)
+
+                                    var userInserted: UserEntity? = null
+                                    userViewModel.addUser(user)
+                                    userViewModel.userEntity.observe(viewLifecycleOwner) { user ->
+                                        userInserted = user
+                                    }
+                                    Log.i("userInserted", userInserted.toString())
+
+                                    mainViewModel.saveUserId(userInserted!!.userId!!)
+
+                                    findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
+
+                                }
+
+
+
+                            } else {
+                                mainViewModel.saveUserId(googleUser!!.userId!!)
+
+                                findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
+                            }
+                        }
+                    }
                 })
-
-                if (googleTokenSub == null) {
-                    return@launch
-                }
-
-                googleName = googleIdTokenCredential.displayName.toString()
-                googleEmail = googleIdTokenCredential.id
-                googlePhoneNumber = googleIdTokenCredential.phoneNumber
-                googleProfileImage = googleIdTokenCredential.profilePictureUri.toString()
-                googleSubHashed = PasswordUtils.hashString(googleTokenSub!!)
-
-                // Aquí puedes realizar las operaciones que dependen de los datos obtenidos de Google
-                userViewModel.getUserByGoogleSub(googleSubHashed)
-                userViewModel.userEntity.observe(viewLifecycleOwner) { user ->
-                    googleUser = user
-                }
-                if (googleUser == null) {
-                    // error no existe un usuario, hay que crearlo
-
-                    // generar username
-                    userViewModel.getUserByGoogleSub(googleSubHashed)
-                    userViewModel.usernameGenerated.observe(viewLifecycleOwner) { usernameGenerated ->
-                        googleUsernameGenerated = usernameGenerated
-                    }
-
-                    // user has setting and stat id set to null, because in the api, we will create automatically a new setting and a new stat.
-                    val user : UserEntity = UserEntity(null, googleUsernameGenerated!!, googleName, null,
-                        googleEmail, googlePhoneNumber, googleProfileImage, googleSubHashed, null,
-                        LocalDate.now().toString(), LocalDate.now().toString(), 0, 0)
-
-                    val userInserted = addUserUseCase(user)
-                    Log.i("userInserted", userInserted.toString())
-
-                    mainViewModel.saveUserId(userInserted!!.userId!!)
-
-                    withContext(Dispatchers.Main) {
-                        findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
-                    }
-
-                } else {
-                    mainViewModel.saveUserId(googleUser!!.userId!!)
-
-                    withContext(Dispatchers.Main) {
-                        findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
-                    }
-                }
 
             } catch (e: GetCredentialException) {
                 Log.e("GetCredentialException", e.message.toString())
@@ -206,7 +194,6 @@ class LoginFragment : Fragment() {
     private fun signEmailIn() {
         val username = binding.etUsername.text.toString()
         val password = binding.etPassword.text.toString()
-        val hashedPassword = PasswordUtils.hashString(password)
 
         if (username.isEmpty()) {
             //err es empty
@@ -218,25 +205,17 @@ class LoginFragment : Fragment() {
         var userEntity : UserEntity? = null
         userViewModel.userEntity.observe(viewLifecycleOwner, Observer {user ->
             userEntity = user
+
+            if (userEntity == null) {
+                //err no existe ningun user
+                Log.e("ERROR", "ES NULL")
+                Toast.makeText(context, "no existe ningun user", Toast.LENGTH_SHORT).show()
+            }
+            if (PasswordUtils.checkPasswordHash(password, userEntity!!.password!!)) {
+                // la contraseña coincide, inciciar sesión
+                mainViewModel.saveUserId(userEntity!!.userId!!)
+                findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
+            }
         })
-
-        if (userEntity == null) {
-            //err no existe ningun user
-            return
-        }
-
-        if (PasswordUtils.checkPasswordHash(userEntity!!.password!!, hashedPassword)) {
-            // la contraseña coincide, inciciar sesión
-            signInIntent()
-        }
-
-
-
     }
-
-    private fun signInIntent() {
-        //val intent = Intent(this, UserProfileActivity::class.java)
-        //startActivity(intent)
-    }
-
 }

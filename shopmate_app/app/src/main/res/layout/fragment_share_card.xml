@@ -6,7 +6,7 @@
     android:background="?android:attr/colorForegroundInverse"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.ShareCardFragment">
+    tools:context=".ui.fragments.utils.ShareCardFragment">
 
 
     <!-- Header -->

@@ -2,7 +2,6 @@ package com.example.shopmate_app.utils
 
 import android.content.Context
 import android.widget.Toast
-import com.example.shopmate_app.model.api.CrudApi
 
 class ValidatorUtils {
     companion object {

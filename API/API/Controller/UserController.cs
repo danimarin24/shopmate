@@ -274,7 +274,7 @@ namespace API.Controller
             return _context.Users.Any(e => e.UserId == id);
         }
 
-        [HttpGet("validate-google-token")]
+        [HttpPost("validate-google-token")]
         public async Task<ActionResult<String>> ValidateGoogleToken([FromBody] string idTokenString)
         {
             using (var client = new HttpClient())

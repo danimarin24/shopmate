@@ -13,7 +13,9 @@ import androidx.navigation.findNavController
 import com.example.shopmate_app.R
 import com.example.shopmate_app.databinding.ActivityLoginBinding
 import com.example.shopmate_app.ui.viewmodels.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private var shouldGoBack : Boolean = false

@@ -1,7 +1,7 @@
 package com.example.shopmate_app.data.constants
 
 object AppConstants {
-    const val BASE_API_URL_IP = "6385"
+    const val BASE_API_URL_IP = "http://172.16.24.21"
     const val BASE_API_URL_PORT = "6385"
     const val BASE_API_URL = "${BASE_API_URL_IP}:${BASE_API_URL_PORT}/"
     const val API_KEY = "c11cddd5b1554b78b6532b41287bd243"

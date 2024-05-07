@@ -2,13 +2,16 @@ package com.example.shopmate_app.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shopmate_app.data.abstraction.DataStoreRepository
 import com.example.shopmate_app.data.constants.AppConstants
+import com.example.shopmate_app.data.implementation.DataStoreRepositoryImpl
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
-class MainViewModel(
-    private val repository: DataStoreRepository
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val repository: DataStoreRepositoryImpl
 ) : ViewModel() {
     fun saveUserToken(value: String) {
         viewModelScope.launch {

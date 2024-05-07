@@ -35,13 +35,13 @@ interface UserApiClient {
     @GET("${AppConstants.USER_ENDPOINT}generate/{name}")
     suspend fun getUsernameGenerated(@Path("name") name: String, @Header("x-api-key") apiKey: String): Response<String>
 
-    @GET("${AppConstants.USER_ENDPOINT}validate-google-token")
+    // POST
+    @POST("${AppConstants.USER_ENDPOINT}validate-google-token")
     suspend fun validateGoogleToken(
         @Body idTokenString: String,
         @Header("x-api-key") apiKey: String
     ): Response<String>
 
-    // POST
     @POST(AppConstants.USER_ENDPOINT)
     suspend fun addUser(@Body user: UserEntity, @Header("x-api-key") apiKey: String): Response<UserEntity>
 
@@ -68,23 +68,6 @@ interface UserApiClient {
     // DELETE
     @DELETE(AppConstants.USER_ENDPOINT)
     suspend fun deleteUser(@Body user: UserEntity, @Header("x-api-key") apiKey: String): Response<UserEntity>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

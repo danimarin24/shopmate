@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("androidx.navigation.safeargs.kotlin")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -88,4 +90,8 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.3.2")
     // Activity
     implementation("androidx.activity:activity-ktx:1.2.2")
+
+    // HILT IMPORTANT TO INJECTION DEPENDENCIES
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
 }

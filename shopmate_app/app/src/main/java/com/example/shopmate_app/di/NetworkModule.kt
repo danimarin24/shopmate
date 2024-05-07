@@ -1,6 +1,7 @@
-package com.example.shopmate_app.core
+package com.example.shopmate_app.di
 
 import com.example.shopmate_app.data.constants.AppConstants
+import com.example.shopmate_app.data.services.networkServices.UserApiClient
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -13,8 +14,12 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-object RetrofitHelper {
-    fun getRetrofit(): Retrofit {
+@Module
+@InstallIn(SingletonComponent::class)
+object NetworkModule {
+    @Singleton
+    @Provides
+    fun provideRetrofit(): Retrofit {
         val gson = GsonBuilder()
             .setLenient()
             .create()
@@ -33,5 +38,11 @@ object RetrofitHelper {
         return OkHttpClient.Builder()
             .addInterceptor(logging)
             .build()
+    }
+
+    @Singleton
+    @Provides
+    fun providesUserApiClient(retrofit: Retrofit):UserApiClient{
+        return retrofit.create(UserApiClient::class.java)
     }
 }

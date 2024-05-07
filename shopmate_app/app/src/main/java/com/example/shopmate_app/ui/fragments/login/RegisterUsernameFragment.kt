@@ -8,16 +8,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.shopmate_app.model.api.CrudApi
 import com.example.shopmate_app.databinding.FragmentRegisterUsernameBinding
+import com.example.shopmate_app.domain.entities.newtworkEntities.UserEntity
+import com.example.shopmate_app.ui.viewmodels.UserViewModel
+import com.example.shopmate_app.utils.ValidatorUtils
 
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterUsernameFragment : Fragment() {
     private lateinit var binding: FragmentRegisterUsernameBinding
+    private val userViewModel: UserViewModel by viewModels()
     val args: RegisterUsernameFragmentArgs by navArgs()
-    private var crudApi = CrudApi()
     private lateinit var context : Context
 
     private lateinit var userEmail : String
@@ -49,9 +55,13 @@ class RegisterUsernameFragment : Fragment() {
             }
 
 
-            val user = crudApi.getUserByUsername(userUsername)
+            userViewModel.getUserByUsername(userUsername)
 
-            if (user != null) {
+            var userEntity : UserEntity? = null
+            userViewModel.userEntity.observe(viewLifecycleOwner, Observer {user ->
+                userEntity = user
+            })
+            if (userEntity != null) {
                 Toast.makeText(context, "Ya existe un usuario con este nombre de usuario.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
