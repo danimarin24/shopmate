@@ -39,8 +39,6 @@ public partial class ShopMateContext : DbContext
 
     public virtual DbSet<Setting> Settings { get; set; }
 
-    public virtual DbSet<Stat> Stats { get; set; }
-
     public virtual DbSet<Unit> Units { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
@@ -334,18 +332,6 @@ public partial class ShopMateContext : DbContext
             entity.Property(e => e.LastPasswordHash).HasColumnType("text");
         });
 
-        modelBuilder.Entity<Stat>(entity =>
-        {
-            entity.HasKey(e => e.StatId).HasName("PRIMARY");
-
-            entity.ToTable("Stat");
-
-            entity.Property(e => e.Nfollowers).HasColumnName("NFollowers");
-            entity.Property(e => e.Nfollows).HasColumnName("NFollows");
-            entity.Property(e => e.Nsaves).HasColumnName("NSaves");
-            entity.Property(e => e.NyourSaves).HasColumnName("NYourSaves");
-        });
-
         modelBuilder.Entity<Unit>(entity =>
         {
             entity.HasKey(e => e.UnitId).HasName("PRIMARY");
@@ -369,8 +355,6 @@ public partial class ShopMateContext : DbContext
             entity.ToTable("User");
 
             entity.HasIndex(e => e.SettingId, "User_Setting_FK");
-
-            entity.HasIndex(e => e.StatId, "User_Stat_FK");
 
             entity.HasIndex(e => e.Email, "User_email_unique").IsUnique();
 
@@ -409,10 +393,6 @@ public partial class ShopMateContext : DbContext
             entity.HasOne(d => d.Setting).WithMany(p => p.Users)
                 .HasForeignKey(d => d.SettingId)
                 .HasConstraintName("User_Setting_FK");
-
-            entity.HasOne(d => d.Stat).WithMany(p => p.Users)
-                .HasForeignKey(d => d.StatId)
-                .HasConstraintName("User_Stat_FK");
 
             entity.HasMany(d => d.CardsNavigation).WithMany(p => p.Users)
                 .UsingEntity<Dictionary<string, object>>(
@@ -512,6 +492,7 @@ public partial class ShopMateContext : DbContext
             entity.Property(e => e.Nfollows).HasColumnName("NFollows");
             entity.Property(e => e.Nsaves).HasColumnName("NSaves");
             entity.Property(e => e.NyourSaves).HasColumnName("NYourSaves");
+            entity.Property(e => e.UserId).HasDefaultValueSql("'0'");
         });
 
         OnModelCreatingPartial(modelBuilder);

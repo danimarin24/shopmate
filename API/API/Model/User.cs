@@ -29,8 +29,6 @@ public partial class User
 
     public uint SettingId { get; set; }
 
-    public uint StatId { get; set; }
-
     public virtual ICollection<Board> Boards { get; set; } = new List<Board>();
 
     public virtual ICollection<Card> Cards { get; set; } = new List<Card>();
@@ -44,8 +42,6 @@ public partial class User
     public virtual ICollection<MembersFromCard> MembersFromCards { get; set; } = new List<MembersFromCard>();
 
     public virtual Setting Setting { get; set; } = null!;
-
-    public virtual Stat Stat { get; set; } = null!;
 
     public virtual ICollection<UserItem> UserItems { get; set; } = new List<UserItem>();
 

@@ -5,6 +5,8 @@ namespace API.Model;
 
 public partial class UserStatistic
 {
+    public uint? UserId { get; set; }
+
     public long? Nfollows { get; set; }
 
     public long? Nfollowers { get; set; }

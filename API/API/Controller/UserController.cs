@@ -29,16 +29,29 @@ namespace API.Controller
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return await _context.Users.Include(u => u.Setting).Include(u => u.Stat).ToListAsync();
+            return await _context.Users.Include(u => u.Setting).ToListAsync();
         }
 
+        // GET: api/User/stats/5
+        [HttpGet("stats/{id:int}")]
+        public async Task<ActionResult<UserStatistic>> GetUserStats(uint id)
+        {
+            var userStats = await _context.UserStatistics
+                .FirstOrDefaultAsync(u => u.UserId == id);
+
+            if (userStats == null)
+            {
+                return NotFound();
+            }
+
+            return userStats;
+        }
         // GET: api/User/5
         [HttpGet("{id:int}")]
         public async Task<ActionResult<User>> GetUser(uint id)
         {
             var user = await _context.Users
-                .Include(u => u.Setting) // Carga la entidad Setting relacionada
-                .Include(u => u.Stat) // Carga la entidad Stat relacionada
+                .Include(u => u.Setting)
                 .FirstOrDefaultAsync(u => u.UserId == id);
 
             if (user == null)
@@ -170,15 +183,12 @@ namespace API.Controller
                     {
                         setting.LastPasswordHash = user.FacebookToken;
                     }
-                    var stat = new Stat(0u, 0u, 0u, 0u);
 
                     _context.Settings.Add(setting);
-                    _context.Stats.Add(stat);
 
                     await _context.SaveChangesAsync();
 
                     user.SettingId = setting.SettingId;
-                    user.StatId = stat.StatId;
 
                     _context.Users.Add(user);
                     await _context.SaveChangesAsync();
@@ -233,7 +243,6 @@ namespace API.Controller
                         RegisterDate = model.RegisterDate,
                         LastConnection = model.LastConnection,
                         SettingId = model.SettingId,
-                        StatId = model.StatId
                     };
 
                     _context.Users.Add(user);
