@@ -40,6 +40,7 @@
             this.btn_add_user = new System.Windows.Forms.Button();
             this.dtg_client = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.lbl_categoryName = new System.Windows.Forms.Label();
             this.btn_showAll_it = new System.Windows.Forms.Button();
             this.btn_delete_item = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -57,7 +58,6 @@
             this.btn_delete_cat = new System.Windows.Forms.Button();
             this.btn_add_cat = new System.Windows.Forms.Button();
             this.dtg_cat = new System.Windows.Forms.DataGridView();
-            this.lbl_categoryName = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_client)).BeginInit();
@@ -202,6 +202,16 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Categories";
             this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
+            // 
+            // lbl_categoryName
+            // 
+            this.lbl_categoryName.AutoSize = true;
+            this.lbl_categoryName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_categoryName.Location = new System.Drawing.Point(1109, 36);
+            this.lbl_categoryName.Name = "lbl_categoryName";
+            this.lbl_categoryName.Size = new System.Drawing.Size(0, 17);
+            this.lbl_categoryName.TabIndex = 26;
             // 
             // btn_showAll_it
             // 
@@ -349,15 +359,6 @@
             this.dtg_cat.Name = "dtg_cat";
             this.dtg_cat.Size = new System.Drawing.Size(607, 410);
             this.dtg_cat.TabIndex = 1;
-            // 
-            // lbl_categoryName
-            // 
-            this.lbl_categoryName.AutoSize = true;
-            this.lbl_categoryName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_categoryName.Location = new System.Drawing.Point(1109, 36);
-            this.lbl_categoryName.Name = "lbl_categoryName";
-            this.lbl_categoryName.Size = new System.Drawing.Size(0, 17);
-            this.lbl_categoryName.TabIndex = 26;
             // 
             // Form1
             // 

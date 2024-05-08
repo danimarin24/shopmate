@@ -237,8 +237,9 @@ namespace ShopMate_Client_V1.Controller
             {
                 // aqui he de encontrar el modo para pasarle la imagen que recogemos de fUser.pictureBox1.Image;
                 // si pictureBox no es null entonces r.PostUserWithImage(u);
-                MessageBox.Show("User (WITH PHOTO)posted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // MessageBox.Show("User (WITH PHOTO)posted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 u.ProfileImage = profileImage.ToString();
+                // MessageBox.Show(imageAux.ProfileImage.FileName);
                 r.PostUserWithImage(u,imageAux.ProfileImage);
             }
 

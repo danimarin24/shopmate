@@ -26,5 +26,10 @@ namespace ShopMate_Client_V1
         {
 
         }
+
+        private void tabPage2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

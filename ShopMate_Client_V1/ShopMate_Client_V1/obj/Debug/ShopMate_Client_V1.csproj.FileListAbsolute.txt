@@ -63,3 +63,7 @@ C:\Users\cv\Desktop\DAM2024\M13\shopmate\ShopMate_Client_V1\ShopMate_Client_V1\b
 C:\Users\cv\Desktop\DAM2024\M13\shopmate\ShopMate_Client_V1\ShopMate_Client_V1\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\cv\Desktop\DAM2024\M13\shopmate\ShopMate_Client_V1\ShopMate_Client_V1\bin\Debug\System.Text.Encodings.Web.xml
 C:\Users\cv\Desktop\DAM2024\M13\shopmate\ShopMate_Client_V1\ShopMate_Client_V1\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\cv\Desktop\DAM2024\M13\shopmate\ShopMate_Client_V1\ShopMate_Client_V1\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\cv\Desktop\DAM2024\M13\shopmate\ShopMate_Client_V1\ShopMate_Client_V1\bin\Debug\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\cv\Desktop\DAM2024\M13\shopmate\ShopMate_Client_V1\ShopMate_Client_V1\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Users\cv\Desktop\DAM2024\M13\shopmate\ShopMate_Client_V1\ShopMate_Client_V1\bin\Debug\Microsoft.Extensions.DependencyInjection.xml

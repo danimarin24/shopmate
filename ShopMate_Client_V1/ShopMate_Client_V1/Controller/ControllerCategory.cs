@@ -75,7 +75,7 @@ namespace ShopMate_Client_V1.Controller
         private void itemsFromCategory(object sender, EventArgs e)
         {
             dtgItem.DataSource = r.GetItems().Where(i => i.CategoryId == selectedDGV_Category().CategoryId).ToList();
-
+            
         }
 
         internal void openFormCategory(object sender, EventArgs e)
