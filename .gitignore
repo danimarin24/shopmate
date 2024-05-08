@@ -1,3 +1,6 @@
+# Visual Studio cache
+.vs/
+
 # Gradle files
 .gradle/
 build/
