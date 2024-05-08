@@ -1,4 +1,5 @@
-﻿using ShopMate_Client_V1.Properties;
+﻿using Microsoft.AspNetCore.Http;
+using ShopMate_Client_V1.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,5 +39,11 @@ namespace ShopMate_Client_V1.Model
 
         // public int nFollowes = r.getNfollowersbyID();
         // public int nFolloweds = 
+    }
+
+    public class UserImageAux
+    {
+
+        public IFormFile ProfileImage { get; set; }
     }
 }

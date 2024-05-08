@@ -1,4 +1,5 @@
-﻿using ShopMate_Client_V1.Model;
+﻿using Microsoft.AspNetCore.Http.Internal;
+using ShopMate_Client_V1.Model;
 using ShopMate_Client_V1.View;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace ShopMate_Client_V1.Controller
         Repository r;
         User uAux = new User();
         String baseAux = "738jdm";
+        UserImageAux imageAux = new UserImageAux(); 
 
         public Controller1()
         {
@@ -28,7 +30,7 @@ namespace ShopMate_Client_V1.Controller
             fUser = new FormUser();
             r = new Repository();
             List<User> userList = r.GetUsers();
-            categoryController = new ControllerCategory(r, f.dtg_cat, f.dtg_item);            
+            categoryController = new ControllerCategory(r, f.dtg_cat, f.dtg_item);
             InitListeners();
             LoadData();
             Application.Run(f);
@@ -37,9 +39,11 @@ namespace ShopMate_Client_V1.Controller
         public void LoadData()
         {
             f.dtg_client.DataSource = r.GetUsers();
-            f.combo_cat.DataSource = new string[] { "Name", "Last Update", "Register Date" };
-            f.combo_user.DataSource = new string[] { "Name", "Last Connection", "Register Date","Followers" };
-            f.combo_item.DataSource = new string[] { "Name", "Category", "Last Update", "Register Date" };
+            f.combo_cat.DataSource = new string[] { " ", "Name", "Last Update", "Register Date" };
+            f.combo_user.DataSource = new string[] { " ", "Name", "Last Connection", "Register Date", "Followers" };
+            f.combo_item.DataSource = new string[] { " ", "Name", "Category", "Last Update", "Register Date" };
+
+
 
         }
 
@@ -67,12 +71,15 @@ namespace ShopMate_Client_V1.Controller
             // ITEM --------------------------------
             f.btn_add_item.Click += categoryController.openFormItem;
             f.combo_item.SelectedIndexChanged += orderItem;
-            f.check_isDefault.CheckedChanged += reOrderItemDGV;
+            f.btn_showAll_it.Click += resetItemDGV;
+            
             // f.txt
 
         }
 
-        
+     
+    
+
         private void putUser(object sender, EventArgs e)
         {
             // Obtener el usuario seleccionado en el formulario de usuario
@@ -95,7 +102,7 @@ namespace ShopMate_Client_V1.Controller
                     // Verificar si la actualización fue exitosa
                     if (updatedUser != null)
                     {
-                       
+
                     }
                     else
                     {
@@ -123,7 +130,7 @@ namespace ShopMate_Client_V1.Controller
 
         private void modifyUserByDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-           
+
             User selectedUser = selectedDGV_User();
             openModifyForm(selectedUser);
         }
@@ -141,13 +148,13 @@ namespace ShopMate_Client_V1.Controller
             return null;
         }
 
-       
+
 
 
         // USER
         private void searchUser(object sender, EventArgs e)
         {
-            String actualText = f.txt_search_user.Text.ToString();            
+            String actualText = f.txt_search_user.Text.ToString();
 
             userList = userList.Where(u => u.Name.ToLower().Contains(actualText.ToLower())).ToList();
             f.dtg_client.DataSource = userList;
@@ -157,35 +164,38 @@ namespace ShopMate_Client_V1.Controller
             userList = r.GetUsers();
             String selectedOrder = f.combo_user.Text.ToString();
             if (!String.IsNullOrEmpty(selectedOrder))
-            {               
+            {
 
-                    switch (selectedOrder)
-                    {
+                switch (selectedOrder)
+                {
+
                     case "Name":
 
-                            userList = userList.OrderBy(c => c.Name).ToList();
-                          
+                        userList = userList.OrderBy(c => c.Name).ToList();
+
                         break;
 
-                        case "Last Connection":
-                            userList =  userList.OrderBy(c => c.LastConnection).ToList();
-                           
+                    case "Last Connection":
+                        userList = userList.OrderBy(c => c.LastConnection).ToList();
+
                         break;
 
-                        case "Register Date":
+                    case "Register Date":
 
-                            userList = userList.OrderBy(c => c.RegisterDate).ToList();
+                        userList = userList.OrderBy(c => c.RegisterDate).ToList();
                         break;
 
 
-                        case "Followers":
+                    case "Followers":
 
-                           // userList = userList.OrderBy(c => c.UserFolloweds).ToList();
-                            break;
-                        
-                            
-                    }
-                        f.dtg_client.DataSource = userList;
+                        // userList = userList.OrderBy(c => c.UserFolloweds).ToList();
+                        break;
+                    default:
+                        userList = r.GetUsers();
+                        break;
+
+                }
+                f.dtg_client.DataSource = userList;
 
                 //catch
                 //{
@@ -202,6 +212,7 @@ namespace ShopMate_Client_V1.Controller
             String pass = fUser.txt_pass.Text;
             String phone = fUser.txt_phone.Text;
             String email = fUser.txt_email.Text;
+            Image profileImage = fUser.pictureBox1.Image;
 
 
             if (String.IsNullOrEmpty(name) || String.IsNullOrEmpty(userName) || String.IsNullOrEmpty(pass))
@@ -216,41 +227,40 @@ namespace ShopMate_Client_V1.Controller
             u.Password = pass;
             u.PhoneNumber = phone;
             u.Email = email;
-            u.RegisterDate = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
+            u.RegisterDate = DateTime.Now; // .ToString("yyyy-MM-ddTHH:mm:ss");
             u.FacebookToken = null;
             u.GoogleToken = null;
             u.LastConnection = u.RegisterDate;
 
 
-            if (fUser.pictureBox1.Image != null)
+            if (profileImage != null)
             {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    fUser.pictureBox1.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                    byte[] imageBytes = ms.ToArray();
-                    u.ProfileImage = Convert.ToBase64String(imageBytes);
-                }
+                // aqui he de encontrar el modo para pasarle la imagen que recogemos de fUser.pictureBox1.Image;
+                // si pictureBox no es null entonces r.PostUserWithImage(u);
+                MessageBox.Show("User (WITH PHOTO)posted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                u.ProfileImage = profileImage.ToString();
+                r.PostUserWithImage(u,imageAux.ProfileImage);
             }
 
-            try
+            else
             {
                 u.ProfileImage = "";
                 u.SettingId = 0;
                 u.StatId = 0;
                 r.PostUser(u);
-                MessageBox.Show("User posted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("User (NO PHOTO) posted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error posting user: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
 
-                fUser.Close();
-                LoadData();
-            }
+
+            // r.PostUser(u);
+           
+
+
+            fUser.Close();
+            LoadData();
         }
+    
+
         private void backUserForm(object sender, EventArgs e)
         {
             // fUser.Dispose();
@@ -261,7 +271,7 @@ namespace ShopMate_Client_V1.Controller
         {
             Button btnAux = sender as Button;
 
-            uAux.RegisterDate = DateTime.Now.ToString();
+            uAux.RegisterDate = DateTime.Now;
 
 
 
@@ -297,6 +307,16 @@ namespace ShopMate_Client_V1.Controller
                 Bitmap resizedImage = new Bitmap(originalImage, new Size(fUser.pictureBox1.Width, fUser.pictureBox1.Height));
                 fUser.pictureBox1.Image = resizedImage;
                 // fUser.pictureBox1.Load(fileName);
+
+                //////// 
+                ///
+
+                using (var stream = System.IO.File.OpenRead(fileName))
+                {
+
+                    imageAux.ProfileImage = new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name));
+
+                }
             }
         }
         private void deleteSelectedUsers(object sender, EventArgs e)
@@ -313,12 +333,11 @@ namespace ShopMate_Client_V1.Controller
 
                     foreach (DataGridViewRow row in selectedRows)
                     {
-                        int userId = Convert.ToInt32(row.Cells["UserID"].Value); // Reemplaza "IDColumn" con el nombre de la columna que contiene el ID
+                        int userId = Convert.ToInt32(row.Cells["UserID"].Value);
                         selectedUserIds.Add(userId);
                     }
 
-                    int deletedCount = 0; // Variable para contar el número de usuarios eliminados
-
+                    int deletedCount = 0; 
                     try
                     {
                         foreach (int userId in selectedUserIds)
@@ -339,7 +358,7 @@ namespace ShopMate_Client_V1.Controller
             }
             else
             {
-                // Mostrar un mensaje si no se ha seleccionado ninguna fila
+                
                 MessageBox.Show("No users selected for deletion", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
@@ -378,13 +397,21 @@ namespace ShopMate_Client_V1.Controller
             fUser.txt_username.Text = selectedUser.Username;
             fUser.txt_pass.Text = selectedUser.Password;
             fUser.txt_pass.Enabled = false;
-            // fUser.pictureBox1
+            fUser.pictureBox1.Image = r.GetGoogleImage(selectedUser);
             fUser.txt_email.Text = selectedUser.Email;
             fUser.txt_phone.Text = selectedUser.PhoneNumber;
-            fUser.txt_registerDate.Text = selectedUser.RegisterDate;
-            fUser.txt_lastConexion.Text = selectedUser.LastConnection;
+            fUser.txt_registerDate.Text = selectedUser.RegisterDate.ToString();
+            fUser.txt_lastConexion.Text = selectedUser.LastConnection.ToString();
             fUser.txt_registerDate.Enabled = false;
             fUser.txt_lastConexion.Enabled = false;
+
+            if (!String.IsNullOrEmpty(selectedUser.GoogleToken)) {
+                fUser.btn_add_image.Enabled = false;
+
+            } else
+            {
+                fUser.btn_add_image.Enabled = true;
+            }
             fUser.ShowDialog();
         }
         private void openAddForm()
@@ -395,6 +422,7 @@ namespace ShopMate_Client_V1.Controller
             fUser.txt_pass.Enabled = true;
             fUser.txt_registerDate.Enabled = true;
             fUser.txt_lastConexion.Enabled = true;
+            fUser.btn_add_image.Enabled = true;
             fUser.ShowDialog();
         }
         private void clearForm()
@@ -421,24 +449,8 @@ namespace ShopMate_Client_V1.Controller
             categoryController.orderByComboItem(selectedOrder);
         }
 
-        private void reOrderItemDGV(object sender, EventArgs e)
-        {
-            Boolean isChecked = f.check_isDefault.Checked;
-
-            if (isChecked)
-            {
-                // MODIFICAR EL BOTO PER POSAR LES OPCIONS PREDETERMINADES
-            }
-            //   MessageBox.Show(sender.ToString(), "Empty fields", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-           // categoryController.showJustCheckedItems(isChecked);
-           
-        }
-
-
 
         // CATEGORY
-
         private void orderCategory(object sender, EventArgs e)
         {
             String selectedOrder = f.combo_cat.Text.ToString();
@@ -446,7 +458,7 @@ namespace ShopMate_Client_V1.Controller
         }
         private void searchCategory(object sender, EventArgs e)
         {
-            categoryController.Filter(f.txt_search_cat.Text.ToString());
+            categoryController.categoryFilter(f.txt_search_cat.Text.ToString());
         }
         private void deleteSelectedCategories(object sender, EventArgs e)
         {
@@ -491,6 +503,11 @@ namespace ShopMate_Client_V1.Controller
                 // Mostrar un mensaje si no se ha seleccionado ninguna fila
                 MessageBox.Show("No users selected for deletion", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void resetItemDGV(object sender, EventArgs e)
+        {
+            categoryController.defaultDGV_items();
         }
     }
 

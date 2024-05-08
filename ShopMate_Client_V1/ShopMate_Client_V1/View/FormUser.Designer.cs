@@ -49,6 +49,7 @@
             this.btn_add_image = new System.Windows.Forms.Button();
             this.btn_back = new System.Windows.Forms.Button();
             this.btn_modify = new System.Windows.Forms.Button();
+            this.open_files = new System.Windows.Forms.OpenFileDialog();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -285,6 +286,10 @@
             this.btn_modify.Text = "Modify user";
             this.btn_modify.UseVisualStyleBackColor = false;
             // 
+            // open_files
+            // 
+            this.open_files.FileName = "openFileDialog1";
+            // 
             // FormUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -333,5 +338,6 @@
         public System.Windows.Forms.Button btn_add_image;
         public System.Windows.Forms.Button btn_back;
         public System.Windows.Forms.Button btn_modify;
+        public System.Windows.Forms.OpenFileDialog open_files;
     }
 }

@@ -40,7 +40,7 @@
             this.btn_add_user = new System.Windows.Forms.Button();
             this.dtg_client = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.check_isDefault = new System.Windows.Forms.CheckBox();
+            this.btn_showAll_it = new System.Windows.Forms.Button();
             this.btn_delete_item = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.txt_search_item = new System.Windows.Forms.TextBox();
@@ -57,7 +57,7 @@
             this.btn_delete_cat = new System.Windows.Forms.Button();
             this.btn_add_cat = new System.Windows.Forms.Button();
             this.dtg_cat = new System.Windows.Forms.DataGridView();
-            this.button1 = new System.Windows.Forms.Button();
+            this.lbl_categoryName = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_client)).BeginInit();
@@ -177,8 +177,8 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.button1);
-            this.tabPage2.Controls.Add(this.check_isDefault);
+            this.tabPage2.Controls.Add(this.lbl_categoryName);
+            this.tabPage2.Controls.Add(this.btn_showAll_it);
             this.tabPage2.Controls.Add(this.btn_delete_item);
             this.tabPage2.Controls.Add(this.label6);
             this.tabPage2.Controls.Add(this.txt_search_item);
@@ -203,15 +203,14 @@
             this.tabPage2.Text = "Categories";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // check_isDefault
+            // btn_showAll_it
             // 
-            this.check_isDefault.AutoSize = true;
-            this.check_isDefault.Location = new System.Drawing.Point(672, 20);
-            this.check_isDefault.Name = "check_isDefault";
-            this.check_isDefault.Size = new System.Drawing.Size(88, 17);
-            this.check_isDefault.TabIndex = 24;
-            this.check_isDefault.Text = "Default Items";
-            this.check_isDefault.UseVisualStyleBackColor = true;
+            this.btn_showAll_it.Location = new System.Drawing.Point(787, 69);
+            this.btn_showAll_it.Name = "btn_showAll_it";
+            this.btn_showAll_it.Size = new System.Drawing.Size(75, 23);
+            this.btn_showAll_it.TabIndex = 25;
+            this.btn_showAll_it.Text = "Show All";
+            this.btn_showAll_it.UseVisualStyleBackColor = true;
             // 
             // btn_delete_item
             // 
@@ -351,14 +350,14 @@
             this.dtg_cat.Size = new System.Drawing.Size(607, 410);
             this.dtg_cat.TabIndex = 1;
             // 
-            // button1
+            // lbl_categoryName
             // 
-            this.button1.Location = new System.Drawing.Point(787, 69);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 25;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.lbl_categoryName.AutoSize = true;
+            this.lbl_categoryName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_categoryName.Location = new System.Drawing.Point(1109, 36);
+            this.lbl_categoryName.Name = "lbl_categoryName";
+            this.lbl_categoryName.Size = new System.Drawing.Size(0, 17);
+            this.lbl_categoryName.TabIndex = 26;
             // 
             // Form1
             // 
@@ -409,8 +408,8 @@
         public System.Windows.Forms.Button btn_add_item;
         public System.Windows.Forms.Button btn_delete_item;
         public System.Windows.Forms.Label label7;
-        public System.Windows.Forms.CheckBox check_isDefault;
-        private System.Windows.Forms.Button button1;
+        public System.Windows.Forms.Button btn_showAll_it;
+        public System.Windows.Forms.Label lbl_categoryName;
     }
 }
 

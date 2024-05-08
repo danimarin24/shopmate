@@ -18,7 +18,7 @@ namespace ShopMate_Client_V1.Model
 
         public DateTime? CreatedAt { get; set; }         
 
-        public virtual Category Category { get; set; }
+        
 
       
     }
