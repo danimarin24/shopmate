@@ -50,5 +50,10 @@
         <item name="floatingActionButtonStyle">@style/FloatingActionButtonStyle</item>
     </style>
 
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/ease_slide_in</item>
+        <item name="android:windowExitAnimation">@anim/ease_slide_out</item>
+    </style>
+
     <style name="Theme.Shopmate_app" parent="Base.Theme.Shopmate_app" />
 </resources>

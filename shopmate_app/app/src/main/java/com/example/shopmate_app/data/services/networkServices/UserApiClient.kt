@@ -2,6 +2,7 @@ package com.example.shopmate_app.data.services.networkServices
 
 import com.example.shopmate_app.data.constants.AppConstants
 import com.example.shopmate_app.domain.entities.newtworkEntities.UserEntity
+import com.example.shopmate_app.domain.entities.newtworkEntities.UserStatsEntity
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -34,6 +35,9 @@ interface UserApiClient {
 
     @GET("${AppConstants.USER_ENDPOINT}generate/{name}")
     suspend fun getUsernameGenerated(@Path("name") name: String, @Header("x-api-key") apiKey: String): Response<String>
+
+    @GET("${AppConstants.USER_ENDPOINT}stats/{id}")
+    suspend fun getUserStats(@Path("id") id: Int, @Header("x-api-key") apiKey: String): Response<UserStatsEntity>
 
     // POST
     @POST("${AppConstants.USER_ENDPOINT}validate-google-token")

@@ -41,7 +41,8 @@ namespace API.Controller
 
             if (userStats == null)
             {
-                return NotFound();
+                return NotFound();    val args: RegisterProfileFragmentArgs by navArgs()
+
             }
 
             return userStats;

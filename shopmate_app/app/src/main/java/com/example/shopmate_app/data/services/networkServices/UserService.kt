@@ -2,6 +2,7 @@ package com.example.shopmate_app.data.services.networkServices
 
 import com.example.shopmate_app.data.constants.AppConstants
 import com.example.shopmate_app.domain.entities.newtworkEntities.UserEntity
+import com.example.shopmate_app.domain.entities.newtworkEntities.UserStatsEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -12,6 +13,20 @@ class UserService @Inject constructor(private val api: UserApiClient) {
         return withContext(Dispatchers.IO) {
             val response = api.getUsers(AppConstants.API_KEY)
             response.body() ?: emptyList()
+        }
+    }
+
+    suspend fun getUserStats(id: Int): UserStatsEntity?  {
+        return withContext(Dispatchers.IO) {
+            val response = api.getUserStats(id, AppConstants.API_KEY)
+            response.body()
+        }
+    }
+
+    suspend fun getUserById(id: Int): UserEntity?  {
+        return withContext(Dispatchers.IO) {
+            val response = api.getUserById(id, AppConstants.API_KEY)
+            response.body()
         }
     }
 

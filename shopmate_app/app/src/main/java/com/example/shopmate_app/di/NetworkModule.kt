@@ -45,4 +45,8 @@ object NetworkModule {
     fun providesUserApiClient(retrofit: Retrofit):UserApiClient{
         return retrofit.create(UserApiClient::class.java)
     }
+
+    fun providesCardApiClient(retrofit: Retrofit):UserApiClient{
+        return retrofit.create(UserApiClient::class.java)
+    }
 }

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:attr/colorForegroundInverse"
-    tools:context=".ui.fragments.login.ProfileFragment">
+    tools:context=".ui.fragments.profile.ProfileFragment">
 
 
 <!-- Header -->
@@ -15,21 +15,24 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:gravity="center"
+    android:weightSum="20"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
     <ImageView
         android:id="@+id/btnGoBack"
-        android:layout_width="15dp"
-        android:layout_height="20dp"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="30dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="5dp" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txtHeaderTitle"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="@dimen/height"
+        android:layout_weight="16"
         android:fontFamily="@font/poppins"
         android:gravity="center"
         android:padding="5dp"
@@ -42,10 +45,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:layout_width="15dp"
-        android:layout_height="20dp"
+        android:id="@+id/btnHambMenu"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="30dp"
         android:layout_marginStart="5dp"
-        android:layout_marginEnd="20dp" />
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/menu"
+        app:tint="?android:attr/colorForeground"
+        />
 
 </LinearLayout>
 
@@ -70,6 +78,7 @@
         app:layout_constraintTop_toBottomOf="@+id/lytHeader" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txtUserUsername"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:text="danimarin24"
@@ -92,9 +101,9 @@
             android:gravity="center"
             >
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txtUserFollows"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="245"
                 android:textColor="?android:attr/colorForeground" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -118,9 +127,9 @@
             android:gravity="center"
             >
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txtUserFollowers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="62"
                 android:textColor="?android:attr/colorForeground" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -144,9 +153,9 @@
             android:gravity="center"
             >
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txtUserTotalSaves"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3213"
                 android:textColor="?android:attr/colorForeground" />
 
             <com.google.android.material.textview.MaterialTextView
