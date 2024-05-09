@@ -300,3 +300,4 @@
 /media/danimarin/Dades/DAM2/M13/final-project/shopmate/app/shopmate/API/API/bin/Debug/net8.0/Google.Apis.Core.dll
 /media/danimarin/Dades/DAM2/M13/final-project/shopmate/app/shopmate/API/API/bin/Debug/net8.0/System.Management.dll
 /media/danimarin/Dades/DAM2/M13/final-project/shopmate/app/shopmate/API/API/bin/Debug/net8.0/runtimes/win/lib/net7.0/System.Management.dll
+/media/danimarin/Dades/DAM2/M13/final-project/shopmate/app/shopmate/API/API/bin/Debug/net8.0/API.staticwebassets.runtime.json

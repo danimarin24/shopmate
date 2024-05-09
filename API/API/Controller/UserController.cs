@@ -14,8 +14,9 @@ namespace API.Controller
     public class UserController : ControllerBase
     {
         private readonly ShopMateContext _context;
-        private readonly string _pathServer = "/var/www/html";
-        private readonly string _pathImatge = "api/user/images";
+        private readonly string _pathServer = "wwwroot/api/images/";
+        private readonly string _pathCleanPath = "/api/images/user";
+        private readonly string _pathImatge = "user/";
 
         private readonly string _googleClientId =
             "544701638538-ccp0cp41t4r10ofpl8biku4ckh457hm8.apps.googleusercontent.com";
@@ -223,14 +224,14 @@ namespace API.Controller
                 if (fileSize > 0)
                 {
                     var fileName = Path.GetFileName(file.FileName);
-                    var filePath = Path.Combine(_pathServer, _pathImatge, fileName);
+                    var filePath = $"{_pathServer}{_pathImatge}{fileName}";
 
                     await using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await file.CopyToAsync(stream);
                     }
 
-                    var profileImageUrl = $"{_pathImatge}/{fileName}";
+                    var profileImageUrl = $"{_pathCleanPath}{_pathImatge}{fileName}";
 
                     var user = new User
                     {
@@ -241,14 +242,46 @@ namespace API.Controller
                         PhoneNumber = model.PhoneNumber,
                         ProfileImage = profileImageUrl,
                         RegisterDate = model.RegisterDate,
-                        LastConnection = model.LastConnection,
-                        SettingId = model.SettingId,
+                        LastConnection = model.LastConnection
                     };
+                    
+                    using (var transaction = _context.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            var setting = new Setting(DateTime.Now, 1, 0, 1, 0, DateTime.Now);
+                            if (user.Password != null)
+                            {
+                                setting.LastPasswordHash = user.Password;
+                            }
+                            else if (user.GoogleToken != null)
+                            {
+                                setting.LastPasswordHash = user.GoogleToken;
+                            }
+                            else if (user.FacebookToken != null)
+                            {
+                                setting.LastPasswordHash = user.FacebookToken;
+                            }
 
-                    _context.Users.Add(user);
-                    await _context.SaveChangesAsync();
+                            _context.Settings.Add(setting);
 
-                    return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+                            await _context.SaveChangesAsync();
+
+                            user.SettingId = setting.SettingId;
+
+                            _context.Users.Add(user);
+                            await _context.SaveChangesAsync();
+
+                            transaction.Commit(); // Confirma la transacción ya que todo ha ido bien
+                            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+                        }
+                        catch (Exception)
+                        {
+                            // Si algo falla, revierte los cambios
+                            transaction.Rollback();
+                            throw; // Lanza la excepción para manejarla en un nivel superior si es necesario
+                        }
+                    }
                 }
                 else
                 {

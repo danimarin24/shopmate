@@ -26,6 +26,7 @@
     <ItemGroup>
       <Folder Include="Context\" />
       <Folder Include="Controller\" />
+      <Folder Include="wwwroot\api\images\user\" />
     </ItemGroup>
 
 </Project>

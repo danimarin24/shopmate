@@ -19,6 +19,5 @@ public class UserViewModel
     public DateTime? LastConnection { get; set; }
 
     public uint SettingId { get; set; }
-
-    public uint StatId { get; set; }
+    
 }
