@@ -1,6 +1,9 @@
 # Visual Studio cache
 .vs/
 
+# Ignorar la carpeta wwwroot y todos sus contenidos en ASP.NET Core
+/wwwroot/*
+
 # Gradle files
 .gradle/
 build/
