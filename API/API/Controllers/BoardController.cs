@@ -8,51 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using API.Context;
 using API.Model;
 
-namespace API.Controller
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserItemController : ControllerBase
+    public class BoardController : ControllerBase
     {
         private readonly ShopMateContext _context;
 
-        public UserItemController(ShopMateContext context)
+        public BoardController(ShopMateContext context)
         {
             _context = context;
         }
 
-        // GET: api/UserItem
+        // GET: api/Board
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserItem>>> GetUserItems()
+        public async Task<ActionResult<IEnumerable<Board>>> GetBoards()
         {
-            return await _context.UserItems.ToListAsync();
+            return await _context.Boards.ToListAsync();
         }
 
-        // GET: api/UserItem/5
+        // GET: api/Board/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserItem>> GetUserItem(uint id)
+        public async Task<ActionResult<Board>> GetBoard(uint id)
         {
-            var userItem = await _context.UserItems.FindAsync(id);
+            var board = await _context.Boards.FindAsync(id);
 
-            if (userItem == null)
+            if (board == null)
             {
                 return NotFound();
             }
 
-            return userItem;
+            return board;
         }
 
-        // PUT: api/UserItem/5
+        // PUT: api/Board/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserItem(uint id, UserItem userItem)
+        public async Task<IActionResult> PutBoard(uint id, Board board)
         {
-            if (id != userItem.UserItemId)
+            if (id != board.BoardId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(userItem).State = EntityState.Modified;
+            _context.Entry(board).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace API.Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserItemExists(id))
+                if (!BoardExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace API.Controller
             return NoContent();
         }
 
-        // POST: api/UserItem
+        // POST: api/Board
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UserItem>> PostUserItem(UserItem userItem)
+        public async Task<ActionResult<Board>> PostBoard(Board board)
         {
-            _context.UserItems.Add(userItem);
+            _context.Boards.Add(board);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserItem", new { id = userItem.UserItemId }, userItem);
+            return CreatedAtAction("GetBoard", new { id = board.BoardId }, board);
         }
 
-        // DELETE: api/UserItem/5
+        // DELETE: api/Board/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserItem(uint id)
+        public async Task<IActionResult> DeleteBoard(uint id)
         {
-            var userItem = await _context.UserItems.FindAsync(id);
-            if (userItem == null)
+            var board = await _context.Boards.FindAsync(id);
+            if (board == null)
             {
                 return NotFound();
             }
 
-            _context.UserItems.Remove(userItem);
+            _context.Boards.Remove(board);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UserItemExists(uint id)
+        private bool BoardExists(uint id)
         {
-            return _context.UserItems.Any(e => e.UserItemId == id);
+            return _context.Boards.Any(e => e.BoardId == id);
         }
     }
 }

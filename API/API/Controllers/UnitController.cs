@@ -8,51 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using API.Context;
 using API.Model;
 
-namespace API.Controller
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BoardController : ControllerBase
+    public class UnitController : ControllerBase
     {
         private readonly ShopMateContext _context;
 
-        public BoardController(ShopMateContext context)
+        public UnitController(ShopMateContext context)
         {
             _context = context;
         }
 
-        // GET: api/Board
+        // GET: api/Unit
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Board>>> GetBoards()
+        public async Task<ActionResult<IEnumerable<Unit>>> GetUnits()
         {
-            return await _context.Boards.ToListAsync();
+            return await _context.Units.ToListAsync();
         }
 
-        // GET: api/Board/5
+        // GET: api/Unit/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Board>> GetBoard(uint id)
+        public async Task<ActionResult<Unit>> GetUnit(uint id)
         {
-            var board = await _context.Boards.FindAsync(id);
+            var unit = await _context.Units.FindAsync(id);
 
-            if (board == null)
+            if (unit == null)
             {
                 return NotFound();
             }
 
-            return board;
+            return unit;
         }
 
-        // PUT: api/Board/5
+        // PUT: api/Unit/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBoard(uint id, Board board)
+        public async Task<IActionResult> PutUnit(uint id, Unit unit)
         {
-            if (id != board.BoardId)
+            if (id != unit.UnitId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(board).State = EntityState.Modified;
+            _context.Entry(unit).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace API.Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BoardExists(id))
+                if (!UnitExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace API.Controller
             return NoContent();
         }
 
-        // POST: api/Board
+        // POST: api/Unit
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Board>> PostBoard(Board board)
+        public async Task<ActionResult<Unit>> PostUnit(Unit unit)
         {
-            _context.Boards.Add(board);
+            _context.Units.Add(unit);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBoard", new { id = board.BoardId }, board);
+            return CreatedAtAction("GetUnit", new { id = unit.UnitId }, unit);
         }
 
-        // DELETE: api/Board/5
+        // DELETE: api/Unit/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBoard(uint id)
+        public async Task<IActionResult> DeleteUnit(uint id)
         {
-            var board = await _context.Boards.FindAsync(id);
-            if (board == null)
+            var unit = await _context.Units.FindAsync(id);
+            if (unit == null)
             {
                 return NotFound();
             }
 
-            _context.Boards.Remove(board);
+            _context.Units.Remove(unit);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BoardExists(uint id)
+        private bool UnitExists(uint id)
         {
-            return _context.Boards.Any(e => e.BoardId == id);
+            return _context.Units.Any(e => e.UnitId == id);
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 
 
-namespace API.Controller
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

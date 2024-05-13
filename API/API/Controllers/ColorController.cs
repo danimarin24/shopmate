@@ -8,51 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using API.Context;
 using API.Model;
 
-namespace API.Controller
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CardController : ControllerBase
+    public class ColorController : ControllerBase
     {
         private readonly ShopMateContext _context;
 
-        public CardController(ShopMateContext context)
+        public ColorController(ShopMateContext context)
         {
             _context = context;
         }
 
-        // GET: api/Card
+        // GET: api/Color
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Card>>> GetCards()
+        public async Task<ActionResult<IEnumerable<Color>>> GetColors()
         {
-            return await _context.Cards.ToListAsync();
+            return await _context.Colors.ToListAsync();
         }
 
-        // GET: api/Card/5
+        // GET: api/Color/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Card>> GetCard(uint id)
+        public async Task<ActionResult<Color>> GetColor(uint id)
         {
-            var card = await _context.Cards.FindAsync(id);
+            var color = await _context.Colors.FindAsync(id);
 
-            if (card == null)
+            if (color == null)
             {
                 return NotFound();
             }
 
-            return card;
+            return color;
         }
 
-        // PUT: api/Card/5
+        // PUT: api/Color/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCard(uint id, Card card)
+        public async Task<IActionResult> PutColor(uint id, Color color)
         {
-            if (id != card.CardId)
+            if (id != color.ColorId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(card).State = EntityState.Modified;
+            _context.Entry(color).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace API.Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CardExists(id))
+                if (!ColorExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace API.Controller
             return NoContent();
         }
 
-        // POST: api/Card
+        // POST: api/Color
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Card>> PostCard(Card card)
+        public async Task<ActionResult<Color>> PostColor(Color color)
         {
-            _context.Cards.Add(card);
+            _context.Colors.Add(color);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCard", new { id = card.CardId }, card);
+            return CreatedAtAction("GetColor", new { id = color.ColorId }, color);
         }
 
-        // DELETE: api/Card/5
+        // DELETE: api/Color/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCard(uint id)
+        public async Task<IActionResult> DeleteColor(uint id)
         {
-            var card = await _context.Cards.FindAsync(id);
-            if (card == null)
+            var color = await _context.Colors.FindAsync(id);
+            if (color == null)
             {
                 return NotFound();
             }
 
-            _context.Cards.Remove(card);
+            _context.Colors.Remove(color);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool CardExists(uint id)
+        private bool ColorExists(uint id)
         {
-            return _context.Cards.Any(e => e.CardId == id);
+            return _context.Colors.Any(e => e.ColorId == id);
         }
     }
 }

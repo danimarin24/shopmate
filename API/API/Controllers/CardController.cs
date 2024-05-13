@@ -8,51 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using API.Context;
 using API.Model;
 
-namespace API.Controller
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryController : ControllerBase
+    public class CardController : ControllerBase
     {
         private readonly ShopMateContext _context;
 
-        public CategoryController(ShopMateContext context)
+        public CardController(ShopMateContext context)
         {
             _context = context;
         }
 
-        // GET: api/Category
+        // GET: api/Card
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
+        public async Task<ActionResult<IEnumerable<Card>>> GetCards()
         {
-            return await _context.Categories.ToListAsync();
+            return await _context.Cards.ToListAsync();
         }
 
-        // GET: api/Category/5
+        // GET: api/Card/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Category>> GetCategory(uint id)
+        public async Task<ActionResult<Card>> GetCard(uint id)
         {
-            var category = await _context.Categories.FindAsync(id);
+            var card = await _context.Cards.FindAsync(id);
 
-            if (category == null)
+            if (card == null)
             {
                 return NotFound();
             }
 
-            return category;
+            return card;
         }
 
-        // PUT: api/Category/5
+        // PUT: api/Card/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategory(uint id, Category category)
+        public async Task<IActionResult> PutCard(uint id, Card card)
         {
-            if (id != category.CategoryId)
+            if (id != card.CardId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(category).State = EntityState.Modified;
+            _context.Entry(card).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace API.Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CategoryExists(id))
+                if (!CardExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace API.Controller
             return NoContent();
         }
 
-        // POST: api/Category
+        // POST: api/Card
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Category>> PostCategory(Category category)
+        public async Task<ActionResult<Card>> PostCard(Card card)
         {
-            _context.Categories.Add(category);
+            _context.Cards.Add(card);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCategory", new { id = category.CategoryId }, category);
+            return CreatedAtAction("GetCard", new { id = card.CardId }, card);
         }
 
-        // DELETE: api/Category/5
+        // DELETE: api/Card/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCategory(uint id)
+        public async Task<IActionResult> DeleteCard(uint id)
         {
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+            var card = await _context.Cards.FindAsync(id);
+            if (card == null)
             {
                 return NotFound();
             }
 
-            _context.Categories.Remove(category);
+            _context.Cards.Remove(card);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool CategoryExists(uint id)
+        private bool CardExists(uint id)
         {
-            return _context.Categories.Any(e => e.CategoryId == id);
+            return _context.Cards.Any(e => e.CardId == id);
         }
     }
 }

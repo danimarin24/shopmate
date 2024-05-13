@@ -34,7 +34,7 @@ namespace API.Controllers
                 }
 
                 // Generar un nombre de archivo único
-                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                string fileName = Path.GetFileName(file.FileName);
 
                 switch (categoryImage.ToLower())
                 {
@@ -62,17 +62,18 @@ namespace API.Controllers
                     
 
                 // Guardar la imagen en la carpeta local
-                string filePath = Path.Combine(_pathClean,_pathImatge, fileName);
+                
+                // Generar un hash único para imageUrl usando SHA256
+                string imageUrlHash = $"{DateTime.Now.Ticks}{Path.GetExtension(fileName)}";
+                
+                string filePath = Path.Combine(_pathServer, _pathImatge, imageUrlHash);
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await file.CopyToAsync(stream);
                 }
 
-                // Generar un hash único para imageUrl usando SHA256
-                string imageUrlHash = GetSha256Hash(fileName);
-
                 // Construir la URL final
-                string finalUrl = $"{_pathImatge}{imageUrlHash}";
+                string finalUrl = $"{_pathClean}{_pathImatge}{imageUrlHash}";
 
                 // Retornar la URL final
                 return Ok(new { finalUrl });

@@ -8,51 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using API.Context;
 using API.Model;
 
-namespace API.Controller
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class InvoiceLineController : ControllerBase
+    public class SettingController : ControllerBase
     {
         private readonly ShopMateContext _context;
 
-        public InvoiceLineController(ShopMateContext context)
+        public SettingController(ShopMateContext context)
         {
             _context = context;
         }
 
-        // GET: api/InvoiceLine
+        // GET: api/Setting
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<InvoiceLine>>> GetInvoiceLines()
+        public async Task<ActionResult<IEnumerable<Setting>>> GetSettings()
         {
-            return await _context.InvoiceLines.ToListAsync();
+            return await _context.Settings.ToListAsync();
         }
 
-        // GET: api/InvoiceLine/5
+        // GET: api/Setting/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<InvoiceLine>> GetInvoiceLine(uint id)
+        public async Task<ActionResult<Setting>> GetSetting(uint id)
         {
-            var invoiceLine = await _context.InvoiceLines.FindAsync(id);
+            var setting = await _context.Settings.FindAsync(id);
 
-            if (invoiceLine == null)
+            if (setting == null)
             {
                 return NotFound();
             }
 
-            return invoiceLine;
+            return setting;
         }
 
-        // PUT: api/InvoiceLine/5
+        // PUT: api/Setting/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutInvoiceLine(uint id, InvoiceLine invoiceLine)
+        public async Task<IActionResult> PutSetting(uint id, Setting setting)
         {
-            if (id != invoiceLine.InvoiceId)
+            if (id != setting.SettingId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(invoiceLine).State = EntityState.Modified;
+            _context.Entry(setting).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace API.Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!InvoiceLineExists(id))
+                if (!SettingExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace API.Controller
             return NoContent();
         }
 
-        // POST: api/InvoiceLine
+        // POST: api/Setting
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<InvoiceLine>> PostInvoiceLine(InvoiceLine invoiceLine)
+        public async Task<ActionResult<Setting>> PostSetting(Setting setting)
         {
-            _context.InvoiceLines.Add(invoiceLine);
+            _context.Settings.Add(setting);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetInvoiceLine", new { id = invoiceLine.InvoiceId }, invoiceLine);
+            return CreatedAtAction("GetSetting", new { id = setting.SettingId }, setting);
         }
 
-        // DELETE: api/InvoiceLine/5
+        // DELETE: api/Setting/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteInvoiceLine(uint id)
+        public async Task<IActionResult> DeleteSetting(uint id)
         {
-            var invoiceLine = await _context.InvoiceLines.FindAsync(id);
-            if (invoiceLine == null)
+            var setting = await _context.Settings.FindAsync(id);
+            if (setting == null)
             {
                 return NotFound();
             }
 
-            _context.InvoiceLines.Remove(invoiceLine);
+            _context.Settings.Remove(setting);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool InvoiceLineExists(uint id)
+        private bool SettingExists(uint id)
         {
-            return _context.InvoiceLines.Any(e => e.InvoiceId == id);
+            return _context.Settings.Any(e => e.SettingId == id);
         }
     }
 }

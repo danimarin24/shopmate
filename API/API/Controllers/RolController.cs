@@ -8,51 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using API.Context;
 using API.Model;
 
-namespace API.Controller
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UnitController : ControllerBase
+    public class RolController : ControllerBase
     {
         private readonly ShopMateContext _context;
 
-        public UnitController(ShopMateContext context)
+        public RolController(ShopMateContext context)
         {
             _context = context;
         }
 
-        // GET: api/Unit
+        // GET: api/Rol
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Unit>>> GetUnits()
+        public async Task<ActionResult<IEnumerable<Rol>>> GetRols()
         {
-            return await _context.Units.ToListAsync();
+            return await _context.Rols.ToListAsync();
         }
 
-        // GET: api/Unit/5
+        // GET: api/Rol/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Unit>> GetUnit(uint id)
+        public async Task<ActionResult<Rol>> GetRol(uint id)
         {
-            var unit = await _context.Units.FindAsync(id);
+            var rol = await _context.Rols.FindAsync(id);
 
-            if (unit == null)
+            if (rol == null)
             {
                 return NotFound();
             }
 
-            return unit;
+            return rol;
         }
 
-        // PUT: api/Unit/5
+        // PUT: api/Rol/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUnit(uint id, Unit unit)
+        public async Task<IActionResult> PutRol(uint id, Rol rol)
         {
-            if (id != unit.UnitId)
+            if (id != rol.RolId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(unit).State = EntityState.Modified;
+            _context.Entry(rol).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace API.Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UnitExists(id))
+                if (!RolExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace API.Controller
             return NoContent();
         }
 
-        // POST: api/Unit
+        // POST: api/Rol
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Unit>> PostUnit(Unit unit)
+        public async Task<ActionResult<Rol>> PostRol(Rol rol)
         {
-            _context.Units.Add(unit);
+            _context.Rols.Add(rol);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUnit", new { id = unit.UnitId }, unit);
+            return CreatedAtAction("GetRol", new { id = rol.RolId }, rol);
         }
 
-        // DELETE: api/Unit/5
+        // DELETE: api/Rol/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUnit(uint id)
+        public async Task<IActionResult> DeleteRol(uint id)
         {
-            var unit = await _context.Units.FindAsync(id);
-            if (unit == null)
+            var rol = await _context.Rols.FindAsync(id);
+            if (rol == null)
             {
                 return NotFound();
             }
 
-            _context.Units.Remove(unit);
+            _context.Rols.Remove(rol);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UnitExists(uint id)
+        private bool RolExists(uint id)
         {
-            return _context.Units.Any(e => e.UnitId == id);
+            return _context.Rols.Any(e => e.RolId == id);
         }
     }
 }

@@ -8,51 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using API.Context;
 using API.Model;
 
-namespace API.Controller
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ColorController : ControllerBase
+    public class InvoiceLineController : ControllerBase
     {
         private readonly ShopMateContext _context;
 
-        public ColorController(ShopMateContext context)
+        public InvoiceLineController(ShopMateContext context)
         {
             _context = context;
         }
 
-        // GET: api/Color
+        // GET: api/InvoiceLine
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Color>>> GetColors()
+        public async Task<ActionResult<IEnumerable<InvoiceLine>>> GetInvoiceLines()
         {
-            return await _context.Colors.ToListAsync();
+            return await _context.InvoiceLines.ToListAsync();
         }
 
-        // GET: api/Color/5
+        // GET: api/InvoiceLine/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Color>> GetColor(uint id)
+        public async Task<ActionResult<InvoiceLine>> GetInvoiceLine(uint id)
         {
-            var color = await _context.Colors.FindAsync(id);
+            var invoiceLine = await _context.InvoiceLines.FindAsync(id);
 
-            if (color == null)
+            if (invoiceLine == null)
             {
                 return NotFound();
             }
 
-            return color;
+            return invoiceLine;
         }
 
-        // PUT: api/Color/5
+        // PUT: api/InvoiceLine/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutColor(uint id, Color color)
+        public async Task<IActionResult> PutInvoiceLine(uint id, InvoiceLine invoiceLine)
         {
-            if (id != color.ColorId)
+            if (id != invoiceLine.InvoiceId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(color).State = EntityState.Modified;
+            _context.Entry(invoiceLine).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace API.Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ColorExists(id))
+                if (!InvoiceLineExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace API.Controller
             return NoContent();
         }
 
-        // POST: api/Color
+        // POST: api/InvoiceLine
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Color>> PostColor(Color color)
+        public async Task<ActionResult<InvoiceLine>> PostInvoiceLine(InvoiceLine invoiceLine)
         {
-            _context.Colors.Add(color);
+            _context.InvoiceLines.Add(invoiceLine);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetColor", new { id = color.ColorId }, color);
+            return CreatedAtAction("GetInvoiceLine", new { id = invoiceLine.InvoiceId }, invoiceLine);
         }
 
-        // DELETE: api/Color/5
+        // DELETE: api/InvoiceLine/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteColor(uint id)
+        public async Task<IActionResult> DeleteInvoiceLine(uint id)
         {
-            var color = await _context.Colors.FindAsync(id);
-            if (color == null)
+            var invoiceLine = await _context.InvoiceLines.FindAsync(id);
+            if (invoiceLine == null)
             {
                 return NotFound();
             }
 
-            _context.Colors.Remove(color);
+            _context.InvoiceLines.Remove(invoiceLine);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool ColorExists(uint id)
+        private bool InvoiceLineExists(uint id)
         {
-            return _context.Colors.Any(e => e.ColorId == id);
+            return _context.InvoiceLines.Any(e => e.InvoiceId == id);
         }
     }
 }

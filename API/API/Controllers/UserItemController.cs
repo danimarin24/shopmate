@@ -8,51 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using API.Context;
 using API.Model;
 
-namespace API.Controller
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RolController : ControllerBase
+    public class UserItemController : ControllerBase
     {
         private readonly ShopMateContext _context;
 
-        public RolController(ShopMateContext context)
+        public UserItemController(ShopMateContext context)
         {
             _context = context;
         }
 
-        // GET: api/Rol
+        // GET: api/UserItem
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Rol>>> GetRols()
+        public async Task<ActionResult<IEnumerable<UserItem>>> GetUserItems()
         {
-            return await _context.Rols.ToListAsync();
+            return await _context.UserItems.ToListAsync();
         }
 
-        // GET: api/Rol/5
+        // GET: api/UserItem/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Rol>> GetRol(uint id)
+        public async Task<ActionResult<UserItem>> GetUserItem(uint id)
         {
-            var rol = await _context.Rols.FindAsync(id);
+            var userItem = await _context.UserItems.FindAsync(id);
 
-            if (rol == null)
+            if (userItem == null)
             {
                 return NotFound();
             }
 
-            return rol;
+            return userItem;
         }
 
-        // PUT: api/Rol/5
+        // PUT: api/UserItem/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRol(uint id, Rol rol)
+        public async Task<IActionResult> PutUserItem(uint id, UserItem userItem)
         {
-            if (id != rol.RolId)
+            if (id != userItem.UserItemId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(rol).State = EntityState.Modified;
+            _context.Entry(userItem).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace API.Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RolExists(id))
+                if (!UserItemExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace API.Controller
             return NoContent();
         }
 
-        // POST: api/Rol
+        // POST: api/UserItem
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Rol>> PostRol(Rol rol)
+        public async Task<ActionResult<UserItem>> PostUserItem(UserItem userItem)
         {
-            _context.Rols.Add(rol);
+            _context.UserItems.Add(userItem);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRol", new { id = rol.RolId }, rol);
+            return CreatedAtAction("GetUserItem", new { id = userItem.UserItemId }, userItem);
         }
 
-        // DELETE: api/Rol/5
+        // DELETE: api/UserItem/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRol(uint id)
+        public async Task<IActionResult> DeleteUserItem(uint id)
         {
-            var rol = await _context.Rols.FindAsync(id);
-            if (rol == null)
+            var userItem = await _context.UserItems.FindAsync(id);
+            if (userItem == null)
             {
                 return NotFound();
             }
 
-            _context.Rols.Remove(rol);
+            _context.UserItems.Remove(userItem);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool RolExists(uint id)
+        private bool UserItemExists(uint id)
         {
-            return _context.Rols.Any(e => e.RolId == id);
+            return _context.UserItems.Any(e => e.UserItemId == id);
         }
     }
 }

@@ -8,51 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using API.Context;
 using API.Model;
 
-namespace API.Controller
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SettingController : ControllerBase
+    public class CategoryController : ControllerBase
     {
         private readonly ShopMateContext _context;
 
-        public SettingController(ShopMateContext context)
+        public CategoryController(ShopMateContext context)
         {
             _context = context;
         }
 
-        // GET: api/Setting
+        // GET: api/Category
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Setting>>> GetSettings()
+        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
-            return await _context.Settings.ToListAsync();
+            return await _context.Categories.ToListAsync();
         }
 
-        // GET: api/Setting/5
+        // GET: api/Category/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Setting>> GetSetting(uint id)
+        public async Task<ActionResult<Category>> GetCategory(uint id)
         {
-            var setting = await _context.Settings.FindAsync(id);
+            var category = await _context.Categories.FindAsync(id);
 
-            if (setting == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return setting;
+            return category;
         }
 
-        // PUT: api/Setting/5
+        // PUT: api/Category/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSetting(uint id, Setting setting)
+        public async Task<IActionResult> PutCategory(uint id, Category category)
         {
-            if (id != setting.SettingId)
+            if (id != category.CategoryId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(setting).State = EntityState.Modified;
+            _context.Entry(category).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace API.Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!SettingExists(id))
+                if (!CategoryExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace API.Controller
             return NoContent();
         }
 
-        // POST: api/Setting
+        // POST: api/Category
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Setting>> PostSetting(Setting setting)
+        public async Task<ActionResult<Category>> PostCategory(Category category)
         {
-            _context.Settings.Add(setting);
+            _context.Categories.Add(category);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetSetting", new { id = setting.SettingId }, setting);
+            return CreatedAtAction("GetCategory", new { id = category.CategoryId }, category);
         }
 
-        // DELETE: api/Setting/5
+        // DELETE: api/Category/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSetting(uint id)
+        public async Task<IActionResult> DeleteCategory(uint id)
         {
-            var setting = await _context.Settings.FindAsync(id);
-            if (setting == null)
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
             {
                 return NotFound();
             }
 
-            _context.Settings.Remove(setting);
+            _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool SettingExists(uint id)
+        private bool CategoryExists(uint id)
         {
-            return _context.Settings.Any(e => e.SettingId == id);
+            return _context.Categories.Any(e => e.CategoryId == id);
         }
     }
 }
