@@ -37,3 +37,11 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# csarhp folders and files
+*.suo
+*.user
+_ReSharper.*
+bin
+obj
+packages
