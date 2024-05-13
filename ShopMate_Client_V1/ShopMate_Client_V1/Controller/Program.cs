@@ -16,6 +16,8 @@ namespace ShopMate_Client_V1.Controller
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+
            new Controller1();
         }
     }

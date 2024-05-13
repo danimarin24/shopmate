@@ -118,8 +118,116 @@ namespace ShopMate_Client_V1.Model
                 return null;
             }
         }
+        public async Task<User> PostUserWithImage(User user, Image image)
+        {
+            try
+            {
+                var uri = new Uri(ws1 + "User/profileImage");
 
-        
+                using (var client = new HttpClient())
+                {
+                    using (var content = new MultipartFormDataContent())
+                    {
+                        // Agregar los campos de usuario como form data
+                        content.Add(new StringContent(user.Name), "Name");
+                        content.Add(new StringContent(user.SettingId.ToString()), "SettingId");
+                        content.Add(new StringContent(user.StatId.ToString()), "StatId");
+                        content.Add(new StringContent(user.RegisterDate.ToString()), "RegisterDate");
+                        content.Add(new StringContent(user.LastConnection.ToString()), "LastConnection");
+                        content.Add(new StringContent(user.Username), "Username");
+                        content.Add(new StringContent(user.PhoneNumber), "PhoneNumber");
+                        content.Add(new StringContent(user.Password), "Password");
+                        content.Add(new StringContent(user.Email), "Email");
+
+                        // Convertir la imagen a un byte[]
+                        byte[] imageBytes;
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            image.Save(memoryStream, image.RawFormat);
+                            imageBytes = memoryStream.ToArray();
+                        }
+
+                        // Agregar el byte[] de la imagen como form data
+                        ByteArrayContent imageContent = new ByteArrayContent(imageBytes);
+                        imageContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg"); // Ajustar el tipo de contenido según el formato de la imagen
+                        content.Add(imageContent, "ProfileImage", "profileImage.jpg");
+
+                        var response = await client.PostAsync(uri, content);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string jsonResponse = await response.Content.ReadAsStringAsync();
+                            User newUser = JsonConvert.DeserializeObject<User>(jsonResponse);
+                            return newUser;
+                        }
+                        else
+                        {
+                            string errorContent = await response.Content.ReadAsStringAsync();
+                            Console.WriteLine($"Error al enviar la solicitud. Código de estado: {response.StatusCode}, Contenido del error: {errorContent}");
+                            return null;
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error al publicar el usuario con imagen: " + e.Message);
+                return null;
+            }
+        }
+
+
+
+
+        public async Task<User> PostUserWithImage(User user, byte[] imageBytes)
+        {
+            try
+            {
+                var uri = new Uri(ws1 + "User/profileImage");
+
+                using (var client = new HttpClient())
+                {
+                    using (var content = new MultipartFormDataContent())
+                    {
+                        content.Add(new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json"), "user");
+
+                        // Crear un StreamContent a partir de los bytes de la imagen
+                        var fileContent = new ByteArrayContent(imageBytes);
+                        fileContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpg"); // Ajustar el tipo de contenido según el formato de la imagen
+
+                        content.Add(fileContent, "profileImage", "profileImage.jpg"); // Puedes ajustar el nombre del archivo según sea necesario
+
+                        var response = await client.PostAsync(uri, content);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string jsonResponse = await response.Content.ReadAsStringAsync();
+                            User newUser = JsonConvert.DeserializeObject<User>(jsonResponse);
+                            return newUser;
+                        }
+                        else
+                        {
+                            string errorContent = await response.Content.ReadAsStringAsync();
+                            Console.WriteLine($"Error al enviar la solicitud. Código de estado: {response.StatusCode}, Contenido del error: {errorContent}");
+                            return null;
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error al publicar el usuario con imagen: " + e.Message);
+                return null;
+            }
+        }
+
+
+
+
+
+
+
+
 
 
 
@@ -213,7 +321,7 @@ namespace ShopMate_Client_V1.Model
         }
         public Item PostItem(Item item)
         {
-            try            
+            try
             {
                 string jsonItem = JsonConvert.SerializeObject(item);
                 MessageBox.Show("Formato JSON del objeto Item:\n" + jsonItem);
@@ -231,7 +339,7 @@ namespace ShopMate_Client_V1.Model
         {
             try
             {
-                string requestUrl = $"http://172.16.24.21/api/user/images/{imageUrl}";
+                string requestUrl = $"http://172.16.24.21:6385{imageUrl}";
                 string extension = Path.GetExtension(imageUrl).ToLower();
 
 
@@ -274,12 +382,11 @@ namespace ShopMate_Client_V1.Model
         {
             try
             {
-                // Usar WebClient para descargar la imagen desde la URL
+              
                 using (WebClient webClient = new WebClient())
                 {
-                    byte[] imageData = webClient.DownloadData(u.ProfileImage);
+                    byte[] imageData = webClient.DownloadData(u.ProfileImage);                    
 
-                    // Convertir los datos de la imagen descargada a un objeto Image
                     using (var stream = new System.IO.MemoryStream(imageData))
                     {
                         Image image = Image.FromStream(stream);
@@ -297,91 +404,51 @@ namespace ShopMate_Client_V1.Model
             }
         }
 
+        //public Image GetImageLocal(User u)
+        //{
+        //    try
+        //    {
+        //        string requestUrl = $"http://172.16.24.21/api/user/images/{imageUrl}";
+        //        string extension = Path.GetExtension(imageUrl).ToLower();
 
-        private void WriteMultipartFormData(Stream stream, string boundary, string name, string value)
-        {
-            string formData = string.Format("--{0}\r\nContent-Disposition: form-data; name=\"{1}\"\r\n\r\n{2}\r\n", boundary, name, value);
-            byte[] formDataBytes = Encoding.UTF8.GetBytes(formData);
-            stream.Write(formDataBytes, 0, formDataBytes.Length);
-        }
 
-        private void WriteMultipartFile(Stream stream, string boundary, string name, IFormFile file)
-        {
-            if (file != null)
-            {
-                string fileName = file.FileName ?? "unknown";
-                ;
-                string contentType = file.ContentType.ToString() ?? "application/octet-stream";
+        //        string contentType = "";
+        //        switch (extension)
+        //        {
+        //            case ".jpeg":
+        //            case ".jpg":
+        //                contentType = "image/jpeg";
+        //                break;
+        //            case ".png":
+        //                contentType = "image/png";
+        //                break;
+        //            default:
+        //                throw new NotSupportedException($"Extension {extension} not supported.");
+        //        }
 
-                string header = string.Format("--{0}\r\nContent-Disposition: form-data; name=\"{1}\"; filename=\"{2}\"\r\nContent-Type: {3}\r\n\r\n", boundary, name, fileName, contentType);
-                byte[] headerBytes = Encoding.UTF8.GetBytes(header);
-                stream.Write(headerBytes, 0, headerBytes.Length);
 
-                using (Stream fileStream = file.OpenReadStream())
-                {
-                    fileStream.CopyTo(stream);
-                }
+        //        byte[] imageData;
+        //        using (WebClient webClient = new WebClient())
+        //        {
+        //            webClient.Headers.Add("Content-Type", contentType);
+        //            imageData = webClient.DownloadData(requestUrl);
+        //        }
 
-                byte[] lineBreakBytes = Encoding.UTF8.GetBytes("\r\n");
-                stream.Write(lineBreakBytes, 0, lineBreakBytes.Length);
-            }
-            else
-            {
-                Console.WriteLine("El archivo es nulo. No se puede adjuntar.");
-            }
-        }
 
-        public async Task<User> PostUserWithImage(User user, IFormFile image)
-        {
-            try
-            {
-                string requestUrl = $"{ws1}User/profileImage";
-                
+        //        using (MemoryStream ms = new MemoryStream(imageData))
+        //        {
+        //            return Image.FromStream(ms);
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine(e.Message);
+        //        return null;
+        //    }
+        // }
 
-                HttpWebRequest request = WebRequest.Create(requestUrl) as HttpWebRequest;
-                request.Headers["x-api-key"] = apiKey;
-                request.Method = "POST";
 
-                string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
-                request.ContentType = "multipart/form-data; boundary=" + boundary;
 
-                using (Stream requestStream = await request.GetRequestStreamAsync())
-                {
-                    WriteMultipartFormData(requestStream, boundary, "Username", user.Username);
-                    WriteMultipartFormData(requestStream, boundary, "Name", user.Name);
-                    WriteMultipartFormData(requestStream, boundary, "Password", user.Password);
-                    WriteMultipartFormData(requestStream, boundary, "Email", user.Email);
-                   // WriteMultipartFormData(requestStream, boundary, "Profile", user.Email);
-                    WriteMultipartFormData(requestStream, boundary, "PhoneNumber", user.PhoneNumber);
-                    WriteMultipartFormData(requestStream, boundary, "RegisterDate", DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss"));
-                    WriteMultipartFormData(requestStream, boundary, "LastConnection", DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss"));
-                    WriteMultipartFormData(requestStream, boundary, "SettingId", user.SettingId.ToString());
-                    WriteMultipartFormData(requestStream, boundary, "StatId", user.StatId.ToString());
-                    MessageBox.Show(image.FileName);
-                    WriteMultipartFile(requestStream, boundary, "ProfileImage", image);
-
-                    byte[] endBytes = Encoding.UTF8.GetBytes("--" + boundary + "--");
-                    requestStream.Write(endBytes, 0, endBytes.Length);
-                }
-
-                using (HttpWebResponse response = await request.GetResponseAsync() as HttpWebResponse)
-                {
-                    if (response.StatusCode != HttpStatusCode.OK)
-                        throw new Exception($"Server error (HTTP {response.StatusCode}: {response.StatusDescription}).");
-
-                    Stream responseStream = response.GetResponseStream();
-                    StreamReader sr = new StreamReader(responseStream);
-                    string responseJson = sr.ReadToEnd();
-                    User responseUser = JsonConvert.DeserializeObject<User>(responseJson);
-                    return responseUser;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return null;
-            }
-        }
 
     }
 }

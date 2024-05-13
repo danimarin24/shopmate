@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http.Internal;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using ShopMate_Client_V1.Model;
 using ShopMate_Client_V1.View;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -214,7 +216,6 @@ namespace ShopMate_Client_V1.Controller
             String email = fUser.txt_email.Text;
             Image profileImage = fUser.pictureBox1.Image;
 
-
             if (String.IsNullOrEmpty(name) || String.IsNullOrEmpty(userName) || String.IsNullOrEmpty(pass))
             {
                 MessageBox.Show("There are some empty fields", "Empty fields", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -227,22 +228,28 @@ namespace ShopMate_Client_V1.Controller
             u.Password = pass;
             u.PhoneNumber = phone;
             u.Email = email;
-            u.RegisterDate = DateTime.Now; // .ToString("yyyy-MM-ddTHH:mm:ss");
+            u.RegisterDate = DateTime.Now;
             u.FacebookToken = null;
             u.GoogleToken = null;
             u.LastConnection = u.RegisterDate;
 
-
             if (profileImage != null)
             {
-                // aqui he de encontrar el modo para pasarle la imagen que recogemos de fUser.pictureBox1.Image;
-                // si pictureBox no es null entonces r.PostUserWithImage(u);
-                // MessageBox.Show("User (WITH PHOTO)posted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                u.ProfileImage = profileImage.ToString();
-                // MessageBox.Show(imageAux.ProfileImage.FileName);
-                r.PostUserWithImage(u,imageAux.ProfileImage);
-            }
+                // Convertir la imagen a un IFormFile
+                // IFormFile imageFile = ConvertImageToIFormFile(profileImage);
 
+                // Llamar a PostUserWithImage con el usuario y la imagen
+                var newUser = r.PostUserWithImage(u, profileImage);
+
+                if (newUser != null)
+                {
+                    MessageBox.Show("User posted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Error posting user", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
             else
             {
                 u.ProfileImage = "";
@@ -252,15 +259,28 @@ namespace ShopMate_Client_V1.Controller
                 MessageBox.Show("User (NO PHOTO) posted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
-
-            // r.PostUser(u);
-           
-
-
             fUser.Close();
             LoadData();
         }
-    
+
+        private byte[] ImageToByteArray(Image image)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                image.Save(ms, ImageFormat.Jpeg); // Guardar la imagen como JPEG
+                return ms.ToArray();
+            }
+        }
+
+        private IFormFile ConvertImageToIFormFile(Image image)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                image.Save(ms, ImageFormat.Jpeg); // Guardar la imagen como JPEG
+                return new FormFile(ms, 0, ms.Length, "profileImage", "profileImage.jpg");
+            }
+        }
+
 
         private void backUserForm(object sender, EventArgs e)
         {
@@ -398,7 +418,8 @@ namespace ShopMate_Client_V1.Controller
             fUser.txt_username.Text = selectedUser.Username;
             fUser.txt_pass.Text = selectedUser.Password;
             fUser.txt_pass.Enabled = false;
-            fUser.pictureBox1.Image = r.GetGoogleImage(selectedUser);
+           
+            
             fUser.txt_email.Text = selectedUser.Email;
             fUser.txt_phone.Text = selectedUser.PhoneNumber;
             fUser.txt_registerDate.Text = selectedUser.RegisterDate.ToString();
@@ -408,9 +429,14 @@ namespace ShopMate_Client_V1.Controller
 
             if (!String.IsNullOrEmpty(selectedUser.GoogleToken)) {
                 fUser.btn_add_image.Enabled = false;
+                fUser.pictureBox1.Image = r.GetGoogleImage(selectedUser);
 
             } else
             {
+                Image userImage = r.GetImageLocal(selectedUser.ProfileImage.ToString());
+               // fUser.pictureBox1.Image = r.GetImageLocal(selectedUser.ProfileImage.ToString());
+                fUser.pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+                fUser.pictureBox1.Image = userImage;
                 fUser.btn_add_image.Enabled = true;
             }
             fUser.ShowDialog();
