@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/media/danimarin/Dades/DAM2/M13/final-project/shopmate/app/shopmate/API/API/API.csproj": {}
+    "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\API\\API\\API.csproj": {}
   },
   "projects": {
-    "/media/danimarin/Dades/DAM2/M13/final-project/shopmate/app/shopmate/API/API/API.csproj": {
+    "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\API\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/media/danimarin/Dades/DAM2/M13/final-project/shopmate/app/shopmate/API/API/API.csproj",
+        "projectUniqueName": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\API\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "/media/danimarin/Dades/DAM2/M13/final-project/shopmate/app/shopmate/API/API/API.csproj",
-        "packagesPath": "/home/danimarin/.nuget/packages/",
-        "outputPath": "/media/danimarin/Dades/DAM2/M13/final-project/shopmate/app/shopmate/API/API/obj/",
+        "projectPath": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\API\\API\\API.csproj",
+        "packagesPath": "C:\\Users\\cv\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\API\\API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/danimarin/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\cv\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -32,6 +34,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -104,7 +111,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/home/danimarin/.dotnet/sdk/8.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

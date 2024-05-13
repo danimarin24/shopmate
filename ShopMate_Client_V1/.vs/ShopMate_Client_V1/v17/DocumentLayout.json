@@ -3,28 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\ShopMate_Client_V1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\ShopMate_Client_V1\\shopmate_client_v1\\controller\\controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|solutionrelative:shopmate_client_v1\\controller\\controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|c:\\users\\cv\\desktop\\dam2024\\m13\\shopmate\\shopmate_client_v1\\shopmate_client_v1\\controller\\controllercategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|solutionrelative:shopmate_client_v1\\controller\\controllercategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\ShopMate_Client_V1\\shopmate_client_v1\\controller\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|solutionrelative:shopmate_client_v1\\controller\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|c:\\users\\cv\\desktop\\dam2024\\m13\\shopmate\\shopmate_client_v1\\shopmate_client_v1\\model\\repository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|solutionrelative:shopmate_client_v1\\model\\repository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\ShopMate_Client_V1\\shopmate_client_v1\\controller\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|solutionrelative:shopmate_client_v1\\controller\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\ShopMate_Client_V1\\shopmate_client_v1\\view\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|solutionrelative:shopmate_client_v1\\view\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\ShopMate_Client_V1\\shopmate_client_v1\\controller\\controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|solutionrelative:shopmate_client_v1\\controller\\controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\ShopMate_Client_V1\\shopmate_client_v1\\model\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|solutionrelative:shopmate_client_v1\\model\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|c:\\users\\cv\\desktop\\dam2024\\m13\\shopmate\\shopmate_client_v1\\shopmate_client_v1\\controller\\controllercategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|solutionrelative:shopmate_client_v1\\controller\\controllercategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\ShopMate_Client_V1\\shopmate_client_v1\\view\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|solutionrelative:shopmate_client_v1\\view\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{945EDC38-9DA5-412E-AC12-15FBF95F3AA6}|ShopMate_Client_V1\\ShopMate_Client_V1.csproj|C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\ShopMate_Client_V1\\shopmate_client_v1\\view\\formuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
@@ -42,17 +42,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Repository.cs",
               "DocumentMoniker": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\ShopMate_Client_V1\\ShopMate_Client_V1\\Model\\Repository.cs",
               "RelativeDocumentMoniker": "ShopMate_Client_V1\\Model\\Repository.cs",
               "ToolTip": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\ShopMate_Client_V1\\ShopMate_Client_V1\\Model\\Repository.cs",
               "RelativeToolTip": "ShopMate_Client_V1\\Model\\Repository.cs",
-              "ViewState": "AQIAAEwBAAAAAAAAAAASwH4BAAAPAAAA",
+              "ViewState": "AQIAAEwBAAAAAAAAAAASwFsBAAARAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-07T14:34:46.39Z",
               "IsPinned": true,
@@ -60,20 +60,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Controller.cs",
               "DocumentMoniker": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\ShopMate_Client_V1\\ShopMate_Client_V1\\Controller\\Controller.cs",
               "RelativeDocumentMoniker": "ShopMate_Client_V1\\Controller\\Controller.cs",
               "ToolTip": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\ShopMate_Client_V1\\ShopMate_Client_V1\\Controller\\Controller.cs",
               "RelativeToolTip": "ShopMate_Client_V1\\Controller\\Controller.cs",
-              "ViewState": "AQIAAJsBAAAAAAAAAAA7wLYBAAA0AAAA",
+              "ViewState": "AQIAAJsBAAAAAAAAAAA7wLUBAABFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-30T13:28:09.299Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "ControllerCategory.cs",
               "DocumentMoniker": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\ShopMate_Client_V1\\ShopMate_Client_V1\\Controller\\ControllerCategory.cs",
               "RelativeDocumentMoniker": "ShopMate_Client_V1\\Controller\\ControllerCategory.cs",
@@ -86,20 +86,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\ShopMate_Client_V1\\ShopMate_Client_V1\\Controller\\Program.cs",
               "RelativeDocumentMoniker": "ShopMate_Client_V1\\Controller\\Program.cs",
               "ToolTip": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\ShopMate_Client_V1\\ShopMate_Client_V1\\Controller\\Program.cs",
               "RelativeToolTip": "ShopMate_Client_V1\\Controller\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAABBAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-09T14:37:09.132Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Form1.cs",
               "DocumentMoniker": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\ShopMate_Client_V1\\ShopMate_Client_V1\\View\\Form1.cs",
               "RelativeDocumentMoniker": "ShopMate_Client_V1\\View\\Form1.cs",
@@ -112,7 +112,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Users\\cv\\Desktop\\DAM2024\\M13\\shopmate\\ShopMate_Client_V1\\ShopMate_Client_V1\\Model\\User.cs",
               "RelativeDocumentMoniker": "ShopMate_Client_V1\\Model\\User.cs",
