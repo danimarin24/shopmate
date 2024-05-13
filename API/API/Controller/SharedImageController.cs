@@ -13,7 +13,7 @@ namespace API.Controllers
     public class SharedImageController : ControllerBase
     {
         private readonly string _pathServer = "wwwroot/api/images/";
-        private readonly string _pathCleanPath = "/api/images/user";
+        private readonly string _pathClean = "/api/images/";
         private string _pathImatge = "user/";
         private string _categoryUrl = "user/";
 
@@ -62,7 +62,7 @@ namespace API.Controllers
                     
 
                 // Guardar la imagen en la carpeta local
-                string filePath = Path.Combine(_pathImatge, fileName);
+                string filePath = Path.Combine(_pathClean,_pathImatge, fileName);
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await file.CopyToAsync(stream);
