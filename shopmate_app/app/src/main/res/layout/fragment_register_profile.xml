@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorForegroundInverse"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragments.login.RegisterProfileFragment">
+
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height"
+        android:fontFamily="@font/poppins_medium"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/strProfileStep"
+        android:textAlignment="center"
+        android:textColor="?android:attr/colorForeground"
+        android:textSize="@dimen/defaultTextSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivProfilePicker"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/profile_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+
+    <!-- USER EDITEXT -->
+    <LinearLayout
+        android:id="@+id/et_lyt_username"
+        android:layout_width="@dimen/maxWidth"
+        android:layout_height="@dimen/height"
+        android:layout_marginTop="@dimen/defaultMarginTop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivProfilePicker">
+
+        <RelativeLayout
+            android:layout_width="@dimen/height"
+            android:layout_height="@dimen/height"
+            android:gravity="center"
+            android:background="@drawable/custom_bg_icon">
+            <ImageView
+                android:layout_width="@dimen/iconMiddleSize"
+                android:layout_height="@dimen/iconMiddleSize"
+                android:contentDescription="@string/iconStr"
+                android:src="@drawable/user_icon" />
+        </RelativeLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etNameLayout"
+            android:layout_width="270dp"
+            android:layout_height="50dp"
+            app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints="username"
+                android:background="@drawable/custom_input"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textColorHint="?attr/colorOnPrimaryContainer"
+                android:fontFamily="@font/poppins_medium"
+                android:hint="@string/hintUser"
+                android:includeFontPadding="false"
+                android:inputType="text"
+                android:padding="0dp"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <!-- EMAIL EDITEXT -->
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="@dimen/maxWidth"
+        android:layout_height="@dimen/height"
+        android:layout_marginTop="@dimen/defaultMarginTop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_lyt_username">
+
+        <RelativeLayout
+            android:layout_width="@dimen/height"
+            android:layout_height="@dimen/height"
+            android:background="@drawable/custom_bg_icon"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="@dimen/iconMiddleSize"
+                android:layout_height="@dimen/iconMiddleSize"
+                android:contentDescription="@string/iconStr"
+                android:src="@drawable/email_icon" />
+        </RelativeLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etEmailLayout"
+            android:layout_width="270dp"
+            android:layout_height="50dp"
+            app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints="emailAddress"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/poppins_medium"
+                android:hint="@string/hintEmail"
+                android:includeFontPadding="false"
+                android:inputType="textEmailAddress"
+                android:enabled="false"
+                android:padding="0dp"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSave"
+        android:layout_width="@dimen/maxWidth"
+        android:layout_height="@dimen/height"
+        android:textColor="?android:attr/colorForegroundInverse"
+        android:layout_marginTop="@dimen/defaultMarginTop"
+        android:text="@string/btnSave"
+        android:insetBottom="0dp"
+        android:insetTop="0dp"
+        android:textSize="@dimen/defaultTextSize"
+        android:fontFamily="@font/poppins_bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

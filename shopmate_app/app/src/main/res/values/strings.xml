@@ -1,0 +1,59 @@
+<resources>
+    <string name="app_name" translatable="false">Shopmate</string>
+    <string name="web_client_id" translatable="false">544701638538-ccp0cp41t4r10ofpl8biku4ckh457hm8.apps.googleusercontent.com</string>
+
+
+    <string name="iconStr" translatable="false">Icon</string>
+
+    <string name="hintUser">Escribe tu nombre</string>
+    <string name="hintUsername">Escribe tu usuario</string>
+    <string name="hintEmail">Escribe tu mail</string>
+
+    <string name="labelEmail">¿Cúal es tú dirección de correo?</string>
+    <string name="labelUsername">¿Cúal será tu nombre de usuario?</string>
+    <string name="hintPassword">Escribe tu contraseña</string>
+    <string name="hintConfirmPassword">Confirmar contraseña</string>
+
+    <string name="labelForgotPassword">¿Has olvidado tú contraseña?</string>
+    <string name="msgForgotPassword">Ingrese su correo electrónico registrado para restablecer la contraseña</string>
+
+
+    <!-- BUTTONS -->
+    <string name="btnNext">Siguiente</string>
+    <string name="btnSave">Guardar</string>
+    <string name="btnConfirm">Confirmar</string>
+
+
+    <!-- LOGIN ACTIVITY -->
+    <string name="strLogin">Inciar sesión</string>
+    <string name="strLoginrSeparator">O continuar con</string>
+    <string name="strLoginBottomForgotPassword"><u>¿Recuperar contraseña?</u></string>
+    <string name="strLoginBottomRegister">¿Nuevo usuario? <u>Regístrate</u></string>
+
+    <!-- REGISTER ACTIVITY -->
+    <string name="strRegister">Registro</string>
+    <string name="strRegisterSeparator">O registrate con</string>
+    <string name="strRegisterBottomHaveAccount">¿Ya tienes cuenta? <u>Incia sesión</u></string>
+
+    <!-- FORGOT PASSWORD ACTIVITY -->
+    <string name="strForgotPassword">Recuperar Contraseña</string>
+    <string name="strForgotPasswordBottomReminder">¿Recuerdas la contraseña? <u>Incia sesión</u></string>
+    <string name="btnResetLink">Enviar enlace de reinicio</string>
+
+    <!-- REGISTER STEPS FRAGMENTs -->
+    <string name="strProfileStep">Tú perfil</string>
+    <string name="strSecurityStep">Seguridad</string>
+    <string name="strUsername">Tú nombre de usuario</string>
+
+    <!-- USER PROFILE -->
+    <string name="strProfile">Perfil</string>
+
+
+    <!-- GENERAL USES -->
+    <string name="strFacebook">Facebook</string>
+    <string name="strGoogle">Google</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>

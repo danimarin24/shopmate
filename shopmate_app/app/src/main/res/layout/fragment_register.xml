@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorForegroundInverse"
+    tools:context=".ui.fragments.login.RegisterFragment">
+
+    <!-- Header -->
+    <LinearLayout
+        android:id="@+id/lytHeader"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        >
+
+        <ImageView
+            android:id="@+id/btnGoBack"
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="5dp"
+            android:contentDescription="Go Back Button"
+            android:src="@drawable/goback_icon" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txtHeaderTitle"
+            android:layout_width="300dp"
+            android:layout_height="@dimen/height"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/strRegister"
+            android:textAlignment="center"
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="@dimen/defaultTextSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="20dp"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/logo_definitivo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lytHeader" />
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lblQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:fontFamily="@font/poppins_medium"
+        android:gravity="center"
+        android:text="@string/labelEmail"
+        android:textAlignment="center"
+        android:textColor="?android:attr/colorForeground"
+        android:layout_marginTop="@dimen/defaultMarginTop"
+        android:textSize="@dimen/defaultTextSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
+
+
+    <!-- EMAIL EDITEXT -->
+    <LinearLayout
+        android:id="@+id/et_lyt_email"
+        android:layout_width="@dimen/maxWidth"
+        android:layout_height="@dimen/height"
+        android:layout_marginTop="@dimen/littleMarginTop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblQuestion">
+
+        <RelativeLayout
+            android:layout_width="@dimen/height"
+            android:layout_height="@dimen/height"
+            android:gravity="center"
+            android:background="@drawable/custom_bg_icon">
+            <ImageView
+                android:layout_width="@dimen/iconMiddleSize"
+                android:layout_height="@dimen/iconMiddleSize"
+                android:contentDescription="@string/iconStr"
+                android:src="@drawable/email_icon" />
+        </RelativeLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etEmailLayout"
+            android:layout_width="270dp"
+            android:layout_height="50dp"
+            app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints="emailAddress"
+                android:background="@drawable/custom_input"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textColorHint="?attr/colorOnPrimaryContainer"
+                android:fontFamily="@font/poppins_medium"
+                android:hint="@string/hintEmail"
+                android:includeFontPadding="false"
+                android:inputType="textEmailAddress"
+                android:padding="0dp"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnNext"
+        android:layout_width="@dimen/maxWidth"
+        android:layout_height="@dimen/height"
+        android:layout_marginTop="@dimen/defaultMarginTop"
+        android:text="@string/btnNext"
+        android:textColor="?android:attr/colorForegroundInverse"
+        android:insetBottom="0dp"
+        android:insetTop="0dp"
+        android:textSize="@dimen/defaultTextSize"
+        android:fontFamily="@font/poppins_bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_lyt_email" />
+
+
+
+    <LinearLayout
+        android:id="@+id/separator"
+        android:layout_width="@dimen/maxWidth"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:weightSum="12"
+        android:layout_marginTop="@dimen/defaultMarginTop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnNext">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="5"
+            android:background="?colorOnBackground" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center"
+            android:text="@string/strRegisterSeparator"
+            android:textAlignment="center"
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="@dimen/defaultTextSize" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="5"
+            android:background="?colorOnBackground" />
+
+    </LinearLayout>
+
+    <!-- RRSS BOXES -->
+    <LinearLayout
+        android:id="@+id/rrss_boxes"
+        android:layout_width="@dimen/maxWidth"
+        android:layout_height="@dimen/height"
+        android:layout_marginTop="@dimen/defaultMarginTop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/separator"
+        android:orientation="horizontal">
+
+        <!-- Google Box -->
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/custom_bg_rrss"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/google_icon"
+                android:contentDescription="@string/strGoogle" />
+
+            <Space
+                android:layout_width="5dp"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center_vertical"
+                android:text="@string/strGoogle"
+                android:textColor="?android:attr/colorForegroundInverse"
+                android:contentDescription="@string/strGoogle"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="wrap_content" />
+
+        <!-- Facebook Box -->
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/custom_bg_rrss"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/facebook_icon"
+                android:contentDescription="@string/strFacebook"/>
+
+            <Space
+                android:layout_width="5dp"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center_vertical"
+                android:text="@string/strFacebook"
+                android:textColor="?android:attr/colorForegroundInverse"
+                android:contentDescription="@string/strFacebook"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <!-- WAVES -->
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="480dp"
+        android:layout_height="196dp"
+        android:src="@drawable/waves"
+        android:contentDescription="Animated Waves"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txtLogin"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/strRegisterBottomHaveAccount"
+        android:textColor="#ffffff"
+        android:textSize="16dp"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
