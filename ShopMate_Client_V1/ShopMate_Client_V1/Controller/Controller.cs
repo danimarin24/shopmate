@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -219,7 +220,7 @@ namespace ShopMate_Client_V1.Controller
             if (String.IsNullOrEmpty(name) || String.IsNullOrEmpty(userName) || String.IsNullOrEmpty(pass))
             {
                 MessageBox.Show("There are some empty fields", "Empty fields", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+               
             }
 
             User u = new User();
@@ -235,20 +236,31 @@ namespace ShopMate_Client_V1.Controller
 
             if (profileImage != null)
             {
-                // Convertir la imagen a un IFormFile
-                // IFormFile imageFile = ConvertImageToIFormFile(profileImage);
+                using (var stream = new MemoryStream())
+                {
+                    profileImage.Save(stream, ImageFormat.Jpeg); // Guarda la imagen en un MemoryStream
+                    stream.Position = 0; // Reinicia la posición del stream
+
+                    // Llama al método PostImage para enviar la imagen al servidor
+                    string response = r.PostImageAsync(stream, "user");
+                    Console.WriteLine(response); // Maneja la respuesta del servidor si es necesario
+                    u.ProfileImage = response;
+                    MessageBox.Show(response);
+                    
+                    r.PostUser(u);
+                }
 
                 // Llamar a PostUserWithImage con el usuario y la imagen
-                var newUser = r.PostUserWithImage(u, profileImage);
+                // var newUser = r.PostUserWithImage(u, profileImage);
 
-                if (newUser != null)
-                {
-                    MessageBox.Show("User posted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Error posting user", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                //if (newUser != null)
+                //{
+                //    MessageBox.Show("User posted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //}
+                //else
+                //{
+                //    MessageBox.Show("Error posting user", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //}
             }
             else
             {
@@ -317,6 +329,7 @@ namespace ShopMate_Client_V1.Controller
         }
         private void addImage(object sender, EventArgs e)
         {
+           
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Archivos de imagen (*.jpg, *.png)|*.jpg;*.png";
             openFileDialog.Multiselect = false;
@@ -324,9 +337,10 @@ namespace ShopMate_Client_V1.Controller
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string fileName = openFileDialog.FileName;
-                Bitmap originalImage = (Bitmap)Image.FromFile(fileName);
+                Bitmap originalImage = (Bitmap)Image.FromFile(fileName);                
                 Bitmap resizedImage = new Bitmap(originalImage, new Size(fUser.pictureBox1.Width, fUser.pictureBox1.Height));
                 fUser.pictureBox1.Image = resizedImage;
+
                 // fUser.pictureBox1.Load(fileName);
 
                 //////// 

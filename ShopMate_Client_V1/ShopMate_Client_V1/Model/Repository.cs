@@ -334,6 +334,79 @@ namespace ShopMate_Client_V1.Model
             }
         }
 
+        public string PostImageAsync(Stream imageStream, string category)
+        {
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add("x-api-key", apiKey);
+
+                    using (var content = new MultipartFormDataContent())
+                    {
+                        content.Add(new StreamContent(imageStream), "file", "image.jpg");
+
+                        var response = client.PostAsync(ws1 + $"SharedImage?categoryImage={category}", content);
+
+                        // http://172.16.24.21:6385/api/SharedImage?categoryImage=user
+
+
+
+
+
+
+                        return response.ToString();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+        public async Task<string> PostImage(IFormFile file, string categoryImage)
+        {
+            try
+            {
+                // Construir la URL del endpoint para publicar la imagen
+                string url = $"{ws1}SharedImage";
+
+                // Crear un MultipartFormDataContent para enviar la imagen y categoría
+                using (var content = new MultipartFormDataContent())
+                {
+                    // Agregar el archivo de imagen al contenido
+                    content.Add(new StreamContent(file.OpenReadStream()), "file", file.FileName);
+
+                    // Agregar la categoría de imagen al contenido
+                    content.Add(new StringContent(categoryImage), "categoryImage");
+
+                    // Realizar la solicitud HTTP POST al servidor
+                    using (var response = await new HttpClient().PostAsync(url, content))
+                    {
+                        // Verificar si la solicitud fue exitosa
+                        response.EnsureSuccessStatusCode();
+
+                        // Leer la respuesta del servidor
+                        string responseContent = await response.Content.ReadAsStringAsync();
+
+                        // Deserializar la respuesta JSON a un objeto anónimo
+                        var result = JsonConvert.DeserializeObject<dynamic>(responseContent);
+
+                        // Obtener la URL final de la imagen desde la respuesta
+                        string finalUrl = result.finalUrl;
+
+                        return finalUrl;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al publicar la imagen: {ex.Message}");
+                return null;
+            }
+        }
+
         // IMAGE
         public Image GetImageLocal(string imageUrl)
         {
@@ -404,48 +477,49 @@ namespace ShopMate_Client_V1.Model
             }
         }
 
-        //public Image GetImageLocal(User u)
-        //{
-        //    try
-        //    {
-        //        string requestUrl = $"http://172.16.24.21/api/user/images/{imageUrl}";
-        //        string extension = Path.GetExtension(imageUrl).ToLower();
+        public async Task<string> PostImage(string imageType, byte[] imageData)
+        {
+            try
+            {
+                var uri = new Uri(ws1 + "Image"); // URL del endpoint para subir imágenes
+                using (var client = new HttpClient())
+                {
+                    using (var content = new MultipartFormDataContent())
+                    {
+                        // Agregar el tipo de imagen como form data
+                        content.Add(new StringContent(imageType), "ImageType");
 
+                        // Agregar los bytes de la imagen como form data
+                        ByteArrayContent imageContent = new ByteArrayContent(imageData);
+                        imageContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg"); // Ajustar el tipo de contenido según el formato de la imagen
+                        content.Add(imageContent, "Image", "image.jpg"); // Puedes ajustar el nombre del archivo según sea necesario
 
-        //        string contentType = "";
-        //        switch (extension)
-        //        {
-        //            case ".jpeg":
-        //            case ".jpg":
-        //                contentType = "image/jpeg";
-        //                break;
-        //            case ".png":
-        //                contentType = "image/png";
-        //                break;
-        //            default:
-        //                throw new NotSupportedException($"Extension {extension} not supported.");
-        //        }
+                        // Establecer el encabezado x-api-key
+                        client.DefaultRequestHeaders.Add("x-api-key", apiKey);
 
+                        // Realizar la solicitud HTTP POST y obtener la respuesta
+                        var response = await client.PostAsync(uri, content);
 
-        //        byte[] imageData;
-        //        using (WebClient webClient = new WebClient())
-        //        {
-        //            webClient.Headers.Add("Content-Type", contentType);
-        //            imageData = webClient.DownloadData(requestUrl);
-        //        }
-
-
-        //        using (MemoryStream ms = new MemoryStream(imageData))
-        //        {
-        //            return Image.FromStream(ms);
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e.Message);
-        //        return null;
-        //    }
-        // }
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string jsonResponse = await response.Content.ReadAsStringAsync();
+                            return jsonResponse; // Devolver la respuesta del servidor
+                        }
+                        else
+                        {
+                            string errorContent = await response.Content.ReadAsStringAsync();
+                            Console.WriteLine($"Error al enviar la solicitud. Código de estado: {response.StatusCode}, Contenido del error: {errorContent}");
+                            return null;
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error al enviar la imagen: " + e.Message);
+                return null;
+            }
+        }
 
 
 
