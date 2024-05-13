@@ -2,10 +2,7 @@
 .vs/
 
 # Ignorar la carpeta wwwroot y todos sus contenidos en ASP.NET Core
-/wwwroot/api/images/user/*
-/wwwroot/api/images/board/*
-/wwwroot/api/images/category/*
-/wwwroot/api/images/tiket/*
+/wwwroot/api/images/*/*
 
 # Gradle files
 .gradle/
