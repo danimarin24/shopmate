@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">Shopmate</string>
-    <string name="hintUser">Escriu el teu nom</string>
-    <string name="hintUsername">Escriu el teu usuari</string>
-    <string name="hintEmail">Escriu el teu correu electronic</string>
-</resources>
