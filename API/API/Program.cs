@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using API.Authentication;
 using API.Context;
+using API.Controllers;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +28,8 @@ builder.Services.AddControllers(
  
 
 builder.Services.AddDbContext<ShopMateContext>();
+
+builder.Services.AddControllers().AddApplicationPart(typeof(SharedImageController).Assembly);
 
 var app = builder.Build();
 
