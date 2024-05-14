@@ -68,7 +68,8 @@
                 android:layout_width="@dimen/iconMiddleSize"
                 android:layout_height="@dimen/iconMiddleSize"
                 android:contentDescription="@string/iconStr"
-                android:src="@drawable/username_icon" />
+                android:src="@drawable/at"
+                app:tint="#ffffff" />
         </RelativeLayout>
 
 

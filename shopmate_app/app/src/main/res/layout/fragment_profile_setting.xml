@@ -102,6 +102,8 @@
                     android:text="Tu perfil"
                     android:textColor="?attr/colorOnPrimarySurface"
                     android:textSize="13sp"
+                    android:drawableEnd="@drawable/chevron_right"
+                    android:drawableTint="#ffffff"
                     android:layout_marginVertical="4dp"
                     android:fontFamily="@font/poppins"/>
 
@@ -111,6 +113,8 @@
                     android:text="Cambiar contraseña"
                     android:textColor="?attr/colorOnPrimarySurface"
                     android:textSize="13sp"
+                    android:drawableEnd="@drawable/chevron_right"
+                    android:drawableTint="#ffffff"
                     android:layout_marginVertical="4dp"
                     android:fontFamily="@font/poppins"/>
 
@@ -120,6 +124,8 @@
                     android:text="Cerrar Sesión"
                     android:textColor="?attr/colorOnPrimarySurface"
                     android:textSize="13sp"
+                    android:drawableEnd="@drawable/chevron_right"
+                    android:drawableTint="#ffffff"
                     android:layout_marginVertical="4dp"
                     android:fontFamily="@font/poppins"/>
 
@@ -172,6 +178,8 @@
                     android:text="Notificaciones"
                     android:textColor="?attr/colorOnPrimarySurface"
                     android:textSize="13sp"
+                    android:drawableEnd="@drawable/chevron_right"
+                    android:drawableTint="#ffffff"
                     android:layout_marginVertical="4dp"
                     android:fontFamily="@font/poppins"/>
 
@@ -180,6 +188,8 @@
                     android:layout_height="wrap_content"
                     android:text="Permisos"
                     android:textColor="?attr/colorOnPrimarySurface"
+                    android:drawableEnd="@drawable/chevron_right"
+                    android:drawableTint="#ffffff"
                     android:textSize="13sp"
                     android:layout_marginVertical="4dp"
                     android:fontFamily="@font/poppins"/>

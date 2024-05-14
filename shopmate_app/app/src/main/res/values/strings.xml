@@ -54,6 +54,8 @@
     <string name="strGoogle">Google</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="strSave">Guardar</string>
+    <string name="strProfileSettings">Ajustes</string>
 
 
 </resources>

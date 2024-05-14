@@ -25,8 +25,7 @@
             android:layout_height="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="5dp"
-            android:contentDescription="Go Back Button"
-            android:src="@drawable/goback_icon" />
+            android:contentDescription="Go Back Button" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txtHeaderTitle"
@@ -96,7 +95,8 @@
                 android:layout_width="@dimen/iconMiddleSize"
                 android:layout_height="@dimen/iconMiddleSize"
                 android:contentDescription="@string/iconStr"
-                android:src="@drawable/email_icon" />
+                android:src="@drawable/email_outline"
+                app:tint="#ffffff"/>
         </RelativeLayout>
 
 

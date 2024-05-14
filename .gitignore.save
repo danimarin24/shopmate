@@ -1,0 +1,46 @@
+# Visual Studio cache
+.vs/
+
+# Ignorar la carpeta wwwroot y todos sus contenidos en ASP.NET Core
+Path.GetExtension(fileName)
+# Gradle files
+.gradle/
+build/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Log/OS Files
+*.log
+
+# Android Studio generated files and folders
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+output.json
+
+# IntelliJ
+*.iml
+.idea/
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
+
+# Keystore files
+*.jks
+*.keystore
+
+# Google Services (e.g. APIs or Firebase)
+google-services.json
+
+# Android Profiling
+*.hprof
+
+# csarhp folders and files
+*.suo
+*.user
+_ReSharper.*
+bin
+obj
+packages

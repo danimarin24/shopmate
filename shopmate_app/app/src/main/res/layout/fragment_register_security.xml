@@ -53,7 +53,8 @@
             android:layout_width="@dimen/iconMiddleSize"
             android:layout_height="@dimen/iconMiddleSize"
             android:contentDescription="@string/iconStr"
-            android:src="@drawable/lock_icon" />
+            android:src="@drawable/lock"
+            app:tint="#ffffff" />
     </RelativeLayout>
 
 
@@ -101,7 +102,8 @@
             android:layout_width="@dimen/iconMiddleSize"
             android:layout_height="@dimen/iconMiddleSize"
             android:contentDescription="@string/iconStr"
-            android:src="@drawable/lock_icon" />
+            android:src="@drawable/lock"
+            app:tint="#ffffff" />
     </RelativeLayout>
 
 
