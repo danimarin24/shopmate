@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.Remoting.Messaging;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,7 @@ namespace ShopMate_Client_V1.Model
         static List<User> usersList;
         static List<Category> categoryList;
         static List<Item> itemList;
+        
 
 
 
@@ -180,7 +182,7 @@ namespace ShopMate_Client_V1.Model
             }
         }
         public void DeleteCategoriesById(int categoryId)
-        {
+        {           
 
             MakeRequest(ws1 + "Category/" + categoryId, null, "DELETE", "application/json", typeof(void));
         }
@@ -202,6 +204,19 @@ namespace ShopMate_Client_V1.Model
                 Console.WriteLine(e.Message);
                 return null;
             }
+        }
+
+        public Category GetCategoryById(int categoryId)
+        {
+           return (Category) MakeRequest(ws1 + "Category/" + categoryId, null, "GET", "application/json", typeof(void));
+        }
+
+        public bool CategoryHasItem(int categoryId)
+        {
+            
+            int nItems = GetItems().Count(i => i.CategoryId == categoryId);
+           
+            return nItems > 0;
         }
 
 
@@ -239,7 +254,6 @@ namespace ShopMate_Client_V1.Model
             }
 
         }
-
 
 
         // IMAGE

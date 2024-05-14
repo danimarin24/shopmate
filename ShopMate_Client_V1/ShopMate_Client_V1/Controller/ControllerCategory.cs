@@ -29,6 +29,7 @@ namespace ShopMate_Client_V1.Controller
         List<Category> categoryList;
         List<Item> itemList;
         UserImageAux imageAux = new UserImageAux();
+        bool hasItems;
 
 
         public ControllerCategory(Repository r, DataGridView dtg_cat, DataGridView dtg_item) {
@@ -71,8 +72,18 @@ namespace ShopMate_Client_V1.Controller
 
         private void itemsFromCategory(object sender, EventArgs e)
         {
-            dtgItem.DataSource = r.GetItems().Where(i => i.CategoryId == selectedDGV_Category().CategoryId).ToList();
+           
             
+           List<Item> itemList = r.GetItems().Where(i => i.CategoryId == selectedDGV_Category().CategoryId).ToList();
+           int nItems =  r.GetItems().Where(i => i.CategoryId == selectedDGV_Category().CategoryId).Count();
+           dtgItem.DataSource = itemList;
+            if (nItems > 0)            {
+                hasItems = true;
+            } else
+            {
+                hasItems = false;
+            }
+
         }
 
         internal void openFormCategory(object sender, EventArgs e)
@@ -261,15 +272,13 @@ namespace ShopMate_Client_V1.Controller
                     MessageBox.Show("CAN'T CONNECT TO THE API", "Empty fields", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
              
-                                
-              
             }
             
         }
 
         internal void openFormItem(object sender, EventArgs e)
         {
-           fItemForm.combo_category.DataSource = categoryList.Select(c => c.Name).ToList();
+           fItemForm.combo_category.DataSource = r.GetCategories().Select(c => c.Name).ToList();
            fItemForm.ShowDialog(); 
         }
 
@@ -311,8 +320,6 @@ namespace ShopMate_Client_V1.Controller
                 {
                     MessageBox.Show("CAN'T CONNECT TO THE API", "Empty fields", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-
-
 
             }
         }

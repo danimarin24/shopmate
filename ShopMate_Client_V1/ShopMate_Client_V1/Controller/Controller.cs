@@ -48,6 +48,7 @@ namespace ShopMate_Client_V1.Controller
             f.combo_cat.DataSource = new string[] { " ", "Name", "Last Update", "Register Date" };
             f.combo_user.DataSource = new string[] { " ", "Name", "Last Connection", "Register Date", "Followers" };
             f.combo_item.DataSource = new string[] { " ", "Name", "Category", "Last Update", "Register Date" };
+            
 
 
 
@@ -510,8 +511,17 @@ namespace ShopMate_Client_V1.Controller
                     {
                         foreach (int categoryId in selectedCategoriesIds)
                         {
-                            r.DeleteCategoriesById(categoryId);
-                            deletedCount++;
+                            if (r.CategoryHasItem(categoryId))
+                            {
+                                MessageBox.Show($"Category ID: {categoryId} has associated items. Impossible to delete.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                            }
+                            else
+                            {
+                                r.DeleteCategoriesById(categoryId);
+                                deletedCount++;
+                            }
+                           
                         }
 
                         LoadData();
