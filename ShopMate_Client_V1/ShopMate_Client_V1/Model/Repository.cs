@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -64,29 +65,6 @@ namespace ShopMate_Client_V1.Model
                 return null;
             }
         }
-
-        public HttpResponseMessage PostBuffer(Uri uri, HttpContent content)
-        {
-            try
-            {
-                // Crear cliente HttpClient
-                using (var client = new HttpClient())
-                {
-                    // Establecer encabezados y otros parámetros necesarios
-                    client.DefaultRequestHeaders.Add("x-api-key", apiKey);
-
-                    // Realizar la solicitud HTTP POST y devolver la respuesta
-                    var response = client.PostAsync(uri, content).Result;
-                    return response;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error en la solicitud HTTP POST: " + e.Message);
-                return null;
-            }
-        }
-
         // USER
         public List<User> GetUsers()
         {
@@ -118,124 +96,40 @@ namespace ShopMate_Client_V1.Model
                 return null;
             }
         }
-        public async Task<User> PostUserWithImage(User user, Image image)
+        public async Task<string> PostImageAsync(string categoryImage, Image image)
         {
-            try
+            string url = $"{ws1}SharedImage?categoryImage={categoryImage}";
+
+            using (var client = new HttpClient())
             {
-                var uri = new Uri(ws1 + "User/profileImage");
+                client.DefaultRequestHeaders.Add("x-api-key", apiKey);
 
-                using (var client = new HttpClient())
+                using (var content = new MultipartFormDataContent())
                 {
-                    using (var content = new MultipartFormDataContent())
+                    using (var ms = new MemoryStream())
                     {
-                        // Agregar los campos de usuario como form data
-                        content.Add(new StringContent(user.Name), "Name");
-                        content.Add(new StringContent(user.SettingId.ToString()), "SettingId");
-                        content.Add(new StringContent(user.StatId.ToString()), "StatId");
-                        content.Add(new StringContent(user.RegisterDate.ToString()), "RegisterDate");
-                        content.Add(new StringContent(user.LastConnection.ToString()), "LastConnection");
-                        content.Add(new StringContent(user.Username), "Username");
-                        content.Add(new StringContent(user.PhoneNumber), "PhoneNumber");
-                        content.Add(new StringContent(user.Password), "Password");
-                        content.Add(new StringContent(user.Email), "Email");
+                        image.Save(ms, ImageFormat.Jpeg);
+                        ms.Position = 0;
 
-                        // Convertir la imagen a un byte[]
-                        byte[] imageBytes;
-                        using (var memoryStream = new MemoryStream())
+                        var fileContent = new StreamContent(ms);
+                        fileContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+                        content.Add(fileContent, "file", "image.jpg");
+
+                        HttpResponseMessage response = await client.PostAsync(url, content);
+
+                        if (!response.IsSuccessStatusCode)
                         {
-                            image.Save(memoryStream, image.RawFormat);
-                            imageBytes = memoryStream.ToArray();
+                            throw new Exception($"Server error (HTTP {response.StatusCode}: {response.ReasonPhrase}).");
                         }
 
-                        // Agregar el byte[] de la imagen como form data
-                        ByteArrayContent imageContent = new ByteArrayContent(imageBytes);
-                        imageContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg"); // Ajustar el tipo de contenido según el formato de la imagen
-                        content.Add(imageContent, "ProfileImage", "profileImage.jpg");
+                        string jsonResponse = await response.Content.ReadAsStringAsync();
+                        var result = JsonConvert.DeserializeObject<UploadResponse>(jsonResponse);
 
-                        var response = await client.PostAsync(uri, content);
-
-                        if (response.IsSuccessStatusCode)
-                        {
-                            string jsonResponse = await response.Content.ReadAsStringAsync();
-                            User newUser = JsonConvert.DeserializeObject<User>(jsonResponse);
-                            return newUser;
-                        }
-                        else
-                        {
-                            string errorContent = await response.Content.ReadAsStringAsync();
-                            Console.WriteLine($"Error al enviar la solicitud. Código de estado: {response.StatusCode}, Contenido del error: {errorContent}");
-                            return null;
-                        }
+                        return result.FinalUrl;
                     }
                 }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error al publicar el usuario con imagen: " + e.Message);
-                return null;
-            }
-        }
-
-
-
-
-        public async Task<User> PostUserWithImage(User user, byte[] imageBytes)
-        {
-            try
-            {
-                var uri = new Uri(ws1 + "User/profileImage");
-
-                using (var client = new HttpClient())
-                {
-                    using (var content = new MultipartFormDataContent())
-                    {
-                        content.Add(new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json"), "user");
-
-                        // Crear un StreamContent a partir de los bytes de la imagen
-                        var fileContent = new ByteArrayContent(imageBytes);
-                        fileContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpg"); // Ajustar el tipo de contenido según el formato de la imagen
-
-                        content.Add(fileContent, "profileImage", "profileImage.jpg"); // Puedes ajustar el nombre del archivo según sea necesario
-
-                        var response = await client.PostAsync(uri, content);
-
-                        if (response.IsSuccessStatusCode)
-                        {
-                            string jsonResponse = await response.Content.ReadAsStringAsync();
-                            User newUser = JsonConvert.DeserializeObject<User>(jsonResponse);
-                            return newUser;
-                        }
-                        else
-                        {
-                            string errorContent = await response.Content.ReadAsStringAsync();
-                            Console.WriteLine($"Error al enviar la solicitud. Código de estado: {response.StatusCode}, Contenido del error: {errorContent}");
-                            return null;
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error al publicar el usuario con imagen: " + e.Message);
-                return null;
-            }
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        }    
         public void DeleteUserById(int userId)
         {
 
@@ -288,7 +182,6 @@ namespace ShopMate_Client_V1.Model
         public void DeleteCategoriesById(int categoryId)
         {
 
-            // MessageBox.Show(userId + "h");
             MakeRequest(ws1 + "Category/" + categoryId, null, "DELETE", "application/json", typeof(void));
         }
         public Category PutCategory(Category categorySelected, uint categoryId, string newName)
@@ -312,7 +205,6 @@ namespace ShopMate_Client_V1.Model
         }
 
 
-
         // ITEMS
         public List<Item> GetItems()
         {
@@ -323,8 +215,8 @@ namespace ShopMate_Client_V1.Model
         {
             try
             {
-                string jsonItem = JsonConvert.SerializeObject(item);
-                MessageBox.Show("Formato JSON del objeto Item:\n" + jsonItem);
+                //string jsonItem = JsonConvert.SerializeObject(item);
+                //MessageBox.Show("Formato JSON del objeto Item:\n" + jsonItem);
                 return (Item)MakeRequest(string.Concat(ws1 + "Item"), item, "POST", "application/json", typeof(Item));
             }
             catch (Exception e)
@@ -333,79 +225,22 @@ namespace ShopMate_Client_V1.Model
                 return null;
             }
         }
-
-        public string PostImageAsync(Stream imageStream, string category)
+        public Item DeleteItemById(int itemId)
         {
             try
             {
-                using (var client = new HttpClient())
-                {
-                    client.DefaultRequestHeaders.Add("x-api-key", apiKey);
+                return (Item)MakeRequest(ws1 + "Item/" + itemId, null, "DELETE", "application/json", typeof(void));
 
-                    using (var content = new MultipartFormDataContent())
-                    {
-                        content.Add(new StreamContent(imageStream), "file", "image.jpg");
-
-                        var response = client.PostAsync(ws1 + $"SharedImage?categoryImage={category}", content);
-
-                        // http://172.16.24.21:6385/api/SharedImage?categoryImage=user
-
-
-
-
-
-
-                        return response.ToString();
-                    }
-                }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 return null;
             }
+
         }
-        public async Task<string> PostImage(IFormFile file, string categoryImage)
-        {
-            try
-            {
-                // Construir la URL del endpoint para publicar la imagen
-                string url = $"{ws1}SharedImage";
 
-                // Crear un MultipartFormDataContent para enviar la imagen y categoría
-                using (var content = new MultipartFormDataContent())
-                {
-                    // Agregar el archivo de imagen al contenido
-                    content.Add(new StreamContent(file.OpenReadStream()), "file", file.FileName);
 
-                    // Agregar la categoría de imagen al contenido
-                    content.Add(new StringContent(categoryImage), "categoryImage");
-
-                    // Realizar la solicitud HTTP POST al servidor
-                    using (var response = await new HttpClient().PostAsync(url, content))
-                    {
-                        // Verificar si la solicitud fue exitosa
-                        response.EnsureSuccessStatusCode();
-
-                        // Leer la respuesta del servidor
-                        string responseContent = await response.Content.ReadAsStringAsync();
-
-                        // Deserializar la respuesta JSON a un objeto anónimo
-                        var result = JsonConvert.DeserializeObject<dynamic>(responseContent);
-
-                        // Obtener la URL final de la imagen desde la respuesta
-                        string finalUrl = result.finalUrl;
-
-                        return finalUrl;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al publicar la imagen: {ex.Message}");
-                return null;
-            }
-        }
 
         // IMAGE
         public Image GetImageLocal(string imageUrl)
@@ -476,53 +311,6 @@ namespace ShopMate_Client_V1.Model
 
             }
         }
-
-        public async Task<string> PostImage(string imageType, byte[] imageData)
-        {
-            try
-            {
-                var uri = new Uri(ws1 + "Image"); // URL del endpoint para subir imágenes
-                using (var client = new HttpClient())
-                {
-                    using (var content = new MultipartFormDataContent())
-                    {
-                        // Agregar el tipo de imagen como form data
-                        content.Add(new StringContent(imageType), "ImageType");
-
-                        // Agregar los bytes de la imagen como form data
-                        ByteArrayContent imageContent = new ByteArrayContent(imageData);
-                        imageContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg"); // Ajustar el tipo de contenido según el formato de la imagen
-                        content.Add(imageContent, "Image", "image.jpg"); // Puedes ajustar el nombre del archivo según sea necesario
-
-                        // Establecer el encabezado x-api-key
-                        client.DefaultRequestHeaders.Add("x-api-key", apiKey);
-
-                        // Realizar la solicitud HTTP POST y obtener la respuesta
-                        var response = await client.PostAsync(uri, content);
-
-                        if (response.IsSuccessStatusCode)
-                        {
-                            string jsonResponse = await response.Content.ReadAsStringAsync();
-                            return jsonResponse; // Devolver la respuesta del servidor
-                        }
-                        else
-                        {
-                            string errorContent = await response.Content.ReadAsStringAsync();
-                            Console.WriteLine($"Error al enviar la solicitud. Código de estado: {response.StatusCode}, Contenido del error: {errorContent}");
-                            return null;
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error al enviar la imagen: " + e.Message);
-                return null;
-            }
-        }
-
-
-
 
     }
 }
