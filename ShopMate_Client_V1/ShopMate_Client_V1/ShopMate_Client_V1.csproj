@@ -115,6 +115,7 @@
     <Compile Include="Model\FileDataDto.cs" />
     <Compile Include="Model\Item.cs" />
     <Compile Include="Model\Repository.cs" />
+    <Compile Include="Model\UploadResponse.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="View\Form1.cs">
       <SubType>Form</SubType>

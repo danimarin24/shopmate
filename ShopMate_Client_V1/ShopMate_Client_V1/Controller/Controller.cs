@@ -22,17 +22,17 @@ namespace ShopMate_Client_V1.Controller
         Form1 f;
         FormUser fUser;
         List<User> userList;
+        List<User> originalUserList;
         Repository r;
-        User uAux = new User();
-        String baseAux = "738jdm";
+        User uAux = new User();        
         UserImageAux imageAux = new UserImageAux(); 
 
         public Controller1()
         {
             f = new Form1();
             fUser = new FormUser();
-            r = new Repository();
-            List<User> userList = r.GetUsers();
+            r = new Repository();            
+        
             categoryController = new ControllerCategory(r, f.dtg_cat, f.dtg_item);
             InitListeners();
             LoadData();
@@ -41,10 +41,14 @@ namespace ShopMate_Client_V1.Controller
         // INITIAL CHARGE
         public void LoadData()
         {
-            f.dtg_client.DataSource = r.GetUsers();
+            originalUserList = r.GetUsers();
+            userList = new List<User>(originalUserList);           
+
+            f.dtg_client.DataSource = originalUserList;
             f.combo_cat.DataSource = new string[] { " ", "Name", "Last Update", "Register Date" };
             f.combo_user.DataSource = new string[] { " ", "Name", "Last Connection", "Register Date", "Followers" };
             f.combo_item.DataSource = new string[] { " ", "Name", "Category", "Last Update", "Register Date" };
+            
 
 
 
@@ -55,7 +59,7 @@ namespace ShopMate_Client_V1.Controller
         {
             // CLIENT -----------------------------
             f.btn_add_user.Click += openFormUser;
-            f.btn_modify_user.Click += openFormUser; // CAMBIAR A DOBLE CLICK PARA MODIFICAR
+            f.btn_modify_user.Click += openFormUser;
             f.dtg_client.CellDoubleClick += modifyUserByDoubleClick;
             f.btn_delete_user.Click += deleteSelectedUsers;
             f.txt_search_user.TextChanged += searchUser;
@@ -75,91 +79,27 @@ namespace ShopMate_Client_V1.Controller
             f.btn_add_item.Click += categoryController.openFormItem;
             f.combo_item.SelectedIndexChanged += orderItem;
             f.btn_showAll_it.Click += resetItemDGV;
+            f.btn_delete_item.Click += deleteSelectedItems;
             
-            // f.txt
-
         }
-
-     
-    
-
-        private void putUser(object sender, EventArgs e)
-        {
-            // Obtener el usuario seleccionado en el formulario de usuario
-            User selectedUser = selectedDGV_User();
-
-            // Verificar si se seleccionó un usuario válido
-            if (selectedUser != null)
-            {
-                // Obtener los nuevos valores del formulario de usuario
-                string newName = fUser.txt_name.Text;
-                string newUsername = fUser.txt_username.Text;
-                string newPhone = fUser.txt_phone.Text;
-                string newEmail = fUser.txt_email.Text;
-
-                try
-                {
-                    // Actualizar el usuario en la API utilizando el método PUT
-                    User updatedUser = r.PutUser(selectedUser, selectedUser.UserId, newName, newUsername, newPhone, newEmail);
-
-                    // Verificar si la actualización fue exitosa
-                    if (updatedUser != null)
-                    {
-
-                    }
-                    else
-                    {
-                        MessageBox.Show("User updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error updating user: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    // Cerrar el formulario de usuario después de la actualización
-                    fUser.Close();
-
-                    // Recargar los datos en el formulario principal después de la actualización
-                    LoadData();
-                }
-            }
-            else
-            {
-                MessageBox.Show("No user selected to modify", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
-        private void modifyUserByDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-            User selectedUser = selectedDGV_User();
-            openModifyForm(selectedUser);
-        }
-
-        private User selectedDGV_User()
-        {
-            int rowIndex = f.dtg_client.CurrentCell.RowIndex;
-
-            if (rowIndex >= 0 && rowIndex < f.dtg_client.Rows.Count)
-            {
-                DataGridViewRow selectedRow = f.dtg_client.Rows[rowIndex];
-                return selectedRow.DataBoundItem as User;
-            }
-
-            return null;
-        }
-
-
-
 
         // USER
         private void searchUser(object sender, EventArgs e)
         {
             String actualText = f.txt_search_user.Text.ToString();
 
-            userList = userList.Where(u => u.Name.ToLower().Contains(actualText.ToLower())).ToList();
+            if (String.IsNullOrEmpty(actualText))
+            {
+                // Restaurar la lista completa de usuarios
+                userList = new List<User>(originalUserList);
+            }
+            else
+            {
+                // Filtrar la lista de usuarios
+                userList = originalUserList.Where(u => u.Name.ToLower().Contains(actualText.ToLower())).ToList();
+            }
+
+            f.dtg_client.DataSource = null; // Necesario para forzar la actualización de la vista
             f.dtg_client.DataSource = userList;
         }
         private void orderUser(object sender, EventArgs e)
@@ -208,7 +148,7 @@ namespace ShopMate_Client_V1.Controller
 
             }
         }
-        private void postUser(object sender, EventArgs e)
+        private async void postUser(object sender, EventArgs e)
         {
             String name = fUser.txt_name.Text;
             String userName = fUser.txt_username.Text;
@@ -220,80 +160,94 @@ namespace ShopMate_Client_V1.Controller
             if (String.IsNullOrEmpty(name) || String.IsNullOrEmpty(userName) || String.IsNullOrEmpty(pass))
             {
                 MessageBox.Show("There are some empty fields", "Empty fields", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-               
+                return;
             }
 
-            User u = new User();
-            u.Name = name;
-            u.Username = userName;
-            u.Password = pass;
-            u.PhoneNumber = phone;
-            u.Email = email;
-            u.RegisterDate = DateTime.Now;
-            u.FacebookToken = null;
-            u.GoogleToken = null;
-            u.LastConnection = u.RegisterDate;
+            User u = new User
+            {
+                Name = name,
+                Username = userName,
+                Password = pass,
+                PhoneNumber = phone,
+                Email = email,
+                RegisterDate = DateTime.Now,
+                FacebookToken = null,
+                GoogleToken = null,
+                LastConnection = DateTime.Now,
+                SettingId = 0,
+                StatId = 0
+            };
 
             if (profileImage != null)
             {
-                using (var stream = new MemoryStream())
+                try
                 {
-                    profileImage.Save(stream, ImageFormat.Jpeg); // Guarda la imagen en un MemoryStream
-                    stream.Position = 0; // Reinicia la posición del stream
-
-                    // Llama al método PostImage para enviar la imagen al servidor
-                    string response = r.PostImageAsync(stream, "user");
-                    Console.WriteLine(response); // Maneja la respuesta del servidor si es necesario
-                    u.ProfileImage = response;
-                    MessageBox.Show(response);
-                    
-                    r.PostUser(u);
+                    string imageUrl = await r.PostImageAsync("user", profileImage);
+                    u.ProfileImage = imageUrl;
                 }
-
-                // Llamar a PostUserWithImage con el usuario y la imagen
-                // var newUser = r.PostUserWithImage(u, profileImage);
-
-                //if (newUser != null)
-                //{
-                //    MessageBox.Show("User posted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //}
-                //else
-                //{
-                //    MessageBox.Show("Error posting user", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //}
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error uploading image: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
             else
             {
                 u.ProfileImage = "";
-                u.SettingId = 0;
-                u.StatId = 0;
-                r.PostUser(u);
-                MessageBox.Show("User (NO PHOTO) posted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
+            r.PostUser(u);
+            MessageBox.Show("User posted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             fUser.Close();
             LoadData();
         }
-
-        private byte[] ImageToByteArray(Image image)
+        private void putUser(object sender, EventArgs e)
         {
-            using (MemoryStream ms = new MemoryStream())
+
+            User selectedUser = selectedDGV_User();
+
+
+            if (selectedUser != null)
             {
-                image.Save(ms, ImageFormat.Jpeg); // Guardar la imagen como JPEG
-                return ms.ToArray();
+
+                string newName = fUser.txt_name.Text;
+                string newUsername = fUser.txt_username.Text;
+                string newPhone = fUser.txt_phone.Text;
+                string newEmail = fUser.txt_email.Text;
+
+                try
+                {
+
+                    User updatedUser = r.PutUser(selectedUser, selectedUser.UserId, newName, newUsername, newPhone, newEmail);
+
+                    // Verificar si la actualización fue exitosa
+                    if (updatedUser != null)
+                    {
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("User updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error updating user: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    // Cerrar el formulario de usuario después de la actualización
+                    fUser.Close();
+
+                    // Recargar los datos en el formulario principal después de la actualización
+                    LoadData();
+                }
+            }
+            else
+            {
+                MessageBox.Show("No user selected to modify", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-
-        private IFormFile ConvertImageToIFormFile(Image image)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                image.Save(ms, ImageFormat.Jpeg); // Guardar la imagen como JPEG
-                return new FormFile(ms, 0, ms.Length, "profileImage", "profileImage.jpg");
-            }
-        }
-
-
         private void backUserForm(object sender, EventArgs e)
         {
             // fUser.Dispose();
@@ -396,33 +350,7 @@ namespace ShopMate_Client_V1.Controller
                 
                 MessageBox.Show("No users selected for deletion", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-        }
-        private void refreshUserImage()
-        {
-
-            string base64String = baseAux;
-
-
-            if (!string.IsNullOrEmpty(base64String))
-            {
-
-                byte[] imageBytes = Convert.FromBase64String(base64String);
-
-
-                using (MemoryStream ms = new MemoryStream(imageBytes))
-                {
-
-                    Image image = Image.FromStream(ms);
-                    fUser.pictureBox1.Image = image;
-
-                }
-            }
-            else
-            {
-                // Handle the case when the Base64 string is null or empty
-                MessageBox.Show("La cadena de Base64 está vacía o es nula.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+        }      
         private void openModifyForm(User selectedUser)
         {
             clearForm();
@@ -455,6 +383,24 @@ namespace ShopMate_Client_V1.Controller
             }
             fUser.ShowDialog();
         }
+        private void modifyUserByDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+            User selectedUser = selectedDGV_User();
+            openModifyForm(selectedUser);
+        }
+        private User selectedDGV_User()
+        {
+            int rowIndex = f.dtg_client.CurrentCell.RowIndex;
+
+            if (rowIndex >= 0 && rowIndex < f.dtg_client.Rows.Count)
+            {
+                DataGridViewRow selectedRow = f.dtg_client.Rows[rowIndex];
+                return selectedRow.DataBoundItem as User;
+            }
+
+            return null;
+        }
         private void openAddForm()
         {
             clearForm();
@@ -480,8 +426,6 @@ namespace ShopMate_Client_V1.Controller
             fUser.pictureBox1.Image = null;
         }
 
-
-
         // ITEM
         private void orderItem(object sender, EventArgs e)
         {
@@ -489,7 +433,49 @@ namespace ShopMate_Client_V1.Controller
 
             categoryController.orderByComboItem(selectedOrder);
         }
+        private void deleteSelectedItems(object sender, EventArgs e)
+        {
+            DataGridViewSelectedRowCollection selectedRows = f.dtg_item.SelectedRows;
 
+            if (selectedRows.Count > 0)
+            {
+                DialogResult result = MessageBox.Show("Are you sure you want to delete the selected items?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    List<int> selectedItemsIds = new List<int>();
+
+                    foreach (DataGridViewRow row in selectedRows)
+                    {
+                        int itemId = Convert.ToInt32(row.Cells["ItemId"].Value);
+                        selectedItemsIds.Add(itemId);
+                    }
+
+                    int deletedCount = 0;
+
+                    try
+                    {
+                        foreach (int itemId in selectedItemsIds)
+                        {
+                            r.DeleteItemById(itemId);
+                            deletedCount++;
+                        }
+
+                        LoadData();
+
+                        MessageBox.Show($"{deletedCount} item(s) deleted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error deleting selected items: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("No items selected for deletion", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
 
         // CATEGORY
         private void orderCategory(object sender, EventArgs e)
@@ -525,13 +511,22 @@ namespace ShopMate_Client_V1.Controller
                     {
                         foreach (int categoryId in selectedCategoriesIds)
                         {
-                            r.DeleteCategoriesById(categoryId);
-                            deletedCount++;
+                            if (r.CategoryHasItem(categoryId))
+                            {
+                                MessageBox.Show($"Category ID: {categoryId} has associated items. Impossible to delete.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                            }
+                            else
+                            {
+                                r.DeleteCategoriesById(categoryId);
+                                deletedCount++;
+                            }
+                           
                         }
 
                         LoadData();
 
-                        MessageBox.Show($"{deletedCount} user(s) deleted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show($"{deletedCount} categorie(s) deleted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {
@@ -545,30 +540,9 @@ namespace ShopMate_Client_V1.Controller
                 MessageBox.Show("No users selected for deletion", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-
         private void resetItemDGV(object sender, EventArgs e)
         {
             categoryController.defaultDGV_items();
         }
     }
-
-
-
-
-
-
  }
-
-// USER TO TEST
-/*
- *                 User u = new User();
-                u.Name = "mr";
-                u.Username = "tarta";
-                u.Password = "ubuntu";
-                u.PhoneNumber = "74723832838";
-                u.Email = "tartaria@gmail.com";
-                u.ProfileImage = "";
-                u.SettingId = 12;
-                u.StatId = 4;
-                r.PostUser(u);
-*/ 

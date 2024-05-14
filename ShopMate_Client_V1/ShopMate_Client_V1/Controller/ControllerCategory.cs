@@ -29,6 +29,7 @@ namespace ShopMate_Client_V1.Controller
         List<Category> categoryList;
         List<Item> itemList;
         UserImageAux imageAux = new UserImageAux();
+        bool hasItems;
 
 
         public ControllerCategory(Repository r, DataGridView dtg_cat, DataGridView dtg_item) {
@@ -51,10 +52,7 @@ namespace ShopMate_Client_V1.Controller
         private void LoadData()
         {
             dtgCat.DataSource = r.GetCategories(); 
-            dtgItem.DataSource = itemList;
-                         
-
-
+            dtgItem.DataSource = itemList;   
         }
 
         public void InitListeners()
@@ -74,8 +72,18 @@ namespace ShopMate_Client_V1.Controller
 
         private void itemsFromCategory(object sender, EventArgs e)
         {
-            dtgItem.DataSource = r.GetItems().Where(i => i.CategoryId == selectedDGV_Category().CategoryId).ToList();
+           
             
+           List<Item> itemList = r.GetItems().Where(i => i.CategoryId == selectedDGV_Category().CategoryId).ToList();
+           int nItems =  r.GetItems().Where(i => i.CategoryId == selectedDGV_Category().CategoryId).Count();
+           dtgItem.DataSource = itemList;
+            if (nItems > 0)            {
+                hasItems = true;
+            } else
+            {
+                hasItems = false;
+            }
+
         }
 
         internal void openFormCategory(object sender, EventArgs e)
@@ -151,15 +159,35 @@ namespace ShopMate_Client_V1.Controller
             }
         }
 
-        private void postCategory(object sender, EventArgs e)
+        private async void postCategory(object sender, EventArgs e)
         {
             if (fCatForm.btn_addCat.Text.Equals("Add category"))
             {
                 cAux.Name = fCatForm.txt_name.Text.ToString();
-                cAux.Icon = "fCatForm.pictureBox_cat.ToString();";
                 cAux.UpdatedAt = DateTime.Now;
                 cAux.CreatedAt = DateTime.Now;
-                r.PostCategory(cAux);               
+
+                // Subir la imagen si existe
+                Image categoryImage = fCatForm.pictureBox_cat.Image;
+                if (categoryImage != null)
+                {
+                    try
+                    {
+                        string imageUrl = await r.PostImageAsync("category", categoryImage);
+                        cAux.Icon = imageUrl;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error uploading image: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+                else
+                {
+                    cAux.Icon = "";
+                }
+
+                r.PostCategory(cAux);
                 goBack(sender, e);
             }
 
@@ -167,12 +195,31 @@ namespace ShopMate_Client_V1.Controller
             {
                 String newName = fCatForm.txt_name.Text.ToString();
                 uint categoryId = selectedDGV_Category().CategoryId;
+
+                // Subir la imagen si existe
+                Image categoryImage = fCatForm.pictureBox_cat.Image;
+                if (categoryImage != null)
+                {
+                    try
+                    {
+                        string imageUrl = await r.PostImageAsync("category", categoryImage);
+                        selectedDGV_Category().Icon = imageUrl;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error uploading image: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+
                 r.PutCategory(selectedDGV_Category(), categoryId, newName);
                 goBack(sender, e);
             }
-            LoadData();
 
+            LoadData();
         }
+
+
 
         private void goBack(object sender, EventArgs e)
         {
@@ -225,15 +272,13 @@ namespace ShopMate_Client_V1.Controller
                     MessageBox.Show("CAN'T CONNECT TO THE API", "Empty fields", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
              
-                                
-              
             }
             
         }
 
         internal void openFormItem(object sender, EventArgs e)
         {
-           fItemForm.combo_category.DataSource = categoryList.Select(c => c.Name).ToList();
+           fItemForm.combo_category.DataSource = r.GetCategories().Select(c => c.Name).ToList();
            fItemForm.ShowDialog(); 
         }
 
@@ -275,8 +320,6 @@ namespace ShopMate_Client_V1.Controller
                 {
                     MessageBox.Show("CAN'T CONNECT TO THE API", "Empty fields", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-
-
 
             }
         }
