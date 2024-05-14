@@ -58,4 +58,11 @@
     <string name="strProfileSettings">Ajustes</string>
 
 
+
+
+    <string name="strHome">Home</string>
+    <string name="strTemplate">Templates</string>
+    <string name="strSearch">Search</string>
+
+
 </resources>

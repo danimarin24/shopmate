@@ -72,48 +72,7 @@ class ProfileFragment : Fragment() {
             binding.txtUserUsername.text = usernameWithAt
         })
 
-        binding.btnHambMenu.setImageResource(R.drawable.menu)
-        binding.btnHambMenu.setOnClickListener {
-            binding.btnHambMenu.setImageResource(R.drawable.menu_open)
-            showBottomDialog()
-        }
-
 
         return binding.root
-    }
-
-    private fun showBottomDialog() {
-        val dialog = Dialog(context)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.bottom_profile_dialog)
-
-        val lytSettings = dialog.findViewById<LinearLayout>(R.id.lytSettings)
-        val lytShare = dialog.findViewById<LinearLayout>(R.id.lytShare)
-        val lytTheme = dialog.findViewById<LinearLayout>(R.id.lytTheme)
-
-        lytSettings.setOnClickListener {
-            dialog.dismiss()
-            Toast.makeText(context, "Settings", Toast.LENGTH_SHORT).show()
-        }
-
-        lytShare.setOnClickListener {
-            dialog.dismiss()
-            Toast.makeText(context, "Share", Toast.LENGTH_SHORT).show()
-        }
-
-        lytTheme.setOnClickListener {
-            dialog.dismiss()
-            Toast.makeText(context, "Theme", Toast.LENGTH_SHORT).show()
-        }
-
-        binding.btnHambMenu.setOnClickListener { dialog.dismiss() }
-        binding.btnHambMenu.setImageResource(R.drawable.menu)
-
-
-        dialog.show()
-        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-        dialog.window?.setGravity(Gravity.BOTTOM)
     }
 }

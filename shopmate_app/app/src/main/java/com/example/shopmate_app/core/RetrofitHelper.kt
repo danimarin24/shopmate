@@ -2,16 +2,10 @@ package com.example.shopmate_app.core
 
 import com.example.shopmate_app.data.constants.AppConstants
 import com.google.gson.GsonBuilder
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Singleton
 
 object RetrofitHelper {
     fun getRetrofit(): Retrofit {
