@@ -5,6 +5,7 @@ using API.Model;
 using API.Model.ViewModel;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
+using API.Model.DTO;
 
 
 namespace API.Controllers
@@ -28,9 +29,22 @@ namespace API.Controllers
 
         // GET: api/User
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
-            return await _context.Users.Include(u => u.Setting).ToListAsync();
+            var users = await _context.Users.ToListAsync();
+            return users.Select(u => new UserDTO {
+                UserId = u.UserId,
+                Username = u.Username,
+                Email = u.Email,
+                FacebookToken = u.FacebookToken,
+                GoogleToken = u.GoogleToken,
+                LastConnection = u.LastConnection,
+                Name = u.Name,
+                Password = u.Password,
+                PhoneNumber = u.PhoneNumber,
+                ProfileImage = u.ProfileImage,
+                SettingId = u.SettingId
+            }).ToList();
         }
 
         // GET: api/User/stats/5
@@ -49,23 +63,33 @@ namespace API.Controllers
         }
         // GET: api/User/5
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<User>> GetUser(uint id)
+        public async Task<ActionResult<UserDTO>> GetUser(uint id)
         {
-            var user = await _context.Users
-                .Include(u => u.Setting)
-                .FirstOrDefaultAsync(u => u.UserId == id);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
 
             if (user == null)
             {
                 return NotFound();
             }
 
-            return user;
+            return new UserDTO {
+                UserId = user.UserId,
+                Username = user.Username,
+                Email = user.Email,
+                FacebookToken = user.FacebookToken,
+                GoogleToken = user.GoogleToken,
+                LastConnection = user.LastConnection,
+                Name = user.Name,
+                Password = user.Password,
+                PhoneNumber = user.PhoneNumber,
+                ProfileImage = user.ProfileImage,
+                SettingId = user.SettingId
+            };
         }
 
         // GET: api/User/checkusername/danimarin24
         [HttpGet("checkusername/{username}")]
-        public async Task<ActionResult<User>> GetUserByUsername(string username)
+        public async Task<ActionResult<UserDTO>> GetUserByUsername(string username)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username.Equals(username));
 
@@ -74,13 +98,24 @@ namespace API.Controllers
                 return NotFound();
             }
 
-            return user
-                ;
+            return new UserDTO {
+                UserId = user.UserId,
+                Username = user.Username,
+                Email = user.Email,
+                FacebookToken = user.FacebookToken,
+                GoogleToken = user.GoogleToken,
+                LastConnection = user.LastConnection,
+                Name = user.Name,
+                Password = user.Password,
+                PhoneNumber = user.PhoneNumber,
+                ProfileImage = user.ProfileImage,
+                SettingId = user.SettingId
+            };
         }
 
         // GET: api/User/checkemail/dani4marin@gmail.com
         [HttpGet("checkemail/{email}")]
-        public async Task<ActionResult<User>> GetUserByEmail(string email)
+        public async Task<ActionResult<UserDTO>> GetUserByEmail(string email)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
 
@@ -89,12 +124,24 @@ namespace API.Controllers
                 return NotFound();
             }
 
-            return user;
+            return new UserDTO {
+                UserId = user.UserId,
+                Username = user.Username,
+                Email = user.Email,
+                FacebookToken = user.FacebookToken,
+                GoogleToken = user.GoogleToken,
+                LastConnection = user.LastConnection,
+                Name = user.Name,
+                Password = user.Password,
+                PhoneNumber = user.PhoneNumber,
+                ProfileImage = user.ProfileImage,
+                SettingId = user.SettingId
+            };
         }
         
         // GET: api/User/checkgooglesub/1231542341342413
         [HttpGet("checkgooglesub/{sub}")]
-        public async Task<ActionResult<User>> GetUserByGoogleSub(string sub)
+        public async Task<ActionResult<UserDTO>> GetUserByGoogleSub(string sub)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.GoogleToken != null && u.GoogleToken.Equals(sub));
 
@@ -104,7 +151,19 @@ namespace API.Controllers
             }
 
 
-            return user;
+            return new UserDTO {
+                UserId = user.UserId,
+                Username = user.Username,
+                Email = user.Email,
+                FacebookToken = user.FacebookToken,
+                GoogleToken = user.GoogleToken,
+                LastConnection = user.LastConnection,
+                Name = user.Name,
+                Password = user.Password,
+                PhoneNumber = user.PhoneNumber,
+                ProfileImage = user.ProfileImage,
+                SettingId = user.SettingId
+            };
         }
 
         // GET: api/User/generate/dani
@@ -134,14 +193,14 @@ namespace API.Controllers
         // PUT: api/User/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(uint id, User user)
+        public async Task<IActionResult> PutUser(uint id, UserDTO userDto)
         {
-            if (id != user.UserId)
+            if (id != userDto.UserId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(userDto).State = EntityState.Modified;
 
             try
             {
@@ -165,37 +224,51 @@ namespace API.Controllers
         // POST: api/User
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<UserDTO>> PostUser(UserDTO userDto)
         {
             using (var transaction = _context.Database.BeginTransaction())
             {
                 try
                 {
                     var setting = new Setting(DateTime.Now, 1, 0, 1, 0, DateTime.Now);
-                    if (user.Password != null)
+                    if (userDto.Password != null)
                     {
-                        setting.LastPasswordHash = user.Password;
+                        setting.LastPasswordHash = userDto.Password;
                     }
-                    else if (user.GoogleToken != null)
+                    else if (userDto.GoogleToken != null)
                     {
-                        setting.LastPasswordHash = user.GoogleToken;
+                        setting.LastPasswordHash = userDto.GoogleToken;
                     }
-                    else if (user.FacebookToken != null)
+                    else if (userDto.FacebookToken != null)
                     {
-                        setting.LastPasswordHash = user.FacebookToken;
+                        setting.LastPasswordHash = userDto.FacebookToken;
                     }
 
                     _context.Settings.Add(setting);
 
                     await _context.SaveChangesAsync();
 
-                    user.SettingId = setting.SettingId;
-
-                    _context.Users.Add(user);
+                    userDto.SettingId = setting.SettingId;
+                    
+                    _context.Users.Add(
+                            new User {
+                                UserId = userDto.UserId,
+                                Username = userDto.Username,
+                                Email = userDto.Email,
+                                FacebookToken = userDto.FacebookToken,
+                                GoogleToken = userDto.GoogleToken,
+                                LastConnection = userDto.LastConnection,
+                                Name = userDto.Name,
+                                Password = userDto.Password,
+                                PhoneNumber = userDto.PhoneNumber,
+                                ProfileImage = userDto.ProfileImage,
+                                SettingId = userDto.SettingId
+                            }
+                        );
                     await _context.SaveChangesAsync();
 
                     transaction.Commit(); // Confirma la transacción ya que todo ha ido bien
-                    return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+                    return CreatedAtAction("GetUser", new { id = userDto.UserId }, userDto);
                 }
                 catch (Exception)
                 {
@@ -209,7 +282,7 @@ namespace API.Controllers
         // POST: api/User/profileImage
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("profileImage")]
-        public async Task<ActionResult<User>> PostUserImage([FromForm] UserViewModel model)
+        public async Task<ActionResult<UserDTO>> PostUserImage([FromForm] UserViewModel model)
         {
             if (model.ProfileImage == null)
             {
@@ -233,7 +306,7 @@ namespace API.Controllers
 
                     var profileImageUrl = $"{_pathCleanPath}{_pathImatge}{fileName}";
 
-                    var user = new User
+                    var userDto = new UserDTO
                     {
                         Name = model.Name,
                         Username = model.Username,
@@ -250,30 +323,44 @@ namespace API.Controllers
                         try
                         {
                             var setting = new Setting(DateTime.Now, 1, 0, 1, 0, DateTime.Now);
-                            if (user.Password != null)
+                            if (userDto.Password != null)
                             {
-                                setting.LastPasswordHash = user.Password;
+                                setting.LastPasswordHash = userDto.Password;
                             }
-                            else if (user.GoogleToken != null)
+                            else if (userDto.GoogleToken != null)
                             {
-                                setting.LastPasswordHash = user.GoogleToken;
+                                setting.LastPasswordHash = userDto.GoogleToken;
                             }
-                            else if (user.FacebookToken != null)
+                            else if (userDto.FacebookToken != null)
                             {
-                                setting.LastPasswordHash = user.FacebookToken;
+                                setting.LastPasswordHash = userDto.FacebookToken;
                             }
 
                             _context.Settings.Add(setting);
 
                             await _context.SaveChangesAsync();
 
-                            user.SettingId = setting.SettingId;
+                            userDto.SettingId = setting.SettingId;
 
-                            _context.Users.Add(user);
+                            _context.Users.Add(
+                                new User {
+                                    UserId = userDto.UserId,
+                                    Username = userDto.Username,
+                                    Email = userDto.Email,
+                                    FacebookToken = userDto.FacebookToken,
+                                    GoogleToken = userDto.GoogleToken,
+                                    LastConnection = userDto.LastConnection,
+                                    Name = userDto.Name,
+                                    Password = userDto.Password,
+                                    PhoneNumber = userDto.PhoneNumber,
+                                    ProfileImage = userDto.ProfileImage,
+                                    SettingId = userDto.SettingId
+                                }
+                                );
                             await _context.SaveChangesAsync();
 
                             transaction.Commit(); // Confirma la transacción ya que todo ha ido bien
-                            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+                            return CreatedAtAction("GetUser", new { id = userDto.UserId }, userDto);
                         }
                         catch (Exception)
                         {

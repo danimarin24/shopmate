@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Context;
 using API.Model;
+using API.Model.DTO;
 
 namespace API.Controllers
 {
@@ -23,14 +24,31 @@ namespace API.Controllers
 
         // GET: api/Board
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Board>>> GetBoards()
+        public async Task<ActionResult<IEnumerable<BoardDTO>>> GetBoards()
         {
-            return await _context.Boards.ToListAsync();
+            var boards = await _context.Boards.ToListAsync();
+            return boards.Select(b => new BoardDTO() {
+                BoardId = b.BoardId,
+                OwnerId = b.OwnerId,
+                Title = b.Title
+            }).ToList();
+        }
+        
+        // GET: api/Board/user
+        [HttpGet("/user")]
+        public async Task<ActionResult<IEnumerable<BoardDTO>>> GetBoards(int id)
+        {
+            var boards = await _context.Boards.Where(b => b.OwnerId == id).ToListAsync();
+            return boards.Select(b => new BoardDTO() {
+                BoardId = b.BoardId,
+                OwnerId = b.OwnerId,
+                Title = b.Title
+            }).ToList();
         }
 
         // GET: api/Board/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Board>> GetBoard(uint id)
+        public async Task<ActionResult<BoardDTO>> GetBoard(uint id)
         {
             var board = await _context.Boards.FindAsync(id);
 
@@ -39,20 +57,24 @@ namespace API.Controllers
                 return NotFound();
             }
 
-            return board;
+            return new BoardDTO() {
+                BoardId = board.BoardId,
+                OwnerId = board.OwnerId,
+                Title = board.Title
+            };
         }
 
         // PUT: api/Board/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBoard(uint id, Board board)
+        public async Task<IActionResult> PutBoard(uint id, Board boardDto)
         {
-            if (id != board.BoardId)
+            if (id != boardDto.BoardId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(board).State = EntityState.Modified;
+            _context.Entry(boardDto).State = EntityState.Modified;
 
             try
             {
@@ -76,12 +98,18 @@ namespace API.Controllers
         // POST: api/Board
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Board>> PostBoard(Board board)
+        public async Task<ActionResult<BoardDTO>> PostBoard(Board boardDto)
         {
-            _context.Boards.Add(board);
+            _context.Boards.Add(
+                new Board() {
+                    BoardId = boardDto.BoardId,
+                    OwnerId = boardDto.OwnerId,
+                    Title = boardDto.Title
+                }
+                );
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBoard", new { id = board.BoardId }, board);
+            return CreatedAtAction("GetBoard", new { id = boardDto.BoardId }, boardDto);
         }
 
         // DELETE: api/Board/5

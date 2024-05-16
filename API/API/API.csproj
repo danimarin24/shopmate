@@ -31,4 +31,8 @@
       <Folder Include="wwwroot\api\images\user\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Include="Model\Board1.cs" />
+    </ItemGroup>
+
 </Project>
