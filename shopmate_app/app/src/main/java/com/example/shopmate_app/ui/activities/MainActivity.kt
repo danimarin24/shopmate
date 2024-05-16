@@ -233,6 +233,8 @@ class MainActivity : AppCompatActivity() {
         txtNext.setOnClickListener {
             dialog.dismiss()
 
+            etCardName.text
+
             // acción de crear la lista
         }
 

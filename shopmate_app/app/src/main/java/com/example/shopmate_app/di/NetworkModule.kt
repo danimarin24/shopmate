@@ -1,6 +1,7 @@
 package com.example.shopmate_app.di
 
 import com.example.shopmate_app.data.constants.AppConstants
+import com.example.shopmate_app.data.services.networkServices.BoardApiClient
 import com.example.shopmate_app.data.services.networkServices.ColorApiClient
 import com.example.shopmate_app.data.services.networkServices.UserApiClient
 import com.google.gson.GsonBuilder
@@ -50,5 +51,11 @@ object NetworkModule {
     @Provides
     fun providesColorApiClient(retrofit: Retrofit):ColorApiClient{
         return retrofit.create(ColorApiClient::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun providesBoardApiClient(retrofit: Retrofit):BoardApiClient{
+        return retrofit.create(BoardApiClient::class.java)
     }
 }
