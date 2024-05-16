@@ -21,8 +21,11 @@ namespace ShopMate_Client_V1.Controller
         ControllerCategory categoryController;
         Form1 f;
         FormUser fUser;
-        List<User> userList;
+
         List<User> originalUserList;
+        List<UserDTO> userDTOList;
+      
+
         Repository r;
         User uAux = new User();        
         UserImageAux imageAux = new UserImageAux(); 
@@ -31,28 +34,34 @@ namespace ShopMate_Client_V1.Controller
         {
             f = new Form1();
             fUser = new FormUser();
-            r = new Repository();            
-        
-            categoryController = new ControllerCategory(r, f.dtg_cat, f.dtg_item);
+            r = new Repository();                    
+            categoryController = new ControllerCategory(r, f.dtg_cat, f.dtg_item);           
             InitListeners();
             LoadData();
+            
             Application.Run(f);
         }
         // INITIAL CHARGE
         public void LoadData()
         {
             originalUserList = r.GetUsers();
-            userList = new List<User>(originalUserList);           
 
-            f.dtg_client.DataSource = originalUserList;
+            userDTOList = originalUserList.Select(u => new UserDTO(u)).ToList(); 
+
+            f.dtg_client.DataSource = userDTOList;
+            //userList = new List<User>(originalUserList);           
+
+            // f.dtg_client.DataSource = originalUserList;
             f.combo_cat.DataSource = new string[] { " ", "Name", "Last Update", "Register Date" };
-            f.combo_user.DataSource = new string[] { " ", "Name", "Last Connection", "Register Date", "Followers" };
+            f.combo_user.DataSource = new string[] { " ", "Name", "Last Connection", "Register Date" };
             f.combo_item.DataSource = new string[] { " ", "Name", "Category", "Last Update", "Register Date" };
             
 
 
 
         }
+
+       
 
         // GLOBAL LISTENER
         public void InitListeners()
@@ -90,62 +99,36 @@ namespace ShopMate_Client_V1.Controller
 
             if (String.IsNullOrEmpty(actualText))
             {
-                // Restaurar la lista completa de usuarios
-                userList = new List<User>(originalUserList);
+                
+                f.dtg_client.DataSource = userDTOList;
             }
             else
             {
-                // Filtrar la lista de usuarios
-                userList = originalUserList.Where(u => u.Name.ToLower().Contains(actualText.ToLower())).ToList();
-            }
+                List<UserDTO> filteredUserDTOList = userDTOList.Where(u => u.Name.ToLower().Contains(actualText.ToLower())).ToList();
 
-            f.dtg_client.DataSource = null; // Necesario para forzar la actualización de la vista
-            f.dtg_client.DataSource = userList;
+                f.dtg_client.DataSource = filteredUserDTOList;
+            }
         }
         private void orderUser(object sender, EventArgs e)
         {
-            userList = r.GetUsers();
             String selectedOrder = f.combo_user.Text.ToString();
             if (!String.IsNullOrEmpty(selectedOrder))
             {
-
                 switch (selectedOrder)
                 {
-
                     case "Name":
-
-                        userList = userList.OrderBy(c => c.Name).ToList();
-
+                        f.dtg_client.DataSource = userDTOList.OrderBy(u => u.Name).ToList();
                         break;
-
                     case "Last Connection":
-                        userList = userList.OrderBy(c => c.LastConnection).ToList();
-
+                        f.dtg_client.DataSource = userDTOList.OrderBy(u => u.LastConnection).ToList();
                         break;
-
                     case "Register Date":
-
-                        userList = userList.OrderBy(c => c.RegisterDate).ToList();
+                        f.dtg_client.DataSource = userDTOList.OrderBy(u => u.RegisterDate).ToList();
                         break;
-
-
-                    case "Followers":
-
-                        // userList = userList.OrderBy(c => c.UserFolloweds).ToList();
+                    case " ":
+                        f.dtg_client.DataSource = userDTOList;
                         break;
-                    default:
-                        userList = r.GetUsers();
-                        break;
-
                 }
-                f.dtg_client.DataSource = userList;
-
-                //catch
-                //{
-                //    MessageBox.Show("CAN'T CONNECT TO THE API", "Empty fields", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                //}
-
-
             }
         }
         private async void postUser(object sender, EventArgs e)
@@ -204,7 +187,7 @@ namespace ShopMate_Client_V1.Controller
         private void putUser(object sender, EventArgs e)
         {
 
-            User selectedUser = selectedDGV_User();
+            User selectedUser = r.GetUserById((int)selectedDGV_User().UserId);
 
 
             if (selectedUser != null)
@@ -275,7 +258,7 @@ namespace ShopMate_Client_V1.Controller
                 //  MessageBox.Show("Hola modify", "HGDASJKLDSL", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                //  refreshUserImage();
                 // fUser.txt_registerDate.Text = uAux.RegisterDate.ToString();
-                User selectedUser = selectedDGV_User();
+                User selectedUser = r.GetUserById((int)selectedDGV_User().UserId);
                 openModifyForm(selectedUser);
 
             }
@@ -356,9 +339,9 @@ namespace ShopMate_Client_V1.Controller
             clearForm();
             fUser.btn_add.Visible = false;
             fUser.btn_modify.Visible = true;
-            fUser.txt_name.Text = selectedUser.Name;
-            fUser.txt_username.Text = selectedUser.Username;
-            fUser.txt_pass.Text = selectedUser.Password;
+            fUser.txt_name.Text = r.GetUserById((int)selectedUser.UserId).Name;
+            fUser.txt_username.Text = r.GetUserById((int)selectedUser.UserId).Username;
+            fUser.txt_pass.Text = r.GetUserById((int)selectedUser.UserId).Password;
             fUser.txt_pass.Enabled = false;
            
             
@@ -386,17 +369,17 @@ namespace ShopMate_Client_V1.Controller
         private void modifyUserByDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
 
-            User selectedUser = selectedDGV_User();
+            User selectedUser = r.GetUserById((int)selectedDGV_User().UserId);
             openModifyForm(selectedUser);
         }
-        private User selectedDGV_User()
+        private UserDTO selectedDGV_User()
         {
             int rowIndex = f.dtg_client.CurrentCell.RowIndex;
 
             if (rowIndex >= 0 && rowIndex < f.dtg_client.Rows.Count)
             {
                 DataGridViewRow selectedRow = f.dtg_client.Rows[rowIndex];
-                return selectedRow.DataBoundItem as User;
+                return selectedRow.DataBoundItem as UserDTO;
             }
 
             return null;
@@ -544,5 +527,10 @@ namespace ShopMate_Client_V1.Controller
         {
             categoryController.defaultDGV_items();
         }
+
+
+        // CONFIG
+
+       
     }
- }
+}

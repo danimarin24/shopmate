@@ -76,7 +76,12 @@ namespace ShopMate_Client_V1.Model
         public User GetUserbyUserName(String username)
         {
 
-            return (User)MakeRequest(ws1 + "User/" + username, null, "GET", "application/json", typeof(List<User>));
+            return (User)MakeRequest(ws1 + "User/checkusername/" + username, null, "GET", "application/json", typeof(User));
+        }
+
+        public User GetUserById(int userId)
+        {
+            return (User)MakeRequest(ws1 + "User/" + userId, null, "GET", "application/json", typeof(User));
         }
         public User PostUser(User user)
         {
