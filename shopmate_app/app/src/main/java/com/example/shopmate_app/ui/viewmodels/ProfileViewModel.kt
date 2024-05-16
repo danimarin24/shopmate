@@ -22,9 +22,6 @@ class ProfileViewModel @Inject constructor(
     val userEntity = MutableLiveData<UserEntity?>()
     val isLoading = MutableLiveData<Boolean>()
 
-    // usecases
-
-
     fun getUserStats(id: Int) {
         viewModelScope.launch {
             isLoading.postValue(true)

@@ -70,7 +70,7 @@
         android:text="¡Invita a alguien a tu lista!"
         android:textAlignment="center"
         android:textColor="?android:attr/colorForeground"
-        android:layout_marginTop="@dimen/defaultMarginTop"
+        android:layout_marginTop="@dimen/defaultMargin"
         android:textSize="@dimen/defaultTextSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,7 +81,7 @@
         android:id="@+id/shareBoxes"
         android:layout_width="@dimen/maxWidth"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/defaultMarginTop"
+        android:layout_marginTop="@dimen/defaultMargin"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/lblQuestion"
         app:layout_constraintEnd_toEndOf="parent"
@@ -93,7 +93,7 @@
             android:layout_height="50dp"
             android:background="@drawable/custom_bg_share_card"
             android:backgroundTint="#25D366"
-            android:paddingLeft="@dimen/littleMarginTop"
+            android:paddingLeft="@dimen/littleMargin"
             android:gravity="left|center_vertical"
             android:orientation="horizontal">
 
@@ -129,7 +129,7 @@
             android:background="@drawable/custom_bg_share_card"
             android:backgroundTint="#1877F2"
             android:gravity="left|center_vertical"
-            android:paddingLeft="@dimen/littleMarginTop"
+            android:paddingLeft="@dimen/littleMargin"
             android:orientation="horizontal">
 
             <ImageView
@@ -165,7 +165,7 @@
             android:background="@drawable/custom_bg_share_card"
             android:backgroundTint="#ABABAB"
             android:gravity="left|center_vertical"
-            android:paddingLeft="@dimen/littleMarginTop"
+            android:paddingLeft="@dimen/littleMargin"
             android:orientation="horizontal">
 
             <ImageView
@@ -234,7 +234,7 @@
         android:id="@+id/et_lyt_email"
         android:layout_width="@dimen/maxWidth"
         android:layout_height="@dimen/height"
-        android:layout_marginTop="@dimen/littleMarginTop"
+        android:layout_marginTop="@dimen/littleMargin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/separator">
@@ -279,7 +279,7 @@
         android:id="@+id/btnNext"
         android:layout_width="@dimen/maxWidth"
         android:layout_height="@dimen/height"
-        android:layout_marginTop="@dimen/littleMarginTop"
+        android:layout_marginTop="@dimen/littleMargin"
         android:text="Enviar email"
         android:insetBottom="0dp"
         android:insetTop="0dp"

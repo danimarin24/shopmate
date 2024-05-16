@@ -1,7 +1,6 @@
 package com.example.shopmate_app.ui.fragments.login
 
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -10,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
@@ -23,8 +21,6 @@ import com.example.shopmate_app.data.constants.AppConstants
 import com.example.shopmate_app.utils.PasswordUtils
 import com.example.shopmate_app.databinding.FragmentLoginBinding
 import com.example.shopmate_app.domain.entities.newtworkEntities.UserEntity
-import com.example.shopmate_app.domain.usecases.user.AddUserUseCase
-import com.example.shopmate_app.ui.activities.MainActivity
 import com.example.shopmate_app.ui.viewmodels.MainViewModel
 import com.example.shopmate_app.ui.viewmodels.UserViewModel
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
@@ -33,7 +29,6 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingExcept
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.security.MessageDigest
 import java.time.LocalDate
 import java.util.UUID

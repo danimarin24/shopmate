@@ -39,7 +39,7 @@
         android:id="@+id/et_lyt_username"
         android:layout_width="@dimen/maxWidth"
         android:layout_height="@dimen/height"
-        android:layout_marginTop="@dimen/defaultMarginTop"
+        android:layout_marginTop="@dimen/defaultMargin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivProfilePicker">
@@ -86,7 +86,7 @@
         android:id="@+id/linearLayout2"
         android:layout_width="@dimen/maxWidth"
         android:layout_height="@dimen/height"
-        android:layout_marginTop="@dimen/defaultMarginTop"
+        android:layout_marginTop="@dimen/defaultMargin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_lyt_username">
@@ -133,7 +133,7 @@
         android:layout_width="@dimen/maxWidth"
         android:layout_height="@dimen/height"
         android:textColor="?android:attr/colorForegroundInverse"
-        android:layout_marginTop="@dimen/defaultMarginTop"
+        android:layout_marginTop="@dimen/defaultMargin"
         android:text="@string/btnSave"
         android:insetBottom="0dp"
         android:insetTop="0dp"

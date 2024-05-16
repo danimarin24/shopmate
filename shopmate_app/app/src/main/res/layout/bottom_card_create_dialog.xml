@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/custom_dialog_bg">
+
+    <LinearLayout
+        android:id="@+id/lytTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:weightSum="24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txtCancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:text="Cancelar"
+            android:textAlignment="textStart"
+            android:textColor="#ffffff" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txtHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="12"
+            android:text="Crear lista"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/bigTextSize" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txtNext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:text="Siguiente"
+            android:textAlignment="textEnd"
+            android:textColor="#ffffff"
+
+            />
+    </LinearLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etCardNameLyt"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="@dimen/defaultMargin"
+        app:hintEnabled="false"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lytTop">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etCardName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/littleMargin"
+            android:autofillHints="username"
+            android:background="@drawable/custom_input_rounded"
+            android:fontFamily="@font/poppins_medium"
+            android:hint="Nombre de la lista"
+            android:includeFontPadding="false"
+            android:inputType="text"
+            android:padding="0dp"
+            android:textColor="?attr/colorOnPrimaryContainer"
+            android:textColorHint="?attr/colorOnPrimaryContainer"
+            android:textSize="16sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvDefaultColorsSelection"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:layout_marginTop="@dimen/defaultMargin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etCardNameLyt" />
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

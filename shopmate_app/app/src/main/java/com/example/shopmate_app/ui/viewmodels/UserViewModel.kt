@@ -19,21 +19,16 @@ import javax.inject.Inject
 class UserViewModel @Inject constructor(
     private val getGoogleSubByGoogleTokenUseCase : GetGoogleSubByGoogleTokenUseCase,
     private val getUsernameGeneratedUseCase : GetUsernameGeneratedUseCase,
-    private val getUsersUseCase : GetUsersUseCase,
     private val getUserByEmailUseCase : GetUserByEmailUseCase,
     private val getUserByUsernameUseCase : GetUserByUsernameUseCase,
     private val getUserByGoogleSubUseCase : GetUserByGoogleSubUseCase,
     private val addUserUseCase : AddUserUseCase,
 ) : ViewModel() {
 
-    val usersEntity = MutableLiveData<List<UserEntity>>()
     val userEntity = MutableLiveData<UserEntity?>()
     val usernameGenerated = MutableLiveData<String?>()
     val googleSub = MutableLiveData<String?>()
     val isLoading = MutableLiveData<Boolean>()
-
-    // usecases
-
 
     fun getGoogleSub(googleToken: String) {
         viewModelScope.launch {

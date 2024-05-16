@@ -11,15 +11,29 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.shopmate_app.R
 import com.example.shopmate_app.databinding.ActivityMainBinding
+import com.example.shopmate_app.ui.adapters.ColorsChoseAdapter
+import com.example.shopmate_app.ui.viewmodels.ColorViewModel
+import com.example.shopmate_app.ui.viewmodels.MainViewModel
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.textview.MaterialTextView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,6 +42,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var navListener: NavController.OnDestinationChangedListener
     private lateinit var context : Context
+
+    private val mainViewModel: MainViewModel by viewModels()
+    private val colorViewModel: ColorViewModel by viewModels()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,16 +59,22 @@ class MainActivity : AppCompatActivity() {
         navListener = NavController.OnDestinationChangedListener { controller, destination, arguments ->
             when (destination.id) {
                 R.id.homeFragment -> {
-                    changeHeaderInfo("settings")
+                    changeHeaderInfo("home")
+                }
+                R.id.searchFragment -> {
+                    changeHeaderInfo("search")
+                }
+                R.id.templateFragment -> {
+                    changeHeaderInfo("template")
+                }
+                R.id.profileFragment -> {
+                    changeHeaderInfo("profile")
+                }
+                R.id.profileSettingFragment -> {
+                    changeHeaderInfo("setting")
                 }
 
             }
-            false
-
-            Log.e("PROFILE ID", R.id.profileFragment.toString())
-            Log.e("DESTINATION ID", destination.id.toString())
-            Log.e("DESTINATION LABEL", destination.label.toString())
-            Log.e("DESTINATION navigator name", destination.navigatorName)
         }
         navController = navHostFragment.navController
 
@@ -58,6 +82,10 @@ class MainActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        binding.btnCreateNew.setOnClickListener {
+            showCreateNewDialog()
         }
 
         binding.bottomNavigationBar.setOnItemSelectedListener {
@@ -132,7 +160,7 @@ class MainActivity : AppCompatActivity() {
                     showSettingsBottomDialog()
                 }
             }
-            "settings" -> {
+            "setting" -> {
                 binding.txtHeaderTitle.text = getString(R.string.strProfileSettings)
             }
         }
@@ -167,6 +195,52 @@ class MainActivity : AppCompatActivity() {
         dialog.setOnDismissListener {
             binding.btnRight.setImageResource(R.drawable.menu)
         }
+
+        dialog.show()
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+        dialog.window?.setGravity(Gravity.BOTTOM)
+    }
+
+    fun showCreateNewDialog() {
+        val dialog = Dialog(navController.context)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.bottom_card_create_dialog)
+
+        val txtCancel = dialog.findViewById<MaterialTextView>(R.id.txtCancel)
+        val txtNext = dialog.findViewById<MaterialTextView>(R.id.txtNext)
+        val etCardNameLyt = dialog.findViewById<TextInputLayout>(R.id.etCardNameLyt)
+        val etCardName = dialog.findViewById<TextInputEditText>(R.id.etCardName)
+
+        val rcvColors = dialog.findViewById<RecyclerView>(R.id.rcvDefaultColorsSelection)
+
+        colorViewModel.getColors()
+
+        colorViewModel.colorList.observe(this, Observer { colors ->
+            rcvColors.adapter = ColorsChoseAdapter(colors)
+            rcvColors.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
+        })
+
+        etCardNameLyt.setEndIconOnClickListener {
+            etCardName.text?.clear()
+        }
+
+        txtCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        txtNext.setOnClickListener {
+            dialog.dismiss()
+
+            // acción de crear la lista
+        }
+
+        /*
+        dialog.setOnDismissListener {
+            binding.btnRight.setImageResource(R.drawable.menu)
+        }
+         */
 
         dialog.show()
         dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)

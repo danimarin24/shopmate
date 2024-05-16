@@ -39,7 +39,7 @@
         android:id="@+id/etLinearLytName"
         android:layout_width="@dimen/maxWidth"
         android:layout_height="@dimen/height"
-        android:layout_marginTop="@dimen/defaultMarginTop"
+        android:layout_marginTop="@dimen/defaultMargin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lytIvProfile">
@@ -86,7 +86,7 @@
         android:id="@+id/etLinearLytUsername"
         android:layout_width="@dimen/maxWidth"
         android:layout_height="@dimen/height"
-        android:layout_marginTop="@dimen/defaultMarginTop"
+        android:layout_marginTop="@dimen/defaultMargin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etLinearLytName">
@@ -133,7 +133,7 @@
         android:id="@+id/etLinearLytEmail"
         android:layout_width="@dimen/maxWidth"
         android:layout_height="@dimen/height"
-        android:layout_marginTop="@dimen/defaultMarginTop"
+        android:layout_marginTop="@dimen/defaultMargin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etLinearLytUsername">
@@ -181,7 +181,7 @@
         android:id="@+id/btnLogin"
         android:layout_width="@dimen/maxWidth"
         android:layout_height="@dimen/height"
-        android:layout_marginTop="@dimen/defaultMarginTop"
+        android:layout_marginTop="@dimen/defaultMargin"
         android:backgroundTint="?android:attr/colorForeground"
         android:text="@string/strSave"
         android:textColor="?android:attr/colorForegroundInverse"

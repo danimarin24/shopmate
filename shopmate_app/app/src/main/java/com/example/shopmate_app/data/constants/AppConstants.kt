@@ -9,6 +9,7 @@ object AppConstants {
 
 
     const val USER_ENDPOINT = "/api/user/"
+    const val COLOR_ENDPOINT = "/api/color/"
     const val GET_IMAGES_ENDPOINT = "/api/images"
 
 
