@@ -3,6 +3,43 @@
     <string name="web_client_id" translatable="false">544701638538-ccp0cp41t4r10ofpl8biku4ckh457hm8.apps.googleusercontent.com</string>
 
 
+    <!-- ERROR MESSAGES -->
+    <string name="errNoBoardFound">¡No tienes ningún tablero creado!</string>
+    <string name="errNoCardFoundBoard">¡No tienes ninguna lista creada en este tablero!</string>
+    <string name="errGeneral">¡ERROR!</string>
+
+    <string name="errNameInvalid">Escribe un nombre válido</string>
+    <string name="errEmailInvalid">Escribe un correo electrónico válido</string>
+    <string name="errUsernameInvalid">Escribe un nombre de usuario válido</string>
+    <string name="errPasswordNotEqual">Las contraseñas no coinciden</string>
+
+    <!-- ACTIONS MESSAGES -->
+    <string name="actionCreateNewBoard">Crear un nuevo tablero</string>
+    <string name="actionCreateNewCard">Crear una nueva lista</string>
+
+    <!-- INFORMATION MESSAGES -->
+    <string name="infoCreateBoard">Crear tablero nuevo</string>
+    <string name="infoCreateCard">Crear lista nueva</string>
+
+    <!-- GENERAL TEXTS -->
+    <string name="next">Siguiente</string>
+    <string name="back">Volver</string>
+    <string name="cancel">Cancelar</string>
+    <string name="go">Ir</string>
+    <string name="save">Guardar</string>
+    <string name="delete">Eliminar</string>
+    <string name="modify">Modificar</string>
+    <string name="create">Crear</string>
+    <string name="add">Añadir</string>
+    <string name="update">Actualizar</string>
+
+    <!-- HINT MESSAGES -->
+    <string name="hintBoardName">Nombre del tablero</string>
+    <string name="hintCardName">Nombre de la lista</string>
+
+
+
+
     <string name="iconStr" translatable="false">Icon</string>
 
     <string name="hintUser">Escribe tu nombre</string>

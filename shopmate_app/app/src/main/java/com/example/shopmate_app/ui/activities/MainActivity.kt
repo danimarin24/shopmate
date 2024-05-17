@@ -7,9 +7,12 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.ArrayAdapter
 import android.widget.LinearLayout
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -27,7 +30,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopmate_app.R
 import com.example.shopmate_app.databinding.ActivityMainBinding
+import com.example.shopmate_app.domain.entities.newtworkEntities.BoardEntity
 import com.example.shopmate_app.ui.adapters.ColorsChoseAdapter
+import com.example.shopmate_app.ui.viewmodels.BoardViewModel
 import com.example.shopmate_app.ui.viewmodels.ColorViewModel
 import com.example.shopmate_app.ui.viewmodels.MainViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -45,6 +50,10 @@ class MainActivity : AppCompatActivity() {
 
     private val mainViewModel: MainViewModel by viewModels()
     private val colorViewModel: ColorViewModel by viewModels()
+    private val boardViewModel: BoardViewModel by viewModels()
+
+
+    private var isBoardListEmpty = true
 
 
 
@@ -84,9 +93,25 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+
+        boardViewModel.getBoardsByOwnerId(mainViewModel.getUserId()!!)
+
+        boardViewModel.boardsEntity.observe(this, Observer { boardList ->
+            isBoardListEmpty = boardList.isNullOrEmpty()
+        })
+
+
+
         binding.btnCreateNew.setOnClickListener {
-            showCreateNewDialog()
+            if (isBoardListEmpty) {
+                Snackbar.make(binding.root, getString(R.string.errNoBoardFound), Snackbar.LENGTH_SHORT).show()
+                boardViewModel.getBoardsByOwnerId(mainViewModel.getUserId()!!)
+            } else {
+                showCreateNewDialog()
+            }
         }
+
+
 
         binding.bottomNavigationBar.setOnItemSelectedListener {
             when (it.itemId) {
@@ -133,7 +158,6 @@ class MainActivity : AppCompatActivity() {
         navController = findNavController(R.id.navHostMainFragmentContainer)
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
-
 
     private fun changeHeaderInfo(activeFragment: String) {
         binding.btnLeft.setImageResource(android.R.color.transparent)
@@ -214,12 +238,22 @@ class MainActivity : AppCompatActivity() {
         val etCardName = dialog.findViewById<TextInputEditText>(R.id.etCardName)
 
         val rcvColors = dialog.findViewById<RecyclerView>(R.id.rcvDefaultColorsSelection)
+        val cboBoardSelection = dialog.findViewById<Spinner>(R.id.cboBoardSelection)
 
         colorViewModel.getColors()
 
         colorViewModel.colorList.observe(this, Observer { colors ->
             rcvColors.adapter = ColorsChoseAdapter(colors)
             rcvColors.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
+        })
+
+        boardViewModel.boardsEntity.observe(this, Observer { boardList ->
+            if (!boardList.isNullOrEmpty()) {
+                val titles = boardList.map { it.title }
+                val adapter = ArrayAdapter(navController.context, R.layout.cbo_text_list, titles)
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                cboBoardSelection.adapter = adapter
+            }
         })
 
         etCardNameLyt.setEndIconOnClickListener {
@@ -250,4 +284,6 @@ class MainActivity : AppCompatActivity() {
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
         dialog.window?.setGravity(Gravity.BOTTOM)
     }
+
+
 }

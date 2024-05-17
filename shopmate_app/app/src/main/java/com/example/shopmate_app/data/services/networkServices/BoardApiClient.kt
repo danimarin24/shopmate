@@ -13,7 +13,7 @@ import retrofit2.http.Path
 
 interface BoardApiClient {
     // GET
-    @GET("${AppConstants.BOARD_ENDPOINT}{id}")
+    @GET("${AppConstants.BOARD_ENDPOINT}user/{id}")
     suspend fun getBoardsByOwnerId(@Path("id") id: Int, @Header("x-api-key") apiKey: String): Response<List<BoardEntity>>
 
     // POST

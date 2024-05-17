@@ -24,7 +24,7 @@ namespace API.Controllers
 
         // GET: api/Board
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BoardDTO>>> GetBoards()
+        public async Task<ActionResult<IEnumerable<BoardDTO>>> GetAllBoards()
         {
             var boards = await _context.Boards.ToListAsync();
             return boards.Select(b => new BoardDTO() {
@@ -34,9 +34,9 @@ namespace API.Controllers
             }).ToList();
         }
         
-        // GET: api/Board/user
-        [HttpGet("/user")]
-        public async Task<ActionResult<IEnumerable<BoardDTO>>> GetBoards(int id)
+        // GET: api/Board/user/2
+        [HttpGet("user/{id}")]
+        public async Task<ActionResult<IEnumerable<BoardDTO>>> GetBoardsUser(int id)
         {
             var boards = await _context.Boards.Where(b => b.OwnerId == id).ToListAsync();
             return boards.Select(b => new BoardDTO() {

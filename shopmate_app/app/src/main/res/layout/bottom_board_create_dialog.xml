@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txtCancel"
+            android:id="@+id/txtBoardCancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="6"
@@ -29,21 +29,21 @@
             android:textColor="#ffffff" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txtHeader"
+            android:id="@+id/txtBoardHeader"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="12"
-            android:text="@string/infoCreateCard"
+            android:text="@string/infoCreateBoard"
             android:textAlignment="center"
             android:textColor="#ffffff"
             android:textSize="@dimen/bigTextSize" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txtNext"
+            android:id="@+id/txtBoardCreate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="6"
-            android:text="@string/next"
+            android:text="@string/create"
             android:textAlignment="textEnd"
             android:textColor="#ffffff"
 
@@ -52,7 +52,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/etCardNameLyt"
+        android:id="@+id/etBoardNameLyt"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="@dimen/defaultMargin"
@@ -64,14 +64,14 @@
         app:layout_constraintTop_toBottomOf="@+id/lytTop">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etCardName"
+            android:id="@+id/etBoardName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="@dimen/littleMargin"
             android:autofillHints="username"
             android:background="@drawable/custom_input_rounded"
             android:fontFamily="@font/poppins_medium"
-            android:hint="@string/hintCardName"
+            android:hint="@string/hintBoardName"
             android:includeFontPadding="false"
             android:inputType="text"
             android:padding="0dp"
@@ -80,61 +80,6 @@
             android:textSize="16sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
-    <LinearLayout
-        android:id="@+id/lytLinearCbo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        android:layout_marginHorizontal="@dimen/littleMargin"
-        android:weightSum="13"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etCardNameLyt">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txtCboSelec"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="6"
-            android:text="Seleccione un tablero"
-            android:textAlignment="textEnd"
-            android:textColor="#ffffff"
-
-            />
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-        <Spinner
-            android:id="@+id/cboBoardSelection"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/defaultMargin"
-            android:layout_weight="6"
-            android:background="@drawable/custom_input_rounded"
-            android:paddingVertical="10dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="?attr/colorOnPrimaryContainer"
-            android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@+id/etCardNameLyt" />
-
-    </LinearLayout>
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcvDefaultColorsSelection"
-        android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:layout_marginTop="@dimen/defaultMargin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lytLinearCbo" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,7 @@
     tools:context=".ui.fragments.home.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/boxAlertNoBoardFound"
+        android:id="@+id/boxAlertMessage"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_medium"
-            android:text="No tens cap taulell creat!"
+            android:text="@string/errNoBoardFound"
             android:textAlignment="center"
             android:textColor="#000000"
             app:layout_constraintTop_toTopOf="parent" />
@@ -40,12 +40,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnCreateNewBoard"
+            android:id="@+id/btnAction"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             app:cornerRadius="6dp"
             android:layout_marginTop="10dp"
-            android:text="Crear un taulell nou"
+            android:text="@string/actionCreateNewBoard"
             android:textSize="@dimen/littleTextSize"
             app:icon="@drawable/baseline_add_box_24"
             app:iconSize="20dp"
