@@ -31,5 +31,10 @@ namespace ShopMate_Client_V1
         {
 
         }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
