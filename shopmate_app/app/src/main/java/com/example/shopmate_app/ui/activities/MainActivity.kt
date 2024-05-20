@@ -168,6 +168,20 @@ class MainActivity : AppCompatActivity() {
         when (activeFragment) {
             "home" -> {
                 binding.txtHeaderTitle.text = getString(R.string.strHome)
+
+                binding.btnLeft.setImageResource(R.drawable.application_edit_outline)
+                binding.btnLeft.setOnClickListener {
+                    binding.btnLeft.setImageResource(R.drawable.application_edit_outline)
+                    //showCreateNewBoard()
+                    // TODO: ('Add edit cards logic')
+                }
+
+                binding.btnRight.setImageResource(R.drawable.plus_circle_outline)
+                binding.btnRight.setOnClickListener {
+                    binding.btnRight.setImageResource(R.drawable.plus_circle_outline_open)
+                    showCreateNewBoard()
+                }
+
             }
             "search" -> {
                 binding.txtHeaderTitle.text = getString(R.string.strSearch)
@@ -285,5 +299,47 @@ class MainActivity : AppCompatActivity() {
         dialog.window?.setGravity(Gravity.BOTTOM)
     }
 
+    fun showCreateNewBoard() {
+        val dialog = Dialog(navController.context)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.bottom_board_create_dialog)
 
+        val txtCancel = dialog.findViewById<MaterialTextView>(R.id.txtBoardCancel)
+        val txtCreate = dialog.findViewById<MaterialTextView>(R.id.txtBoardCreate)
+        val etBoardNameLyt = dialog.findViewById<TextInputLayout>(R.id.etBoardNameLyt)
+        val etBoardName = dialog.findViewById<TextInputEditText>(R.id.etBoardName)
+
+
+        etBoardNameLyt.setEndIconOnClickListener {
+            etBoardName.text?.clear()
+        }
+
+        txtCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        txtCreate.setOnClickListener {
+            if (etBoardName.text.isNullOrBlank()) {
+                //err is null or empty/blank
+                Snackbar.make(binding.root, getString(R.string.errNameInvalid), Snackbar.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            var board = BoardEntity(null, etBoardName.text.toString(), mainViewModel.getUserId()!!)
+            boardViewModel.addBoard(board);
+            boardViewModel.getBoardsByOwnerId(mainViewModel.getUserId()!!)
+            dialog.dismiss()
+        }
+
+
+        dialog.setOnDismissListener {
+            binding.btnRight.setImageResource(R.drawable.plus_circle_outline)
+        }
+
+
+        dialog.show()
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+        dialog.window?.setGravity(Gravity.BOTTOM)
+    }
 }

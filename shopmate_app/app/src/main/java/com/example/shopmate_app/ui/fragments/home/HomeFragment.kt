@@ -16,10 +16,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopmate_app.R
 import com.example.shopmate_app.databinding.FragmentHomeBinding
 import com.example.shopmate_app.domain.entities.newtworkEntities.BoardEntity
+import com.example.shopmate_app.ui.adapters.BoardAdapter
 import com.example.shopmate_app.ui.adapters.ColorsChoseAdapter
 import com.example.shopmate_app.ui.viewmodels.BoardViewModel
 import com.example.shopmate_app.ui.viewmodels.MainViewModel
@@ -46,15 +48,18 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         context = requireContext()
 
-        boardViewModel.getBoardsByOwnerId(mainViewModel.getUserId()!!)
+        boardViewModel.getBoardWithCardsByOwnerId(mainViewModel.getUserId()!!)
 
-        boardViewModel.boardsEntity.observe(viewLifecycleOwner, Observer { boardList ->
+        boardViewModel.boardsCardsEntity.observe(viewLifecycleOwner, Observer { boardList ->
             if (boardList.isNullOrEmpty()) {
                 //binding.boxAlertMessage.visibility = View.VISIBLE
                 binding.rcvBoardHome.showEmptyView()
             } else {
                 //binding.boxAlertMessage.visibility = View.GONE
                 binding.rcvBoardHome.hideAllViews()
+                binding.rcvBoardHome.recyclerView.adapter = BoardAdapter(boardList)
+                binding.rcvBoardHome.recyclerView.layoutManager = LinearLayoutManager(findNavController().context, LinearLayoutManager.VERTICAL, false)
+
             }
         })
 
@@ -77,47 +82,5 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    fun showCreateNewBoard() {
-        val dialog = Dialog(findNavController().context)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.bottom_board_create_dialog)
 
-        val txtCancel = dialog.findViewById<MaterialTextView>(R.id.txtBoardCancel)
-        val txtCreate = dialog.findViewById<MaterialTextView>(R.id.txtBoardCreate)
-        val etBoardNameLyt = dialog.findViewById<TextInputLayout>(R.id.etBoardNameLyt)
-        val etBoardName = dialog.findViewById<TextInputEditText>(R.id.etBoardName)
-
-
-        etBoardNameLyt.setEndIconOnClickListener {
-            etBoardName.text?.clear()
-        }
-
-        txtCancel.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        txtCreate.setOnClickListener {
-            if (etBoardName.text.isNullOrBlank()) {
-                //err is null or empty/blank
-                Snackbar.make(binding.root, getString(R.string.errNameInvalid), Snackbar.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            var board = BoardEntity(null, etBoardName.text.toString(), mainViewModel.getUserId()!!)
-            boardViewModel.addBoard(board);
-            boardViewModel.getBoardsByOwnerId(mainViewModel.getUserId()!!)
-            dialog.dismiss()
-        }
-
-        /*
-        dialog.setOnDismissListener {
-            binding.btnRight.setImageResource(R.drawable.menu)
-        }
-         */
-
-        dialog.show()
-        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-        dialog.window?.setGravity(Gravity.BOTTOM)
-    }
 }

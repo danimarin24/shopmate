@@ -1,6 +1,7 @@
 package com.example.shopmate_app.domain.repo
 
 import com.example.shopmate_app.data.services.networkServices.BoardService
+import com.example.shopmate_app.domain.entities.dbEntities.DbBoardEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.BoardEntity
 import com.example.shopmate_app.domain.entities.providers.BoardProvider
 import javax.inject.Inject
