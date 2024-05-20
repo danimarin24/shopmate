@@ -18,13 +18,17 @@ class BoardViewModel @Inject constructor(
 
     val boardsEntity = MutableLiveData<List<BoardEntity>?>()
     val boardEntity = MutableLiveData<BoardEntity?>()
+    val isLoading = MutableLiveData<Boolean>()
+
 
     fun getBoardsByOwnerId(id: Int) {
         viewModelScope.launch {
+            isLoading.postValue(true)
             val result = getBoardsByOwnerIdUseCase(id)
 
             if(result != null){
                 boardsEntity.postValue(result)
+                isLoading.postValue(false)
             }
         }
     }

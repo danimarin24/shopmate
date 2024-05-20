@@ -6,7 +6,12 @@
     <!-- ERROR MESSAGES -->
     <string name="errNoBoardFound">¡No tienes ningún tablero creado!</string>
     <string name="errNoCardFoundBoard">¡No tienes ninguna lista creada en este tablero!</string>
-    <string name="errGeneral">¡ERROR!</string>
+    <string name="errNoCardFoundAll">¡No tienes ninguna lista creada!</string>
+    <string name="errGeneral">¡Algo ha ido mal!</string>
+    <string name="errEmpty">¡No hay nada aquí!</string>
+    <string name="errEmptyCards">¡No hay ninguna lista aquí!</string>
+    <string name="errEmptyBoards">¡No hay ningun tablero aquí!</string>
+    <string name="errEmptyExtra">¡Oh, no hay nada aquí!</string>
 
     <string name="errNameInvalid">Escribe un nombre válido</string>
     <string name="errEmailInvalid">Escribe un correo electrónico válido</string>
@@ -32,6 +37,7 @@
     <string name="create">Crear</string>
     <string name="add">Añadir</string>
     <string name="update">Actualizar</string>
+    <string name="retry">Reintentar</string>
 
     <!-- HINT MESSAGES -->
     <string name="hintBoardName">Nombre del tablero</string>
@@ -100,6 +106,9 @@
     <string name="strHome">Home</string>
     <string name="strTemplate">Templates</string>
     <string name="strSearch">Search</string>
+    <string name="txtZero">0</string>
+    <string name="cdErrImg">Error Image</string>
+    <string name="cdEmptyImage">Empty image</string>
 
 
 </resources>

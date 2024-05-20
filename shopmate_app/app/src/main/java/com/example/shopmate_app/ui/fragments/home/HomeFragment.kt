@@ -46,22 +46,33 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         context = requireContext()
 
-
         boardViewModel.getBoardsByOwnerId(mainViewModel.getUserId()!!)
 
         boardViewModel.boardsEntity.observe(viewLifecycleOwner, Observer { boardList ->
             if (boardList.isNullOrEmpty()) {
-                binding.boxAlertMessage.visibility = View.VISIBLE
+                //binding.boxAlertMessage.visibility = View.VISIBLE
+                binding.rcvBoardHome.showEmptyView()
             } else {
-                binding.boxAlertMessage.visibility = View.GONE
+                //binding.boxAlertMessage.visibility = View.GONE
+                binding.rcvBoardHome.hideAllViews()
             }
         })
 
+        boardViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            if (isLoading) {
+                binding.rcvBoardHome.showLoadingView()
+            }
+        })
+
+        binding.rcvBoardHome.setOnRetryClickListener {
+            boardViewModel.getBoardsByOwnerId(mainViewModel.getUserId()!!)
+        }
+
+        /*
         binding.btnAction.setOnClickListener {
             showCreateNewBoard()
         }
-
-
+         */
 
         return binding.root
     }

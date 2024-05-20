@@ -6,52 +6,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragments.home.HomeFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <!--
+    <include
         android:id="@+id/boxAlertMessage"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/custom_bg_alert"
-        android:padding="20dp"
+        layout="@layout/custom_box_alert"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/materialTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_medium"
-            android:text="@string/errNoBoardFound"
-            android:textAlignment="center"
-            android:textColor="#000000"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/ivAlert"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:src="@drawable/alert_octagram"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnAction"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            app:cornerRadius="6dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/actionCreateNewBoard"
-            android:textSize="@dimen/littleTextSize"
-            app:icon="@drawable/baseline_add_box_24"
-            app:iconSize="20dp"
-            app:iconGravity="textStart"
-            app:layout_constraintTop_toBottomOf="@+id/ivAlert" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvBoardHome"
@@ -61,6 +26,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    -->
+
+    <com.example.shopmate_app.ui.components.LCEERecyclerView
+        android:id="@+id/rcvBoardHome"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        app:emptyIcon="@drawable/ic_empty"
+        app:emptyText="@string/errEmptyBoards"
+        app:errorIcon="@drawable/ic_error"
+        app:errorText="@string/errNoBoardFound"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

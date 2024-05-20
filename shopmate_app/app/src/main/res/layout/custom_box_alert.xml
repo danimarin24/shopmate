@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/boxAlertMessage"
+    android:layout_width="250dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/custom_bg_alert"
+    android:padding="20dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/materialTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/errNoBoardFound"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivAlert"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:src="@drawable/alert_octagram"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAction"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:cornerRadius="6dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/actionCreateNewBoard"
+        android:textSize="@dimen/littleTextSize"
+        app:icon="@drawable/baseline_add_box_24"
+        app:iconSize="20dp"
+        app:iconGravity="textStart"
+        app:layout_constraintTop_toBottomOf="@+id/ivAlert" />
+</androidx.constraintlayout.widget.ConstraintLayout>

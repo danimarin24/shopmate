@@ -53,6 +53,7 @@
                     android:id="@+id/txtUserFollows"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/txtZero"
                     android:textColor="?android:attr/colorForeground" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -79,6 +80,7 @@
                     android:id="@+id/txtUserFollowers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/txtZero"
                     android:textColor="?android:attr/colorForeground" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -105,6 +107,7 @@
                     android:id="@+id/txtUserTotalSaves"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/txtZero"
                     android:textColor="?android:attr/colorForeground" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -122,14 +125,28 @@
 
     </LinearLayout>
 
-<!-- Cards -->
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/rcvCards"
-    android:layout_width="300dp"
-    android:layout_height="400dp"
-    android:layout_marginTop="20dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/lytStats" />
+    <!-- Cards -->
+    <!--
+        <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvCards"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lytStats" />
+    -->
+    <com.example.shopmate_app.ui.components.LCEERecyclerView
+        android:id="@+id/rcvCards"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:layout_marginTop="20dp"
+        app:emptyIcon="@drawable/ic_empty"
+        app:emptyText="@string/errEmptyCards"
+        app:errorIcon="@drawable/ic_error"
+        app:errorText="@string/errNoCardFoundAll"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lytStats" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
