@@ -31,6 +31,24 @@ public class CardRepository : ICardRepository
             })
             .FirstOrDefaultAsync(c => c.CardId == cardId);
     }
+    
+    public async Task<IEnumerable<CardDto>> GetCardsByUserId(uint userId)
+    {
+        return await _context.Cards
+            .Include(c => c.Color)
+            .Where(c => c.OwnerId == userId)
+            .Select(c => new CardDto
+            {
+                CardId = c.CardId,
+                //Name = c.Name,
+                IsPublic = c.IsPublic,
+                IsTemplate = c.IsTemplate,
+                IsArchived = c.IsArchived,
+                EstimatedPrice = c.EstimatedPrice,
+                ColorId = c.ColorId
+            })
+            .ToListAsync();
+    }
 
 
 

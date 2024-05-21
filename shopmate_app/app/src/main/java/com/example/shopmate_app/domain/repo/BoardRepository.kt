@@ -9,7 +9,7 @@ import javax.inject.Inject
 class BoardRepository @Inject constructor(private val boardService: BoardService) {
     suspend fun getBoardsByUser(userId: Int): List<BoardEntity> {
         val response = boardService.getBoardsByUser(userId)
-            BoardProvider.boards = response
+        BoardProvider.boards = response
         return response
     }
 

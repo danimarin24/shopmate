@@ -29,6 +29,9 @@ class BoardViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
+    private val _isError = MutableLiveData<Boolean>()
+    val isError: LiveData<Boolean> get() = _isError
+
     fun fetchBoards(userId: Int) {
         viewModelScope.launch {
             _isLoading.value = true
@@ -42,6 +45,8 @@ class BoardViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 // Handle error
+                _isError.value = true
+                _isLoading.value = false
             } finally {
                 _isLoading.value = false
             }
@@ -56,6 +61,8 @@ class BoardViewModel @Inject constructor(
                 _cardsByBoard.value = currentMap + (boardId to cards)
             } catch (e: Exception) {
                 // Handle error
+                _isError.value = true
+                _isLoading.value = false
             }
         }
     }
@@ -69,6 +76,8 @@ class BoardViewModel @Inject constructor(
                 _boards.value = updatedBoards
             } catch (e: Exception) {
                 // Handle error
+                _isError.value = true
+                _isLoading.value = false
             } finally {
                 _isLoading.value = false
             }

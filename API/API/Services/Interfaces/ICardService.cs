@@ -6,6 +6,7 @@ namespace API.Services.Interfaces{
     public interface ICardService
     {
         Task<IEnumerable<CardDto>> GetCardsByBoardId(uint boardId);
+        Task<IEnumerable<CardDto>> GetCardsByUserId(uint userId);
         Task<CardDto> GetCardById(uint cardId);
         Task<CardDto> AddCardToBoard(uint boardId, Card card);
         //Task<bool> ShareCard(uint cardId, Card card);

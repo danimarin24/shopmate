@@ -7,20 +7,13 @@ import javax.inject.Inject
 
 class CardRepository @Inject constructor(private val api: CardService){
 
-    suspend fun getCardsByBoardId(id: Int): List<CardEntity>? {
-        return try {
-            val response = api.getCardsByBoardId(id)
-            if (response != null) {
-                CardProvider.cards = response
-            }
-            response
-        } catch (e: Exception) {
-            //err
-            emptyList<CardEntity>()
-        }
+    suspend fun getAllCardsByUserId(id: Int): List<CardEntity> {
+        val response = api.getCardsByBoardId(id)
+        CardProvider.cards = response
+        return response
     }
 
-    suspend fun addCard(boardId: Int, card: CardEntity): CardEntity? {
+    suspend fun addCardToABoard(boardId: Int, card: CardEntity): CardEntity {
         val response = api.addCard(boardId, card)
         CardProvider.card = response
         return response!!

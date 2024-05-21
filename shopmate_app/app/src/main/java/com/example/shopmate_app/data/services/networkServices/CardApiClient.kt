@@ -14,21 +14,10 @@ import retrofit2.http.Path
 
 interface CardApiClient {
     // GET
-    @GET("${AppConstants.BOARD_ENDPOINT}user/{id}/card")
-    suspend fun getCardsByBoardId(@Path("id") id: Int, @Header("x-api-key") apiKey: String): Response<List<CardEntity>>
+    @GET("${AppConstants.CARD_ENDPOINT}users/{userId}/cards")
+    suspend fun getCardsByUserId(@Path("userId") userId: Int, @Header("x-api-key") apiKey: String): Response<List<CardEntity>>
 
     // POST
-    @GET("${AppConstants.BOARD_ENDPOINT}user/{id}/card")
-    suspend fun addCard(@Path("id") id: Int, @Body card: CardEntity, @Header("x-api-key") apiKey: String): Response<CardEntity>
-
-    // PUT
-    @PUT("${AppConstants.CARD_ENDPOINT}{id}")
-    suspend fun updateCard(@Path("id") id: Int, @Body user: CardEntity, @Header("x-api-key") apiKey: String): Response<CardEntity>
-
-    // PATCH
-
-    // DELETE
-    @PUT("${AppConstants.CARD_ENDPOINT}{id}")
-    suspend fun deleteCard(@Path("id") id: Int, @Header("x-api-key") apiKey: String): Response<CardEntity>
-
+    @GET("${AppConstants.BOARD_ENDPOINT}/{boardId}/card")
+    suspend fun addCardToABoard(@Path("boardId") boardId: Int, @Body card: CardEntity, @Header("x-api-key") apiKey: String): Response<CardEntity>
 }

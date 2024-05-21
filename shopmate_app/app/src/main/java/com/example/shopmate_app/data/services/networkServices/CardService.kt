@@ -7,16 +7,16 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CardService @Inject constructor(private val api: CardApiClient) {
-    suspend fun getCardsByBoardId(id: Int): List<CardEntity>?  {
+    suspend fun getCardsByBoardId(userId: Int): List<CardEntity>  {
         return withContext(Dispatchers.IO) {
-            val response = api.getCardsByBoardId(id, AppConstants.API_KEY)
-            response.body()
+            val response = api.getCardsByUserId(userId, AppConstants.API_KEY)
+            response.body()!!
         }
     }
 
     suspend fun addCard(boardId: Int, card: CardEntity): CardEntity? {
         return withContext(Dispatchers.IO) {
-            val response = api.addCard(boardId, card, AppConstants.API_KEY)
+            val response = api.addCardToABoard(boardId, card, AppConstants.API_KEY)
             response.body()
         }
     }

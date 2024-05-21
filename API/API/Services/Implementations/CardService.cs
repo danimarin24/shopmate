@@ -36,6 +36,11 @@ namespace API.Services.Implementations
         {
             return await _boardRepository.GetCardsByBoardId(boardId);
         }
+        
+        public async Task<IEnumerable<CardDto>> GetCardsByUserId(uint userId)
+        {
+            return await _cardRepository.GetCardsByUserId(userId);
+        }
 
         public async Task<CardDto> GetCardById(uint cardId)
         {

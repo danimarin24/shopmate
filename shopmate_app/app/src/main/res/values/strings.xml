@@ -105,6 +105,7 @@
     <string name="txtZero">0</string>
     <string name="cdErrImg">Error Image</string>
     <string name="cdEmptyImage">Empty image</string>
+    <string name="at">\@</string>
 
 
 </resources>

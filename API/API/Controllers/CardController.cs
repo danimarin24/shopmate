@@ -52,6 +52,15 @@ namespace API.Controllers
                return Ok();
            }
          */
+        
+        [HttpGet("users/{userId}/cards")]
+        public async Task<IActionResult> GetCardsByUserId(uint userId)
+        {
+            var cards = await _cardService.GetCardsByUserId(userId);
+            if (cards == null)
+                return NotFound();
+            return Ok(cards);
+        }
 
 
         [HttpGet("{cardId}")]
