@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
 
 namespace ShopMate_Client_V1.Controller
 {
@@ -35,7 +36,7 @@ namespace ShopMate_Client_V1.Controller
         private void login(object sender, EventArgs e)
         {
             var username = l.txt_username.Text;
-            var password = l.txt_pass.Text;
+            var password = sha256_hash(l.txt_pass.Text);
             bool checkUser = false;
             bool checkPass = false;
 
@@ -55,7 +56,6 @@ namespace ShopMate_Client_V1.Controller
                 l.lbl_adv_user.Text = "Username no encontrado";
             }
 
-            // Verificar si la contraseña coincide
             if (u != null && u.Password.Equals(password))
             {
                 checkPass = true;
@@ -67,9 +67,28 @@ namespace ShopMate_Client_V1.Controller
 
             
             if (checkUser && checkPass)
-            {
-                Controller1 c1 = new Controller1();
+            {             
+                
+                new Controller1();
+                l.Visible = false;
+                
             }
+        }
+
+        public static String sha256_hash(String value)
+        {
+            StringBuilder Sb = new StringBuilder();
+
+            using (SHA256 hash = SHA256Managed.Create())
+            {
+                Encoding enc = Encoding.UTF8;
+                Byte[] result = hash.ComputeHash(enc.GetBytes(value));
+
+                foreach (Byte b in result)
+                    Sb.Append(b.ToString("x2"));
+            }
+
+            return Sb.ToString();
         }
 
     }

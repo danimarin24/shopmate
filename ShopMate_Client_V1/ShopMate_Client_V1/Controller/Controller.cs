@@ -9,6 +9,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -21,6 +22,7 @@ namespace ShopMate_Client_V1.Controller
         ControllerCategory categoryController;
         Form1 f;
         FormUser fUser;
+        Login l;
 
         List<User> originalUserList;
         List<UserDTO> userDTOList;
@@ -31,25 +33,24 @@ namespace ShopMate_Client_V1.Controller
         UserImageAux imageAux = new UserImageAux(); 
 
         public Controller1()
-        {
+        {       
+            
             f = new Form1();
+            f.Show();
             fUser = new FormUser();
             r = new Repository();                    
             categoryController = new ControllerCategory(r, f.dtg_cat, f.dtg_item);           
             InitListeners();
             LoadData();
             
-            Application.Run(f);
         }
         // INITIAL CHARGE
         public void LoadData()
         {
             originalUserList = r.GetUsers();
-
             userDTOList = originalUserList.Select(u => new UserDTO(u)).ToList(); 
-
             f.dtg_client.DataSource = userDTOList;
-            //userList = new List<User>(originalUserList);           
+             
 
             // f.dtg_client.DataSource = originalUserList;
             f.combo_cat.DataSource = new string[] { " ", "Name", "Last Update", "Register Date" };
@@ -59,14 +60,12 @@ namespace ShopMate_Client_V1.Controller
 
 
 
-        }
-
-       
+        }       
 
         // GLOBAL LISTENER
         public void InitListeners()
         {
-            // CLIENT -----------------------------
+            // USER -----------------------------
             f.btn_add_user.Click += openFormUser;
             f.btn_modify_user.Click += openFormUser;
             f.dtg_client.CellDoubleClick += modifyUserByDoubleClick;
@@ -135,7 +134,7 @@ namespace ShopMate_Client_V1.Controller
         {
             String name = fUser.txt_name.Text;
             String userName = fUser.txt_username.Text;
-            String pass = fUser.txt_pass.Text;
+            String pass = sha256_hash(fUser.txt_pass.Text);
             String phone = fUser.txt_phone.Text;
             String email = fUser.txt_email.Text;
             Image profileImage = fUser.pictureBox1.Image;
@@ -203,10 +202,10 @@ namespace ShopMate_Client_V1.Controller
 
                     User updatedUser = r.PutUser(selectedUser, selectedUser.UserId, newName, newUsername, newPhone, newEmail);
 
-                    // Verificar si la actualización fue exitosa
-                    if (updatedUser != null)
+                    
+                    if (updatedUser == null)
                     {
-
+                        MessageBox.Show("Error updating user", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
                     {
@@ -219,10 +218,10 @@ namespace ShopMate_Client_V1.Controller
                 }
                 finally
                 {
-                    // Cerrar el formulario de usuario después de la actualización
+                   
                     fUser.Close();
 
-                    // Recargar los datos en el formulario principal después de la actualización
+                   
                     LoadData();
                 }
             }
@@ -464,7 +463,7 @@ namespace ShopMate_Client_V1.Controller
         private void orderCategory(object sender, EventArgs e)
         {
             String selectedOrder = f.combo_cat.Text.ToString();
-            categoryController.orderByComboCategory(selectedOrder);
+            // categoryController.orderByComboCategory(selectedOrder);
         }
         private void searchCategory(object sender, EventArgs e)
         {
@@ -519,18 +518,35 @@ namespace ShopMate_Client_V1.Controller
             }
             else
             {
-                // Mostrar un mensaje si no se ha seleccionado ninguna fila
+               
                 MessageBox.Show("No users selected for deletion", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         private void resetItemDGV(object sender, EventArgs e)
         {
             categoryController.defaultDGV_items();
+
         }
 
 
-        // CONFIG
+        // Other methods
 
-       
+        public static String sha256_hash(String value)
+        {
+            StringBuilder Sb = new StringBuilder();
+
+            using (SHA256 hash = SHA256Managed.Create())
+            {
+                Encoding enc = Encoding.UTF8;
+                Byte[] result = hash.ComputeHash(enc.GetBytes(value));
+
+                foreach (Byte b in result)
+                    Sb.Append(b.ToString("x2"));
+            }
+
+            return Sb.ToString();
+        }
+
+
     }
 }

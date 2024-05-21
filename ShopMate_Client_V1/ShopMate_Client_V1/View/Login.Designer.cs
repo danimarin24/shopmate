@@ -46,8 +46,8 @@
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
             this.panel_login = new System.Windows.Forms.Panel();
-            this.lbl_adv_user = new System.Windows.Forms.Label();
             this.lbl_adv_pass = new System.Windows.Forms.Label();
+            this.lbl_adv_user = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -129,7 +129,7 @@
             this.txt_username.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txt_username.Name = "txt_username";
             this.txt_username.Size = new System.Drawing.Size(231, 16);
-            this.txt_username.TabIndex = 1;
+            this.txt_username.TabIndex = 0;
             // 
             // label2
             // 
@@ -150,7 +150,7 @@
             this.link_contact_WithAdmin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.link_contact_WithAdmin.Name = "link_contact_WithAdmin";
             this.link_contact_WithAdmin.Size = new System.Drawing.Size(113, 15);
-            this.link_contact_WithAdmin.TabIndex = 3;
+            this.link_contact_WithAdmin.TabIndex = 5;
             this.link_contact_WithAdmin.TabStop = true;
             this.link_contact_WithAdmin.Text = "Contact with Admin";
             this.link_contact_WithAdmin.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
@@ -165,7 +165,7 @@
             this.txt_pass.Name = "txt_pass";
             this.txt_pass.PasswordChar = '•';
             this.txt_pass.Size = new System.Drawing.Size(231, 16);
-            this.txt_pass.TabIndex = 5;
+            this.txt_pass.TabIndex = 1;
             // 
             // label3
             // 
@@ -188,7 +188,7 @@
             this.btn_iniciar.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btn_iniciar.Name = "btn_iniciar";
             this.btn_iniciar.Size = new System.Drawing.Size(130, 33);
-            this.btn_iniciar.TabIndex = 6;
+            this.btn_iniciar.TabIndex = 3;
             this.btn_iniciar.Text = "Iniciar sessión";
             this.btn_iniciar.UseVisualStyleBackColor = false;
             // 
@@ -275,16 +275,6 @@
             this.panel_login.TabIndex = 3;
             this.panel_login.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
-            // lbl_adv_user
-            // 
-            this.lbl_adv_user.AutoSize = true;
-            this.lbl_adv_user.Font = new System.Drawing.Font("Segoe UI Semilight", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_adv_user.ForeColor = System.Drawing.Color.IndianRed;
-            this.lbl_adv_user.Location = new System.Drawing.Point(55, 241);
-            this.lbl_adv_user.Name = "lbl_adv_user";
-            this.lbl_adv_user.Size = new System.Drawing.Size(0, 12);
-            this.lbl_adv_user.TabIndex = 22;
-            // 
             // lbl_adv_pass
             // 
             this.lbl_adv_pass.AutoSize = true;
@@ -294,6 +284,16 @@
             this.lbl_adv_pass.Name = "lbl_adv_pass";
             this.lbl_adv_pass.Size = new System.Drawing.Size(0, 12);
             this.lbl_adv_pass.TabIndex = 23;
+            // 
+            // lbl_adv_user
+            // 
+            this.lbl_adv_user.AutoSize = true;
+            this.lbl_adv_user.Font = new System.Drawing.Font("Segoe UI Semilight", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_adv_user.ForeColor = System.Drawing.Color.IndianRed;
+            this.lbl_adv_user.Location = new System.Drawing.Point(55, 241);
+            this.lbl_adv_user.Name = "lbl_adv_user";
+            this.lbl_adv_user.Size = new System.Drawing.Size(0, 12);
+            this.lbl_adv_user.TabIndex = 22;
             // 
             // Login
             // 
