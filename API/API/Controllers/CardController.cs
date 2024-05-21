@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using API.Context;
+using API.Services;
 using API.Model;
+using System.Collections.Generic;
+using API.DTOs;
+using API.Services.Interfaces;
 
 namespace API.Controllers
 {
@@ -14,95 +11,86 @@ namespace API.Controllers
     [ApiController]
     public class CardController : ControllerBase
     {
-        private readonly ShopMateContext _context;
+        private readonly ICardService _cardService;
+        private readonly IUserService _userService;
 
-        public CardController(ShopMateContext context)
+        public CardController(ICardService cardService, IUserService userService)
         {
-            _context = context;
+            _cardService = cardService;
+            _userService = userService;
         }
 
-        // GET: api/Card
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Card>>> GetCards()
+        [HttpGet("{cardId}/members")]
+        public async Task<IActionResult> GetMembersByCard(int cardId)
         {
-            return await _context.Cards.ToListAsync();
-        }
-
-        // GET: api/Card/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Card>> GetCard(uint id)
-        {
-            var card = await _context.Cards.FindAsync(id);
-
-            if (card == null)
-            {
+            var members = await _userService.GetMembersByCardId(cardId);
+            if (members == null)
                 return NotFound();
-            }
-
-            return card;
+            return Ok(members);
         }
-
-        // PUT: api/Card/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCard(uint id, Card card)
-        {
-            if (id != card.CardId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(card).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CardExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Card
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        
         [HttpPost]
-        public async Task<ActionResult<Card>> PostCard(Card card)
+        [Route("api/Board/{boardId}/Card")]
+        public async Task<IActionResult> AddCardToBoard(uint boardId, [FromBody] Card card)
         {
-            _context.Cards.Add(card);
-            await _context.SaveChangesAsync();
+            var result = await _cardService.AddCardToBoard(boardId, card);
+            if (result == null)
+            {
+                return BadRequest("Unable to add card to board");
+            }
+            return Ok(result);
+        }
+        
+        /*
+         * [HttpPost("{cardId}/Share")]
+           public async Task<IActionResult> ShareCard(uint cardId, [FromBody] Card card)
+           {
+               var result = await _cardService.ShareCard(cardId, card);
+               if (!result)
+               {
+                   return BadRequest("Unable to share card");
+               }
+               return Ok();
+           }
+         */
 
-            return CreatedAtAction("GetCard", new { id = card.CardId }, card);
+
+        [HttpGet("{cardId}")]
+        public async Task<IActionResult> GetCardById(uint cardId)
+        {
+            var card = await _cardService.GetCardById(cardId);
+            if (card == null)
+                return NotFound();
+            return Ok(card);
         }
 
-        // DELETE: api/Card/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCard(uint id)
+        [HttpPut("{cardId}")]
+        public async Task<IActionResult> UpdateCard(int cardId, [FromBody] Card card)
         {
-            var card = await _context.Cards.FindAsync(id);
-            if (card == null)
+            if (cardId != card.CardId)
+            {
+                return BadRequest("Card ID mismatch");
+            }
+
+            var updatedCard = await _cardService.UpdateCard(card);
+            if (updatedCard == null)
             {
                 return NotFound();
             }
 
-            _context.Cards.Remove(card);
-            await _context.SaveChangesAsync();
-
             return NoContent();
         }
 
-        private bool CardExists(uint id)
+        [HttpDelete("{cardId}")]
+        public async Task<IActionResult> DeleteCard(uint cardId)
         {
-            return _context.Cards.Any(e => e.CardId == id);
+            var result = await _cardService.DeleteCard(cardId);
+            if (!result)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
     }
 }

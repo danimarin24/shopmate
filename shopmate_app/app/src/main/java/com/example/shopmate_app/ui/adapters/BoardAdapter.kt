@@ -7,37 +7,31 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopmate_app.R
 import com.example.shopmate_app.domain.entities.newtworkEntities.BoardEntity
+import com.example.shopmate_app.domain.entities.newtworkEntities.CardEntity
 import com.google.android.material.textview.MaterialTextView
 
-class BoardAdapter(var boardList: List<BoardEntity>?)
+class BoardAdapter(private var boardList: List<BoardEntity>, private val cardsByBoard: Map<Int, List<CardEntity>>)
     : RecyclerView.Adapter<BoardAdapter.CardViewHolder>() {
 
-    private var cardSeleccionada: Int = -1
-
     class CardViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val txtBoardTitle = view.findViewById<MaterialTextView>(R.id.txtBoardTitle)
+        val txtBoardTitle: MaterialTextView = view.findViewById<MaterialTextView>(R.id.txtBoardTitle)
         val rcvCards : RecyclerView = view.findViewById(R.id.rcvCards)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardAdapter.CardViewHolder {
-        var layout = LayoutInflater.from(parent.context)
-
+        val layout = LayoutInflater.from(parent.context)
         return CardViewHolder(layout.inflate(R.layout.board_item_rcv, parent, false))
     }
 
     override fun onBindViewHolder(holder: BoardAdapter.CardViewHolder, position: Int) {
-        val board = boardList?.get(position)
+        val board = boardList[position]
+        holder.txtBoardTitle.text = board.title
 
-        holder.txtBoardTitle.text = board?.title
         // Configurar el RecyclerView de las cards
-
-        holder.rcvCards.adapter = CardAdapter(board?.cards ?: emptyList())
+        val cards = cardsByBoard[board.boardId] ?: emptyList()
         holder.rcvCards.layoutManager = LinearLayoutManager(holder.view.context, LinearLayoutManager.VERTICAL, false)
+        holder.rcvCards.adapter = CardAdapter(cards)
     }
 
-    override fun getItemCount(): Int = boardList!!.size
-
-    override fun getItemViewType(position: Int): Int {
-        return if (position == cardSeleccionada) 1 else 0
-    }
+    override fun getItemCount(): Int = boardList.size
 }

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Context;
 using API.Model;
-using API.Model.DTO;
+using API.DTOs;
 
 namespace API.Controllers
 {
@@ -24,10 +24,10 @@ namespace API.Controllers
 
         // GET: api/Color
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ColorDTO>>> GetColors()
+        public async Task<ActionResult<IEnumerable<ColorDto>>> GetColors()
         {
             var colors =  await _context.Colors.ToListAsync();
-            return colors.Select(c => new ColorDTO {
+            return colors.Select(c => new ColorDto {
                 ColorId = c.ColorId,
                 Name = c.Name,
                 ColorBlue = c.ColorBlue,

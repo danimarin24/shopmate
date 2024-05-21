@@ -48,38 +48,38 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         context = requireContext()
 
-        boardViewModel.getBoardsByOwnerId(mainViewModel.getUserId()!!)
+        setupObservers()
 
-        boardViewModel.boardsEntity.observe(viewLifecycleOwner, Observer { boardList ->
-            if (boardList.isNullOrEmpty()) {
-                //binding.boxAlertMessage.visibility = View.VISIBLE
-                binding.rcvBoardHome.showEmptyView()
-            } else {
-                //binding.boxAlertMessage.visibility = View.GONE
-                binding.rcvBoardHome.hideAllViews()
-                binding.rcvBoardHome.recyclerView.adapter = BoardAdapter(boardList)
-                binding.rcvBoardHome.recyclerView.layoutManager = LinearLayoutManager(findNavController().context, LinearLayoutManager.VERTICAL, false)
-
-            }
-        })
-
-        boardViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
-            if (isLoading) {
-                binding.rcvBoardHome.showLoadingView()
-            }
-        })
+        // Fetch boards for a specific user
+        boardViewModel.fetchBoards(mainViewModel.getUserId()!!)
 
         binding.rcvBoardHome.setOnRetryClickListener {
-            boardViewModel.getBoardsByOwnerId(mainViewModel.getUserId()!!)
+            boardViewModel.fetchBoards(mainViewModel.getUserId()!!)
         }
-
-        /*
-        binding.btnAction.setOnClickListener {
-            showCreateNewBoard()
-        }
-         */
 
         return binding.root
+    }
+
+    private fun setupObservers() {
+        boardViewModel.boards.observe(viewLifecycleOwner) { boards ->
+            if (boards.isNullOrEmpty()) {
+                binding.rcvBoardHome.showEmptyView()
+            } else {
+                binding.rcvBoardHome.hideAllViews()
+                boardViewModel.cardsByBoard.observe(viewLifecycleOwner) { cardsByBoard ->
+                    binding.rcvBoardHome.recyclerView.adapter = BoardAdapter(boards, cardsByBoard)
+                    binding.rcvBoardHome.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                }
+            }
+        }
+
+        boardViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                binding.rcvBoardHome.showLoadingView()
+            } else {
+                binding.rcvBoardHome.hideAllViews()
+            }
+        }
     }
 
 

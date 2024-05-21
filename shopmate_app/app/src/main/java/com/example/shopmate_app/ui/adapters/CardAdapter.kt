@@ -11,27 +11,31 @@ import com.example.shopmate_app.R
 import com.example.shopmate_app.domain.entities.newtworkEntities.CardEntity
 import com.google.android.material.textview.MaterialTextView
 
-class CardAdapter(var cardList: List<CardEntity>?)
+class CardAdapter(private var cardList: List<CardEntity>)
     : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
 
     private var cardSeleccionada: Int = -1
 
     class CardViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val colorCardBackground = view.findViewById<ConstraintLayout>(R.id.cardBackground)
-        val txtColorName = view.findViewById<MaterialTextView>(R.id.txtColorName)
-        val ivSelectedIcon = view.findViewById<ImageView>(R.id.ivSelectedIcon)
+        val txtCardTitle: MaterialTextView = view.findViewById(R.id.txtCardTitle)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardAdapter.CardViewHolder {
         var layout = LayoutInflater.from(parent.context)
+        return CardViewHolder(layout.inflate(R.layout.card_item_rcv, parent, false))
 
+        /*
         return if (viewType == 0)
             CardViewHolder(layout.inflate(R.layout.card_normal, parent, false))
         else
             CardViewHolder(layout.inflate(R.layout.card_edit, parent, false))
+         */
     }
 
     override fun onBindViewHolder(holder: CardAdapter.CardViewHolder, position: Int) {
+        val card = cardList[position]
+        holder.txtCardTitle.text = "car title todo"
+        //holder.txtCardTitle.text = card.title
         //todo colorId
         //holder.colorCardBackground.setBackgroundColor(Color.parseColor("#${cardList?.get(position)!!.colorHex}"))
         //holder.txtColorName.text = cardList?.get(position)!!.name
@@ -48,7 +52,7 @@ class CardAdapter(var cardList: List<CardEntity>?)
         }
     }
 
-    override fun getItemCount(): Int = cardList!!.size
+    override fun getItemCount(): Int = cardList.size
 
     override fun getItemViewType(position: Int): Int {
         return if (position == cardSeleccionada) 1 else 0

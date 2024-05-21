@@ -1,42 +1,76 @@
 package com.example.shopmate_app.ui.viewmodels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopmate_app.domain.entities.newtworkEntities.BoardEntity
+import com.example.shopmate_app.domain.entities.newtworkEntities.CardEntity
 import com.example.shopmate_app.domain.usecases.board.AddBoardUseCase
-import com.example.shopmate_app.domain.usecases.board.GetBoardsByOwnerIdUseCase
+import com.example.shopmate_app.domain.usecases.board.GetBoardsByUserUseCase
+import com.example.shopmate_app.domain.usecases.board.GetCardsByBoardUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class BoardViewModel @Inject constructor(
-    private val getBoardsByOwnerIdUseCase: GetBoardsByOwnerIdUseCase,
-    private val addBoardUseCase : AddBoardUseCase,
+    private val getBoardsByUserUseCase: GetBoardsByUserUseCase,
+    private val getCardsByBoardUseCase: GetCardsByBoardUseCase,
+    private val addBoardUseCase: AddBoardUseCase
+
 ) : ViewModel() {
+    private val _boards = MutableLiveData<List<BoardEntity>>()
+    val boards: LiveData<List<BoardEntity>> get() = _boards
 
-    val boardsEntity = MutableLiveData<List<BoardEntity>?>()
-    val boardEntity = MutableLiveData<BoardEntity?>()
-    val isLoading = MutableLiveData<Boolean>()
+    private val _cardsByBoard = MutableLiveData<Map<Int, List<CardEntity>>>()
+    val cardsByBoard: LiveData<Map<Int, List<CardEntity>>> get() = _cardsByBoard
 
-    fun getBoardsByOwnerId(id: Int) {
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> get() = _isLoading
+
+    fun fetchBoards(userId: Int) {
         viewModelScope.launch {
-            isLoading.postValue(true)
-            val result = getBoardsByOwnerIdUseCase(id)
+            _isLoading.value = true
+            try {
+                val boards = getBoardsByUserUseCase(userId)
+                _boards.value = boards
 
-            if(result != null){
-                boardsEntity.postValue(result)
-                isLoading.postValue(false)
+                // Fetch cards for each board
+                boards.forEach { board ->
+                    fetchCards(board.boardId)
+                }
+            } catch (e: Exception) {
+                // Handle error
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    private fun fetchCards(boardId: Int) {
+        viewModelScope.launch {
+            try {
+                val cards = getCardsByBoardUseCase(boardId)
+                val currentMap = _cardsByBoard.value ?: emptyMap()
+                _cardsByBoard.value = currentMap + (boardId to cards)
+            } catch (e: Exception) {
+                // Handle error
             }
         }
     }
 
     fun addBoard(board: BoardEntity) {
         viewModelScope.launch {
-            val result = addBoardUseCase(board)
-            if(result != null){
-                boardEntity.postValue(result)
+            _isLoading.value = true
+            try {
+                val newBoard = addBoardUseCase(board)
+                val updatedBoards = _boards.value.orEmpty().toMutableList().apply { add(newBoard) }
+                _boards.value = updatedBoards
+            } catch (e: Exception) {
+                // Handle error
+            } finally {
+                _isLoading.value = false
             }
         }
     }

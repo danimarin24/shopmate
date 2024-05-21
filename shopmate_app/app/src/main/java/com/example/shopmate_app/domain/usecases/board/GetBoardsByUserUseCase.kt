@@ -4,6 +4,10 @@ import com.example.shopmate_app.domain.entities.newtworkEntities.BoardEntity
 import com.example.shopmate_app.domain.repo.BoardRepository
 import javax.inject.Inject
 
-class AddBoardUseCase @Inject constructor(private val repository: BoardRepository){
-    suspend operator fun invoke(board: BoardEntity): BoardEntity = repository.addBoard(board)
+class GetBoardsByUserUseCase @Inject constructor(
+    private val repository: BoardRepository
+) {
+    suspend operator fun invoke(userId: Int): List<BoardEntity> {
+        return repository.getBoardsByUser(userId)
+    }
 }

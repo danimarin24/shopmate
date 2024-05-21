@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.shopmate_app.R
 import com.example.shopmate_app.databinding.ActivityMainBinding
 import com.example.shopmate_app.domain.entities.newtworkEntities.BoardEntity
+import com.example.shopmate_app.ui.adapters.BoardAdapter
 import com.example.shopmate_app.ui.adapters.ColorsChoseAdapter
 import com.example.shopmate_app.ui.viewmodels.BoardViewModel
 import com.example.shopmate_app.ui.viewmodels.ColorViewModel
@@ -93,25 +94,18 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        setupObservers()
 
-        boardViewModel.getBoardsByOwnerId(mainViewModel.getUserId()!!)
-
-        boardViewModel.boardsEntity.observe(this, Observer { boardList ->
-            isBoardListEmpty = boardList.isNullOrEmpty()
-        })
-
-
+        // Fetch boards for a specific user
+        boardViewModel.fetchBoards(mainViewModel.getUserId()!!)
 
         binding.btnCreateNew.setOnClickListener {
             if (isBoardListEmpty) {
                 Snackbar.make(binding.root, getString(R.string.errNoBoardFound), Snackbar.LENGTH_SHORT).show()
-                boardViewModel.getBoardsByOwnerId(mainViewModel.getUserId()!!)
             } else {
-                showCreateNewDialog()
+                showCreateNewCard()
             }
         }
-
-
 
         binding.bottomNavigationBar.setOnItemSelectedListener {
             when (it.itemId) {
@@ -142,6 +136,12 @@ class MainActivity : AppCompatActivity() {
         // INIT
         binding.bottomNavigationBar.menu.findItem(R.id.profile).setChecked(true)
         changeHeaderInfo("profile")
+    }
+
+    private fun setupObservers() {
+        boardViewModel.boards.observe(this) { boards ->
+            isBoardListEmpty = boards.isNullOrEmpty()
+        }
     }
 
     override fun onResume() {
@@ -241,7 +241,7 @@ class MainActivity : AppCompatActivity() {
         dialog.window?.setGravity(Gravity.BOTTOM)
     }
 
-    fun showCreateNewDialog() {
+    fun showCreateNewCard() {
         val dialog = Dialog(navController.context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.bottom_card_create_dialog)
@@ -261,6 +261,7 @@ class MainActivity : AppCompatActivity() {
             rcvColors.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
         })
 
+        /*
         boardViewModel.boardsEntity.observe(this, Observer { boardList ->
             if (!boardList.isNullOrEmpty()) {
                 val titles = boardList.map { it.title }
@@ -269,6 +270,7 @@ class MainActivity : AppCompatActivity() {
                 cboBoardSelection.adapter = adapter
             }
         })
+         */
 
         etCardNameLyt.setEndIconOnClickListener {
             etCardName.text?.clear()
@@ -319,15 +321,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         txtCreate.setOnClickListener {
-            if (etBoardName.text.isNullOrBlank()) {
-                //err is null or empty/blank
+            val title = etBoardName.text.toString()
+            if (title.isNotEmpty()) {
+                val newBoard = BoardEntity(0, etBoardName.text.toString(), mainViewModel.getUserId()!!)
+                boardViewModel.addBoard(newBoard)
+                boardViewModel.fetchBoards(mainViewModel.getUserId()!!)
+                dialog.dismiss()
+            } else {
                 Snackbar.make(binding.root, getString(R.string.errNameInvalid), Snackbar.LENGTH_SHORT).show()
-                return@setOnClickListener
             }
-            var board = BoardEntity(null, etBoardName.text.toString(), mainViewModel.getUserId()!!, null)
-            boardViewModel.addBoard(board);
-            boardViewModel.getBoardsByOwnerId(mainViewModel.getUserId()!!)
-            dialog.dismiss()
+
         }
 
 

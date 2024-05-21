@@ -6,7 +6,6 @@ namespace API.Model;
 public partial class Card
 {
     public uint CardId { get; set; }
-
     public uint OwnerId { get; set; }
 
     public ulong IsPublic { get; set; }
