@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragments.profile.ShareProfileFragment">
+
+    <LinearLayout
+        android:id="@+id/lytHeader"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        >
+
+        <ImageView
+            android:id="@+id/btnGoBack"
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/close"
+            android:contentDescription="Go Back Button" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txtCompartirLista"
+            android:layout_width="300dp"
+            android:layout_height="@dimen/height"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Compartir Perfil"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="@dimen/defaultTextSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="20dp"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ivHeader"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/share_image_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lytHeader" />
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lblUsername"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppins_medium"
+        android:gravity="center"
+        android:text=""
+        android:textAlignment="center"
+        android:textColor="?android:attr/colorForeground"
+        android:textSize="@dimen/defaultTextSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivHeader" />
+
+    <!-- RRSS BOXES -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lblQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/poppins_medium"
+        android:gravity="center"
+        android:text="¡ Comparte este perfil !"
+        android:textAlignment="center"
+        android:textColor="?android:attr/colorForeground"
+        android:textSize="@dimen/defaultTextSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivHeader" />
+
+    <LinearLayout
+        android:id="@+id/shareBoxes"
+        android:layout_width="@dimen/maxWidth"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/defaultMargin"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/lblQuestion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:id="@+id/btnWhatsApp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/custom_bg_share_card"
+            android:backgroundTint="#25D366"
+            android:paddingLeft="@dimen/littleMargin"
+            android:gravity="left|center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/baseline_whatsapp_24" />
+
+            <Space
+                android:layout_width="20dp"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvShareWhatsapp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center_vertical"
+                android:text="Enviar invitación por WhatsApp"
+                android:textColor="?android:attr/colorForeground"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="10dp" />
+
+        <!-- Facebook Box -->
+        <LinearLayout
+            android:id="@+id/btnFacebook"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/custom_bg_share_card"
+            android:backgroundTint="#1877F2"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="@dimen/littleMargin"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:contentDescription="@string/strFacebook"
+                android:src="@drawable/baseline_facebook_24" />
+
+            <Space
+                android:layout_width="20dp"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvShareFacebook"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/strFacebook"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center_vertical"
+                android:text="Enviar invitación por Facebook"
+                android:textColor="?android:attr/colorForeground"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="10dp" />
+
+        <!-- Other Box -->
+        <LinearLayout
+            android:id="@+id/btnOther"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/custom_bg_share_card"
+            android:backgroundTint="#ABABAB"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="@dimen/littleMargin"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:contentDescription="@string/strFacebook"
+                android:src="@drawable/baseline_message_24" />
+
+            <Space
+                android:layout_width="20dp"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/strFacebook"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center_vertical"
+                android:text="Más opciones"
+                android:textColor="?android:attr/colorForeground"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/separator"
+        android:layout_width="@dimen/maxWidth"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:weightSum="12"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shareBoxes">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="5"
+            android:textColor="?android:attr/colorForeground"
+            />
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center"
+            android:text="O compartir con"
+            android:textAlignment="center"
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="@dimen/defaultTextSize" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="5"
+            android:textColor="?android:attr/colorForeground"
+            />
+
+    </LinearLayout>
+
+
+    <!-- EMAIL EDITEXT -->
+    <LinearLayout
+        android:id="@+id/et_lyt_email"
+        android:layout_width="@dimen/maxWidth"
+        android:layout_height="@dimen/height"
+        android:layout_marginTop="@dimen/littleMargin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/separator">
+
+        <RelativeLayout
+            android:layout_width="@dimen/height"
+            android:layout_height="@dimen/height"
+            android:gravity="center"
+            android:background="@drawable/custom_bg_icon">
+            <ImageView
+                android:layout_width="@dimen/iconMiddleSize"
+                android:layout_height="@dimen/iconMiddleSize"
+                android:contentDescription="@string/iconStr"
+                android:src="@drawable/email_outline"
+                app:tint="#ffffff" />
+        </RelativeLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etEmailLayout"
+            android:layout_width="270dp"
+            android:layout_height="50dp"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/baseline_account_box_24"
+            app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints="emailAddress"
+                android:fontFamily="@font/poppins_medium"
+
+                android:hint="Dirección de email o contacto"
+                android:includeFontPadding="false"
+                android:inputType="textEmailAddress"
+                android:padding="0dp"
+                android:textSize="12sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnNext"
+        android:layout_width="@dimen/maxWidth"
+        android:layout_height="@dimen/height"
+        android:layout_marginTop="@dimen/littleMargin"
+        android:text="Enviar email"
+        android:insetBottom="0dp"
+        android:insetTop="0dp"
+        android:textSize="@dimen/defaultTextSize"
+        app:cornerRadius="@dimen/defaultBorderRadious"
+        android:fontFamily="@font/poppins_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_lyt_email" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -223,7 +223,8 @@ class MainActivity : AppCompatActivity() {
 
         lytShare.setOnClickListener {
             dialog.dismiss()
-            Toast.makeText(navController.context, "Share", Toast.LENGTH_SHORT).show()
+            navController.navigate(R.id.shareProfileFragment)
+            // Toast.makeText(navController.context, "Share", Toast.LENGTH_SHORT).show()
         }
 
         lytTheme.setOnClickListener {

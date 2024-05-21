@@ -43,4 +43,9 @@
         android:name="com.example.shopmate_app.ui.fragments.profile.ProfileSettingChangePasswordFragment"
         android:label="fragment_profile_setting_change_password"
         tools:layout="@layout/fragment_profile_setting_change_password" />
+    <fragment
+        android:id="@+id/shareProfileFragment"
+        android:name="com.example.shopmate_app.ui.fragments.profile.ShareProfileFragment"
+        android:label="fragment_share_profile"
+        tools:layout="@layout/fragment_share_profile" />
 </navigation>
