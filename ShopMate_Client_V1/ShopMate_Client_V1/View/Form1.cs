@@ -36,5 +36,16 @@ namespace ShopMate_Client_V1
         {
 
         }
+
+        private void btn_close_form_Click(object sender, EventArgs e)
+        {          
+            Application.Exit();
+
+        }
+
+        private void label13_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

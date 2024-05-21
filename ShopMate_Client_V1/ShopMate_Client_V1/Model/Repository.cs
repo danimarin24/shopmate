@@ -23,7 +23,7 @@ namespace ShopMate_Client_V1.Model
     {
 
         private static string apiKey = "c11cddd5b1554b78b6532b41287bd243";
-        string ws1 = $"http://172.16.24.21:6385/api/";
+        string ws1 = $"https://boa-possible-mudfish.ngrok-free.app/api/";
         static List<User> usersList;
         static List<Category> categoryList;
         static List<Item> itemList;
@@ -89,12 +89,7 @@ namespace ShopMate_Client_V1.Model
             User user1 = new User();
             user1 = user;
             try
-            {
-                // Serializar el objeto User a JSON
-                // string jsonUser = JsonConvert.SerializeObject(user1);
-
-                // Mostrar el formato JSON en un MessageBox
-                // MessageBox.Show("Formato JSON del objeto User:\n" + jsonUser);
+            {          
                 return (User)MakeRequest(string.Concat(ws1 + "User"), user1, "POST", "application/json", typeof(User));
             }
             catch (Exception e)

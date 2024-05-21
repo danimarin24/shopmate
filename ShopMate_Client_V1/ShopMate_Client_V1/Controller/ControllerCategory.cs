@@ -167,7 +167,7 @@ namespace ShopMate_Client_V1.Controller
                 cAux.UpdatedAt = DateTime.Now;
                 cAux.CreatedAt = DateTime.Now;
 
-                // Subir la imagen si existe
+                
                 Image categoryImage = fCatForm.pictureBox_cat.Image;
                 if (categoryImage != null)
                 {
@@ -220,7 +220,6 @@ namespace ShopMate_Client_V1.Controller
         }
 
 
-
         private void goBack(object sender, EventArgs e)
         {
             fCatForm.Close();
@@ -231,10 +230,14 @@ namespace ShopMate_Client_V1.Controller
             if (String.IsNullOrEmpty(v))
             {
                 LoadData();
-                return;
+               
             }
-            categoryList = categoryList.Where(c => c.Name.ToLower().Contains(v.ToLower())).ToList();
-            dtgCat.DataSource = categoryList;
+            //List<UserDTO> filteredUserDTOList = userDTOList.Where(u => u.Name.ToLower().Contains(actualText.ToLower())).ToList();
+
+            //f.dtg_client.DataSource = filteredUserDTOList;
+            List<Category> filteredCategoriesList = categoryList.Where(c => c.Name.ToLower().Contains(v.ToLower())).ToList();
+            // categoryList = categoryList.Where(c => c.Name.ToLower().Contains(v.ToLower())).ToList();
+            dtgCat.DataSource = filteredCategoriesList;
         }
 
         internal void orderByComboCategory(string selectedOrder)
@@ -346,12 +349,7 @@ namespace ShopMate_Client_V1.Controller
             dtgItem.DataSource = r.GetItems();
         }
 
-        //internal void showJustCheckedItems(bool isChecked)
-        //{
-        //    ulong booleanValue = isChecked ? 1UL : 0UL;
-        //    itemList = itemList.Where(i => i.IsDefault == booleanValue).ToList();
-        //    dtgItem.DataSource = itemList;
-        //}
+       
     }
 }
 

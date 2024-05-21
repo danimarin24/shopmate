@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -38,7 +39,7 @@ namespace ShopMate_Client_V1.Model
             UserId = u.UserId;
             Username = u.Username;
             Name = u.Name;
-            Password = u.Password;
+            Password = (u.Password);
             Email = u.Email;
             PhoneNumber = u.PhoneNumber;
             ProfileImage = checkProfileImage(u.ProfileImage);
@@ -50,6 +51,22 @@ namespace ShopMate_Client_V1.Model
         private string checkGoogleToken(string token) => !string.IsNullOrEmpty(token) ? "1" : "0";
         private string checkFacebookToken(string token) => !string.IsNullOrEmpty(token) ? "1" : "0";
         private string checkProfileImage(string image) => !string.IsNullOrEmpty(image) ? "1" : "0";
+
+        public static String sha256_hash(String value)
+        {
+            StringBuilder Sb = new StringBuilder();
+
+            using (SHA256 hash = SHA256Managed.Create())
+            {
+                Encoding enc = Encoding.UTF8;
+                Byte[] result = hash.ComputeHash(enc.GetBytes(value));
+
+                foreach (Byte b in result)
+                    Sb.Append(b.ToString("x2"));
+            }
+
+            return Sb.ToString();
+        }
 
     }
 }
