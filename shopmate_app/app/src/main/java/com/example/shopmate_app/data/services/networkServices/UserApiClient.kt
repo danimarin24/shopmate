@@ -64,8 +64,8 @@ interface UserApiClient {
     ): Response<UserEntity>
 
     // PUT
-    @PUT(AppConstants.USER_ENDPOINT)
-    suspend fun updateUser(@Body user: UserEntity, @Header("x-api-key") apiKey: String): Response<UserEntity>
+    @PUT("${AppConstants.USER_ENDPOINT}{id}")
+    suspend fun updateUser(@Path("id") id: Int, @Body user: UserEntity, @Header("x-api-key") apiKey: String): Response<UserEntity>
 
     // PATCH
 

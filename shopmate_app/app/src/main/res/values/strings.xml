@@ -44,8 +44,6 @@
     <string name="hintCardName">Nombre de la lista</string>
 
 
-
-
     <string name="iconStr" translatable="false">Icon</string>
 
     <string name="hintUser">Escribe tu nombre</string>
@@ -99,8 +97,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="strSave">Guardar</string>
     <string name="strProfileSettings">Ajustes</string>
-
-
 
 
     <string name="strHome">Home</string>

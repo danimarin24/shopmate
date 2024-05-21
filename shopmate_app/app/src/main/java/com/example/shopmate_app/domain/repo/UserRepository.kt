@@ -62,4 +62,11 @@ class UserRepository @Inject constructor(private val api: UserService){
         return response
     }
 
+    suspend fun putUser(user: UserEntity): UserEntity? {
+        val response = api.putUser(user)
+        UserProvider.user = response
+        return response
+
+    }
+
 }

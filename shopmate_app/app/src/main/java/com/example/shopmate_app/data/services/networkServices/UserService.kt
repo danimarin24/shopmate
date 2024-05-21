@@ -71,4 +71,11 @@ class UserService @Inject constructor(private val api: UserApiClient) {
             response.body()
         }
     }
+
+    suspend fun putUser( user: UserEntity): UserEntity? {
+        return withContext(Dispatchers.IO) {
+            val response = api.updateUser(user.userId!!, user, AppConstants.API_KEY)
+            response.body()
+        }
+    }
 }

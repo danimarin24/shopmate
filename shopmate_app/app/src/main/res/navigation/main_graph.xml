@@ -33,5 +33,14 @@
         android:id="@+id/profileSettingFragment"
         android:name="com.example.shopmate_app.ui.fragments.profile.ProfileSettingFragment"
         android:label="fragment_profile_setting"
-        tools:layout="@layout/fragment_profile_setting" />
+        tools:layout="@layout/fragment_profile_setting" >
+        <action
+            android:id="@+id/action_profileSettingFragment_to_profileSettingChangePasswordFragment"
+            app:destination="@id/profileSettingChangePasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileSettingChangePasswordFragment"
+        android:name="com.example.shopmate_app.ui.fragments.profile.ProfileSettingChangePasswordFragment"
+        android:label="fragment_profile_setting_change_password"
+        tools:layout="@layout/fragment_profile_setting_change_password" />
 </navigation>
