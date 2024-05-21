@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.example.shopmate_app.R
-import com.example.shopmate_app.databinding.FragmentProfileSettingBinding
 import com.example.shopmate_app.databinding.FragmentProfileSettingChangePasswordBinding
 import com.example.shopmate_app.ui.viewmodels.MainViewModel
 import com.example.shopmate_app.ui.viewmodels.UserViewModel
@@ -29,6 +27,7 @@ class ProfileSettingChangePasswordFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentProfileSettingChangePasswordBinding.inflate(inflater,container, false)
+
 
         binding.btnSave.setOnClickListener {
             var actualPass = binding.etFirstPasswordPassword.text.toString()
@@ -70,6 +69,8 @@ class ProfileSettingChangePasswordFragment : Fragment() {
 
             }
         }
+
+
 
         return binding.root
     }

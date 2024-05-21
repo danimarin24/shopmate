@@ -32,4 +32,8 @@ class MainViewModel @Inject constructor(
     fun getUserId(): Int? = runBlocking {
         repository.getInt(AppConstants.USER_ID)
     }
+
+    fun clearData() = runBlocking {
+        repository.clearData()
+    }
 }

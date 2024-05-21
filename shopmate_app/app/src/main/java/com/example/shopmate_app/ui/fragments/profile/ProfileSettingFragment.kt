@@ -1,6 +1,8 @@
 package com.example.shopmate_app.ui.fragments.profile
 
+import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -20,13 +22,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.shopmate_app.R
 import com.example.shopmate_app.databinding.FragmentProfileBinding
 import com.example.shopmate_app.databinding.FragmentProfileSettingBinding
+import com.example.shopmate_app.ui.activities.LoginActivity
 import com.example.shopmate_app.ui.adapters.ColorsChoseAdapter
 import com.example.shopmate_app.ui.viewmodels.MainViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class ProfileSettingFragment : Fragment() {
     private lateinit var binding: FragmentProfileSettingBinding
     private val mainViewModel: MainViewModel by viewModels()
@@ -41,8 +47,33 @@ class ProfileSettingFragment : Fragment() {
         binding.txtChangePass.setOnClickListener {
             findNavController().navigate(R.id.action_profileSettingFragment_to_profileSettingChangePasswordFragment)
         }
+        binding.txtLogout.setOnClickListener {
+            showLogoutDialog()
+        }
+
+
+
 
         return binding.root
+    }
+
+    private fun showLogoutDialog() {
+        val builder = AlertDialog.Builder(findNavController().context)
+        builder.setTitle("Cerrar Sesión")
+        builder.setMessage("¿Estás seguro que quieres cerrar sesión?")
+        builder.setPositiveButton("Sí") { dialog, which ->
+            logout()
+        }
+        builder.setNegativeButton("No") { dialog, which ->
+            dialog.dismiss()
+        }
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+    }
+
+    private fun logout() {
+       mainViewModel.clearData()
+        startActivity(Intent(findNavController().context,LoginActivity::class.java))
     }
 
 }
