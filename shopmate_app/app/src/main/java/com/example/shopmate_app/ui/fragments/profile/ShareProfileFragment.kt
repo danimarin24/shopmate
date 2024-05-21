@@ -32,10 +32,10 @@ class ShareProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentShareProfileBinding.inflate(inflater,container,false)
-        //userViewModel.getUserByUserId(mainViewModel.getUserId()!!)
+        userViewModel.getUserByUserId(mainViewModel.getUserId()!!)
         userViewModel.userEntity.observe(viewLifecycleOwner) { user ->
             if (user != null) {
-                binding.lblUsername.text = user.username
+                binding.lblUsername.text = "@"+user.username
             }
             }
 
