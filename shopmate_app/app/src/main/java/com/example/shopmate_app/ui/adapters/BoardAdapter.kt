@@ -3,15 +3,13 @@ package com.example.shopmate_app.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopmate_app.R
-import com.example.shopmate_app.domain.entities.dbEntities.DbBoardEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.BoardEntity
 import com.google.android.material.textview.MaterialTextView
 
-class BoardAdapter(var boardList: List<DbBoardEntity>?)
+class BoardAdapter(var boardList: List<BoardEntity>?)
     : RecyclerView.Adapter<BoardAdapter.CardViewHolder>() {
 
     private var cardSeleccionada: Int = -1
@@ -33,8 +31,8 @@ class BoardAdapter(var boardList: List<DbBoardEntity>?)
         holder.txtBoardTitle.text = board?.title
         // Configurar el RecyclerView de las cards
 
-        holder.rcvCards.layoutManager = LinearLayoutManager(holder.view.context, LinearLayoutManager.VERTICAL, false)
         holder.rcvCards.adapter = CardAdapter(board?.cards ?: emptyList())
+        holder.rcvCards.layoutManager = LinearLayoutManager(holder.view.context, LinearLayoutManager.VERTICAL, false)
     }
 
     override fun getItemCount(): Int = boardList!!.size

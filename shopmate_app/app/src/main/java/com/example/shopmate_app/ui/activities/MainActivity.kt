@@ -324,7 +324,7 @@ class MainActivity : AppCompatActivity() {
                 Snackbar.make(binding.root, getString(R.string.errNameInvalid), Snackbar.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            var board = BoardEntity(null, etBoardName.text.toString(), mainViewModel.getUserId()!!)
+            var board = BoardEntity(null, etBoardName.text.toString(), mainViewModel.getUserId()!!, null)
             boardViewModel.addBoard(board);
             boardViewModel.getBoardsByOwnerId(mainViewModel.getUserId()!!)
             dialog.dismiss()

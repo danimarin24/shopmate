@@ -48,9 +48,9 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         context = requireContext()
 
-        boardViewModel.getBoardWithCardsByOwnerId(mainViewModel.getUserId()!!)
+        boardViewModel.getBoardsByOwnerId(mainViewModel.getUserId()!!)
 
-        boardViewModel.boardsCardsEntity.observe(viewLifecycleOwner, Observer { boardList ->
+        boardViewModel.boardsEntity.observe(viewLifecycleOwner, Observer { boardList ->
             if (boardList.isNullOrEmpty()) {
                 //binding.boxAlertMessage.visibility = View.VISIBLE
                 binding.rcvBoardHome.showEmptyView()

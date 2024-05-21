@@ -26,31 +26,64 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BoardDTO>>> GetAllBoards()
         {
-            var boards = await _context.Boards.ToListAsync();
-            return boards.Select(b => new BoardDTO() {
+            var boards = await _context.Boards
+                .Include(b => b.Cards)
+                .ToListAsync();
+
+            var boardDtos = boards.Select(b => new BoardDTO
+            {
                 BoardId = b.BoardId,
                 OwnerId = b.OwnerId,
-                Title = b.Title
+                Title = b.Title,
+                Cards = b.Cards.Select(c => new CardDTO
+                {
+                    CardId = c.CardId,
+                    OwnerId = c.OwnerId,
+                    IsPublic = c.IsPublic,
+                    IsTemplate = c.IsTemplate,
+                    IsArchived = c.IsArchived,
+                    EstimatedPrice = c.EstimatedPrice,
+                    ColorId = c.ColorId
+                }).ToList()
             }).ToList();
+
+            return boardDtos;
         }
         
         // GET: api/Board/user/2
         [HttpGet("user/{id}")]
         public async Task<ActionResult<IEnumerable<BoardDTO>>> GetBoardsUser(int id)
         {
-            var boards = await _context.Boards.Where(b => b.OwnerId == id).ToListAsync();
-            return boards.Select(b => new BoardDTO() {
+            var boards = await _context.Boards
+                .Where(b => b.OwnerId == id)
+                .Include(b => b.Cards)
+                .ToListAsync();
+
+            var boardDtos = boards.Select(b => new BoardDTO
+            {
                 BoardId = b.BoardId,
                 OwnerId = b.OwnerId,
-                Title = b.Title
+                Title = b.Title,
+                Cards = b.Cards.Select(c => new CardDTO
+                {
+                    CardId = c.CardId,
+                    OwnerId = c.OwnerId,
+                    IsPublic = c.IsPublic,
+                    IsTemplate = c.IsTemplate,
+                    IsArchived = c.IsArchived,
+                    EstimatedPrice = c.EstimatedPrice,
+                    ColorId = c.ColorId
+                }).ToList()
             }).ToList();
+
+            return boardDtos;
         }
 
         // GET: api/Board/5
         [HttpGet("{id}")]
         public async Task<ActionResult<BoardDTO>> GetBoard(uint id)
         {
-            var board = await _context.Boards.FindAsync(id);
+            var board = await _context.Boards.Where(b => b.BoardId == id).Include(b => b.Cards).FirstOrDefaultAsync();
 
             if (board == null)
             {
@@ -60,7 +93,17 @@ namespace API.Controllers
             return new BoardDTO() {
                 BoardId = board.BoardId,
                 OwnerId = board.OwnerId,
-                Title = board.Title
+                Title = board.Title,
+                Cards = board.Cards.Select(c => new CardDTO
+                {
+                    CardId = c.CardId,
+                    OwnerId = c.OwnerId,
+                    IsPublic = c.IsPublic,
+                    IsTemplate = c.IsTemplate,
+                    IsArchived = c.IsArchived,
+                    EstimatedPrice = c.EstimatedPrice,
+                    ColorId = c.ColorId
+                }).ToList()
             };
         }
 
