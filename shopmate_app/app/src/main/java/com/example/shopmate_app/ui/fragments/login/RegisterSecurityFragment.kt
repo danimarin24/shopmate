@@ -13,10 +13,12 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.shopmate_app.databinding.FragmentRegisterSecurityBinding
 import com.example.shopmate_app.domain.entities.newtworkEntities.UserEntity
 import com.example.shopmate_app.ui.activities.MainActivity
+import com.example.shopmate_app.ui.viewmodels.MainViewModel
 import com.example.shopmate_app.ui.viewmodels.UserViewModel
 import com.example.shopmate_app.utils.PasswordUtils
 import java.time.LocalDate
@@ -27,6 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class RegisterSecurityFragment : Fragment() {
     private lateinit var binding: FragmentRegisterSecurityBinding
     private val userViewModel: UserViewModel by viewModels()
+    private val mainViewModel: MainViewModel by viewModels()
     private val args: RegisterSecurityFragmentArgs by navArgs()
 
     private lateinit var context : Context
@@ -80,19 +83,19 @@ class RegisterSecurityFragment : Fragment() {
             val user = UserEntity(null, userUsername, userName, userHashedPassword, userEmail, "",
                 "", null, null, LocalDate.now().toString(), LocalDate.now().toString(), 0, 0)
 
-            var addedUser: UserEntity? = null
             userViewModel.addUser(user)
             userViewModel.userEntity.observe(viewLifecycleOwner) { user ->
-                addedUser = user
+                if (user != null) {
+                    // user added
+                    mainViewModel.saveUserId(user.userId!!)
+                    val intent = Intent(findNavController().context, MainActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    // user not added,
+                }
             }
 
-            if (addedUser != null) {
-                // user added
-                val intent = Intent(context, MainActivity::class.java)
-                startActivity(intent)
-            } else {
-                // user not added,
-            }
+
         }
 
         return binding.root
