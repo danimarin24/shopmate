@@ -3,74 +3,51 @@ using System.Linq;
 using API.Context;
 using API.DTOs;
 using API.Model;
+using API.Respositories.Interfaces;
 using API.Services.Interfaces;
+using AutoMapper;
 
 namespace API.Services.Implementations{
     public class BoardService : IBoardService
     {
-        private readonly ShopMateContext _context;
+        private readonly IBoardRepository _boardRepository;
+        private readonly ICardRepository _cardRepository;
+        //private readonly IUserRepository _userRepository;
+        //private readonly INotificationService _notificationService;
+        private readonly IMapper _mapper;
 
-        public BoardService(ShopMateContext context)
+        public BoardService(
+            IBoardRepository boardRepository,
+            ICardRepository cardRepository,
+            //IUserRepository userRepository,
+            //INotificationService notificationService,
+            IMapper mapper)
         {
-            _context = context;
+            _boardRepository = boardRepository;
+            _cardRepository = cardRepository;
+            //_userRepository = userRepository;
+            //_notificationService = notificationService;
+            _mapper = mapper;
         }
 
-         public IEnumerable<BoardDto> GetBoardsByUserId(int userId)
+         public async Task<IEnumerable<BoardDto>> GetBoardsByUserId(uint userId)
+         {
+             return await _boardRepository.GetBoardsByUserId(userId);
+         }
+
+        public async Task<BoardDto> AddBoard(Board board)
         {
-            return _context.Boards
-                .Where(b => b.OwnerId == userId)
-                .Select(b => new BoardDto
-                {
-                    BoardId = b.BoardId,
-                    Title = b.Title,
-                    OwnerId = b.OwnerId
-                }).ToList();
+            return await _boardRepository.Add(board);
         }
 
-        public BoardDto AddBoard(Board board)
+        public async Task<BoardDto> UpdateBoard(Board board)
         {
-            _context.Boards.Add(board);
-            _context.SaveChanges();
-            return new BoardDto
-            {
-                BoardId = board.BoardId,
-                Title = board.Title,
-                OwnerId = board.OwnerId
-            };
+            return await _boardRepository.Modify(board);
         }
 
-        public BoardDto UpdateBoard(Board board)
+        public async Task<bool> DeleteBoard(uint boardId)
         {
-            var existingBoard = _context.Boards.Find(board.BoardId);
-            if (existingBoard == null)
-            {
-                return null;
-            }
-
-            existingBoard.Title = board.Title;
-            existingBoard.OwnerId = board.OwnerId;
-
-            _context.Boards.Update(existingBoard);
-            _context.SaveChanges();
-            return new BoardDto
-            {
-                BoardId = existingBoard.BoardId,
-                Title = existingBoard.Title,
-                OwnerId = existingBoard.OwnerId
-            };
-        }
-
-        public bool DeleteBoard(int boardId)
-        {
-            var board = _context.Boards.Find(boardId);
-            if (board == null)
-            {
-                return false;
-            }
-
-            _context.Boards.Remove(board);
-            _context.SaveChanges();
-            return true;
+            return await _boardRepository.Delete(boardId);
         }
     }
 }

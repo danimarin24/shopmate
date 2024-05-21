@@ -6,9 +6,9 @@ namespace API.Services.Interfaces
 {
     public interface IBoardService
     {
-        IEnumerable<BoardDto> GetBoardsByUserId(int userId);
-        BoardDto AddBoard(Board board);
-        BoardDto UpdateBoard(Board board);
-        bool DeleteBoard(int boardId);
+        Task<IEnumerable<BoardDto>> GetBoardsByUserId(uint userId);
+        Task<BoardDto> AddBoard(Board board);
+        Task<BoardDto> UpdateBoard(Board board);
+        Task<bool>  DeleteBoard(uint boardId);
     }
 }

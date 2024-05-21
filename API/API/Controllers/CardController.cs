@@ -29,8 +29,7 @@ namespace API.Controllers
             return Ok(members);
         }
         
-        [HttpPost]
-        [Route("api/Board/{boardId}/Card")]
+        [HttpPost("/api/Board/{boardId}/card")]
         public async Task<IActionResult> AddCardToBoard(uint boardId, [FromBody] Card card)
         {
             var result = await _cardService.AddCardToBoard(boardId, card);

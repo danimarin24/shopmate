@@ -100,6 +100,7 @@ class MainActivity : AppCompatActivity() {
         boardViewModel.fetchBoards(mainViewModel.getUserId()!!)
 
         binding.btnCreateNew.setOnClickListener {
+            boardViewModel.fetchBoards(mainViewModel.getUserId()!!)
             if (isBoardListEmpty) {
                 Snackbar.make(binding.root, getString(R.string.errNoBoardFound), Snackbar.LENGTH_SHORT).show()
             } else {
