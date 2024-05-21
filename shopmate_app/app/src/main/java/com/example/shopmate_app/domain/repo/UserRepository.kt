@@ -5,7 +5,6 @@ import com.example.shopmate_app.data.services.networkServices.UserService
 import com.example.shopmate_app.domain.entities.newtworkEntities.UserEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.UserStatsEntity
 import com.example.shopmate_app.domain.entities.providers.UserStatsProvider
-import dagger.Provides
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(private val api: UserService){
