@@ -25,6 +25,7 @@
     <dimen name="defaultPaddingLeft">10dp</dimen>
     <dimen name="defaultBorderRadious">6dp</dimen>
     <dimen name="middleBorderRadious">30dp</dimen>
+    <dimen name="largeMargin">210dp</dimen>
 
 
     <!--start activity-->
