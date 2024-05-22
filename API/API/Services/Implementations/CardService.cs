@@ -43,6 +43,12 @@ namespace API.Services.Implementations
             return await _cardRepository.GetCardsByUserId(userId);
         }
 
+        public async Task<IEnumerable<CardDto>> GetCardsContainsName(string name)
+        {
+            return await _cardRepository.GetCardsContainsName(name);
+        }
+
+
         public async Task<GenerateShareCardLinkResponse> GenerateShareCardLink(GenerateShareCardLinkRequest cardLinkRequest)
         {
             return await _cardRepository.GenerateShareCardLink(cardLinkRequest);

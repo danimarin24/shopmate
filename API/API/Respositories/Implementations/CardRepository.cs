@@ -53,6 +53,24 @@ public class CardRepository : ICardRepository
             })
             .ToListAsync();
     }
+    
+    public async Task<IEnumerable<CardDto>> GetCardsContainsName(string name)
+    {
+        return await _context.Cards
+            .Include(c => c.Color)
+            .Where(c => c.CardName.ToLower().Contains(name.ToLower()))
+            .Select(c => new CardDto
+            {
+                CardId = c.CardId,
+                CardName = c.CardName,
+                IsPublic = c.IsPublic,
+                IsTemplate = c.IsTemplate,
+                IsArchived = c.IsArchived,
+                EstimatedPrice = c.EstimatedPrice,
+                ColorId = c.ColorId
+            })
+            .ToListAsync();
+    }
 
     public async Task<GenerateShareCardLinkResponse> GenerateShareCardLink(GenerateShareCardLinkRequest cardLinkRequest)
         {

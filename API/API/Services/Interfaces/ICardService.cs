@@ -8,6 +8,7 @@ namespace API.Services.Interfaces{
     {
         Task<IEnumerable<CardDto>> GetCardsByBoardId(uint boardId);
         Task<IEnumerable<CardDto>> GetCardsByUserId(uint userId);
+        Task<IEnumerable<CardDto>> GetCardsContainsName(string name);
         Task<GenerateShareCardLinkResponse> GenerateShareCardLink(GenerateShareCardLinkRequest cardLinkRequest);
         Task<ValidateShareCardLinkResponse> ValidateShareCardLink(ValidateShareCardLinkRequest validateCardLinkRequest);
         Task<CardDto> GetCardById(uint cardId);

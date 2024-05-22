@@ -64,6 +64,15 @@ namespace API.Controllers
             return Ok(cards);
         }
 
+        [HttpGet("filter/name/{name}")]
+        public async Task<IActionResult> GetCardsContainsName(string name)
+        {
+            var cards = await _cardService.GetCardsContainsName(name);
+            if (cards == null)
+                return NotFound();
+            return Ok(cards);
+        }
+
 
         [HttpGet("{cardId}")]
         public async Task<IActionResult> GetCardById(uint cardId)
