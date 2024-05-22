@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopmate_app.R
 import com.example.shopmate_app.domain.entities.enums.CardViewTypeEnum
 import com.example.shopmate_app.domain.entities.newtworkEntities.CardEntity
+import com.example.shopmate_app.domain.entities.providers.CardProvider
 import com.google.android.material.textview.MaterialTextView
 
 class CardAdapter(private var cardList: List<CardEntity>,
@@ -20,7 +22,7 @@ class CardAdapter(private var cardList: List<CardEntity>,
     private var cardSeleccionada: Int = -1
 
     class CardViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        //val txtCardTitle: MaterialTextView = view.findViewById(R.id.txtCardTitle)
+        val txtCardTitle: MaterialTextView = view.findViewById(R.id.txtCardTitle)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardAdapter.CardViewHolder {
@@ -43,6 +45,7 @@ class CardAdapter(private var cardList: List<CardEntity>,
 
     override fun onBindViewHolder(holder: CardAdapter.CardViewHolder, position: Int) {
         val card = cardList[position]
+        holder.txtCardTitle.text = card.cardName
 
         holder.view.setOnClickListener {
             if (cardSeleccionada == holder.adapterPosition) {
@@ -51,6 +54,8 @@ class CardAdapter(private var cardList: List<CardEntity>,
             } else {
                 cardSeleccionada = holder.adapterPosition
                 //changeVisibility(holder, false)
+                CardProvider.selectedCard = card
+                holder.view.findNavController().navigate(R.id.cardDetailsViewFragment)
             }
             notifyDataSetChanged()
         }

@@ -48,4 +48,9 @@
         android:name="com.example.shopmate_app.ui.fragments.profile.ShareProfileFragment"
         android:label="fragment_share_profile"
         tools:layout="@layout/fragment_share_profile" />
+    <fragment
+        android:id="@+id/cardDetailsViewFragment"
+        android:name="com.example.shopmate_app.ui.fragments.utils.CardDetailsViewFragment"
+        android:label="fragment_card_details_view"
+        tools:layout="@layout/fragment_card_details_view" />
 </navigation>

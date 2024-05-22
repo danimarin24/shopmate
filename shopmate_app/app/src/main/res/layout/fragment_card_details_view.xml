@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.utils.CardDetailsViewFragment">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Card Title -->
+        <TextView
+            android:id="@+id/tvCardTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Card Title"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <!-- Owner ID -->
+        <TextView
+            android:id="@+id/tvOwnerId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Owner ID"
+            android:textSize="14sp"/>
+
+        <!-- Estimated Price -->
+        <TextView
+            android:id="@+id/tvEstimatedPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Estimated Price"
+            android:textSize="14sp"/>
+
+        <!-- List of Items -->
+        <LinearLayout
+            android:id="@+id/itemListContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp">
+            <!-- Items will be added dynamically here -->
+        </LinearLayout>
+    </LinearLayout>
+
+
+</FrameLayout>

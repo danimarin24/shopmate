@@ -7,5 +7,6 @@ class CardProvider {
         var cards: List<CardEntity>? = emptyList()
 
         var card: CardEntity? = null
+        var selectedCard: CardEntity? = null
     }
 }

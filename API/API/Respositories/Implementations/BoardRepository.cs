@@ -30,7 +30,7 @@ public class BoardRepository : IBoardRepository
             .Select(c => new CardDto
             {
                 CardId = c.CardId,
-                //Name = c.Name,
+                CardName = c.CardName,
                 IsPublic = c.IsPublic,
                 IsTemplate = c.IsTemplate,
                 IsArchived = c.IsArchived,
