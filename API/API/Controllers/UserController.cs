@@ -112,6 +112,34 @@ namespace API.Controllers
                 SettingId = user.SettingId
             };
         }
+        
+        // GET: api/User/filter/username/danimarin24
+        [HttpGet("filter/username/{username}")]
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetUserFilterByUsername(string username)
+        {
+            var users = await _context.Users
+                .Where(u => u.Username.ToLower().Contains(username.ToLower()))
+                .ToListAsync();
+
+            if (users == null)
+            {
+                return NotFound();
+            }
+
+            return users.Select(u => new UserDto {
+                UserId = u.UserId,
+                Username = u.Username,
+                Email = u.Email,
+                FacebookToken = u.FacebookToken,
+                GoogleToken = u.GoogleToken,
+                LastConnection = u.LastConnection,
+                Name = u.Name,
+                Password = u.Password,
+                PhoneNumber = u.PhoneNumber,
+                ProfileImage = u.ProfileImage,
+                SettingId = u.SettingId
+            }).ToList();
+        }
 
         // GET: api/User/checkemail/dani4marin@gmail.com
         [HttpGet("checkemail/{email}")]
