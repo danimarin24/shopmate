@@ -2,15 +2,14 @@ package com.example.shopmate_app.ui.activities
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
-import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.Toast
@@ -18,29 +17,27 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopmate_app.R
 import com.example.shopmate_app.databinding.ActivityMainBinding
 import com.example.shopmate_app.domain.entities.newtworkEntities.BoardEntity
-import com.example.shopmate_app.ui.adapters.BoardAdapter
+import com.example.shopmate_app.domain.entities.newtworkEntities.ValidateShareLinkRequestEntity
 import com.example.shopmate_app.ui.adapters.ColorsChoseAdapter
 import com.example.shopmate_app.ui.viewmodels.BoardViewModel
 import com.example.shopmate_app.ui.viewmodels.ColorViewModel
 import com.example.shopmate_app.ui.viewmodels.MainViewModel
+import com.example.shopmate_app.ui.viewmodels.ShareViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -50,6 +47,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var context : Context
 
     private val mainViewModel: MainViewModel by viewModels()
+    private val shareViewModel: ShareViewModel by viewModels()
     private val colorViewModel: ColorViewModel by viewModels()
     private val boardViewModel: BoardViewModel by viewModels()
 
@@ -64,6 +62,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         context = applicationContext
+
+        val intent = intent
+        if (Intent.ACTION_VIEW == intent.action) {
+            val uri: Uri? = intent.data
+            uri?.let {
+                val token = it.lastPathSegment
+                val validateTokenRequest = ValidateShareLinkRequestEntity(mainViewModel.getUserId()!!, token!!)
+                token.let {
+                    shareViewModel.validateCardShareLinkToken(validateTokenRequest)
+                    observeViewModel(validateTokenRequest)
+                }
+            }
+        }
 
         val navHostFragment = supportFragmentManager.findFragmentById(binding.navHostMainFragmentContainer.id) as NavHostFragment
         navListener = NavController.OnDestinationChangedListener { controller, destination, arguments ->
@@ -141,6 +152,16 @@ class MainActivity : AppCompatActivity() {
         // INIT
         binding.bottomNavigationBar.menu.findItem(R.id.profile).setChecked(true)
         changeHeaderInfo("profile")
+    }
+
+    private fun observeViewModel(validateTokenRequest: ValidateShareLinkRequestEntity) {
+        shareViewModel.tokenValidation.observe(this, Observer { isValid ->
+            if (isValid) {
+                Toast.makeText(this, "Token valido", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Token inválido", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun setupObservers() {
