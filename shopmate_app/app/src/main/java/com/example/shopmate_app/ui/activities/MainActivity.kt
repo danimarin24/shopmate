@@ -32,6 +32,7 @@ import com.example.shopmate_app.R
 import com.example.shopmate_app.databinding.ActivityMainBinding
 import com.example.shopmate_app.domain.entities.newtworkEntities.BoardEntity
 import com.example.shopmate_app.ui.adapters.BoardAdapter
+import com.example.shopmate_app.ui.adapters.CardAdapter
 import com.example.shopmate_app.ui.adapters.ColorsChoseAdapter
 import com.example.shopmate_app.ui.viewmodels.BoardViewModel
 import com.example.shopmate_app.ui.viewmodels.ColorViewModel
@@ -178,8 +179,13 @@ class MainActivity : AppCompatActivity() {
                 binding.btnLeft.setImageResource(R.drawable.application_edit_outline)
                 binding.btnLeft.setOnClickListener {
                     binding.btnLeft.setImageResource(R.drawable.application_edit_outline)
-                    //showCreateNewBoard()
-                    // TODO: ('Add edit cards logic')
+                    Toast.makeText(context, "boton editar", Toast.LENGTH_SHORT).show()
+
+                    val currentFragment = supportFragmentManager.findFragmentByTag(activeFragment)
+                    val recyclerView = currentFragment?.requireView()?.findViewById<RecyclerView>(R.id.rcvSearch)
+                    // recyclerView?.adapter = CardEditAdapter()
+
+
                 }
 
                 binding.btnRight.setImageResource(R.drawable.plus_circle_outline)
