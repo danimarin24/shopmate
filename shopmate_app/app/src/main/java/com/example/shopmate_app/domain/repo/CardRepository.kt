@@ -19,4 +19,10 @@ class CardRepository @Inject constructor(private val api: CardService){
         return response!!
     }
 
+    suspend fun getAllCardsByTitle(textToSearch: String): List<CardEntity> {
+        val response = api.getCardsByTitle(textToSearch)
+        CardProvider.cards = response
+        return response!!
+    }
+
 }

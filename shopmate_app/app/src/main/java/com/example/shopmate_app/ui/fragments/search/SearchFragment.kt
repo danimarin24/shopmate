@@ -7,14 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopmate_app.R
 import com.example.shopmate_app.databinding.FragmentSearchBinding
 import com.example.shopmate_app.ui.adapters.BoardAdapter
+import com.example.shopmate_app.ui.adapters.CardAdapter
 import com.example.shopmate_app.ui.viewmodels.BoardViewModel
 import com.example.shopmate_app.ui.viewmodels.MainViewModel
 import com.example.shopmate_app.ui.viewmodels.ProfileViewModel
+import com.example.shopmate_app.ui.viewmodels.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,6 +26,7 @@ class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private val mainViewModel: MainViewModel by viewModels()
     private val profileViewModel: ProfileViewModel by viewModels()
+    private val searchViewModel: SearchViewModel by viewModels()
 
     private lateinit var context : Context
 
@@ -31,12 +36,13 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        // Inflar el layout para este fragmento
+
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         val checkBoard = binding.checkboxBoard
         val ulBoard = binding.underLineBoard
         val checkUser = binding.checkboxUser
         val ulUser = binding.underLineUser
+        val editTextSearch = binding.etSearch
 
         context = requireContext()
 
@@ -56,6 +62,16 @@ class SearchFragment : Fragment() {
                 checkUser.isChecked = true
             }
             updateCheckBoxState(checkUser, ulUser, checkBoard, ulBoard, R.color.md_theme_onPrimaryFixedVariant)
+        }
+        binding.etSearchLayout.setEndIconOnClickListener {
+            val searchText = binding.etSearch.text.toString()
+            if (searchText.isNotEmpty()) {
+                searchViewModel.searchCards(searchText)
+            } else {
+                Toast.makeText(context, "Please enter a search term", Toast.LENGTH_SHORT).show()
+            }
+
+
         }
 
         return binding.root
@@ -96,25 +112,23 @@ class SearchFragment : Fragment() {
     private fun setupObservers() {
         binding.rcvSearch.showEmptyView()
 
-        boardViewModel.boards.observe(viewLifecycleOwner) { boards ->
-            if (boards.isNullOrEmpty()) {
+        searchViewModel.searchCardStatsEntity.observe(viewLifecycleOwner) { cards ->
+            if (cards.isNullOrEmpty()) {
                 binding.rcvSearch.showEmptyView()
             } else {
                 binding.rcvSearch.hideAllViews()
-                boardViewModel.cardsByBoard.observe(viewLifecycleOwner) { cardsByBoard ->
-                    binding.rcvSearch.recyclerView.adapter = BoardAdapter(boards, cardsByBoard)
-                    binding.rcvSearch.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                }
+                binding.rcvSearch.recyclerView.adapter = CardAdapter(cards, "1", "1")
+                binding.rcvSearch.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             }
         }
 
-        boardViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+        searchViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
                 binding.rcvSearch.showLoadingView()
             }
         }
 
-        boardViewModel.isError.observe(viewLifecycleOwner) { isError ->
+        searchViewModel.isError.observe(viewLifecycleOwner) { isError ->
             if (isError) {
                 binding.rcvSearch.showErrorView()
             }
