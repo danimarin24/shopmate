@@ -7,9 +7,12 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.Toast
@@ -17,11 +20,15 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopmate_app.R
 import com.example.shopmate_app.databinding.ActivityMainBinding
@@ -199,8 +206,13 @@ class MainActivity : AppCompatActivity() {
                 binding.btnLeft.setImageResource(R.drawable.application_edit_outline)
                 binding.btnLeft.setOnClickListener {
                     binding.btnLeft.setImageResource(R.drawable.application_edit_outline)
-                    //showCreateNewBoard()
-                    // TODO: ('Add edit cards logic')
+                    Toast.makeText(context, "boton editar", Toast.LENGTH_SHORT).show()
+
+                    val currentFragment = supportFragmentManager.findFragmentByTag(activeFragment)
+                    val recyclerView = currentFragment?.requireView()?.findViewById<RecyclerView>(R.id.rcvSearch)
+                    // recyclerView?.adapter = CardEditAdapter()
+
+
                 }
 
                 binding.btnRight.setImageResource(R.drawable.plus_circle_outline)

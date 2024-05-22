@@ -66,7 +66,14 @@ class SearchFragment : Fragment() {
         binding.etSearchLayout.setEndIconOnClickListener {
             val searchText = binding.etSearch.text.toString()
             if (searchText.isNotEmpty()) {
-                searchViewModel.searchCards(searchText)
+                if (checkBoard.isChecked) {
+                    searchViewModel.searchCards(searchText)
+
+
+                } else if (checkUser.isChecked){
+                    Toast.makeText(context, "user buscador", Toast.LENGTH_SHORT).show()
+                    searchViewModel.searchUsers(searchText)
+                }
             } else {
                 Toast.makeText(context, "Please enter a search term", Toast.LENGTH_SHORT).show()
             }
@@ -117,10 +124,22 @@ class SearchFragment : Fragment() {
                 binding.rcvSearch.showEmptyView()
             } else {
                 binding.rcvSearch.hideAllViews()
-                binding.rcvSearch.recyclerView.adapter = CardAdapter(cards, "1", "1")
+                Toast.makeText(context, "board buscador", Toast.LENGTH_SHORT).show()
+                binding.rcvSearch.recyclerView.adapter = CardAdapter(cards, "1", "1") // Esto se ignorara igualmente
                 binding.rcvSearch.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             }
         }
+
+        searchViewModel.searchUsersStatsEntity.observe(viewLifecycleOwner) { users ->
+            if (users.isNullOrEmpty()) {
+                binding.rcvSearch.showEmptyView()
+            } else {
+                binding.rcvSearch.hideAllViews()
+                // binding.rcvSearch.recyclerView.adapter = UserAdapter(users)
+                binding.rcvSearch.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            }
+        }
+
 
         searchViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
