@@ -41,7 +41,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
-                    android:host="shopmate_appandroid.com"
+                    android:host="boa-possible-mudfish.ngrok-free.app"
                     android:pathPrefix="/api/cards/share"
                     android:scheme="https" />
             </intent-filter>

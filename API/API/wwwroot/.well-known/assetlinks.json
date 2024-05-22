@@ -1,0 +1,10 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.example.shopmate_app",
+      "sha256_cert_fingerprints": ["C8:46:B5:DD:EC:3B:AB:C6:C5:23:0A:BD:14:E9:1C:50:EB:3A:3D:32"]
+    }
+  }
+]
