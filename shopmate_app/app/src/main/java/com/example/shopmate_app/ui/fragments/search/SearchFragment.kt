@@ -67,8 +67,9 @@ class SearchFragment : Fragment() {
             val searchText = binding.etSearch.text.toString()
             if (searchText.isNotEmpty()) {
                 if (checkBoard.isChecked) {
-                    Toast.makeText(context, "board buscador", Toast.LENGTH_SHORT).show()
                     searchViewModel.searchCards(searchText)
+
+
                 } else if (checkUser.isChecked){
                     Toast.makeText(context, "user buscador", Toast.LENGTH_SHORT).show()
                     searchViewModel.searchUsers(searchText)
@@ -123,7 +124,8 @@ class SearchFragment : Fragment() {
                 binding.rcvSearch.showEmptyView()
             } else {
                 binding.rcvSearch.hideAllViews()
-                binding.rcvSearch.recyclerView.adapter = CardAdapter(cards, "1", "1")
+                Toast.makeText(context, "board buscador", Toast.LENGTH_SHORT).show()
+                binding.rcvSearch.recyclerView.adapter = CardAdapter(cards, "1", "1") // Esto se ignorara igualmente
                 binding.rcvSearch.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             }
         }
