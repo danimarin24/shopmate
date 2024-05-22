@@ -106,6 +106,7 @@
     <string name="cdErrImg">Error Image</string>
     <string name="cdEmptyImage">Empty image</string>
     <string name="at">\@</string>
+    <string name="errNoBoardFoundSearch">No se ha encontrado ningun resultado :(</string>
 
 
 </resources>
