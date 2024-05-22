@@ -1,6 +1,8 @@
+using System.Security.Cryptography;
 using API.Context;
 using API.DTOs;
 using API.Model;
+using API.Model.Extra;
 using API.Respositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,10 +11,12 @@ namespace API.Respositories.Implementations;
 public class CardRepository : ICardRepository
 {
     private readonly ShopMateContext _context;
-
-    public CardRepository(ShopMateContext context)
+    private readonly IConfiguration _configuration;
+    
+    public CardRepository(ShopMateContext context, IConfiguration configuration)
     {
         _context = context;
+        _configuration = configuration;
     }
 
     public async Task<CardDto> GetByIdAsync(uint cardId)
@@ -22,7 +26,7 @@ public class CardRepository : ICardRepository
             .Select(c => new CardDto
             {
                 CardId = c.CardId,
-                //Name = c.Name,
+                CardName = c.CardName,
                 IsPublic = c.IsPublic,
                 IsTemplate = c.IsTemplate,
                 IsArchived = c.IsArchived,
@@ -40,7 +44,7 @@ public class CardRepository : ICardRepository
             .Select(c => new CardDto
             {
                 CardId = c.CardId,
-                //Name = c.Name,
+                CardName = c.CardName,
                 IsPublic = c.IsPublic,
                 IsTemplate = c.IsTemplate,
                 IsArchived = c.IsArchived,
@@ -50,6 +54,87 @@ public class CardRepository : ICardRepository
             .ToListAsync();
     }
 
+    public async Task<GenerateShareCardLinkResponse> GenerateShareCardLink(GenerateShareCardLinkRequest cardLinkRequest)
+        {
+            // Generate a unique token for the share link
+            var token = GenerateToken();
+
+            // Set an expiration time for the share link
+            var expiration = DateTime.UtcNow.AddHours(24); // Link expires in 24 hours
+
+            // Construct the share link
+            var shareLink = $"{_configuration["BaseUrl"]}/api/cards/share/{token}";
+
+            // Save the share link details in the database
+            var shareCardLink = new CardShareLink
+            {
+                CardId = cardLinkRequest.CardId,
+                RoleId = cardLinkRequest.RoleId,
+                Token = token,
+                Expiration = expiration
+            };
+            _context.CardShareLinks.Add(shareCardLink);
+            await _context.SaveChangesAsync();
+
+            return new GenerateShareCardLinkResponse
+            {
+                ShareLink = shareLink,
+                Expiration = expiration
+            };
+        }
+
+    public async Task<ValidateShareCardLinkResponse> ValidateShareCardLink(ValidateShareCardLinkRequest request)
+    {
+        var shareCardLink = await _context.CardShareLinks
+            .FirstOrDefaultAsync(scl => scl.Token == request.Token);
+
+        if (shareCardLink == null)
+        {
+            return new ValidateShareCardLinkResponse
+            {
+                IsValid = false,
+                Message = "Invalid share link."
+            };
+        }
+
+        if (shareCardLink.Expiration < DateTime.UtcNow)
+        {
+            return new ValidateShareCardLinkResponse
+            {
+                IsValid = false,
+                Message = "Share link has expired."
+            };
+        }
+
+        // Create a new member in the MembersFromCard table
+        var member = new MembersFromCard
+        {
+            CardId = shareCardLink.CardId,
+            UserId = request.UserId,
+            RoleId = shareCardLink.RoleId
+        };
+
+        _context.MembersFromCards.Add(member);
+        await _context.SaveChangesAsync();
+
+        return new ValidateShareCardLinkResponse
+        {
+            IsValid = true,
+            Message = "Share link is valid.",
+            CardId = shareCardLink.CardId,
+            UserId = request.UserId
+        };
+    }
+
+    private string GenerateToken()
+    {
+        using (var rng = new RNGCryptoServiceProvider())
+        {
+            var byteArray = new byte[20];
+            rng.GetBytes(byteArray);
+            return Convert.ToBase64String(byteArray).Replace("+", "-").Replace("/", "_").TrimEnd('=');
+        }
+    }
 
 
     public async Task<CardDto> Update(Card card)
@@ -71,7 +156,7 @@ public class CardRepository : ICardRepository
         return new CardDto
         {
             CardId = existingCard.CardId,
-            //Name = existingCard.Name,
+            CardName = existingCard.CardName,
             IsPublic = existingCard.IsPublic,
             IsTemplate = existingCard.IsTemplate,
             IsArchived = existingCard.IsArchived,

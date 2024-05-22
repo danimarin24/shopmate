@@ -12,47 +12,47 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RolController : ControllerBase
+    public class RoleController : ControllerBase
     {
         private readonly ShopMateContext _context;
 
-        public RolController(ShopMateContext context)
+        public RoleController(ShopMateContext context)
         {
             _context = context;
         }
 
-        // GET: api/Rol
+        // GET: api/Role
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Rol>>> GetRols()
+        public async Task<ActionResult<IEnumerable<Role>>> GetRoles()
         {
-            return await _context.Rols.ToListAsync();
+            return await _context.Roles.ToListAsync();
         }
 
-        // GET: api/Rol/5
+        // GET: api/Role/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Rol>> GetRol(uint id)
+        public async Task<ActionResult<Role>> GetRole(uint id)
         {
-            var rol = await _context.Rols.FindAsync(id);
+            var Role = await _context.Roles.FindAsync(id);
 
-            if (rol == null)
+            if (Role == null)
             {
                 return NotFound();
             }
 
-            return rol;
+            return Role;
         }
 
-        // PUT: api/Rol/5
+        // PUT: api/Role/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRol(uint id, Rol rol)
+        public async Task<IActionResult> PutRole(uint id, Role Role)
         {
-            if (id != rol.RolId)
+            if (id != Role.RoleId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(rol).State = EntityState.Modified;
+            _context.Entry(Role).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RolExists(id))
+                if (!RoleExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace API.Controllers
             return NoContent();
         }
 
-        // POST: api/Rol
+        // POST: api/Role
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Rol>> PostRol(Rol rol)
+        public async Task<ActionResult<Role>> PostRole(Role Role)
         {
-            _context.Rols.Add(rol);
+            _context.Roles.Add(Role);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRol", new { id = rol.RolId }, rol);
+            return CreatedAtAction("GetRol", new { id = Role.RoleId }, Role);
         }
 
-        // DELETE: api/Rol/5
+        // DELETE: api/Role/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRol(uint id)
+        public async Task<IActionResult> DeleteRole(uint id)
         {
-            var rol = await _context.Rols.FindAsync(id);
-            if (rol == null)
+            var Role = await _context.Roles.FindAsync(id);
+            if (Role == null)
             {
                 return NotFound();
             }
 
-            _context.Rols.Remove(rol);
+            _context.Roles.Remove(Role);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool RolExists(uint id)
+        private bool RoleExists(uint id)
         {
-            return _context.Rols.Any(e => e.RolId == id);
+            return _context.Roles.Any(e => e.RoleId == id);
         }
     }
 }

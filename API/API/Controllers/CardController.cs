@@ -3,6 +3,7 @@ using API.Services;
 using API.Model;
 using System.Collections.Generic;
 using API.DTOs;
+using API.Model.Extra;
 using API.Services.Interfaces;
 
 namespace API.Controllers
@@ -40,18 +41,19 @@ namespace API.Controllers
             return Ok(result);
         }
         
-        /*
-         * [HttpPost("{cardId}/Share")]
-           public async Task<IActionResult> ShareCard(uint cardId, [FromBody] Card card)
-           {
-               var result = await _cardService.ShareCard(cardId, card);
-               if (!result)
-               {
-                   return BadRequest("Unable to share card");
-               }
-               return Ok();
-           }
-         */
+        [HttpPost("generate-share-link")]
+        public async Task<ActionResult<GenerateShareCardLinkResponse>> GenerateShareCardLink([FromBody] GenerateShareCardLinkRequest cardLinkRequest)
+        {
+            var response = await _cardService.GenerateShareCardLink(cardLinkRequest);
+            return Ok(response);
+        }
+
+        [HttpPost("validate-share-link")]
+        public async Task<ActionResult<ValidateShareCardLinkResponse>> ValidateShareCardLink([FromBody] ValidateShareCardLinkRequest validateCardLinkRequest)
+        {
+            var response = await _cardService.ValidateShareCardLink(validateCardLinkRequest);
+            return Ok(response);
+        }
         
         [HttpGet("users/{userId}/cards")]
         public async Task<IActionResult> GetCardsByUserId(uint userId)
