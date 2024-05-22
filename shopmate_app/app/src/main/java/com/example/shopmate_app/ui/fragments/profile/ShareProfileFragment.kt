@@ -17,7 +17,6 @@ import com.example.shopmate_app.ui.viewmodels.MainViewModel
 import com.example.shopmate_app.ui.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class ShareProfileFragment : Fragment() {
 

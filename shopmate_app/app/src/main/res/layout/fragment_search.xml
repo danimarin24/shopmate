@@ -1,14 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.search.SearchFragment">
+    tools:context=".ui.fragments.search.SearchFragment"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="0dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Search" />
+    <!-- Search Layout -->
+    <LinearLayout
+        android:id="@+id/et_lyt_search"
+        android:layout_width="@dimen/maxWidth"
+        android:layout_height="@dimen/height"
+        android:layout_marginTop="@dimen/defaultMargin"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <RelativeLayout
+            android:layout_width="@dimen/height"
+            android:layout_height="@dimen/height"
+            android:layout_gravity="end"
+            android:background="@drawable/custom_bg_icon"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/ivFilter"
+                android:layout_width="@dimen/iconMiddleSize"
+                android:layout_height="@dimen/iconMiddleSize"
+                android:contentDescription="@string/iconStr"
+                android:src="@drawable/filter_cog_outline"
+                app:tint="#ffffff" />
+        </RelativeLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etSearchLayout"
+            android:layout_width="270dp"
+            android:layout_height="50dp"
+            app:endIconDrawable="@drawable/search"
+            app:endIconMode="custom"
+            app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSearch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints="emailAddress"
+                android:fontFamily="@font/poppins_medium"
+                android:hint="Busca inspiración..."
+                android:includeFontPadding="false"
+                android:inputType="textEmailAddress"
+                android:padding="0dp"
+                android:textSize="12sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <!-- Checkbox Board -->
+    <LinearLayout
+        android:id="@+id/checkboxBoardLayout"
+        android:layout_width="54dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"
+        android:orientation="vertical"
+        android:padding="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_lyt_search">
+
+        <CheckBox
+            android:id="@+id/checkboxBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:button="@null"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Board"
+            android:textColor="?attr/colorButtonNormal"
+            android:textSize="14sp"
+            tools:layout_editor_absoluteX="4dp"
+            tools:layout_editor_absoluteY="102dp" />
+
+        <View
+            android:id="@+id/underLineBoard"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+
+            android:background="?attr/colorButtonNormal" />
+    </LinearLayout>
+
+    <!-- Checkbox User -->
+    <LinearLayout
+        android:id="@+id/checkboxUserLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="310dp"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:padding="4dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_lyt_search">
+
+        <CheckBox
+            android:id="@+id/checkboxUser"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:button="@null"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Users"
+            android:textColor="?attr/colorButtonNormal"
+            android:textSize="14sp"
+            tools:layout_editor_absoluteX="61dp"
+            tools:layout_editor_absoluteY="102dp" />
+
+        <View
+            android:id="@+id/underLineUser"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/colorButtonNormal"
+            tools:layout_editor_absoluteX="61dp"
+            tools:layout_editor_absoluteY="126dp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
