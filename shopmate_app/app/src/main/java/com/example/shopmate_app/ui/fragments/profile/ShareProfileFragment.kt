@@ -66,7 +66,7 @@ class ShareProfileFragment : Fragment() {
 
         binding.etEmailLayout.setEndIconOnClickListener {
             val intent = Intent(Intent.ACTION_SENDTO)
-            intent.data = Uri.parse("smsto:") // Esto asegura que solo las apps de SMS puedan manejar el Intent
+            intent.data = Uri.parse("smsto:")
             intent.putExtra("sms_body", "Tu mensaje aqui")
 
             try {
@@ -81,12 +81,9 @@ class ShareProfileFragment : Fragment() {
             Toast.makeText(findNavController().context, emailText, Toast.LENGTH_SHORT).show()
 
             val email = Intent(Intent.ACTION_SEND)
-            email.putExtra(Intent.EXTRA_EMAIL, arrayOf(emailText))
+            email.putExtra(Intent.EXTRA_EMAIL, arrayOf(emailText)) // No funciona, deberia de colocar el email del enviante
             email.putExtra(Intent.EXTRA_SUBJECT, "¡Mira este perfil ShopMate! Disfruta ahora de las mejores ventajas!")
             email.putExtra(Intent.EXTRA_TEXT, "Tu mensaje aqui")
-
-
-//need this to prompts email client only
             email.setType("message/rfc822")
 
             startActivity(Intent.createChooser(email, "Choose an Email client :"))

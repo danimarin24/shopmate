@@ -20,4 +20,11 @@ class CardService @Inject constructor(private val api: CardApiClient) {
             response.body()
         }
     }
+
+    suspend fun getCardsByTitle(textToSearch: String): List<CardEntity>? {
+        return withContext(Dispatchers.IO) {
+            val response = api.getCardsByTitle(textToSearch,AppConstants.API_KEY)
+            response.body()!!
+        }
+    }
 }

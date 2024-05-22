@@ -18,6 +18,10 @@ interface CardApiClient {
     suspend fun getCardsByUserId(@Path("userId") userId: Int, @Header("x-api-key") apiKey: String): Response<List<CardEntity>>
 
     // POST
-    @GET("${AppConstants.BOARD_ENDPOINT}/{boardId}/card")
+    @GET("${AppConstants.BOARD_ENDPOINT}{boardId}/card")
     suspend fun addCardToABoard(@Path("boardId") boardId: Int, @Body card: CardEntity, @Header("x-api-key") apiKey: String): Response<CardEntity>
-}
+
+    @GET("${AppConstants.CARD_ENDPOINT}filter/name/{name}")
+    suspend fun getCardsByTitle(@Path("name") name: String,@Header("x-api-key") apiKey: String): Response<List<CardEntity>>
+
+    }
