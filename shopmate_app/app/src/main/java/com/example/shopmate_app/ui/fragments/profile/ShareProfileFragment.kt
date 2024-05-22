@@ -1,23 +1,22 @@
 package com.example.shopmate_app.ui.fragments.profile
 
+import android.R.id.message
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.shopmate_app.R
-import com.example.shopmate_app.databinding.FragmentProfileBinding
 import com.example.shopmate_app.databinding.FragmentShareProfileBinding
 import com.example.shopmate_app.ui.viewmodels.MainViewModel
 import com.example.shopmate_app.ui.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class ShareProfileFragment : Fragment() {
@@ -76,6 +75,23 @@ class ShareProfileFragment : Fragment() {
             } catch (e: ActivityNotFoundException) {
                 Toast.makeText(findNavController().context, "No hay aplicaciones de SMS instaladas", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        binding.btnSendEmail.setOnClickListener {
+            val emailText = binding.etEmail.text
+            Toast.makeText(findNavController().context, emailText, Toast.LENGTH_SHORT).show()
+
+            val email = Intent(Intent.ACTION_SEND)
+            email.putExtra(Intent.EXTRA_EMAIL, arrayOf(emailText))
+            email.putExtra(Intent.EXTRA_SUBJECT, "¡Mira este perfil ShopMate! Disfruta ahora de las mejores ventajas!")
+            email.putExtra(Intent.EXTRA_TEXT, "Tu mensaje aqui")
+
+
+//need this to prompts email client only
+            email.setType("message/rfc822")
+
+            startActivity(Intent.createChooser(email, "Choose an Email client :"))
+
         }
         return binding.root
 

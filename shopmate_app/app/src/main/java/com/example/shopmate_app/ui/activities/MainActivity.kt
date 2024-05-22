@@ -83,6 +83,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.profileSettingFragment -> {
                     changeHeaderInfo("setting")
                 }
+                R.id.shareProfileFragment -> {
+                    changeHeaderInfo("shareProfile")
+                }
 
             }
         }
@@ -130,6 +133,7 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.profileFragment)
                     return@setOnItemSelectedListener true
                 }
+
             }
             false
         }
@@ -167,6 +171,7 @@ class MainActivity : AppCompatActivity() {
         binding.btnRight.setOnClickListener{}
 
         when (activeFragment) {
+
             "home" -> {
                 binding.txtHeaderTitle.text = getString(R.string.strHome)
 
@@ -190,6 +195,7 @@ class MainActivity : AppCompatActivity() {
             "template" -> {
                 binding.txtHeaderTitle.text = getString(R.string.strTemplate)
             }
+
             "profile" -> {
                 binding.txtHeaderTitle.text = getString(R.string.strProfile)
 
@@ -199,9 +205,17 @@ class MainActivity : AppCompatActivity() {
                     showSettingsBottomDialog()
                 }
             }
+
             "setting" -> {
                 binding.txtHeaderTitle.text = getString(R.string.strProfileSettings)
             }
+            "shareProfile" -> {
+                binding.btnLeft.setImageResource(R.drawable.close)
+                binding.btnLeft.setOnClickListener {
+                    navController.popBackStack()
+                }
+            }
+
         }
 
     }
@@ -247,6 +261,7 @@ class MainActivity : AppCompatActivity() {
         val dialog = Dialog(navController.context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.bottom_card_create_dialog)
+
 
         val txtCancel = dialog.findViewById<MaterialTextView>(R.id.txtCancel)
         val txtNext = dialog.findViewById<MaterialTextView>(R.id.txtNext)
