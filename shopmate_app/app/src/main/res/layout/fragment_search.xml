@@ -19,26 +19,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <RelativeLayout
-            android:layout_width="@dimen/height"
-            android:layout_height="@dimen/height"
-            android:layout_gravity="end"
-            android:background="@drawable/custom_bg_icon"
-            android:gravity="center">
-
-            <ImageView
-                android:id="@+id/ivFilter"
-                android:layout_width="@dimen/iconMiddleSize"
-                android:layout_height="@dimen/iconMiddleSize"
-                android:contentDescription="@string/iconStr"
-                android:src="@drawable/filter_cog_outline"
-                app:tint="#ffffff" />
-        </RelativeLayout>
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/etSearchLayout"
-            android:layout_width="270dp"
+            android:layout_width="265dp"
             android:layout_height="50dp"
+            android:layout_marginEnd="5dp"
             app:endIconDrawable="@drawable/search"
             app:endIconMode="custom"
             app:hintEnabled="false">
@@ -55,6 +40,22 @@
                 android:padding="0dp"
                 android:textSize="12sp" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <RelativeLayout
+            android:layout_width="@dimen/height"
+            android:layout_height="@dimen/height"
+            android:layout_gravity="end"
+            android:background="@drawable/custom_bg_box"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/ivFilter"
+                android:layout_width="@dimen/iconMiddleSize"
+                android:layout_height="@dimen/iconMiddleSize"
+                android:contentDescription="@string/iconStr"
+                android:src="@drawable/filter_cog_outline"
+                app:tint="#ffffff" />
+        </RelativeLayout>
     </LinearLayout>
 
     <!-- Checkbox Board -->
@@ -127,8 +128,8 @@
 
     <com.example.shopmate_app.ui.components.LCEERecyclerView
         android:id="@+id/rcvSearch"
-        android:layout_width="411dp"
-        android:layout_height="583dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="136dp"
         app:emptyIcon="@drawable/ic_empty"
         app:emptyText="@string/errNoBoardFoundSearch"
