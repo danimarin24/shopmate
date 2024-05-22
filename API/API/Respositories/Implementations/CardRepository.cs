@@ -58,7 +58,10 @@ public class CardRepository : ICardRepository
     {
         return await _context.Cards
             .Include(c => c.Color)
-            .Where(c => c.CardName.ToLower().Contains(name.ToLower()))
+            .Where(c => 
+                c.CardName.ToLower().Contains(name.ToLower())
+                && c.IsPublic.Equals(1)
+            )
             .Select(c => new CardDto
             {
                 CardId = c.CardId,
