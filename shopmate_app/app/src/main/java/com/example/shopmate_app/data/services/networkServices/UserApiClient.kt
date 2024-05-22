@@ -39,6 +39,11 @@ interface UserApiClient {
     @GET("${AppConstants.USER_ENDPOINT}stats/{id}")
     suspend fun getUserStats(@Path("id") id: Int, @Header("x-api-key") apiKey: String): Response<UserStatsEntity>
 
+    @GET("${AppConstants.USER_ENDPOINT}filter/username/{username}")
+    suspend fun getUsersByUsername(@Path("username")username: String, apiKey: String):Response<List<UserEntity>>
+
+
+
     // POST
     @POST("${AppConstants.USER_ENDPOINT}validate-google-token")
     suspend fun validateGoogleToken(
@@ -72,6 +77,8 @@ interface UserApiClient {
     // DELETE
     @DELETE(AppConstants.USER_ENDPOINT)
     suspend fun deleteUser(@Body user: UserEntity, @Header("x-api-key") apiKey: String): Response<UserEntity>
+
+
 
 
 }
