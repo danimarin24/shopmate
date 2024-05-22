@@ -16,15 +16,6 @@
         android:gravity="center"
         >
 
-        <ImageView
-            android:id="@+id/btnGoBack"
-            android:layout_width="15dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="5dp"
-            android:src="@drawable/close"
-            android:contentDescription="Go Back Button" />
-
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txtCompartirLista"
             android:layout_width="300dp"
@@ -33,10 +24,10 @@
             android:gravity="center"
             android:padding="5dp"
             android:text="Compartir Perfil"
-            android:textStyle="bold"
             android:textAlignment="center"
             android:textColor="?android:attr/colorForeground"
             android:textSize="@dimen/defaultTextSize"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -295,7 +286,7 @@
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnNext"
+        android:id="@+id/btnSendEmail"
         android:layout_width="@dimen/maxWidth"
         android:layout_height="@dimen/height"
         android:layout_marginTop="@dimen/littleMargin"
