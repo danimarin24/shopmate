@@ -124,4 +124,18 @@
             tools:layout_editor_absoluteX="61dp"
             tools:layout_editor_absoluteY="126dp" />
     </LinearLayout>
+
+    <com.example.shopmate_app.ui.components.LCEERecyclerView
+        android:id="@+id/rcvSearch"
+        android:layout_width="411dp"
+        android:layout_height="583dp"
+        android:layout_marginTop="136dp"
+        app:emptyIcon="@drawable/ic_empty"
+        app:emptyText="@string/errNoBoardFoundSearch"
+        app:errorIcon="@drawable/ic_error"
+        app:errorText="@string/errNoBoardFoundSearch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
