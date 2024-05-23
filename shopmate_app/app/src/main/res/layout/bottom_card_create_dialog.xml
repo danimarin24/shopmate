@@ -79,46 +79,37 @@
             android:textColorHint="?attr/colorOnPrimaryContainer"
             android:textSize="16sp" />
 
+
+
     </com.google.android.material.textfield.TextInputLayout>
+
 
     <LinearLayout
         android:id="@+id/lytLinearCbo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:layout_marginHorizontal="@dimen/littleMargin"
-        android:weightSum="13"
+        android:weightSum="20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etCardNameLyt">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txtCboSelec"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="6"
-            android:text="Seleccione un tablero"
-            android:textAlignment="textEnd"
-            android:textColor="#ffffff"
-
-            />
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
 
         <Spinner
             android:id="@+id/cboBoardSelection"
-            android:layout_width="0dp"
+            android:layout_width="10dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/defaultMargin"
-            android:layout_weight="6"
+            android:layout_weight="10"
             android:background="@drawable/custom_input_rounded"
             android:paddingVertical="10dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:textColor="?attr/colorOnPrimaryContainer"
+            android:textAlignment="center"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@+id/etCardNameLyt" />
 

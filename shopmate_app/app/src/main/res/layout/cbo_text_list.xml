@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:text="GYM"
+    android:gravity="center_horizontal"
     android:textSize="@dimen/middleTextSize"
     android:fontFamily="@font/poppins_medium"
     android:singleLine="true"

@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.Toast
@@ -331,8 +332,11 @@ class MainActivity : AppCompatActivity() {
             rcvColors.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
         })
 
-        /*
-        boardViewModel.boardsEntity.observe(this, Observer { boardList ->
+        cboBoardSelection.selectedItem
+        boardViewModel.fetchBoards(mainViewModel.getUserId()!!)
+
+
+        boardViewModel.boards.observe(this, Observer { boardList ->
             if (!boardList.isNullOrEmpty()) {
                 val titles = boardList.map { it.title }
                 val adapter = ArrayAdapter(navController.context, R.layout.cbo_text_list, titles)
@@ -340,7 +344,7 @@ class MainActivity : AppCompatActivity() {
                 cboBoardSelection.adapter = adapter
             }
         })
-         */
+
 
         etCardNameLyt.setEndIconOnClickListener {
             etCardName.text?.clear()
