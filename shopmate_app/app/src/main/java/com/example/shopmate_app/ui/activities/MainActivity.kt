@@ -7,12 +7,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
-import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.Toast
@@ -20,13 +17,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,7 +28,11 @@ import com.example.shopmate_app.R
 import com.example.shopmate_app.databinding.ActivityMainBinding
 import com.example.shopmate_app.domain.entities.newtworkEntities.BoardEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.ValidateShareLinkRequestEntity
+import com.example.shopmate_app.ui.adapters.BoardAdapter
+import com.example.shopmate_app.ui.adapters.BoardEditAdapter
 import com.example.shopmate_app.ui.adapters.ColorsChoseAdapter
+import com.example.shopmate_app.ui.components.LCEERecyclerView
+import com.example.shopmate_app.ui.fragments.home.HomeFragment
 import com.example.shopmate_app.ui.viewmodels.BoardViewModel
 import com.example.shopmate_app.ui.viewmodels.ColorViewModel
 import com.example.shopmate_app.ui.viewmodels.MainViewModel
@@ -60,6 +58,8 @@ class MainActivity : AppCompatActivity() {
 
 
     private var isBoardListEmpty = true
+
+
 
 
 
@@ -134,6 +134,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.home -> {
                     changeHeaderInfo("home")
                     navController.navigate(R.id.homeFragment)
+                    // navController.get
                     return@setOnItemSelectedListener true
                 }
                 R.id.search -> {
@@ -206,11 +207,31 @@ class MainActivity : AppCompatActivity() {
                 binding.btnLeft.setImageResource(R.drawable.application_edit_outline)
                 binding.btnLeft.setOnClickListener {
                     binding.btnLeft.setImageResource(R.drawable.application_edit_outline)
-                    Toast.makeText(context, "boton editar", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context, "boton editar", Toast.LENGTH_SHORT).show()
 
-                    val currentFragment = supportFragmentManager.findFragmentByTag(activeFragment)
-                    val recyclerView = currentFragment?.requireView()?.findViewById<RecyclerView>(R.id.rcvSearch)
-                    // recyclerView?.adapter = CardEditAdapter()
+                    val currentFragment = supportFragmentManager.findFragmentByTag("home")
+                    if (currentFragment != null && currentFragment is HomeFragment) {
+
+                        val recyclerView = currentFragment.view?.findViewById<LCEERecyclerView>(R.id.rcvBoardHome)
+                        boardViewModel.fetchBoards(mainViewModel.getUserId()!!)
+                        boardViewModel.boards.observe(this) { boards ->
+                            if (boards.isNullOrEmpty()) {
+                                recyclerView?.showEmptyView()
+                            } else {
+                                recyclerView?.hideAllViews()
+                                boardViewModel.cardsByBoard.observe(this) { cardsByBoard ->
+                                    Toast.makeText(context, "barraoan", Toast.LENGTH_SHORT).show()
+
+                                    recyclerView?.recyclerView?.adapter = BoardEditAdapter(boards, cardsByBoard)
+                                    recyclerView?.recyclerView?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                    }
+
+                            }
+                        }
+                    } else {
+                        Toast.makeText(context, "Fragmento no encontrado o incorrecto", Toast.LENGTH_SHORT).show()
+
+                    }
 
 
                 }
@@ -294,7 +315,6 @@ class MainActivity : AppCompatActivity() {
         val dialog = Dialog(navController.context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.bottom_card_create_dialog)
-
 
         val txtCancel = dialog.findViewById<MaterialTextView>(R.id.txtCancel)
         val txtNext = dialog.findViewById<MaterialTextView>(R.id.txtNext)
