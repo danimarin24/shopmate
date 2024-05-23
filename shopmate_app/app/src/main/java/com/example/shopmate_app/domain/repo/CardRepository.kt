@@ -2,6 +2,7 @@ package com.example.shopmate_app.domain.repo
 
 import com.example.shopmate_app.data.services.networkServices.CardService
 import com.example.shopmate_app.domain.entities.newtworkEntities.CardEntity
+import com.example.shopmate_app.domain.entities.newtworkEntities.UserRoleEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.ValidateShareLinkRequestEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.ValidateShareLinkResponeEntity
 import com.example.shopmate_app.domain.entities.providers.CardProvider
@@ -31,8 +32,19 @@ class CardRepository @Inject constructor(private val api: CardService){
     suspend fun validateCardShareLinkToken(validateEntity: ValidateShareLinkRequestEntity): ValidateShareLinkResponeEntity {
         val response = api.validateCardShareLinkToken(validateEntity)
         CardProvider.validatedToken = response
-        return response!!
+        return response
     }
 
 
+    suspend fun getMembersFromACard(cardId: Int): List<UserRoleEntity> {
+        val response = api.getMembersFromACard(cardId)
+        CardProvider.membersCard = response
+        return response
+    }
+
+    suspend fun getCategoriesIcons(cardId: Int): List<String> {
+        val response = api.getCategoriesIcons(cardId)
+        CardProvider.categoriesIconsCard = response
+        return response
+    }
 }

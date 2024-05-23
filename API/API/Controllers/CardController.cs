@@ -111,5 +111,14 @@ namespace API.Controllers
 
             return NoContent();
         }
+        
+        [HttpGet("{cardId}/categoriesIcons")]
+        public async Task<IActionResult> GetCategoryIconsByCardId(uint cardId)
+        {
+            var icons = await _cardService.GetCategoryIconsByCardId(cardId);
+            if (icons == null || !icons.Any())
+                return NotFound();
+            return Ok(icons);
+        }
     }
 }
