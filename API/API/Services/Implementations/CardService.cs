@@ -58,6 +58,11 @@ namespace API.Services.Implementations
         {
             return await _cardRepository.ValidateShareCardLink(validateCardLinkRequest);
         }
+        
+        public async Task<IEnumerable<string>> GetCategoryIconsByCardId(uint cardId)
+        {
+            return await _cardRepository.GetCategoryIcons(cardId);
+        }
 
         public async Task<CardDto> GetCardById(uint cardId)
         {

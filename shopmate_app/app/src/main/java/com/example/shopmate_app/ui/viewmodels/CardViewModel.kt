@@ -6,8 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopmate_app.domain.entities.newtworkEntities.CardEntity
+import com.example.shopmate_app.domain.entities.newtworkEntities.UserRoleEntity
 import com.example.shopmate_app.domain.usecases.card.AddCardToABoardUseCase
 import com.example.shopmate_app.domain.usecases.card.GetCardsByUserUseCase
+import com.example.shopmate_app.domain.usecases.card.GetCategoriesIconsUseCase
+import com.example.shopmate_app.domain.usecases.card.GetMembersFromACardUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,11 +18,19 @@ import javax.inject.Inject
 @HiltViewModel
 class CardViewModel @Inject constructor(
     private val getAllCardsByUserUseCase: GetCardsByUserUseCase,
-    private val addCardToABoardUseCase: AddCardToABoardUseCase
+    private val addCardToABoardUseCase: AddCardToABoardUseCase,
+    private val getCategoriesIconsUseCase: GetCategoriesIconsUseCase,
+    private val getMembersFromACardUseCase: GetMembersFromACardUseCase
 
 ) : ViewModel() {
     private val _cards = MutableLiveData<List<CardEntity>>()
     val cards: LiveData<List<CardEntity>> get() = _cards
+
+    private val _members = MutableLiveData<List<UserRoleEntity>>()
+    val members: LiveData<List<UserRoleEntity>> get() = _members
+
+    private val _categoriesIcons = MutableLiveData<List<String>>()
+    val categoriesIcons: LiveData<List<String>> get() = _categoriesIcons
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
@@ -53,6 +64,34 @@ class CardViewModel @Inject constructor(
                 _isError.value = true
                 _isLoading.value = false
             } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun fetchCategoriesIconsByCard(cardId: Int) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            try {
+                val categoriesIcons = getCategoriesIconsUseCase(cardId)
+                _categoriesIcons.value = categoriesIcons
+            } catch (e: Exception) {
+                // Handle error
+                _isError.value = true
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun fetchMembersByCard(cardId: Int) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            try {
+                val members = getMembersFromACardUseCase(cardId)
+                _members.value = members
+            } catch (e: Exception) {
+                // Handle error
+                _isError.value = true
                 _isLoading.value = false
             }
         }

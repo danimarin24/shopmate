@@ -127,16 +127,27 @@ public class CardRepository : ICardRepository
             };
         }
 
-        // Create a new member in the MembersFromCard table
-        var member = new MembersFromCard
+        try
         {
-            CardId = shareCardLink.CardId,
-            UserId = request.UserId,
-            RoleId = shareCardLink.RoleId
-        };
+            // Create a new member in the MembersFromCard table
+            var member = new MembersFromCard
+            {
+                CardId = shareCardLink.CardId,
+                UserId = request.UserId,
+                RoleId = shareCardLink.RoleId
+            };
 
-        _context.MembersFromCards.Add(member);
-        await _context.SaveChangesAsync();
+            _context.MembersFromCards.Add(member);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            return new ValidateShareCardLinkResponse
+            {
+                IsValid = false,
+                Message = "This link has a problem... Invalid token"
+            };
+        }
 
         return new ValidateShareCardLinkResponse
         {
@@ -157,6 +168,22 @@ public class CardRepository : ICardRepository
         }
     }
 
+    public async Task<IEnumerable<string>> GetCategoryIcons(uint cardId)
+    {
+        return await _context.ItemCardLines
+            .Where(ic => ic.CardId == cardId)
+            .Join(_context.Items,
+                ic => ic.ItemId,
+                i => i.ItemId,
+                (ic, i) => i)
+            .Join(_context.Categories,
+                i => i.CategoryId,
+                c => c.CategoryId,
+                (i, c) => c.Icon)
+            .Distinct()
+            .ToListAsync();
+    }
+    
 
     public async Task<CardDto> Update(Card card)
     {

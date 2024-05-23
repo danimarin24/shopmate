@@ -4,6 +4,7 @@ import com.example.shopmate_app.data.constants.AppConstants
 import com.example.shopmate_app.domain.entities.newtworkEntities.CardEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.CardShareLinkRequestEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.CardShareLinkResponseEntity
+import com.example.shopmate_app.domain.entities.newtworkEntities.UserRoleEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.ValidateShareLinkRequestEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.ValidateShareLinkResponeEntity
 import retrofit2.Response
@@ -29,6 +30,11 @@ interface CardApiClient {
     suspend fun validateShareLink(@Body validateShareLinkRequestEntity: ValidateShareLinkRequestEntity, @Header("x-api-key") apiKey: String): Response<ValidateShareLinkResponeEntity>
 
     @GET("${AppConstants.CARD_ENDPOINT}filter/name/{name}")
-    suspend fun getCardsByTitle(@Path("name") name: String,@Header("x-api-key") apiKey: String): Response<List<CardEntity>>
+    suspend fun getCardsByTitle(@Path("name") name: String, @Header("x-api-key") apiKey: String): Response<List<CardEntity>>
 
-    }
+    @GET("${AppConstants.CARD_ENDPOINT}{cardId}/members")
+    suspend fun getMembersFromACard(@Path("cardId") cardId: Int, @Header("x-api-key") apiKey: String): Response<List<UserRoleEntity>>
+
+    @GET("${AppConstants.CARD_ENDPOINT}{cardId}/categoriesIcons")
+    suspend fun getCategoriesIcons(@Path("cardId") cardId: Int, @Header("x-api-key") apiKey: String): Response<List<String>>
+}
