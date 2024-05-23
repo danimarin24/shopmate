@@ -39,9 +39,7 @@ class SearchFragment : Fragment() {
 
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         val checkBoard = binding.checkboxBoard
-        val ulBoard = binding.underLineBoard
         val checkUser = binding.checkboxUser
-        val ulUser = binding.underLineUser
         val editTextSearch = binding.etSearch
 
         context = requireContext()
@@ -53,7 +51,7 @@ class SearchFragment : Fragment() {
             if (!checkBoard.isChecked) {
                 checkBoard.isChecked = true
             }
-            updateCheckBoxState(checkBoard, ulBoard, checkUser, ulUser, R.color.md_theme_onPrimaryFixedVariant)
+            updateCheckBoxState(checkBoard, checkUser, R.color.md_theme_onPrimaryFixedVariant)
         }
 
 
@@ -61,7 +59,7 @@ class SearchFragment : Fragment() {
             if (!checkUser.isChecked) {
                 checkUser.isChecked = true
             }
-            updateCheckBoxState(checkUser, ulUser, checkBoard, ulBoard, R.color.md_theme_onPrimaryFixedVariant)
+            updateCheckBoxState(checkUser, checkBoard, R.color.md_theme_onPrimaryFixedVariant)
         }
         binding.etSearchLayout.setEndIconOnClickListener {
             val searchText = binding.etSearch.text.toString()
@@ -91,29 +89,27 @@ class SearchFragment : Fragment() {
 
         binding.checkboxBoard.isChecked = true
         binding.checkboxBoard.setTextColor(initialColor)
-        binding.underLineBoard.setBackgroundColor(initialColor)
 
         binding.checkboxUser.isChecked = false
         binding.checkboxUser.setTextColor(defaultColor)
-        binding.underLineUser.setBackgroundColor(defaultColor)
     }
 
     private fun updateCheckBoxState(
-        selectedCheckBox: CheckBox, selectedUnderline: View,
-        otherCheckBox: CheckBox, otherUnderline: View,
+        selectedCheckBox: CheckBox,
+        otherCheckBox: CheckBox,
         color: Int
     ) {
 
         selectedCheckBox.setTextColor(resources.getColor(color))
-        selectedUnderline.setBackgroundColor(resources.getColor(color))
+
 
         otherCheckBox.isChecked = false
-        resetCheckBoxState(otherCheckBox, otherUnderline, R.color.md_theme_inversePrimary)
+        resetCheckBoxState(otherCheckBox, R.color.md_theme_inversePrimary)
     }
 
-    private fun resetCheckBoxState(checkBox: CheckBox, underline: View, color: Int) {
+    private fun resetCheckBoxState(checkBox: CheckBox, color: Int) {
         checkBox.setTextColor(resources.getColor(color))
-        underline.setBackgroundColor(resources.getColor(color))
+
     }
 
     private fun setupObservers() {

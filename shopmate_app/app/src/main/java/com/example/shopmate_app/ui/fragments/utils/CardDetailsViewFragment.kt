@@ -22,9 +22,9 @@ class CardDetailsViewFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentCardDetailsViewBinding.inflate(inflater, container, false)
 
-        binding.tvCardTitle.text = CardProvider.selectedCard?.cardName
-        binding.tvOwnerId.text = CardProvider.selectedCard?.ownerId.toString()
-        binding.tvEstimatedPrice.text = CardProvider.selectedCard?.estimatedPrice.toString()
+//        binding.tvCardTitle.text = CardProvider.selectedCard?.cardName
+//        binding.tvOwnerId.text = CardProvider.selectedCard?.ownerId.toString()
+//        binding.tvEstimatedPrice.text = CardProvider.selectedCard?.estimatedPrice.toString()
 
         return binding.root
     }
