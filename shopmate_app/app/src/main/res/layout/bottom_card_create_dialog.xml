@@ -82,6 +82,32 @@
 
 
     </com.google.android.material.textfield.TextInputLayout>
+    <LinearLayout
+        android:id="@+id/lytSelectText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal"
+        android:weightSum="24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etCardNameLyt">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txtSelectList"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_weight="12"
+            android:gravity="center"
+            android:text="Selecciona una board:"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/defaultTextSize" />
+
+
+    </LinearLayout>
 
 
     <LinearLayout
@@ -102,17 +128,16 @@
             android:id="@+id/cboBoardSelection"
             android:layout_width="10dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/defaultMargin"
+            android:layout_marginTop="25dp"
             android:layout_weight="10"
-            android:background="@drawable/custom_input_rounded"
+            android:background="@drawable/custom_bg_alert"
             android:paddingVertical="10dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:textColor="?attr/colorOnPrimaryContainer"
+            android:textColor="#FFFFFF"
             android:textAlignment="center"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@+id/etCardNameLyt" />
-
     </LinearLayout>
 
 

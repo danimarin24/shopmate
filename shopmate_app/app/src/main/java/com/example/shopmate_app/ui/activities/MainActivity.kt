@@ -8,11 +8,13 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -27,7 +29,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopmate_app.R
 import com.example.shopmate_app.databinding.ActivityMainBinding
+import com.example.shopmate_app.di.UseCaseModule
 import com.example.shopmate_app.domain.entities.newtworkEntities.BoardEntity
+import com.example.shopmate_app.domain.entities.newtworkEntities.CardEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.ValidateShareLinkRequestEntity
 import com.example.shopmate_app.ui.adapters.BoardAdapter
 import com.example.shopmate_app.ui.adapters.BoardEditAdapter
@@ -35,6 +39,7 @@ import com.example.shopmate_app.ui.adapters.ColorsChoseAdapter
 import com.example.shopmate_app.ui.components.LCEERecyclerView
 import com.example.shopmate_app.ui.fragments.home.HomeFragment
 import com.example.shopmate_app.ui.viewmodels.BoardViewModel
+import com.example.shopmate_app.ui.viewmodels.CardViewModel
 import com.example.shopmate_app.ui.viewmodels.ColorViewModel
 import com.example.shopmate_app.ui.viewmodels.MainViewModel
 import com.example.shopmate_app.ui.viewmodels.ShareViewModel
@@ -56,6 +61,7 @@ class MainActivity : AppCompatActivity() {
     private val shareViewModel: ShareViewModel by viewModels()
     private val colorViewModel: ColorViewModel by viewModels()
     private val boardViewModel: BoardViewModel by viewModels()
+    private val cardViewModel : CardViewModel by viewModels()
 
 
     private var isBoardListEmpty = true
@@ -332,18 +338,35 @@ class MainActivity : AppCompatActivity() {
             rcvColors.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
         })
 
-        cboBoardSelection.selectedItem
+
         boardViewModel.fetchBoards(mainViewModel.getUserId()!!)
 
 
         boardViewModel.boards.observe(this, Observer { boardList ->
             if (!boardList.isNullOrEmpty()) {
-                val titles = boardList.map { it.title }
-                val adapter = ArrayAdapter(navController.context, R.layout.cbo_text_list, titles)
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                // Crear un ArrayAdapter que almacene BoardEntity
+                val adapter = object : ArrayAdapter<BoardEntity>(
+                    navController.context,
+                    R.layout.cbo_text_list,
+                    boardList
+                ) {
+                    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                        val view = super.getView(position, convertView, parent)
+                        (view as TextView).text = getItem(position)?.title
+                        return view
+                    }
+
+                    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                        val view = super.getDropDownView(position, convertView, parent)
+                        (view as TextView).text = getItem(position)?.title
+                        return view
+                    }
+                }
+                adapter.setDropDownViewResource(R.layout.cbo_text_list)
                 cboBoardSelection.adapter = adapter
             }
         })
+
 
 
         etCardNameLyt.setEndIconOnClickListener {
@@ -351,6 +374,27 @@ class MainActivity : AppCompatActivity() {
         }
 
         txtCancel.setOnClickListener {
+            val selectedColorId = (rcvColors.adapter as ColorsChoseAdapter).getSelectedItem()
+            val selectedBoard = cboBoardSelection.selectedItem as BoardEntity
+            val selectedBoardId = selectedBoard.boardId // Obtener el ID del BoardEntity seleccionado
+            val currentId = mainViewModel.getUserId()
+            val newCard = currentId?.let { it1 ->
+                CardEntity(
+                    cardId = 0, // Asumimos que el ID será generado por el backend
+                    cardName = etCardName.text.toString(),
+                    ownerId = it1,
+                    isPublic = 1,
+                    isTemplate = 0,
+                    isArchived = 0,
+                    estimatedPrice = null,
+                    colorId = selectedColorId
+                )
+            }
+
+
+            if (newCard != null) {
+                cardViewModel.addCardToABoard(selectedBoardId,newCard)
+            }
             dialog.dismiss()
         }
 
