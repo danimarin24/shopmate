@@ -1,5 +1,6 @@
 package com.example.shopmate_app.data.services.networkServices
 
+import android.util.Log
 import com.example.shopmate_app.data.constants.AppConstants
 import com.example.shopmate_app.domain.entities.newtworkEntities.UserEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.UserStatsEntity
@@ -81,7 +82,9 @@ class UserService @Inject constructor(private val api: UserApiClient) {
 
     suspend fun getUsersByUsername(textToSearch: String): List<UserEntity> {
         return withContext(Dispatchers.IO) {
-            val response = api.getUsersByUsername(textToSearch, AppConstants.API_KEY)
+            Log.e("getUsersByUsername", "gfadsfasd")
+            val response = api.getFilteredUsersByUsername(textToSearch, AppConstants.API_KEY)
+            Log.e("dasf", response.body().toString())
             response.body() ?: emptyList()
         }
     }

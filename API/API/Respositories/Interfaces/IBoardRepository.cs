@@ -6,6 +6,7 @@ namespace API.Respositories.Interfaces;
 public interface IBoardRepository 
 {
     Task<Board> GetByIdAsync(uint boardId);
+    Task<CardDto> AddCardToABoard(uint boardId, Card card);
     Task<IEnumerable<CardDto>> GetCardsByBoardId(uint boardId);
     Task<IEnumerable<BoardDto>> GetBoardsByUserId(uint boardId);
     Task<BoardDto> Add(Board board);

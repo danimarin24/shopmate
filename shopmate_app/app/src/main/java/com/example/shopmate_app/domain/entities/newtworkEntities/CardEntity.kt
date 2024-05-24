@@ -8,5 +8,5 @@ data class CardEntity(
     val isTemplate: Int,
     val isArchived: Int?,
     val estimatedPrice: Float?,
-    val colorId: Int
+    val color: ColorEntity
 )

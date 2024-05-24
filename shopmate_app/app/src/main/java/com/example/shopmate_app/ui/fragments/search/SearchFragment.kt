@@ -2,6 +2,7 @@ package com.example.shopmate_app.ui.fragments.search
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import com.example.shopmate_app.R
 import com.example.shopmate_app.databinding.FragmentSearchBinding
 import com.example.shopmate_app.ui.adapters.BoardAdapter
 import com.example.shopmate_app.ui.adapters.CardAdapter
+import com.example.shopmate_app.ui.adapters.UserAdapter
 import com.example.shopmate_app.ui.viewmodels.BoardViewModel
 import com.example.shopmate_app.ui.viewmodels.MainViewModel
 import com.example.shopmate_app.ui.viewmodels.ProfileViewModel
@@ -26,11 +28,14 @@ class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private val mainViewModel: MainViewModel by viewModels()
     private val profileViewModel: ProfileViewModel by viewModels()
+    private val boardViewModel: BoardViewModel by viewModels()
     private val searchViewModel: SearchViewModel by viewModels()
 
     private lateinit var context : Context
 
-    private val boardViewModel: BoardViewModel by viewModels()
+    private lateinit var checkBoard: CheckBox
+    private lateinit var checkUser: CheckBox
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,11 +43,14 @@ class SearchFragment : Fragment() {
 
 
         binding = FragmentSearchBinding.inflate(inflater, container, false)
-        val checkBoard = binding.checkboxBoard
-        val checkUser = binding.checkboxUser
+        checkBoard = binding.checkboxBoard
+        checkUser = binding.checkboxUser
         val editTextSearch = binding.etSearch
 
         context = requireContext()
+
+        binding.rcvSearch.recyclerView.adapter = CardAdapter(emptyList(), "1", "1", isEditMode = false, isHome = false) // Esto se ignorara igualmente
+        binding.rcvSearch.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         setupObservers()
         setupInitialColors()
@@ -66,10 +74,8 @@ class SearchFragment : Fragment() {
             if (searchText.isNotEmpty()) {
                 if (checkBoard.isChecked) {
                     searchViewModel.searchCards(searchText)
-
-
                 } else if (checkUser.isChecked){
-                    Toast.makeText(context, "user buscador", Toast.LENGTH_SHORT).show()
+                    Log.e("olafsa", "ola")
                     searchViewModel.searchUsers(searchText)
                 }
             } else {
@@ -109,30 +115,28 @@ class SearchFragment : Fragment() {
 
     private fun resetCheckBoxState(checkBox: CheckBox, color: Int) {
         checkBox.setTextColor(resources.getColor(color))
-
     }
 
     private fun setupObservers() {
-        binding.rcvSearch.showEmptyView()
-
         searchViewModel.searchCardStatsEntity.observe(viewLifecycleOwner) { cards ->
-            if (cards.isNullOrEmpty()) {
-                binding.rcvSearch.showEmptyView()
-            } else {
-                binding.rcvSearch.hideAllViews()
-                Toast.makeText(context, "board buscador", Toast.LENGTH_SHORT).show()
-                binding.rcvSearch.recyclerView.adapter = CardAdapter(cards, "1", "1") // Esto se ignorara igualmente
-                binding.rcvSearch.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            if (checkBoard.isChecked) {
+                if (cards.isNullOrEmpty()) {
+                    binding.rcvSearch.showEmptyView()
+                } else {
+                    binding.rcvSearch.hideAllViews()
+                    binding.rcvSearch.recyclerView.adapter = CardAdapter(cards, "1", "1", isEditMode = false, isHome = false) // Esto se ignorara igualmente
+                }
             }
         }
 
         searchViewModel.searchUsersStatsEntity.observe(viewLifecycleOwner) { users ->
-            if (users.isNullOrEmpty()) {
-                binding.rcvSearch.showEmptyView()
-            } else {
-                binding.rcvSearch.hideAllViews()
-                // binding.rcvSearch.recyclerView.adapter = UserAdapter(users)
-                binding.rcvSearch.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            if (checkUser.isChecked) {
+                if (users.isNullOrEmpty()) {
+                    binding.rcvSearch.showEmptyView()
+                } else {
+                    binding.rcvSearch.hideAllViews()
+                    binding.rcvSearch.recyclerView.adapter = UserAdapter(users)
+                }
             }
         }
 

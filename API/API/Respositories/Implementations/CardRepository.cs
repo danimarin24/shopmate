@@ -31,7 +31,14 @@ public class CardRepository : ICardRepository
                 IsTemplate = c.IsTemplate,
                 IsArchived = c.IsArchived,
                 EstimatedPrice = c.EstimatedPrice,
-                ColorId = c.ColorId
+                Color = new ColorDto()
+                {
+                    ColorId = c.Color.ColorId,
+                    ColorBlue = c.Color.ColorBlue,
+                    ColorRed = c.Color.ColorRed,
+                    ColorGreen = c.Color.ColorGreen,
+                    ColorHex = c.Color.ColorHex
+                }
             })
             .FirstOrDefaultAsync(c => c.CardId == cardId);
     }
@@ -49,7 +56,14 @@ public class CardRepository : ICardRepository
                 IsTemplate = c.IsTemplate,
                 IsArchived = c.IsArchived,
                 EstimatedPrice = c.EstimatedPrice,
-                ColorId = c.ColorId
+                Color = new ColorDto()
+                {
+                    ColorId = c.Color.ColorId,
+                    ColorBlue = c.Color.ColorBlue,
+                    ColorRed = c.Color.ColorRed,
+                    ColorGreen = c.Color.ColorGreen,
+                    ColorHex = c.Color.ColorHex
+                }
             })
             .ToListAsync();
     }
@@ -70,7 +84,14 @@ public class CardRepository : ICardRepository
                 IsTemplate = c.IsTemplate,
                 IsArchived = c.IsArchived,
                 EstimatedPrice = c.EstimatedPrice,
-                ColorId = c.ColorId
+                Color = new ColorDto()
+                {
+                    ColorId = c.Color.ColorId,
+                    ColorBlue = c.Color.ColorBlue,
+                    ColorRed = c.Color.ColorRed,
+                    ColorGreen = c.Color.ColorGreen,
+                    ColorHex = c.Color.ColorHex
+                }
             })
             .ToListAsync();
     }
@@ -198,6 +219,7 @@ public class CardRepository : ICardRepository
         existingCard.IsTemplate = card.IsTemplate;
         existingCard.IsArchived = card.IsArchived;
         existingCard.EstimatedPrice = card.EstimatedPrice;
+        existingCard.Color = card.Color;
         existingCard.ColorId = card.ColorId;
 
         await UpdateAsync(existingCard);
@@ -209,7 +231,14 @@ public class CardRepository : ICardRepository
             IsTemplate = existingCard.IsTemplate,
             IsArchived = existingCard.IsArchived,
             EstimatedPrice = existingCard.EstimatedPrice,
-            ColorId = existingCard.ColorId
+            Color = new ColorDto()
+            {
+                ColorId = existingCard.Color.ColorId,
+                ColorBlue = existingCard.Color.ColorBlue,
+                ColorRed = existingCard.Color.ColorRed,
+                ColorGreen = existingCard.Color.ColorGreen,
+                ColorHex = existingCard.Color.ColorHex
+            }
         };
     }
 

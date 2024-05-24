@@ -32,6 +32,7 @@ import com.example.shopmate_app.databinding.ActivityMainBinding
 import com.example.shopmate_app.di.UseCaseModule
 import com.example.shopmate_app.domain.entities.newtworkEntities.BoardEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.CardEntity
+import com.example.shopmate_app.domain.entities.newtworkEntities.ColorEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.ValidateShareLinkRequestEntity
 import com.example.shopmate_app.ui.adapters.BoardAdapter
 import com.example.shopmate_app.ui.adapters.BoardEditAdapter
@@ -392,36 +393,33 @@ class MainActivity : AppCompatActivity() {
         }
 
         txtCancel.setOnClickListener {
-            val selectedColorId = (rcvColors.adapter as ColorsChoseAdapter).getSelectedItem()
-            val selectedBoard = cboBoardSelection.selectedItem as BoardEntity
-            val selectedBoardId = selectedBoard.boardId // Obtener el ID del BoardEntity seleccionado
-            val currentId = mainViewModel.getUserId()
-            val newCard = currentId?.let { it1 ->
-                CardEntity(
-                    cardId = 0, // Asumimos que el ID será generado por el backend
-                    cardName = etCardName.text.toString(),
-                    ownerId = it1,
-                    isPublic = 1,
-                    isTemplate = 0,
-                    isArchived = 0,
-                    estimatedPrice = null,
-                    colorId = selectedColorId
-                )
-            }
-
-
-            if (newCard != null) {
-                cardViewModel.addCardToABoard(selectedBoardId,newCard)
-            }
             dialog.dismiss()
         }
 
         txtNext.setOnClickListener {
+            val selectedColorId = (rcvColors.adapter as ColorsChoseAdapter).getSelectedItem()
+            val selectedBoard = cboBoardSelection.selectedItem as BoardEntity
+            val selectedBoardId = selectedBoard.boardId // Obtener el ID del BoardEntity seleccionado
+            val currentId = mainViewModel.getUserId()!!
+            val newCard = CardEntity(
+                cardId = 0, // Asumimos que el ID será generado por el backend
+                cardName = etCardName.text.toString(),
+                ownerId = currentId,
+                isPublic = 1,
+                isTemplate = 0,
+                isArchived = 0,
+                estimatedPrice = null,
+                color = ColorEntity(
+                    selectedColorId,
+                    "",
+                    0,
+                    0,
+                    "",
+                    0
+                )
+            )
+            cardViewModel.addCardToABoard(selectedBoardId, newCard)
             dialog.dismiss()
-
-            etCardName.text
-
-            // acción de crear la lista
         }
 
         /*

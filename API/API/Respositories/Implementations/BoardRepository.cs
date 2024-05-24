@@ -22,7 +22,56 @@ public class BoardRepository : IBoardRepository
             .Include(b => b.Cards)
             .FirstOrDefaultAsync(b => b.BoardId == boardId);
     }
-    
+
+    public async Task<CardDto> AddCardToABoard(uint boardId, Card card)
+    {
+
+        var newCard = new Card()
+        {
+            CardId = card.CardId,
+            OwnerId = card.OwnerId,
+            CardName = card.CardName,
+            ColorId = card.Color.ColorId,
+            EstimatedPrice = card.EstimatedPrice,
+            IsArchived = card.IsArchived,
+            IsPublic = card.IsPublic,
+            IsTemplate = card.IsTemplate,
+        };
+
+        _context.Cards.Add(newCard);
+        await _context.SaveChangesAsync();
+        
+        var board = await _context.Boards
+            .Include(b => b.Cards)
+            .FirstOrDefaultAsync(b => b.BoardId == boardId);
+
+        if (board == null)
+        {
+            throw new Exception("Board not found");
+        }
+        
+        board.Cards.Add(newCard); 
+        await _context.SaveChangesAsync();
+        
+        return new CardDto()
+        {
+            CardId = card.CardId,
+            CardName = card.CardName,
+            Color = new ColorDto()
+            {
+                ColorId = card.Color.ColorId,
+                ColorRed = card.Color.ColorRed,
+                ColorBlue = card.Color.ColorBlue,
+                ColorGreen = card.Color.ColorGreen,
+                ColorHex = card.Color.ColorHex
+            },
+            EstimatedPrice = card.EstimatedPrice,
+            IsArchived = card.IsArchived,
+            IsPublic = card.IsPublic,
+            IsTemplate = card.IsTemplate,
+        };
+    }
+
     public async Task<IEnumerable<CardDto>> GetCardsByBoardId(uint boardId)
     {
         return await _context.Cards
@@ -35,7 +84,14 @@ public class BoardRepository : IBoardRepository
                 IsTemplate = c.IsTemplate,
                 IsArchived = c.IsArchived,
                 EstimatedPrice = c.EstimatedPrice,
-                ColorId = c.ColorId
+                Color = new ColorDto()
+                {
+                    ColorId = c.Color.ColorId,
+                    ColorBlue = c.Color.ColorBlue,
+                    ColorRed = c.Color.ColorRed,
+                    ColorGreen = c.Color.ColorGreen,
+                    ColorHex = c.Color.ColorHex
+                }
             })
             .ToListAsync();
     }

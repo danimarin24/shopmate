@@ -34,7 +34,7 @@ class BoardAdapter(private var boardList: List<BoardEntity>, private val cardsBy
         val currentUserId = "1"// obtener el ID del usuario actual
         val profileUserId = "1"// obtener el ID del perfil que se está viendo
 
-        holder.rcvCards.adapter = CardAdapter(cards, currentUserId, profileUserId)
+        holder.rcvCards.adapter = CardAdapter(cards, currentUserId, profileUserId, isEditMode = false, isHome = true)
     }
 
     override fun getItemCount(): Int = boardList.size

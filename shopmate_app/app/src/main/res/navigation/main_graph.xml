@@ -13,6 +13,10 @@
         <action
             android:id="@+id/action_profileFragment_to_profileSettingFragment"
             app:destination="@id/profileSettingFragment" />
+        <argument
+            android:name="profileId"
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"

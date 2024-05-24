@@ -16,5 +16,5 @@ public class CardDto
 
     public double? EstimatedPrice { get; set; }
 
-    public uint ColorId { get; set; }
+    public ColorDto Color { get; set; }
 }

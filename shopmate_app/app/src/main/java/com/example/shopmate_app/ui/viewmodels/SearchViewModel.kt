@@ -46,10 +46,10 @@ class SearchViewModel @Inject constructor(
     }
 
     fun searchUsers(searchText: String) {
-        isLoading.value = true
+        isLoading.postValue(true)
         viewModelScope.launch {
             try {
-                val result= getUsersByUsername(searchText)
+                val result = getUsersByUsername(searchText)
                 if (result != null) {
                     searchUsersStatsEntity.postValue(result)
                     isError.postValue(false)

@@ -40,7 +40,7 @@ interface UserApiClient {
     suspend fun getUserStats(@Path("id") id: Int, @Header("x-api-key") apiKey: String): Response<UserStatsEntity>
 
     @GET("${AppConstants.USER_ENDPOINT}filter/username/{username}")
-    suspend fun getUsersByUsername(@Path("username")username: String, apiKey: String):Response<List<UserEntity>>
+    suspend fun getFilteredUsersByUsername(@Path("username")username: String, @Header("x-api-key") apiKey: String): Response<List<UserEntity>>
 
 
 

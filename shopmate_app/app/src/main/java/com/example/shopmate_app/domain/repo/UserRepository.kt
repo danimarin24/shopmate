@@ -70,12 +70,8 @@ class UserRepository @Inject constructor(private val api: UserService){
     }
 
     suspend fun getAllUsersByUsername(textToSearch: String): List<UserEntity> {
-            val response = api.getUsersByUsername(textToSearch)
-            UserProvider.users = response
-            return response
+        val response = api.getUsersByUsername(textToSearch)
+        UserProvider.users = response
+        return response
     }
-
-
-
-
 }

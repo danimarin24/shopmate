@@ -33,7 +33,16 @@ class ColorsChoseAdapter(var colorList: List<ColorEntity>?)
     }
 
     override fun onBindViewHolder(holder: ColorsChoseAdapter.CardViewHolder, position: Int) {
-        holder.colorCardBackground.setBackgroundColor(Color.parseColor("#${colorList?.get(position)!!.colorHex}"))
+        val colorHex = colorList?.get(position)!!.colorHex
+        try {
+            if (colorHex != null && colorHex.isNotEmpty()) {
+                holder.colorCardBackground.setBackgroundColor(Color.parseColor("#${colorHex}"))
+            } else {
+                throw IllegalArgumentException("Invalid color hex value")
+            }
+        } catch (e: Exception) {
+            holder.colorCardBackground.setBackgroundResource(R.color.md_theme_secondaryContainer)
+        }
         holder.txtColorName.text = colorList?.get(position)!!.name
 
         holder.view.setOnClickListener {

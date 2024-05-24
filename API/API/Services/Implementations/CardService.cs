@@ -71,14 +71,8 @@ namespace API.Services.Implementations
 
         public async Task<CardDto> AddCardToBoard(uint boardId, Card card)
         {
-            var board = await _boardRepository.GetByIdAsync(boardId);
-            if (board == null) return null;
-
-
-            board.Cards.Add(card);
-            await _boardRepository.UpdateAsync(board);
-
-            return _mapper.Map<CardDto>(card);
+            
+            return await _boardRepository.AddCardToABoard(boardId, card);
         }
 
         public async Task<CardDto> UpdateCard(Card card)
