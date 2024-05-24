@@ -6,6 +6,7 @@ namespace API.Model;
 public partial class Card
 {
     public uint CardId { get; set; }
+
     public uint OwnerId { get; set; }
 
     public ulong IsPublic { get; set; }
@@ -17,6 +18,10 @@ public partial class Card
     public double? EstimatedPrice { get; set; }
 
     public uint ColorId { get; set; }
+
+    public string CardName { get; set; } = null!;
+
+    public virtual ICollection<CardShareLink> CardShareLinks { get; set; } = new List<CardShareLink>();
 
     public virtual Color Color { get; set; } = null!;
 

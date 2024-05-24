@@ -4,6 +4,7 @@ using API.Context;
 using Microsoft.EntityFrameworkCore;
 using API.DTOs;
 using API.Model;
+using API.Model.Extra;
 using API.Respositories.Interfaces;
 using API.Services.Interfaces;
 using AutoMapper;
@@ -35,6 +36,32 @@ namespace API.Services.Implementations
         public async Task<IEnumerable<CardDto>> GetCardsByBoardId(uint boardId)
         {
             return await _boardRepository.GetCardsByBoardId(boardId);
+        }
+        
+        public async Task<IEnumerable<CardDto>> GetCardsByUserId(uint userId)
+        {
+            return await _cardRepository.GetCardsByUserId(userId);
+        }
+
+        public async Task<IEnumerable<CardDto>> GetCardsContainsName(string name)
+        {
+            return await _cardRepository.GetCardsContainsName(name);
+        }
+
+
+        public async Task<GenerateShareCardLinkResponse> GenerateShareCardLink(GenerateShareCardLinkRequest cardLinkRequest)
+        {
+            return await _cardRepository.GenerateShareCardLink(cardLinkRequest);
+        }
+
+        public async Task<ValidateShareCardLinkResponse> ValidateShareCardLink(ValidateShareCardLinkRequest validateCardLinkRequest)
+        {
+            return await _cardRepository.ValidateShareCardLink(validateCardLinkRequest);
+        }
+        
+        public async Task<IEnumerable<string>> GetCategoryIconsByCardId(uint cardId)
+        {
+            return await _cardRepository.GetCategoryIcons(cardId);
         }
 
         public async Task<CardDto> GetCardById(uint cardId)

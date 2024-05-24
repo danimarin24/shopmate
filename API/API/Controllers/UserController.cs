@@ -112,6 +112,34 @@ namespace API.Controllers
                 SettingId = user.SettingId
             };
         }
+        
+        // GET: api/User/filter/username/danimarin24
+        [HttpGet("filter/username/{username}")]
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetUserFilterByUsername(string username)
+        {
+            var users = await _context.Users
+                .Where(u => u.Username.ToLower().Contains(username.ToLower()))
+                .ToListAsync();
+
+            if (users == null)
+            {
+                return NotFound();
+            }
+
+            return users.Select(u => new UserDto {
+                UserId = u.UserId,
+                Username = u.Username,
+                Email = u.Email,
+                FacebookToken = u.FacebookToken,
+                GoogleToken = u.GoogleToken,
+                LastConnection = u.LastConnection,
+                Name = u.Name,
+                Password = u.Password,
+                PhoneNumber = u.PhoneNumber,
+                ProfileImage = u.ProfileImage,
+                SettingId = u.SettingId
+            }).ToList();
+        }
 
         // GET: api/User/checkemail/dani4marin@gmail.com
         [HttpGet("checkemail/{email}")]
@@ -249,23 +277,25 @@ namespace API.Controllers
                     await _context.SaveChangesAsync();
 
                     UserDto.SettingId = setting.SettingId;
-                    
-                    _context.Users.Add(
-                            new User {
-                                UserId = UserDto.UserId,
-                                Username = UserDto.Username,
-                                Email = UserDto.Email,
-                                FacebookToken = UserDto.FacebookToken,
-                                GoogleToken = UserDto.GoogleToken,
-                                LastConnection = UserDto.LastConnection,
-                                Name = UserDto.Name,
-                                Password = UserDto.Password,
-                                PhoneNumber = UserDto.PhoneNumber,
-                                ProfileImage = UserDto.ProfileImage,
-                                SettingId = UserDto.SettingId
-                            }
-                        );
+
+                    var newUser = new User
+                    {
+                        UserId = UserDto.UserId,
+                        Username = UserDto.Username,
+                        Email = UserDto.Email,
+                        FacebookToken = UserDto.FacebookToken,
+                        GoogleToken = UserDto.GoogleToken,
+                        LastConnection = UserDto.LastConnection,
+                        Name = UserDto.Name,
+                        Password = UserDto.Password,
+                        PhoneNumber = UserDto.PhoneNumber,
+                        ProfileImage = UserDto.ProfileImage,
+                        SettingId = UserDto.SettingId
+                    };
+                    _context.Users.Add(newUser);
                     await _context.SaveChangesAsync();
+
+                    UserDto.UserId = newUser.UserId;
 
                     transaction.Commit(); // Confirma la transacción ya que todo ha ido bien
                     return CreatedAtAction("GetUser", new { id = UserDto.UserId }, UserDto);

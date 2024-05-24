@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:weightSum="100">
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txtBoardTitle"
+                    android:layout_width="0dp"
+                    android:layout_weight="90"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="8dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Board Title"
+                    android:textColor="?android:attr/colorForeground"
+                    android:textSize="@dimen/middleTextSize" />
+
+
+
+                    <ImageView
+                        android:id="@+id/ivFilter"
+                        android:layout_width="@dimen/iconMiddleSize"
+                        android:layout_weight="10"
+                        android:layout_height="@dimen/iconMiddleSize"
+                        android:contentDescription="@string/iconStr"
+                        android:src="@drawable/baguette"
+                        app:tint="#6982CD" />
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginHorizontal="16dp"
+                android:background="?android:attr/colorForeground" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcvCards"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

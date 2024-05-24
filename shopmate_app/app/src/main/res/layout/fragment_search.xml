@@ -1,14 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.search.SearchFragment">
+    tools:context=".ui.fragments.search.SearchFragment"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="0dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <LinearLayout
+        android:id="@+id/currentSearchActive"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="@dimen/littleMargin"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <!-- Checkbox Board -->
+        <LinearLayout
+            android:id="@+id/checkboxBoardLayout"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="4dp">
+
+            <CheckBox
+                android:id="@+id/checkboxBoard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground"
+                android:button="@null"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Board"
+                android:textAlignment="center"
+                android:textColor="?attr/colorButtonNormal"
+                android:textSize="14sp"
+                tools:layout_editor_absoluteX="4dp"
+                tools:layout_editor_absoluteY="102dp" />
+
+
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/spaceLine"
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:background="?attr/colorButtonNormal" />
+
+        <!-- Checkbox User -->
+        <LinearLayout
+            android:id="@+id/checkboxUserLayout"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="4dp">
+
+            <CheckBox
+                android:id="@+id/checkboxUser"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground"
+                android:button="@null"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Users"
+                android:textAlignment="center"
+                android:textColor="?attr/colorButtonNormal"
+                android:textSize="14sp"
+                tools:layout_editor_absoluteX="61dp"
+                tools:layout_editor_absoluteY="102dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Search Layout -->
+    <LinearLayout
+        android:id="@+id/et_lyt_search"
+        android:layout_width="@dimen/maxWidth"
+        android:layout_height="@dimen/height"
+        android:layout_marginTop="@dimen/littleMargin"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/currentSearchActive">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etSearchLayout"
+            android:layout_width="265dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="5dp"
+            app:endIconDrawable="@drawable/search"
+            app:endIconMode="custom"
+            app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSearch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints="emailAddress"
+                android:fontFamily="@font/poppins_medium"
+                android:hint="Busca inspiración..."
+                android:includeFontPadding="false"
+                android:inputType="textEmailAddress"
+                android:padding="0dp"
+                android:textSize="12sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RelativeLayout
+            android:layout_width="@dimen/height"
+            android:layout_height="@dimen/height"
+            android:layout_gravity="end"
+            android:background="@drawable/custom_bg_box"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/ivFilter"
+                android:layout_width="@dimen/iconMiddleSize"
+                android:layout_height="@dimen/iconMiddleSize"
+                android:contentDescription="@string/iconStr"
+                android:src="@drawable/filter_cog_outline"
+                app:tint="#ffffff" />
+        </RelativeLayout>
+    </LinearLayout>
+
+
+
+    <com.example.shopmate_app.ui.components.LCEERecyclerView
+        android:id="@+id/rcvSearch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Search" />
-
-</FrameLayout>
+        android:layout_marginTop="136dp"
+        app:emptyIcon="@drawable/ic_empty"
+        app:emptyText="@string/errNoBoardFoundSearch"
+        app:errorIcon="@drawable/ic_error"
+        app:errorText="@string/errNoBoardFoundSearch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

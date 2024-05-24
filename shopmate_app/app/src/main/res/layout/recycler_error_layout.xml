@@ -15,7 +15,7 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:contentDescription="@string/cdErrImg"
-        android:src="@drawable/ic_error_loading" />
+        android:src="@drawable/ic_error_loading"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/error_msg_text"
@@ -25,11 +25,11 @@
         android:layout_marginEnd="16dp"
         android:layout_marginTop="10dp"
         android:text="@string/errGeneral"
-        android:textColor="#777777" />
+        android:textColor="?android:attr/colorForeground" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/retry_button"
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/retry"

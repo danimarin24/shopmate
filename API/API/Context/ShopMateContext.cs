@@ -2,16 +2,11 @@
 using System.Collections.Generic;
 using API.Model;
 using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
 namespace API.Context;
 
 public partial class ShopMateContext : DbContext
 {
-    public ShopMateContext()
-    {
-    }
-
     public ShopMateContext(DbContextOptions<ShopMateContext> options)
         : base(options)
     {
@@ -20,6 +15,8 @@ public partial class ShopMateContext : DbContext
     public virtual DbSet<Board> Boards { get; set; }
 
     public virtual DbSet<Card> Cards { get; set; }
+
+    public virtual DbSet<CardShareLink> CardShareLinks { get; set; }
 
     public virtual DbSet<Category> Categories { get; set; }
 
@@ -35,7 +32,7 @@ public partial class ShopMateContext : DbContext
 
     public virtual DbSet<MembersFromCard> MembersFromCards { get; set; }
 
-    public virtual DbSet<Rol> Rols { get; set; }
+    public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<Setting> Settings { get; set; }
 
@@ -46,7 +43,7 @@ public partial class ShopMateContext : DbContext
     public virtual DbSet<UserItem> UserItems { get; set; }
 
     public virtual DbSet<UserStatistic> UserStatistics { get; set; }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
@@ -98,10 +95,13 @@ public partial class ShopMateContext : DbContext
 
             entity.ToTable("Card");
 
+            entity.HasIndex(e => new { e.OwnerId, e.CardName }, "Card_UNIQUE").IsUnique();
+
             entity.HasIndex(e => e.ColorId, "IX_Card_ColorId");
 
             entity.HasIndex(e => e.OwnerId, "IX_Card_OwnerId");
 
+            entity.Property(e => e.CardName).HasMaxLength(100);
             entity.Property(e => e.EstimatedPrice).HasColumnType("double unsigned");
             entity.Property(e => e.IsArchived).HasColumnType("bit(1)");
             entity.Property(e => e.IsPublic).HasColumnType("bit(1)");
@@ -116,6 +116,27 @@ public partial class ShopMateContext : DbContext
                 .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Card_ibfk_1");
+        });
+
+        modelBuilder.Entity<CardShareLink>(entity =>
+        {
+            entity.HasKey(e => e.Token).HasName("PRIMARY");
+
+            entity.ToTable("CardShareLink");
+
+            entity.HasIndex(e => e.CardId, "CardId");
+
+            entity.HasIndex(e => e.RoleId, "RolId");
+
+            entity.Property(e => e.Expiration).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Card).WithMany(p => p.CardShareLinks)
+                .HasForeignKey(d => d.CardId)
+                .HasConstraintName("CardShareLink_ibfk_1");
+
+            entity.HasOne(d => d.Role).WithMany(p => p.CardShareLinks)
+                .HasForeignKey(d => d.RoleId)
+                .HasConstraintName("CardShareLink_ibfk_2");
         });
 
         modelBuilder.Entity<Category>(entity =>
@@ -274,13 +295,13 @@ public partial class ShopMateContext : DbContext
 
         modelBuilder.Entity<MembersFromCard>(entity =>
         {
-            entity.HasKey(e => new { e.CardId, e.UserId, e.RolId })
+            entity.HasKey(e => new { e.CardId, e.UserId, e.RoleId })
                 .HasName("PRIMARY")
                 .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0, 0 });
 
             entity.ToTable("MembersFromCard");
 
-            entity.HasIndex(e => e.RolId, "IX_MembersFromCard_RolId");
+            entity.HasIndex(e => e.RoleId, "IX_MembersFromCard_RolId");
 
             entity.HasIndex(e => e.UserId, "IX_MembersFromCard_UserId");
 
@@ -291,8 +312,8 @@ public partial class ShopMateContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("MembersFromCard_ibfk_1");
 
-            entity.HasOne(d => d.Rol).WithMany(p => p.MembersFromCards)
-                .HasForeignKey(d => d.RolId)
+            entity.HasOne(d => d.Role).WithMany(p => p.MembersFromCards)
+                .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("MembersFromCard_ibfk_3");
 
@@ -302,15 +323,15 @@ public partial class ShopMateContext : DbContext
                 .HasConstraintName("MembersFromCard_ibfk_2");
         });
 
-        modelBuilder.Entity<Rol>(entity =>
+        modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RolId).HasName("PRIMARY");
+            entity.HasKey(e => e.RoleId).HasName("PRIMARY");
 
-            entity.ToTable("Rol");
+            entity.ToTable("Role");
 
-            entity.Property(e => e.CanEdit).HasColumnType("bit(1)");
-            entity.Property(e => e.CanRead).HasColumnType("bit(1)");
-            entity.Property(e => e.IsAdmin).HasColumnType("bit(1)");
+            entity.HasIndex(e => e.RoleName, "Role_UNIQUE").IsUnique();
+
+            entity.Property(e => e.RoleName).HasMaxLength(100);
         });
 
         modelBuilder.Entity<Setting>(entity =>

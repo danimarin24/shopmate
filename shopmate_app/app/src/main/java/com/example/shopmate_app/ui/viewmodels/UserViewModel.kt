@@ -8,9 +8,11 @@ import com.example.shopmate_app.domain.usecases.user.AddUserUseCase
 import com.example.shopmate_app.domain.usecases.user.GetGoogleSubByGoogleTokenUseCase
 import com.example.shopmate_app.domain.usecases.user.GetUserByEmailUseCase
 import com.example.shopmate_app.domain.usecases.user.GetUserByGoogleSubUseCase
+import com.example.shopmate_app.domain.usecases.user.GetUserByIdUseCase
 import com.example.shopmate_app.domain.usecases.user.GetUserByUsernameUseCase
 import com.example.shopmate_app.domain.usecases.user.GetUsernameGeneratedUseCase
 import com.example.shopmate_app.domain.usecases.user.GetUsersUseCase
+import com.example.shopmate_app.domain.usecases.user.PutUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,8 +23,10 @@ class UserViewModel @Inject constructor(
     private val getUsernameGeneratedUseCase : GetUsernameGeneratedUseCase,
     private val getUserByEmailUseCase : GetUserByEmailUseCase,
     private val getUserByUsernameUseCase : GetUserByUsernameUseCase,
+    private val getUserByIdUseCase : GetUserByIdUseCase,
     private val getUserByGoogleSubUseCase : GetUserByGoogleSubUseCase,
     private val addUserUseCase : AddUserUseCase,
+    private val putUserUseCase : PutUserUseCase,
 ) : ViewModel() {
 
     val userEntity = MutableLiveData<UserEntity?>()
@@ -35,7 +39,7 @@ class UserViewModel @Inject constructor(
             isLoading.postValue(true)
             val result = getGoogleSubByGoogleTokenUseCase(googleToken)
 
-            if(result != null){
+            if (result != null) {
                 googleSub.postValue(result)
                 isLoading.postValue(false)
             }
@@ -47,7 +51,7 @@ class UserViewModel @Inject constructor(
             isLoading.postValue(true)
             val result = getUserByGoogleSubUseCase(googleSub)
 
-            if(result != null){
+            if (result != null) {
                 userEntity.postValue(result)
                 isLoading.postValue(false)
             }
@@ -59,7 +63,19 @@ class UserViewModel @Inject constructor(
             isLoading.postValue(true)
             val result = getUserByUsernameUseCase(username)
 
-            if(result != null){
+            if (result != null) {
+                userEntity.postValue(result)
+                isLoading.postValue(false)
+            }
+        }
+    }
+
+    fun getUserByUserId(userId: Int) {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = getUserByIdUseCase(userId)
+
+            if (result != null) {
                 userEntity.postValue(result)
                 isLoading.postValue(false)
             }
@@ -71,7 +87,7 @@ class UserViewModel @Inject constructor(
             isLoading.postValue(true)
             val result = getUserByEmailUseCase(email)
 
-            if(result != null){
+            if (result != null) {
                 userEntity.postValue(result)
                 isLoading.postValue(false)
             }
@@ -83,7 +99,7 @@ class UserViewModel @Inject constructor(
             isLoading.postValue(true)
             val result = getUsernameGeneratedUseCase(name)
 
-            if(result != null){
+            if (result != null) {
                 usernameGenerated.postValue(result)
                 isLoading.postValue(false)
             }
@@ -95,7 +111,19 @@ class UserViewModel @Inject constructor(
             isLoading.postValue(true)
             val result = addUserUseCase(user)
 
-            if(result != null){
+            if (result != null) {
+                userEntity.postValue(result)
+                isLoading.postValue(false)
+            }
+        }
+    }
+
+    fun putUser(user: UserEntity) {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = putUserUseCase(user)
+
+            if (result != null) {
                 userEntity.postValue(result)
                 isLoading.postValue(false)
             }

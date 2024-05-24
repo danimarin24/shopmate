@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    app:cardCornerRadius="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cardContraintBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FF9E80"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txtCardTitle"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textStyle="bold"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:text="Lista de la compra"
+                />
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btnOpenCard"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/defaultMargin"
+            android:src="@drawable/chevron_right_circle_outline"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+        <LinearLayout
+            android:id="@+id/lytMembersCard"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:gravity="center_vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:weightSum="12">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivMember1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="2dp"
+                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+                app:strokeColor="?attr/colorPrimary"
+                app:strokeWidth="1dp"
+                android:src="@drawable/custom_dialog_bg"
+                />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivMember2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="2dp"
+                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+                app:strokeColor="?attr/colorPrimary"
+                app:strokeWidth="1dp"
+                android:src="@drawable/custom_dialog_bg"
+                />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivMember3"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="2dp"
+                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+                app:strokeColor="?attr/colorPrimary"
+                app:strokeWidth="1dp"
+                android:src="@drawable/custom_dialog_bg"
+                />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/ivMoreMembersNum"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/custom_bg_rounded"
+                android:gravity="center"
+                android:text="20"
+                android:textAlignment="center"
+                android:textColor="?attr/colorOnPrimarySurface"
+                android:textStyle="bold" />
+
+
+
+
+        </LinearLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

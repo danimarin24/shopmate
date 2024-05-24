@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        >
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="100"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txtItemQuantity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="20"
+                android:fontFamily="@font/poppins_medium"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp"
+                android:text="1kg"
+                android:textAlignment="center"
+                android:textColor="?android:attr/colorForeground"
+                android:textSize="@dimen/middleTextSize" />
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txtItemName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_weight="70"
+                android:fontFamily="@font/poppins_medium"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp"
+                android:text="Patatas Lilas"
+                android:textColor="?android:attr/colorForeground"
+                android:textSize="@dimen/middleTextSize" />
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivAssignedTo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="2dp"
+                android:src="@drawable/custom_dialog_bg"
+                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+                app:strokeColor="?attr/colorPrimary"
+                app:strokeWidth="1dp" />
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="end"
+            android:visibility="gone"
+            android:background="@drawable/custom_bg_assignto"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="@dimen/iconMiddleSize"
+                android:layout_height="@dimen/iconMiddleSize"
+                android:contentDescription="@string/iconStr"
+                android:src="@drawable/account_convert"
+                app:tint="#ffffff" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="end"
+            android:background="@drawable/custom_bg_trash"
+            android:gravity="center"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:layout_width="@dimen/iconMiddleSize"
+                android:layout_height="@dimen/iconMiddleSize"
+                android:contentDescription="@string/iconStr"
+                android:src="@drawable/trash_can_outline"
+                app:tint="#ffffff" />
+        </RelativeLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

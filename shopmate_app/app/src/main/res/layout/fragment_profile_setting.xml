@@ -50,6 +50,7 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txtProfile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="4dp"
@@ -61,6 +62,7 @@
                     android:textSize="13sp" />
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txtChangePass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="4dp"
@@ -72,6 +74,7 @@
                     android:textSize="13sp" />
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txtLogout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="4dp"

@@ -4,9 +4,8 @@ public class CardDto
 {
     
     public uint CardId { get; set; }
+    public string CardName { get; set; }
     
-    //public string Name { get; set; }
-
     public uint OwnerId { get; set; }
 
     public ulong IsPublic { get; set; }

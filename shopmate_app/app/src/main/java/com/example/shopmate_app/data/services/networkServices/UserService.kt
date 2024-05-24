@@ -16,28 +16,28 @@ class UserService @Inject constructor(private val api: UserApiClient) {
         }
     }
 
-    suspend fun getUserStats(id: Int): UserStatsEntity?  {
+    suspend fun getUserStats(id: Int): UserStatsEntity? {
         return withContext(Dispatchers.IO) {
             val response = api.getUserStats(id, AppConstants.API_KEY)
             response.body()
         }
     }
 
-    suspend fun getUserById(id: Int): UserEntity?  {
+    suspend fun getUserById(id: Int): UserEntity? {
         return withContext(Dispatchers.IO) {
             val response = api.getUserById(id, AppConstants.API_KEY)
             response.body()
         }
     }
 
-    suspend fun getUserByEmail(email: String): UserEntity?  {
+    suspend fun getUserByEmail(email: String): UserEntity? {
         return withContext(Dispatchers.IO) {
             val response = api.getUserByEmail(email, AppConstants.API_KEY)
             response.body()
         }
     }
 
-    suspend fun getUserByUsername(username: String): UserEntity?  {
+    suspend fun getUserByUsername(username: String): UserEntity? {
         return withContext(Dispatchers.IO) {
             val response = api.getUserByUsername(username, AppConstants.API_KEY)
             response.body()
@@ -71,4 +71,20 @@ class UserService @Inject constructor(private val api: UserApiClient) {
             response.body()
         }
     }
+
+    suspend fun putUser(user: UserEntity): UserEntity? {
+        return withContext(Dispatchers.IO) {
+            val response = api.updateUser(user.userId!!, user, AppConstants.API_KEY)
+            response.body()
+        }
+    }
+
+    suspend fun getUsersByUsername(textToSearch: String): List<UserEntity> {
+        return withContext(Dispatchers.IO) {
+            val response = api.getUsersByUsername(textToSearch, AppConstants.API_KEY)
+            response.body() ?: emptyList()
+        }
+    }
 }
+
+

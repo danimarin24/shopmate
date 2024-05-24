@@ -21,39 +21,39 @@ namespace API.Controllers
         }
 
         [HttpGet("users/{userId}/boards")]
-        public IActionResult GetBoardsByUser(int userId)
+        public async Task<IActionResult> GetBoardsByUser(uint userId)
         {
-            var boards = _boardService.GetBoardsByUserId(userId);
+            var boards = await _boardService.GetBoardsByUserId(userId);
             if (boards == null)
                 return NotFound();
             return Ok(boards);
         }
         
         [HttpGet("{boardId}/cards")]
-        public IActionResult GetCardsByBoard(uint boardId)
+        public async Task<IActionResult> GetCardsByBoard(uint boardId)
         {
-            var cards = _cardService.GetCardsByBoardId(boardId);
+            var cards = await _cardService.GetCardsByBoardId(boardId);
             if (cards == null)
                 return NotFound();
             return Ok(cards);
         }
 
         [HttpPost]
-        public IActionResult CreateBoard([FromBody] Board board)
+        public async Task<IActionResult> CreateBoard([FromBody] Board board)
         {
-            var createdBoard = _boardService.AddBoard(board);
+            var createdBoard = await _boardService.AddBoard(board);
             return CreatedAtAction(nameof(GetBoardsByUser), new { userId = createdBoard.OwnerId }, createdBoard);
         }
 
         [HttpPut("{boardId}")]
-        public IActionResult UpdateBoard(int boardId, [FromBody] Board board)
+        public async Task<IActionResult> UpdateBoard(int boardId, [FromBody] Board board)
         {
             if (boardId != board.BoardId)
             {
                 return BadRequest("Board ID mismatch");
             }
 
-            var updatedBoard = _boardService.UpdateBoard(board);
+            var updatedBoard = await _boardService.UpdateBoard(board);
             if (updatedBoard == null)
             {
                 return NotFound();
@@ -63,9 +63,9 @@ namespace API.Controllers
         }
 
         [HttpDelete("{boardId}")]
-        public IActionResult DeleteBoard(int boardId)
+        public async Task<IActionResult> DeleteBoard(uint boardId)
         {
-            var result = _boardService.DeleteBoard(boardId);
+            var result = await _boardService.DeleteBoard(boardId);
             if (!result)
             {
                 return NotFound();

@@ -1,6 +1,5 @@
-using System.Text.Json.Serialization;
 using API;
-using API.Authentication;
+using Microsoft.OpenApi.Models;
 using API.Context;
 using API.Controllers;
 using API.Respositories.Implementations;
@@ -9,9 +8,8 @@ using API.Services;
 using API.Services.Implementations;
 using API.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);   
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -33,7 +31,7 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 
 builder.Services.AddControllers(
    options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
- 
+
 
 // Configure the database context
 builder.Services.AddDbContext<ShopMateContext>(options =>
@@ -55,6 +53,7 @@ builder.Services.AddScoped<ICardService, CardService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddControllers().AddApplicationPart(typeof(SharedImageController).Assembly);
+
 
 var app = builder.Build();
 

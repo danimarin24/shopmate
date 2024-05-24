@@ -2,10 +2,11 @@ package com.example.shopmate_app.ui.activities
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -13,34 +14,41 @@ import android.view.Window
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopmate_app.R
 import com.example.shopmate_app.databinding.ActivityMainBinding
+import com.example.shopmate_app.di.UseCaseModule
 import com.example.shopmate_app.domain.entities.newtworkEntities.BoardEntity
+import com.example.shopmate_app.domain.entities.newtworkEntities.CardEntity
+import com.example.shopmate_app.domain.entities.newtworkEntities.ValidateShareLinkRequestEntity
 import com.example.shopmate_app.ui.adapters.BoardAdapter
+import com.example.shopmate_app.ui.adapters.BoardEditAdapter
 import com.example.shopmate_app.ui.adapters.ColorsChoseAdapter
+import com.example.shopmate_app.ui.components.LCEERecyclerView
+import com.example.shopmate_app.ui.fragments.home.HomeFragment
 import com.example.shopmate_app.ui.viewmodels.BoardViewModel
+import com.example.shopmate_app.ui.viewmodels.CardViewModel
 import com.example.shopmate_app.ui.viewmodels.ColorViewModel
 import com.example.shopmate_app.ui.viewmodels.MainViewModel
+import com.example.shopmate_app.ui.viewmodels.ShareViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -50,11 +58,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var context : Context
 
     private val mainViewModel: MainViewModel by viewModels()
+    private val shareViewModel: ShareViewModel by viewModels()
     private val colorViewModel: ColorViewModel by viewModels()
     private val boardViewModel: BoardViewModel by viewModels()
+    private val cardViewModel : CardViewModel by viewModels()
 
 
     private var isBoardListEmpty = true
+
+
 
 
 
@@ -64,6 +76,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         context = applicationContext
+
+        val intent = intent
+        if (Intent.ACTION_VIEW == intent.action) {
+            val uri: Uri? = intent.data
+            uri?.let {
+                val token = it.lastPathSegment
+                val validateTokenRequest = ValidateShareLinkRequestEntity(mainViewModel.getUserId()!!, token!!)
+                token.let {
+                    shareViewModel.validateCardShareLinkToken(validateTokenRequest)
+                    observeViewModel(validateTokenRequest)
+                }
+            }
+        }
 
         val navHostFragment = supportFragmentManager.findFragmentById(binding.navHostMainFragmentContainer.id) as NavHostFragment
         navListener = NavController.OnDestinationChangedListener { controller, destination, arguments ->
@@ -83,6 +108,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.profileSettingFragment -> {
                     changeHeaderInfo("setting")
                 }
+                R.id.shareProfileFragment -> {
+                    changeHeaderInfo("shareProfile")
+                }
+                R.id.cardDetailsViewFragment -> {
+                    changeHeaderInfo("cardDetailsView")
+                }
 
             }
         }
@@ -100,6 +131,7 @@ class MainActivity : AppCompatActivity() {
         boardViewModel.fetchBoards(mainViewModel.getUserId()!!)
 
         binding.btnCreateNew.setOnClickListener {
+            boardViewModel.fetchBoards(mainViewModel.getUserId()!!)
             if (isBoardListEmpty) {
                 Snackbar.make(binding.root, getString(R.string.errNoBoardFound), Snackbar.LENGTH_SHORT).show()
             } else {
@@ -112,6 +144,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.home -> {
                     changeHeaderInfo("home")
                     navController.navigate(R.id.homeFragment)
+                    // navController.get
                     return@setOnItemSelectedListener true
                 }
                 R.id.search -> {
@@ -129,6 +162,7 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.profileFragment)
                     return@setOnItemSelectedListener true
                 }
+
             }
             false
         }
@@ -136,6 +170,16 @@ class MainActivity : AppCompatActivity() {
         // INIT
         binding.bottomNavigationBar.menu.findItem(R.id.profile).setChecked(true)
         changeHeaderInfo("profile")
+    }
+
+    private fun observeViewModel(validateTokenRequest: ValidateShareLinkRequestEntity) {
+        shareViewModel.tokenValidation.observe(this, Observer { isValid ->
+            if (isValid) {
+                Toast.makeText(this, "Token valido", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Token inválido", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun setupObservers() {
@@ -160,20 +204,47 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun changeHeaderInfo(activeFragment: String) {
+        binding.lytHeader.visibility = View.VISIBLE
         binding.btnLeft.setImageResource(android.R.color.transparent)
         binding.btnLeft.setOnClickListener{}
         binding.btnRight.setImageResource(android.R.color.transparent)
         binding.btnRight.setOnClickListener{}
 
         when (activeFragment) {
+
             "home" -> {
                 binding.txtHeaderTitle.text = getString(R.string.strHome)
 
                 binding.btnLeft.setImageResource(R.drawable.application_edit_outline)
                 binding.btnLeft.setOnClickListener {
                     binding.btnLeft.setImageResource(R.drawable.application_edit_outline)
-                    //showCreateNewBoard()
-                    // TODO: ('Add edit cards logic')
+                    //Toast.makeText(context, "boton editar", Toast.LENGTH_SHORT).show()
+
+                    val currentFragment = supportFragmentManager.findFragmentByTag("home")
+                    if (currentFragment != null && currentFragment is HomeFragment) {
+
+                        val recyclerView = currentFragment.view?.findViewById<LCEERecyclerView>(R.id.rcvBoardHome)
+                        boardViewModel.fetchBoards(mainViewModel.getUserId()!!)
+                        boardViewModel.boards.observe(this) { boards ->
+                            if (boards.isNullOrEmpty()) {
+                                recyclerView?.showEmptyView()
+                            } else {
+                                recyclerView?.hideAllViews()
+                                boardViewModel.cardsByBoard.observe(this) { cardsByBoard ->
+                                    Toast.makeText(context, "barraoan", Toast.LENGTH_SHORT).show()
+
+                                    recyclerView?.recyclerView?.adapter = BoardEditAdapter(boards, cardsByBoard)
+                                    recyclerView?.recyclerView?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                    }
+
+                            }
+                        }
+                    } else {
+                        Toast.makeText(context, "Fragmento no encontrado o incorrecto", Toast.LENGTH_SHORT).show()
+
+                    }
+
+
                 }
 
                 binding.btnRight.setImageResource(R.drawable.plus_circle_outline)
@@ -189,6 +260,7 @@ class MainActivity : AppCompatActivity() {
             "template" -> {
                 binding.txtHeaderTitle.text = getString(R.string.strTemplate)
             }
+
             "profile" -> {
                 binding.txtHeaderTitle.text = getString(R.string.strProfile)
 
@@ -198,9 +270,31 @@ class MainActivity : AppCompatActivity() {
                     showSettingsBottomDialog()
                 }
             }
+
+            "profile" -> {
+                binding.txtHeaderTitle.text = getString(R.string.strProfile)
+
+                binding.btnRight.setImageResource(R.drawable.menu)
+                binding.btnRight.setOnClickListener {
+                    binding.btnRight.setImageResource(R.drawable.menu_open)
+                    showSettingsBottomDialog()
+                }
+            }
+
+            "cardDetailsView" -> {
+                binding.lytHeader.visibility = View.GONE
+            }
+
             "setting" -> {
                 binding.txtHeaderTitle.text = getString(R.string.strProfileSettings)
             }
+            "shareProfile" -> {
+                binding.btnLeft.setImageResource(R.drawable.close)
+                binding.btnLeft.setOnClickListener {
+                    navController.popBackStack()
+                }
+            }
+
         }
 
     }
@@ -222,7 +316,8 @@ class MainActivity : AppCompatActivity() {
 
         lytShare.setOnClickListener {
             dialog.dismiss()
-            Toast.makeText(navController.context, "Share", Toast.LENGTH_SHORT).show()
+            navController.navigate(R.id.shareProfileFragment)
+            // Toast.makeText(navController.context, "Share", Toast.LENGTH_SHORT).show()
         }
 
         lytTheme.setOnClickListener {
@@ -261,22 +356,63 @@ class MainActivity : AppCompatActivity() {
             rcvColors.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
         })
 
-        /*
-        boardViewModel.boardsEntity.observe(this, Observer { boardList ->
+
+        boardViewModel.fetchBoards(mainViewModel.getUserId()!!)
+
+
+        boardViewModel.boards.observe(this, Observer { boardList ->
             if (!boardList.isNullOrEmpty()) {
-                val titles = boardList.map { it.title }
-                val adapter = ArrayAdapter(navController.context, R.layout.cbo_text_list, titles)
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                // Crear un ArrayAdapter que almacene BoardEntity
+                val adapter = object : ArrayAdapter<BoardEntity>(
+                    navController.context,
+                    R.layout.cbo_text_list,
+                    boardList
+                ) {
+                    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                        val view = super.getView(position, convertView, parent)
+                        (view as TextView).text = getItem(position)?.title
+                        return view
+                    }
+
+                    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                        val view = super.getDropDownView(position, convertView, parent)
+                        (view as TextView).text = getItem(position)?.title
+                        return view
+                    }
+                }
+                adapter.setDropDownViewResource(R.layout.cbo_text_list)
                 cboBoardSelection.adapter = adapter
             }
         })
-         */
+
+
 
         etCardNameLyt.setEndIconOnClickListener {
             etCardName.text?.clear()
         }
 
         txtCancel.setOnClickListener {
+            val selectedColorId = (rcvColors.adapter as ColorsChoseAdapter).getSelectedItem()
+            val selectedBoard = cboBoardSelection.selectedItem as BoardEntity
+            val selectedBoardId = selectedBoard.boardId // Obtener el ID del BoardEntity seleccionado
+            val currentId = mainViewModel.getUserId()
+            val newCard = currentId?.let { it1 ->
+                CardEntity(
+                    cardId = 0, // Asumimos que el ID será generado por el backend
+                    cardName = etCardName.text.toString(),
+                    ownerId = it1,
+                    isPublic = 1,
+                    isTemplate = 0,
+                    isArchived = 0,
+                    estimatedPrice = null,
+                    colorId = selectedColorId
+                )
+            }
+
+
+            if (newCard != null) {
+                cardViewModel.addCardToABoard(selectedBoardId,newCard)
+            }
             dialog.dismiss()
         }
 

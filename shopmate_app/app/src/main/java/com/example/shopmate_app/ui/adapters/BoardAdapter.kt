@@ -30,7 +30,11 @@ class BoardAdapter(private var boardList: List<BoardEntity>, private val cardsBy
         // Configurar el RecyclerView de las cards
         val cards = cardsByBoard[board.boardId] ?: emptyList()
         holder.rcvCards.layoutManager = LinearLayoutManager(holder.view.context, LinearLayoutManager.VERTICAL, false)
-        holder.rcvCards.adapter = CardAdapter(cards)
+
+        val currentUserId = "1"// obtener el ID del usuario actual
+        val profileUserId = "1"// obtener el ID del perfil que se está viendo
+
+        holder.rcvCards.adapter = CardAdapter(cards, currentUserId, profileUserId)
     }
 
     override fun getItemCount(): Int = boardList.size

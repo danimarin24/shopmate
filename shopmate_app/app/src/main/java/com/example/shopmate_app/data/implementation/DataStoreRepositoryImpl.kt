@@ -47,4 +47,12 @@ class DataStoreRepositoryImpl @Inject constructor(@ApplicationContext context: C
         val preferences = settingsDataStore.data.first()
         return preferences[preferencesKey]
     }
+
+    override suspend fun clearData() {
+        settingsDataStore.edit { preferences ->
+            preferences.clear()
+        }
+    }
+
+
 }

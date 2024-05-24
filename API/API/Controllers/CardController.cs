@@ -3,6 +3,7 @@ using API.Services;
 using API.Model;
 using System.Collections.Generic;
 using API.DTOs;
+using API.Model.Extra;
 using API.Services.Interfaces;
 
 namespace API.Controllers
@@ -29,8 +30,16 @@ namespace API.Controllers
             return Ok(members);
         }
         
-        [HttpPost]
-        [Route("api/Board/{boardId}/Card")]
+        [HttpGet("{cardId}/items")]
+        public async Task<IActionResult> GetItemsByCard(int cardId)
+        {
+            var members = await _userService.GetItemsByCard(cardId);
+            if (members == null)
+                return NotFound();
+            return Ok(members);
+        }
+        
+        [HttpPost("/api/Board/{boardId}/card")]
         public async Task<IActionResult> AddCardToBoard(uint boardId, [FromBody] Card card)
         {
             var result = await _cardService.AddCardToBoard(boardId, card);
@@ -41,18 +50,37 @@ namespace API.Controllers
             return Ok(result);
         }
         
-        /*
-         * [HttpPost("{cardId}/Share")]
-           public async Task<IActionResult> ShareCard(uint cardId, [FromBody] Card card)
-           {
-               var result = await _cardService.ShareCard(cardId, card);
-               if (!result)
-               {
-                   return BadRequest("Unable to share card");
-               }
-               return Ok();
-           }
-         */
+        [HttpPost("generate-share-link")]
+        public async Task<ActionResult<GenerateShareCardLinkResponse>> GenerateShareCardLink([FromBody] GenerateShareCardLinkRequest cardLinkRequest)
+        {
+            var response = await _cardService.GenerateShareCardLink(cardLinkRequest);
+            return Ok(response);
+        }
+
+        [HttpPost("validate-share-link")]
+        public async Task<ActionResult<ValidateShareCardLinkResponse>> ValidateShareCardLink([FromBody] ValidateShareCardLinkRequest validateCardLinkRequest)
+        {
+            var response = await _cardService.ValidateShareCardLink(validateCardLinkRequest);
+            return Ok(response);
+        }
+        
+        [HttpGet("users/{userId}/cards")]
+        public async Task<IActionResult> GetCardsByUserId(uint userId)
+        {
+            var cards = await _cardService.GetCardsByUserId(userId);
+            if (cards == null)
+                return NotFound();
+            return Ok(cards);
+        }
+
+        [HttpGet("filter/name/{name}")]
+        public async Task<IActionResult> GetCardsContainsName(string name)
+        {
+            var cards = await _cardService.GetCardsContainsName(name);
+            if (cards == null)
+                return NotFound();
+            return Ok(cards);
+        }
 
 
         [HttpGet("{cardId}")]
@@ -91,6 +119,15 @@ namespace API.Controllers
             }
 
             return NoContent();
+        }
+        
+        [HttpGet("{cardId}/categoriesIcons")]
+        public async Task<IActionResult> GetCategoryIconsByCardId(uint cardId)
+        {
+            var icons = await _cardService.GetCategoryIconsByCardId(cardId);
+            if (icons == null || !icons.Any())
+                return NotFound();
+            return Ok(icons);
         }
     }
 }

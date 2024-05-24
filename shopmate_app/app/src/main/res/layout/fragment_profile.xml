@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:gravity="center"
-            android:text="danimarin24"
+            android:text="@string/at"
             android:textColor="?android:attr/colorForeground"
             android:textSize="@dimen/defaultTextSize" />
 
@@ -137,11 +137,11 @@
         app:layout_constraintTop_toBottomOf="@+id/lytStats" />
     -->
     <com.example.shopmate_app.ui.components.LCEERecyclerView
-        android:id="@+id/rcvCards"
+        android:id="@+id/rcvProfileCards"
         android:layout_width="300dp"
         android:layout_height="400dp"
         android:layout_marginTop="20dp"
-        app:emptyIcon="@drawable/ic_empty"
+        app:emptyIcon="@drawable/ic_empty_image"
         app:emptyText="@string/errEmptyCards"
         app:errorIcon="@drawable/ic_error"
         app:errorText="@string/errNoCardFoundAll"

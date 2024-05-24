@@ -76,8 +76,12 @@ class HomeFragment : Fragment() {
         boardViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
                 binding.rcvBoardHome.showLoadingView()
-            } else {
-                binding.rcvBoardHome.hideAllViews()
+            }
+        }
+
+        boardViewModel.isError.observe(viewLifecycleOwner) { isError ->
+            if (isError) {
+                binding.rcvBoardHome.showErrorView()
             }
         }
     }
