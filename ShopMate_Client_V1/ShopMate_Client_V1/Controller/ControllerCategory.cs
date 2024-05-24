@@ -65,11 +65,13 @@ namespace ShopMate_Client_V1.Controller
             fCatForm.btn_back_fCat.Click += goBack;
             // ITEM FORM-----------------------------
             fItemForm.btn_add.Click += postItem;
+            dtgItem.CellDoubleClick += modifyItem; // Afegir aquest esdeveniment
 
 
 
         }
 
+       
         private void itemsFromCategory(object sender, EventArgs e)
         {
            
@@ -219,7 +221,6 @@ namespace ShopMate_Client_V1.Controller
             LoadData();
         }
 
-
         private void goBack(object sender, EventArgs e)
         {
             fCatForm.Close();
@@ -327,23 +328,62 @@ namespace ShopMate_Client_V1.Controller
             }
         }
 
-        private void postItem(object sender, EventArgs e)
+        private async void postItem(object sender, EventArgs e)
         {
             String selectedCategoryName = fItemForm.combo_category.Text.ToString();
             Category selectedCategory = categoryList.FirstOrDefault(c => c.Name.Equals(selectedCategoryName));
 
             iAux.Name = fItemForm.txt_name.Text.ToString();
-            // iAux.Category = selectedCategory;
             iAux.CategoryId = selectedCategory.CategoryId;
             iAux.UpdatedAt = DateTime.Now;
-            iAux.CreatedAt = DateTime.Now;
-            r.PostItem(iAux);
+
+            if (fItemForm.btn_add.Text.Equals("Add"))
+            {
+                iAux.CreatedAt = DateTime.Now;
+                r.PostItem(iAux);
+            }
+            else if (fItemForm.btn_add.Text.Equals("Modify"))
+            {
+                iAux.ItemId = selectedDGV_Item().ItemId;
+                r.PutItem(iAux,iAux.ItemId, fItemForm.txt_name.Text.ToString(), selectedCategory.CategoryId);
+            }
+
             fItemForm.Close();
-
-
-
+            dtgItem.DataSource = r.GetItems();
         }
 
+        private void modifyItem(object sender, DataGridViewCellEventArgs e)
+        {
+            fItemForm.btn_add.Text = "Modify Item"; // Canviar el text del botó
+
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow selectedRow = dtgItem.Rows[e.RowIndex];
+                Item selectedItem = selectedRow.DataBoundItem as Item;
+
+                if (selectedItem != null)
+                {
+                    fItemForm.txt_name.Text = selectedItem.Name.ToString();
+                    fItemForm.combo_category.SelectedItem = categoryList.FirstOrDefault(c => c.CategoryId == selectedItem.CategoryId)?.Name;
+                  
+
+                    fItemForm.ShowDialog();
+                }
+            }
+        }
+
+        private Item selectedDGV_Item()
+        {
+            int rowIndex = dtgItem.CurrentCell.RowIndex;
+
+            if (rowIndex >= 0 && rowIndex < dtgItem.Rows.Count)
+            {
+                DataGridViewRow selectedRow = dtgItem.Rows[rowIndex];
+                return selectedRow.DataBoundItem as Item;
+            }
+
+            return null;
+        }
         public void defaultDGV_items()
         {
             dtgItem.DataSource = r.GetItems();
