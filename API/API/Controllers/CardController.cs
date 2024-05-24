@@ -30,6 +30,15 @@ namespace API.Controllers
             return Ok(members);
         }
         
+        [HttpGet("{cardId}/items")]
+        public async Task<IActionResult> GetItemsByCard(int cardId)
+        {
+            var members = await _userService.GetItemsByCard(cardId);
+            if (members == null)
+                return NotFound();
+            return Ok(members);
+        }
+        
         [HttpPost("/api/Board/{boardId}/card")]
         public async Task<IActionResult> AddCardToBoard(uint boardId, [FromBody] Card card)
         {

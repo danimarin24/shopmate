@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- fragment_card_details_view.xml -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,7 +7,6 @@
     tools:context=".ui.fragments.utils.CardDetailsViewFragment">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -18,8 +17,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="30"
-            >
+            android:weightSum="30">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txtCardName"
@@ -33,17 +31,18 @@
                 android:layout_marginBottom="16dp"/>
 
             <ImageView
+                android:id="@+id/btnAddMember"
                 android:layout_weight="1"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/account_plus"/>
 
             <ImageView
+                android:id="@+id/btnCardSettings"
                 android:layout_weight="1"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/dots_horizontal"/>
-
         </LinearLayout>
 
         <!-- Contenedor de Categorías -->
@@ -64,10 +63,10 @@
             android:textColor="#000000"
             android:layout_marginBottom="8dp"/>
 
-        <ListView
-            android:id="@+id/list_view_current_items"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_current_items"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="300dp"
             android:layout_weight="1"
             android:divider="@android:color/darker_gray"
             android:dividerHeight="1dp"/>
@@ -81,10 +80,10 @@
             android:textColor="#000000"
             android:layout_marginBottom="8dp"/>
 
-        <ListView
-            android:id="@+id/list_view_add_items"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_add_items"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:divider="@android:color/darker_gray"
             android:dividerHeight="1dp"/>
@@ -97,7 +96,4 @@
             android:layout_gravity="center"
             android:layout_marginTop="16dp"/>
     </LinearLayout>
-
-
-
 </FrameLayout>

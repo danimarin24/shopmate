@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.ArrayAdapter
@@ -105,6 +106,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.shareProfileFragment -> {
                     changeHeaderInfo("shareProfile")
                 }
+                R.id.cardDetailsViewFragment -> {
+                    changeHeaderInfo("cardDetailsView")
+                }
 
             }
         }
@@ -195,6 +199,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun changeHeaderInfo(activeFragment: String) {
+        binding.lytHeader.visibility = View.VISIBLE
         binding.btnLeft.setImageResource(android.R.color.transparent)
         binding.btnLeft.setOnClickListener{}
         binding.btnRight.setImageResource(android.R.color.transparent)
@@ -259,6 +264,20 @@ class MainActivity : AppCompatActivity() {
                     binding.btnRight.setImageResource(R.drawable.menu_open)
                     showSettingsBottomDialog()
                 }
+            }
+
+            "profile" -> {
+                binding.txtHeaderTitle.text = getString(R.string.strProfile)
+
+                binding.btnRight.setImageResource(R.drawable.menu)
+                binding.btnRight.setOnClickListener {
+                    binding.btnRight.setImageResource(R.drawable.menu_open)
+                    showSettingsBottomDialog()
+                }
+            }
+
+            "cardDetailsView" -> {
+                binding.lytHeader.visibility = View.GONE
             }
 
             "setting" -> {
