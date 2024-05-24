@@ -205,12 +205,10 @@ namespace ShopMate_Client_V1.Model
                 return null;
             }
         }
-
         public Category GetCategoryById(int categoryId)
         {
            return (Category) MakeRequest(ws1 + "Category/" + categoryId, null, "GET", "application/json", typeof(void));
         }
-
         public bool CategoryHasItem(int categoryId)
         {
             
@@ -261,7 +259,7 @@ namespace ShopMate_Client_V1.Model
         {
             try
             {
-                string requestUrl = $"http://172.16.24.21:6385{imageUrl}";
+                string requestUrl = $"https://boa-possible-mudfish.ngrok-free.app/{imageUrl}";
                 string extension = Path.GetExtension(imageUrl).ToLower();
 
 
@@ -326,6 +324,24 @@ namespace ShopMate_Client_V1.Model
             }
         }
 
+        public Item PutItem(Item item, uint itemId, string newName, uint newCategoryId)
+        {
+            try
+            {
+                item.Name = newName;
+                item.CategoryId = newCategoryId;
+                item.UpdatedAt = DateTime.Now;
+
+                string requestUrl = $"{ws1}Item/{itemId}";
+
+                return (Item)MakeRequest(requestUrl, item, "PUT", "application/json", typeof(Item));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
     }
 }
 

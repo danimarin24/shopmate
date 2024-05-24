@@ -23,10 +23,9 @@ namespace ShopMate_Client_V1.Controller
         Form1 f;
         FormUser fUser;
         Login l;
-
         List<User> originalUserList;
         List<UserDTO> userDTOList;
-      
+        List<Item> itemList;
 
         Repository r;
         User uAux = new User();        
@@ -50,7 +49,9 @@ namespace ShopMate_Client_V1.Controller
             originalUserList = r.GetUsers();
             userDTOList = originalUserList.Select(u => new UserDTO(u)).ToList(); 
             f.dtg_client.DataSource = userDTOList;
-             
+            itemList = r.GetItems(); 
+
+
 
             // f.dtg_client.DataSource = originalUserList;
             f.combo_cat.DataSource = new string[] { " ", "Name", "Last Update", "Register Date" };
@@ -88,7 +89,8 @@ namespace ShopMate_Client_V1.Controller
             f.combo_item.SelectedIndexChanged += orderItem;
             f.btn_showAll_it.Click += resetItemDGV;
             f.btn_delete_item.Click += deleteSelectedItems;
-            
+            f.txt_search_item.TextChanged += searchItem;
+
         }
 
         // USER
@@ -275,12 +277,7 @@ namespace ShopMate_Client_V1.Controller
                 string fileName = openFileDialog.FileName;
                 Bitmap originalImage = (Bitmap)Image.FromFile(fileName);                
                 Bitmap resizedImage = new Bitmap(originalImage, new Size(fUser.pictureBox1.Width, fUser.pictureBox1.Height));
-                fUser.pictureBox1.Image = resizedImage;
-
-                // fUser.pictureBox1.Load(fileName);
-
-                //////// 
-                ///
+                fUser.pictureBox1.Image = resizedImage;            
 
                 using (var stream = System.IO.File.OpenRead(fileName))
                 {
@@ -458,6 +455,21 @@ namespace ShopMate_Client_V1.Controller
                 MessageBox.Show("No items selected for deletion", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+        private void searchItem(object sender, EventArgs e)
+        {
+            string actualText = f.txt_search_item.Text.ToString();
+
+            if (string.IsNullOrEmpty(actualText))
+            {
+                categoryController.defaultDGV_items();
+            }
+            else
+            {
+                List<Item> filteredItemList = itemList.Where(i => i.Name.ToLower().Contains(actualText.ToLower())).ToList();
+                f.dtg_item.DataSource = filteredItemList;
+            }
+        }
+
 
         // CATEGORY
         private void orderCategory(object sender, EventArgs e)
@@ -508,7 +520,6 @@ namespace ShopMate_Client_V1.Controller
 
                         LoadData();
 
-                        MessageBox.Show($"{deletedCount} categorie(s) deleted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {
