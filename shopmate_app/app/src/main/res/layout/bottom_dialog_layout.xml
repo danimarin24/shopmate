@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Handle bar at the top -->
+    <View
+        android:layout_width="36dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/custom_bg_box" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="20">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etNameItemLyt"
+                    android:layout_width="0dp"
+                    android:layout_weight="18"
+                    android:layout_height="40dp"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etNameItem"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:autofillHints="password"
+                        android:background="@drawable/custom_input_rounded"
+                        android:fontFamily="@font/poppins_medium"
+                        android:hint="¿Que necesitas comprar?"
+                        android:inputType="text"
+                        android:padding="0dp"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:textColorHint="?attr/colorOnPrimaryContainer"
+                        android:textSize="13sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/btnSave"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:textStyle="bold"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="Listo"
+                    android:layout_marginLeft="10dp"
+                    />
+
+            </LinearLayout>
+
+            <!-- MORE CONTENT -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Información adicional del producto: "
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginVertical="20dp"
+                    android:padding="8dp" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txtItemName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Agua"
+                    android:textSize="14sp"
+                    android:layout_marginVertical="20dp"
+                    android:padding="8dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="0dp"
+                    android:layout_weight="11"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:gravity="center_vertical"
+                    android:text="Seleccione cantidad"
+                    android:textSize="12sp"
+                    android:padding="8dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etAmountLyt"
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:layout_height="match_parent"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:autofillHints="password"
+                        android:background="@drawable/custom_input_rounded"
+                        android:fontFamily="@font/poppins_medium"
+                        android:hint="1, 5, 8"
+                        android:inputType="text"
+                        android:padding="0dp"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:textColorHint="?attr/colorOnPrimaryContainer"
+                        android:textSize="13sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"/>
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/cboUnits"
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:layout_height="40dp" />
+
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="0dp"
+                    android:layout_weight="11"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:gravity="center_vertical"
+                    android:text="Especifique precio"
+                    android:textSize="12sp"
+                    android:padding="8dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etPriceLyt"
+                    android:layout_width="0dp"
+                    android:layout_weight="9"
+                    android:layout_height="match_parent"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:autofillHints="password"
+                        android:background="@drawable/custom_input_rounded"
+                        android:fontFamily="@font/poppins_medium"
+                        android:hint="p, ej: 1,5€"
+                        android:inputType="text"
+                        android:padding="0dp"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:textColorHint="?attr/colorOnPrimaryContainer"
+                        android:textSize="13sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>

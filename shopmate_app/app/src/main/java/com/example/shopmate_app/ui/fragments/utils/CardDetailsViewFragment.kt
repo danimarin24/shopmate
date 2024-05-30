@@ -27,10 +27,13 @@ import com.bumptech.glide.Glide
 import com.example.shopmate_app.R
 import com.example.shopmate_app.data.constants.AppConstants
 import com.example.shopmate_app.databinding.FragmentCardDetailsViewBinding
+import com.example.shopmate_app.domain.entities.newtworkEntities.CategoryEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.ItemCardLineEntity
 import com.example.shopmate_app.domain.entities.providers.CardProvider
+import com.example.shopmate_app.ui.adapters.CategoryAdapter
 import com.example.shopmate_app.ui.adapters.ItemAdapter
 import com.example.shopmate_app.ui.viewmodels.CardViewModel
+import com.example.shopmate_app.ui.viewmodels.CategoryViewModel
 import com.example.shopmate_app.ui.viewmodels.ItemViewModel
 import com.example.shopmate_app.ui.viewmodels.MainViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -43,6 +46,7 @@ class CardDetailsViewFragment : Fragment() {
     private val mainViewModel: MainViewModel by viewModels()
 
     private val cardViewModel: CardViewModel by viewModels()
+    private val categoryViewModel: CategoryViewModel by viewModels()
     private val itemsViewModel: ItemViewModel by viewModels()
 
 
@@ -60,6 +64,7 @@ class CardDetailsViewFragment : Fragment() {
 //        binding.tvOwnerId.text = CardProvider.selectedCard?.ownerId.toString()
 //        binding.tvEstimatedPrice.text = CardProvider.selectedCard?.estimatedPrice.toString()
 
+        categoryViewModel.fetchCategories()
         cardViewModel.fetchCategoriesIconsByCard(CardProvider.selectedCard?.cardId!!)
 
         itemsViewModel.fetchAllItems(CardProvider.selectedCard?.cardId!!)
@@ -79,18 +84,43 @@ class CardDetailsViewFragment : Fragment() {
             if (icons.isNotEmpty()) {
                 loadCategoryIcons(icons)
             }
-
         }
 
         itemsViewModel.items.observe(viewLifecycleOwner) { items ->
-            Log.e("entro", items.toString())
-            itemAdapter = ItemAdapter(items)
-            binding.recyclerViewCurrentItems.adapter = itemAdapter
+            if (items.isNullOrEmpty()) {
+                binding.rcvCurrentItems.showEmptyView("Vaya no hay ningún item assignado a esta lista.")
+            } else {
+                binding.rcvCurrentItems.hideAllViews()
+                itemAdapter = ItemAdapter(items)
+                binding.rcvCurrentItems.recyclerView.adapter = itemAdapter
+            }
+        }
+
+        categoryViewModel.categories.observe(viewLifecycleOwner) { categories ->
+            if (categories.isNullOrEmpty()) {
+                binding.rcvCategories.showEmptyView("Vaya no hay ninguna categoría creada.")
+            } else {
+                binding.rcvCategories.hideAllViews()
+                binding.rcvCategories.recyclerView.adapter =
+                    CategoryAdapter(categories, CardProvider.selectedCard?.cardId!!)
+                binding.rcvCategories.recyclerView.layoutManager =
+                    LinearLayoutManager(findNavController().context)
+            }
+        }
+
+        categoryViewModel.isError.observe(viewLifecycleOwner) { err ->
+            if (err)
+                binding.rcvCategories.showErrorView("Ha habído un problema al encontrar categorías...")
+        }
+
+        categoryViewModel.isError.observe(viewLifecycleOwner) { loading ->
+            if (loading)
+                binding.rcvCategories.showLoadingView()
         }
     }
 
     private fun setUpRecyclerView() {
-        binding.recyclerViewCurrentItems.layoutManager = LinearLayoutManager(findNavController().context)
+        binding.rcvCurrentItems.recyclerView.layoutManager = LinearLayoutManager(findNavController().context)
 
         val itemTouchHelper = ItemTouchHelper(object : SwipeToDeleteCallback(requireContext()) {
             override fun onMove(
@@ -126,12 +156,22 @@ class CardDetailsViewFragment : Fragment() {
             }
         })
 
-        itemTouchHelper.attachToRecyclerView(binding.recyclerViewCurrentItems)
+        itemTouchHelper.attachToRecyclerView(binding.rcvCurrentItems.recyclerView)
     }
 
     private fun setUpListeners() {
         binding.btnCardSettings.setOnClickListener {
             showSettingsCardBottomDialog()
+        }
+
+        binding.btnAddNewItem.setOnClickListener {
+            val bottomDialogFragment = BottomDialogFragment()
+            bottomDialogFragment.show(childFragmentManager, BottomDialogFragment.TAG)
+        }
+
+        binding.rcvCategories.setOnRetryClickListener {
+            Snackbar.make(binding.root, "Cargando categorías", Snackbar.LENGTH_SHORT).show()
+            categoryViewModel.fetchCategories()
         }
     }
 

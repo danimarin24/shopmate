@@ -18,6 +18,14 @@ public class ItemDto
     public ItemDto()
     {
     }
+    
+    public ItemDto(Item i)
+    {
+        ItemId = i.ItemId;
+        Name = i.Name;
+        UpdatedAt = i.UpdatedAt;
+        CreatedAt = i.CreatedAt;
+    }
 
     public ItemDto(uint itemId, string name, CategoryDto category, DateTime updatedAt, DateTime createdAt)
     {

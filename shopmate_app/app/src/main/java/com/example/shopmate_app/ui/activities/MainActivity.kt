@@ -39,6 +39,7 @@ import com.example.shopmate_app.ui.adapters.BoardEditAdapter
 import com.example.shopmate_app.ui.adapters.ColorsChoseAdapter
 import com.example.shopmate_app.ui.components.LCEERecyclerView
 import com.example.shopmate_app.ui.fragments.home.HomeFragment
+import com.example.shopmate_app.ui.fragments.utils.BottomDialogFragment
 import com.example.shopmate_app.ui.viewmodels.BoardViewModel
 import com.example.shopmate_app.ui.viewmodels.CardViewModel
 import com.example.shopmate_app.ui.viewmodels.ColorViewModel
@@ -221,6 +222,7 @@ class MainActivity : AppCompatActivity() {
                     binding.btnLeft.setImageResource(R.drawable.application_edit_outline)
                     //Toast.makeText(context, "boton editar", Toast.LENGTH_SHORT).show()
 
+                    /*
                     val currentFragment = supportFragmentManager.findFragmentByTag("home")
                     if (currentFragment != null && currentFragment is HomeFragment) {
 
@@ -244,6 +246,7 @@ class MainActivity : AppCompatActivity() {
                         Toast.makeText(context, "Fragmento no encontrado o incorrecto", Toast.LENGTH_SHORT).show()
 
                     }
+                     */
 
 
                 }

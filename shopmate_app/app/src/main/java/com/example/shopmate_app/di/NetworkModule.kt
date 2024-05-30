@@ -3,6 +3,7 @@ package com.example.shopmate_app.di
 import com.example.shopmate_app.data.constants.AppConstants
 import com.example.shopmate_app.data.services.networkServices.BoardApiClient
 import com.example.shopmate_app.data.services.networkServices.CardApiClient
+import com.example.shopmate_app.data.services.networkServices.CategoryApiClient
 import com.example.shopmate_app.data.services.networkServices.ColorApiClient
 import com.example.shopmate_app.data.services.networkServices.UserApiClient
 import com.google.gson.GsonBuilder
@@ -64,5 +65,11 @@ object NetworkModule {
     @Provides
     fun providesCardApiClient(retrofit: Retrofit):CardApiClient{
         return retrofit.create(CardApiClient::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun providesCategoryApiClient(retrofit: Retrofit):CategoryApiClient{
+        return retrofit.create(CategoryApiClient::class.java)
     }
 }

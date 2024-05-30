@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragments.utils.CardDetailsViewFragment">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -15,34 +15,38 @@
 
         <!-- Encabezado -->
         <LinearLayout
+            android:id="@+id/lytHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="30">
+            android:weightSum="30"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txtCardName"
                 android:layout_width="0dp"
-                android:layout_weight="28"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="28"
                 android:fontFamily="@font/poppins_medium"
                 android:text="Detalle de la Compra"
-                android:textSize="20sp"
                 android:textColor="#000000"
-                android:layout_marginBottom="16dp"/>
+                android:textSize="20sp" />
 
             <ImageView
                 android:id="@+id/btnAddMember"
-                android:layout_weight="1"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/account_plus"/>
+                android:layout_weight="1"
+                android:src="@drawable/account_plus" />
 
             <ImageView
                 android:id="@+id/btnCardSettings"
-                android:layout_weight="1"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/dots_horizontal"/>
+                android:layout_weight="1"
+                android:src="@drawable/dots_horizontal" />
         </LinearLayout>
 
         <!-- Contenedor de Categorías -->
@@ -51,49 +55,65 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
+            app:layout_constraintTop_toBottomOf="@+id/lytHeader"
+            tools:layout_editor_absoluteX="16dp">
+            <!-- Dynamic icons -->
         </LinearLayout>
 
-        <!-- Lista de Items Actuales -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Items Actuales"
-            android:textSize="18sp"
-            android:textColor="#000000"
-            android:layout_marginBottom="8dp"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_current_items"
+        <ScrollView
+            android:id="@+id/lytContentScrollView"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_weight="1"
-            android:divider="@android:color/darker_gray"
-            android:dividerHeight="1dp"/>
-
-        <!-- Lista de Items para Añadir -->
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Añadir Items"
-            android:textSize="18sp"
-            android:textColor="#000000"
-            android:layout_marginBottom="8dp"/>
+            app:layout_constraintTop_toBottomOf="@+id/categoryIconsContainer"
+            tools:layout_editor_absoluteX="16dp">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_add_items"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:divider="@android:color/darker_gray"
-            android:dividerHeight="1dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Lista de Items Actuales -->
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="Items Actuales"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <com.example.shopmate_app.ui.components.LCEERecyclerView
+                    android:id="@+id/rcvCurrentItems"
+                    android:layout_width="match_parent"
+                    android:minHeight="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:divider="@android:color/darker_gray"
+                    android:dividerHeight="1dp" />
+
+                <com.example.shopmate_app.ui.components.LCEERecyclerView
+                    android:id="@+id/rcvCategories"
+                    android:layout_width="match_parent"
+                    android:minHeight="900dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_height="wrap_content"
+                    android:divider="@android:color/darker_gray"
+                    android:dividerHeight="1dp" />
+
+            </LinearLayout>
+
+        </ScrollView>
 
         <!-- Botón para Añadir Items -->
-        <Button
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnAddNewItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Añadir Seleccionados"
             android:layout_gravity="center"
-            android:layout_marginTop="16dp"/>
-    </LinearLayout>
+            android:src="@drawable/cart_plus"
+            app:tint="#ffffff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

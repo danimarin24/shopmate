@@ -4,6 +4,7 @@ data class CategoryEntity(
     val categoryId: Int,
     val name: String,
     val icon: String,
-    val createdBy: String,
-    val assignedTo: String,
+    val updatedAt: String,
+    val createdAt: String,
+    val items: List<ItemEntity?>
 )

@@ -13,6 +13,8 @@ public class CategoryDto
     public DateTime UpdatedAt { get; set; }
 
     public DateTime CreatedAt { get; set; }
+    
+    public List<ItemDto> Items { get; set; }
 
     public CategoryDto()
     {
@@ -25,6 +27,7 @@ public class CategoryDto
         Icon = c.Icon;
         UpdatedAt = c.UpdatedAt;
         CreatedAt = c.CreatedAt;
+        Items = c.Items.Select(i => new ItemDto(i)).ToList();
     }
 
     public CategoryDto(uint categoryId, string name, string icon, DateTime updatedAt, DateTime createdAt)

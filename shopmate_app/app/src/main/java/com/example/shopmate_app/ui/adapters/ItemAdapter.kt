@@ -38,10 +38,10 @@ class ItemAdapter(private var itemList: List<ItemCardLineEntity>)
     override fun onBindViewHolder(holder: ItemAdapter.CardViewHolder, position: Int) {
         val item = itemList[position]
         holder.txtItemQuantity.text = item.amount.toString()
-        holder.txtItemName.text = item.item.name
+        holder.txtItemName.text = item.item?.name
 
         Glide.with(holder.view.context)
-            .load("${AppConstants.BASE_API_URL}${item.item.category.icon}")
+            .load("${AppConstants.BASE_API_URL}${item.item?.category?.icon}")
             .into(holder.ivAssignedTo)
 
         holder.view.setOnClickListener {

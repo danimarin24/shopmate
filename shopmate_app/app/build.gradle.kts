@@ -91,6 +91,9 @@ dependencies {
     // Activity
     implementation("androidx.activity:activity-ktx:1.2.2")
 
+    implementation("com.google.android.material:material:1.3.0")
+
+
     // HILT IMPORTANT TO INJECTION DEPENDENCIES
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")

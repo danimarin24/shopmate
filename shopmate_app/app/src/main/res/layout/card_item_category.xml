@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="54dp"
+    android:background="?attr/colorPrimaryContainer">
+
+    <LinearLayout
+        android:id="@+id/lytCardCategory"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="100"
+        android:gravity="center_vertical"
+        android:background="?attr/colorPrimary"
+        android:padding="8dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivCategoryImage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="2dp"
+            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+            app:strokeColor="?attr/colorPrimary"
+            app:strokeWidth="1dp"
+            android:src="@drawable/custom_dialog_bg"
+            />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txtCategoryName"
+            android:layout_width="0dp"
+            android:layout_weight="80"
+            android:layout_height="wrap_content"
+            android:text="Frutas"
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="@dimen/middleTextSize" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="20"
+            android:src="@drawable/chevron_right"
+            app:tint="?attr/colorOnPrimary"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
+
+

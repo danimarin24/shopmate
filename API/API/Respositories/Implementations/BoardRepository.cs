@@ -59,6 +59,7 @@ public class BoardRepository : IBoardRepository
     public async Task<IEnumerable<CardDto>> GetCardsByBoardId(uint boardId)
     {
         return await _context.Cards
+            .Include(c => c.Color)
             .Where(c => c.Boards.Any(b => b.BoardId == boardId))
             .Select(c => new CardDto(c))
             .ToListAsync();
