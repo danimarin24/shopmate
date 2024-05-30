@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using API.Model;
 
 namespace API.DTOs;
 
@@ -16,4 +17,28 @@ public partial class ColorDto
     public short ColorBlue { get; set; }
 
     public string Name { get; set; } = null!;
+
+    public ColorDto()
+    {
+    }
+
+    public ColorDto(Color c)
+    {
+        ColorId = c.ColorId;
+        ColorHex = c.ColorHex;
+        ColorRed = c.ColorRed;
+        ColorGreen = c.ColorGreen;
+        ColorBlue = c.ColorBlue;
+        Name = c.Name;
+    }
+
+    public ColorDto(uint colorId, string colorHex, short colorRed, short colorGreen, short colorBlue, string name)
+    {
+        ColorId = colorId;
+        ColorHex = colorHex;
+        ColorRed = colorRed;
+        ColorGreen = colorGreen;
+        ColorBlue = colorBlue;
+        Name = name;
+    }
 }

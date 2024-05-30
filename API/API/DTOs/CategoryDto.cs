@@ -1,3 +1,5 @@
+using API.Model;
+
 namespace API.DTOs;
 
 public class CategoryDto
@@ -14,6 +16,15 @@ public class CategoryDto
 
     public CategoryDto()
     {
+    }
+    
+    public CategoryDto(Category c)
+    {
+        CategoryId = c.CategoryId;
+        Name = c.Name;
+        Icon = c.Icon;
+        UpdatedAt = c.UpdatedAt;
+        CreatedAt = c.CreatedAt;
     }
 
     public CategoryDto(uint categoryId, string name, string icon, DateTime updatedAt, DateTime createdAt)

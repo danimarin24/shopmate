@@ -52,47 +52,15 @@ public class BoardRepository : IBoardRepository
         
         board.Cards.Add(newCard); 
         await _context.SaveChangesAsync();
-        
-        return new CardDto()
-        {
-            CardId = card.CardId,
-            CardName = card.CardName,
-            Color = new ColorDto()
-            {
-                ColorId = card.Color.ColorId,
-                ColorRed = card.Color.ColorRed,
-                ColorBlue = card.Color.ColorBlue,
-                ColorGreen = card.Color.ColorGreen,
-                ColorHex = card.Color.ColorHex
-            },
-            EstimatedPrice = card.EstimatedPrice,
-            IsArchived = card.IsArchived,
-            IsPublic = card.IsPublic,
-            IsTemplate = card.IsTemplate,
-        };
+
+        return new CardDto(newCard);
     }
 
     public async Task<IEnumerable<CardDto>> GetCardsByBoardId(uint boardId)
     {
         return await _context.Cards
             .Where(c => c.Boards.Any(b => b.BoardId == boardId))
-            .Select(c => new CardDto
-            {
-                CardId = c.CardId,
-                CardName = c.CardName,
-                IsPublic = c.IsPublic,
-                IsTemplate = c.IsTemplate,
-                IsArchived = c.IsArchived,
-                EstimatedPrice = c.EstimatedPrice,
-                Color = new ColorDto()
-                {
-                    ColorId = c.Color.ColorId,
-                    ColorBlue = c.Color.ColorBlue,
-                    ColorRed = c.Color.ColorRed,
-                    ColorGreen = c.Color.ColorGreen,
-                    ColorHex = c.Color.ColorHex
-                }
-            })
+            .Select(c => new CardDto(c))
             .ToListAsync();
     }
 
@@ -100,12 +68,7 @@ public class BoardRepository : IBoardRepository
     {
         return await _context.Boards
             .Where(b => b.OwnerId == userId)
-            .Select(b => new BoardDto
-            {
-                BoardId = b.BoardId,
-                Title = b.Title,
-                OwnerId = b.OwnerId
-            }).ToListAsync();
+            .Select(b => new BoardDto(b)).ToListAsync();
     }
 
     public async Task<BoardDto> Add(Board board)
@@ -132,12 +95,7 @@ public class BoardRepository : IBoardRepository
         existingBoard.OwnerId = board.OwnerId;
 
         await UpdateAsync(existingBoard);
-        return new BoardDto
-        {
-            BoardId = existingBoard.BoardId,
-            Title = existingBoard.Title,
-            OwnerId = existingBoard.OwnerId,
-        };
+        return new BoardDto(existingBoard);
     }
 
     public async Task<BoardDto> Modify(Board board)

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Context;
+using API.DTOs;
 using API.Model;
 
 namespace API.Controllers
@@ -23,14 +24,14 @@ namespace API.Controllers
 
         // GET: api/Category
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
+        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetCategories()
         {
-            return await _context.Categories.ToListAsync();
+            return await _context.Categories.Select(c => new CategoryDto(c)).ToListAsync();
         }
 
         // GET: api/Category/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Category>> GetCategory(uint id)
+        public async Task<ActionResult<CategoryDto>> GetCategory(uint id)
         {
             var category = await _context.Categories.FindAsync(id);
 
@@ -39,7 +40,7 @@ namespace API.Controllers
                 return NotFound();
             }
 
-            return category;
+            return new CategoryDto(category);
         }
 
         // PUT: api/Category/5

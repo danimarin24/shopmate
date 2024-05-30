@@ -23,23 +23,7 @@ public class CardRepository : ICardRepository
     {
         return await _context.Cards
             .Include(c => c.Color)
-            .Select(c => new CardDto
-            {
-                CardId = c.CardId,
-                CardName = c.CardName,
-                IsPublic = c.IsPublic,
-                IsTemplate = c.IsTemplate,
-                IsArchived = c.IsArchived,
-                EstimatedPrice = c.EstimatedPrice,
-                Color = new ColorDto()
-                {
-                    ColorId = c.Color.ColorId,
-                    ColorBlue = c.Color.ColorBlue,
-                    ColorRed = c.Color.ColorRed,
-                    ColorGreen = c.Color.ColorGreen,
-                    ColorHex = c.Color.ColorHex
-                }
-            })
+            .Select(c => new CardDto(c))
             .FirstOrDefaultAsync(c => c.CardId == cardId);
     }
     
@@ -48,23 +32,7 @@ public class CardRepository : ICardRepository
         return await _context.Cards
             .Include(c => c.Color)
             .Where(c => c.OwnerId == userId)
-            .Select(c => new CardDto
-            {
-                CardId = c.CardId,
-                CardName = c.CardName,
-                IsPublic = c.IsPublic,
-                IsTemplate = c.IsTemplate,
-                IsArchived = c.IsArchived,
-                EstimatedPrice = c.EstimatedPrice,
-                Color = new ColorDto()
-                {
-                    ColorId = c.Color.ColorId,
-                    ColorBlue = c.Color.ColorBlue,
-                    ColorRed = c.Color.ColorRed,
-                    ColorGreen = c.Color.ColorGreen,
-                    ColorHex = c.Color.ColorHex
-                }
-            })
+            .Select(c => new CardDto(c))
             .ToListAsync();
     }
     
@@ -76,23 +44,7 @@ public class CardRepository : ICardRepository
                 c.CardName.ToLower().Contains(name.ToLower())
                 && c.IsPublic.Equals(1)
             )
-            .Select(c => new CardDto
-            {
-                CardId = c.CardId,
-                CardName = c.CardName,
-                IsPublic = c.IsPublic,
-                IsTemplate = c.IsTemplate,
-                IsArchived = c.IsArchived,
-                EstimatedPrice = c.EstimatedPrice,
-                Color = new ColorDto()
-                {
-                    ColorId = c.Color.ColorId,
-                    ColorBlue = c.Color.ColorBlue,
-                    ColorRed = c.Color.ColorRed,
-                    ColorGreen = c.Color.ColorGreen,
-                    ColorHex = c.Color.ColorHex
-                }
-            })
+            .Select(c => new CardDto(c))
             .ToListAsync();
     }
 
@@ -223,23 +175,7 @@ public class CardRepository : ICardRepository
         existingCard.ColorId = card.ColorId;
 
         await UpdateAsync(existingCard);
-        return new CardDto
-        {
-            CardId = existingCard.CardId,
-            CardName = existingCard.CardName,
-            IsPublic = existingCard.IsPublic,
-            IsTemplate = existingCard.IsTemplate,
-            IsArchived = existingCard.IsArchived,
-            EstimatedPrice = existingCard.EstimatedPrice,
-            Color = new ColorDto()
-            {
-                ColorId = existingCard.Color.ColorId,
-                ColorBlue = existingCard.Color.ColorBlue,
-                ColorRed = existingCard.Color.ColorRed,
-                ColorGreen = existingCard.Color.ColorGreen,
-                ColorHex = existingCard.Color.ColorHex
-            }
-        };
+        return new CardDto(existingCard);
     }
 
     public Task<CardDto> Modify(Card card)
