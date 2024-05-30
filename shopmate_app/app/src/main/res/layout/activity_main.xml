@@ -9,6 +9,15 @@
     android:background="?android:attr/colorForegroundInverse"
     tools:context=".ui.activities.MainActivity">
 
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <!-- Header -->
     <LinearLayout
         android:id="@+id/lytHeader"

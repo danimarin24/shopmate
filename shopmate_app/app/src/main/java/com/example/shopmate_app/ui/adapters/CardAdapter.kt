@@ -67,7 +67,7 @@ class CardAdapter(private var cardList: List<CardEntity>,
                 cardSeleccionada = holder.adapterPosition
                 //changeVisibility(holder, false)
                 CardProvider.selectedCard = card
-                holder.view.findNavController().navigate(R.id.cardDetailsViewFragment)
+                holder.view.findNavController().navigate(R.id.action_profileFragment_to_cardDetailsViewFragment)
             }
             notifyDataSetChanged()
         }

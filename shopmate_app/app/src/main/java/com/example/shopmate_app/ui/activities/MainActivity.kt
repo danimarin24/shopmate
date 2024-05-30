@@ -7,7 +7,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.view.GestureDetector
 import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
@@ -18,6 +20,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
@@ -25,21 +28,19 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.example.shopmate_app.R
 import com.example.shopmate_app.databinding.ActivityMainBinding
-import com.example.shopmate_app.di.UseCaseModule
 import com.example.shopmate_app.domain.entities.newtworkEntities.BoardEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.CardEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.ColorEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.ValidateShareLinkRequestEntity
-import com.example.shopmate_app.ui.adapters.BoardAdapter
-import com.example.shopmate_app.ui.adapters.BoardEditAdapter
 import com.example.shopmate_app.ui.adapters.ColorsChoseAdapter
-import com.example.shopmate_app.ui.components.LCEERecyclerView
-import com.example.shopmate_app.ui.fragments.home.HomeFragment
-import com.example.shopmate_app.ui.fragments.utils.BottomDialogFragment
+import com.example.shopmate_app.ui.adapters.ViewPagerAdapter
+import com.example.shopmate_app.ui.fragments.profile.ProfileFragment
+import com.example.shopmate_app.ui.fragments.profile.ProfileSettingFragment
+import com.example.shopmate_app.ui.fragments.utils.CardDetailsViewFragment
 import com.example.shopmate_app.ui.viewmodels.BoardViewModel
 import com.example.shopmate_app.ui.viewmodels.CardViewModel
 import com.example.shopmate_app.ui.viewmodels.ColorViewModel
@@ -56,6 +57,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private lateinit var gestureDetector: GestureDetectorCompat
     private lateinit var navListener: NavController.OnDestinationChangedListener
     private lateinit var context : Context
 
@@ -67,10 +69,6 @@ class MainActivity : AppCompatActivity() {
 
 
     private var isBoardListEmpty = true
-
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,6 +118,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         navController = navHostFragment.navController
+        gestureDetector = GestureDetectorCompat(this, SwipeGestureListener(navController))
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -172,6 +171,33 @@ class MainActivity : AppCompatActivity() {
         // INIT
         binding.bottomNavigationBar.menu.findItem(R.id.profile).setChecked(true)
         changeHeaderInfo("profile")
+    }
+
+    private inner class SwipeGestureListener(val navController: NavController) : GestureDetector.SimpleOnGestureListener() {
+        private val SWIPE_THRESHOLD = 100
+        private val SWIPE_VELOCITY_THRESHOLD = 100
+
+        override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+            if (e1 == null || e2 == null) return false
+
+            val diffX = e2.x - e1.x
+            val diffY = e2.y - e1.y
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                    if (diffX > 0) {
+                        onSwipeRight()
+                    }
+                    return true
+                }
+            }
+            return false
+        }
+
+        private fun onSwipeRight() {
+            if (navController.currentBackStackEntry != null && navController.previousBackStackEntry != null) {
+                navController.popBackStack()
+            }
+        }
     }
 
     private fun observeViewModel(validateTokenRequest: ValidateShareLinkRequestEntity) {
