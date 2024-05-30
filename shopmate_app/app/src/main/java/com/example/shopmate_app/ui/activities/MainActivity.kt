@@ -29,7 +29,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.example.shopmate_app.R
 import com.example.shopmate_app.databinding.ActivityMainBinding
 import com.example.shopmate_app.domain.entities.newtworkEntities.BoardEntity
@@ -37,10 +36,6 @@ import com.example.shopmate_app.domain.entities.newtworkEntities.CardEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.ColorEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.ValidateShareLinkRequestEntity
 import com.example.shopmate_app.ui.adapters.ColorsChoseAdapter
-import com.example.shopmate_app.ui.adapters.ViewPagerAdapter
-import com.example.shopmate_app.ui.fragments.profile.ProfileFragment
-import com.example.shopmate_app.ui.fragments.profile.ProfileSettingFragment
-import com.example.shopmate_app.ui.fragments.utils.CardDetailsViewFragment
 import com.example.shopmate_app.ui.viewmodels.BoardViewModel
 import com.example.shopmate_app.ui.viewmodels.CardViewModel
 import com.example.shopmate_app.ui.viewmodels.ColorViewModel
