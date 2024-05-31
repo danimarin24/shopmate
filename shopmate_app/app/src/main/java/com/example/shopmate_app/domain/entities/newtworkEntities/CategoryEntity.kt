@@ -6,5 +6,5 @@ data class CategoryEntity(
     val icon: String,
     val updatedAt: String,
     val createdAt: String,
-    val items: List<ItemEntity?>
+    val items: List<ItemEntity>?
 )

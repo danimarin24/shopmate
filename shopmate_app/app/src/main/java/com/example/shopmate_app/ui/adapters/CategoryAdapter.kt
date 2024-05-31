@@ -15,7 +15,9 @@ import com.example.shopmate_app.data.constants.AppConstants
 import com.example.shopmate_app.domain.entities.newtworkEntities.BoardEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.CardEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.CategoryEntity
+import com.example.shopmate_app.domain.entities.newtworkEntities.ItemEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.UserEntity
+import com.example.shopmate_app.domain.entities.providers.CategoryProvider
 import com.example.shopmate_app.ui.fragments.login.RegisterFragmentDirections
 import com.example.shopmate_app.ui.fragments.profile.ProfileFragmentArgs
 import com.example.shopmate_app.ui.fragments.profile.ProfileFragmentDirections
@@ -46,12 +48,11 @@ class CategoryAdapter(private var categoryList: List<CategoryEntity>, private va
 
 
         holder.view.setOnClickListener {
-            Log.e("categoryId", category.categoryId.toString())
+            CategoryProvider.selectedCategory = category
             val bundle = Bundle().apply {
                 putInt("cardId", cardId)
             }
-            //holder.view.findNavController().navigate(R.id.profileFragment, bundle)
-            // TODO : ('Mostrar fragmento de categoria')
+            holder.view.findNavController().navigate(R.id.action_cardDetailsViewFragment_to_cardCategorySelectItemsFragment, bundle)
         }
 
     }
