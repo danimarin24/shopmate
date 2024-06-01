@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.GestureDetector
 import android.view.Gravity
 import android.view.MotionEvent
@@ -41,6 +42,7 @@ import com.example.shopmate_app.ui.viewmodels.CardViewModel
 import com.example.shopmate_app.ui.viewmodels.ColorViewModel
 import com.example.shopmate_app.ui.viewmodels.MainViewModel
 import com.example.shopmate_app.ui.viewmodels.ShareViewModel
+import com.example.shopmate_app.ui.viewmodels.SharedViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -61,6 +63,7 @@ class MainActivity : AppCompatActivity() {
     private val colorViewModel: ColorViewModel by viewModels()
     private val boardViewModel: BoardViewModel by viewModels()
     private val cardViewModel : CardViewModel by viewModels()
+    private val sharedViewModel : SharedViewModel by viewModels()
 
 
     private var isBoardListEmpty = true
@@ -206,6 +209,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
+        cardViewModel.cards.observe(this) { _ ->
+            sharedViewModel.fetchBoards(mainViewModel.getUserId()!!)
+        }
+
         boardViewModel.boards.observe(this) { boards ->
             isBoardListEmpty = boards.isNullOrEmpty()
         }
@@ -421,7 +428,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         txtNext.setOnClickListener {
-            val selectedColorId = (rcvColors.adapter as ColorsChoseAdapter).getSelectedItem()
+            val selectedColor = (rcvColors.adapter as ColorsChoseAdapter).getSelectedColor()
+            if (selectedColor == null) {
+                Snackbar.make(binding.root, "Selecciona un color", Snackbar.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             val selectedBoard = cboBoardSelection.selectedItem as BoardEntity
             val selectedBoardId = selectedBoard.boardId // Obtener el ID del BoardEntity seleccionado
             val currentId = mainViewModel.getUserId()!!
@@ -433,14 +444,7 @@ class MainActivity : AppCompatActivity() {
                 isTemplate = 0,
                 isArchived = 0,
                 estimatedPrice = null,
-                color = ColorEntity(
-                    selectedColorId,
-                    "",
-                    0,
-                    0,
-                    "",
-                    0
-                )
+                color = selectedColor,
             )
             cardViewModel.addCardToABoard(selectedBoardId, newCard)
             dialog.dismiss()
@@ -483,7 +487,6 @@ class MainActivity : AppCompatActivity() {
             if (title.isNotEmpty()) {
                 val newBoard = BoardEntity(0, etBoardName.text.toString(), mainViewModel.getUserId()!!)
                 boardViewModel.addBoard(newBoard)
-                boardViewModel.fetchBoards(mainViewModel.getUserId()!!)
                 dialog.dismiss()
             } else {
                 Snackbar.make(binding.root, getString(R.string.errNameInvalid), Snackbar.LENGTH_SHORT).show()

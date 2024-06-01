@@ -54,6 +54,9 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddControllers().AddApplicationPart(typeof(SharedImageController).Assembly);
 
+// Configure logging
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 var app = builder.Build();
 

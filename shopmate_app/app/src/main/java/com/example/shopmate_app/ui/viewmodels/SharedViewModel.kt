@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class BoardViewModel @Inject constructor(
+class SharedViewModel @Inject constructor(
     private val getBoardsByUserUseCase: GetBoardsByUserUseCase,
     private val getCardsByBoardUseCase: GetCardsByBoardUseCase,
     private val addBoardUseCase: AddBoardUseCase
@@ -34,6 +34,7 @@ class BoardViewModel @Inject constructor(
     val isError: LiveData<Boolean> get() = _isError
 
     fun fetchBoards(userId: Int) {
+        Log.d("SharedViewModel", "fetchBoards called with userId: $userId")
         viewModelScope.launch {
             _isLoading.value = true
             try {
@@ -63,23 +64,6 @@ class BoardViewModel @Inject constructor(
             } catch (e: Exception) {
                 // Handle error
                 _isError.value = true
-                _isLoading.value = false
-            }
-        }
-    }
-
-    fun addBoard(board: BoardEntity) {
-        viewModelScope.launch {
-            _isLoading.value = true
-            try {
-                val newBoard = addBoardUseCase(board)
-                val updatedBoards = _boards.value.orEmpty().toMutableList().apply { add(newBoard) }
-                _boards.postValue(updatedBoards)
-            } catch (e: Exception) {
-                // Handle error
-                _isError.value = true
-                _isLoading.value = false
-            } finally {
                 _isLoading.value = false
             }
         }

@@ -4,16 +4,21 @@ using System.Threading.Tasks;
 using API.Context;
 using API.DTOs;
 using API.Model;
+using API.Services.Implementations;
 
 namespace API.Respositories.Implementations;
 
 public class BoardRepository : IBoardRepository
 {
     private readonly ShopMateContext _context;
+    private readonly ILogger<BoardService> _logger;
 
-    public BoardRepository(ShopMateContext context)
+
+    public BoardRepository(ShopMateContext context, ILogger<BoardService> logger)
     {
         _context = context;
+        _logger = logger;
+
     }
 
     public async Task<Board> GetByIdAsync(uint boardId)
@@ -25,13 +30,47 @@ public class BoardRepository : IBoardRepository
 
     public async Task<CardDto> AddCardToABoard(uint boardId, Card card)
     {
+        if (card == null)
+        {
+            throw new ArgumentNullException(nameof(card), "Cf adsfasdfard cannot be null");
+        }
+
+        if (card.Color == null)
+        {
+            throw new ArgumentNullException(nameof(card.Color), "f asdfasdfaCard color cannot be null");
+        }
+        
+        
+
+        _logger.LogInformation($"Creating new card with ColorId: {card.Color.ColorId}");
+
+        
+        // Check if the color already exists
+        var existingColor = await _context.Colors
+            .FirstOrDefaultAsync(c => c.ColorId == card.Color.ColorId);
+
+        if (existingColor == null)
+        {
+            existingColor = new Color()
+            {
+                ColorId = card.Color.ColorId,
+                ColorHex = card.Color.ColorHex,
+                ColorRed = card.Color.ColorRed,
+                ColorGreen = card.Color.ColorGreen,
+                ColorBlue = card.Color.ColorBlue,
+                Name = card.Color.Name
+            };
+            _context.Colors.Add(existingColor);
+            await _context.SaveChangesAsync();
+        }
 
         var newCard = new Card()
         {
             CardId = card.CardId,
             OwnerId = card.OwnerId,
             CardName = card.CardName,
-            ColorId = card.Color.ColorId,
+            ColorId = existingColor.ColorId,
+            Color = existingColor, // Reuse the existing color
             EstimatedPrice = card.EstimatedPrice,
             IsArchived = card.IsArchived,
             IsPublic = card.IsPublic,

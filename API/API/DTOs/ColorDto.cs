@@ -24,6 +24,11 @@ public partial class ColorDto
 
     public ColorDto(Color c)
     {
+        if (c == null)
+        {
+            throw new ArgumentNullException(nameof(c), "Color cannot be null");
+        }
+        
         ColorId = c.ColorId;
         ColorHex = c.ColorHex;
         ColorRed = c.ColorRed;

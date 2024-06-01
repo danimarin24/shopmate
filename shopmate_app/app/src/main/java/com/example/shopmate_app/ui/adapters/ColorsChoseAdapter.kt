@@ -63,7 +63,7 @@ class ColorsChoseAdapter(var colorList: List<ColorEntity>?)
         return if (position == cardSeleccionada) 1 else 0
     }
 
-     fun getSelectedItem(): Int {
-        return cardSeleccionada
+     fun getSelectedColor(): ColorEntity? {
+        return colorList?.get(cardSeleccionada)
     }
 }

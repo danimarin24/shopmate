@@ -26,6 +26,16 @@ public class CardDto
     
     public CardDto(Card c)
     {
+        if (c == null)
+        {
+            throw new ArgumentNullException(nameof(c), "Card cannot be null");
+        }
+
+        if (c.Color == null)
+        {
+            throw new ArgumentNullException(nameof(c.Color), "Card color cannot be null");
+        }
+        
         CardId = c.CardId;
         CardName = c.CardName;
         OwnerId = c.OwnerId;

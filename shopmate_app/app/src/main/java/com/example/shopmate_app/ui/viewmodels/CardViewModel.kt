@@ -1,6 +1,7 @@
 package com.example.shopmate_app.ui.viewmodels
 
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -58,6 +59,7 @@ class CardViewModel @Inject constructor(
             try {
                 val newCard = addCardToABoardUseCase(boardId, card)
                 val updatedCards = _cards.value.orEmpty().toMutableList().apply { add(newCard) }
+                Log.e("updatedCardscardviewmodel", updatedCards.toString())
                 _cards.value = updatedCards
             } catch (e: Exception) {
                 // Handle error
