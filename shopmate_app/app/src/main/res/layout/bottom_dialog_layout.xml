@@ -67,22 +67,23 @@
             <!-- MORE CONTENT -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="80dp"
+                android:orientation="vertical">
+
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Información adicional del producto: "
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
-                    android:layout_marginVertical="20dp"
                     android:padding="8dp" />
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txtItemName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Agua"
+                    android:textStyle="italic"
                     android:textSize="14sp"
-                    android:layout_marginVertical="20dp"
                     android:padding="8dp" />
             </LinearLayout>
 
@@ -98,8 +99,8 @@
                     android:layout_height="match_parent"
                     android:textStyle="bold"
                     android:gravity="center_vertical"
-                    android:text="Seleccione cantidad"
-                    android:textSize="12sp"
+                    android:text="Seleccione cantidad: "
+                    android:textSize="16sp"
                     android:padding="8dp"/>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -130,11 +131,15 @@
                     android:layout_weight="1"
                     android:layout_height="match_parent"/>
 
-                <androidx.appcompat.widget.AppCompatSpinner
+                <Spinner
                     android:id="@+id/cboUnits"
                     android:layout_width="0dp"
                     android:layout_weight="4"
-                    android:layout_height="40dp" />
+                    android:layout_height="40dp"
+                    android:background="@drawable/custom_bg_alert"
+                    android:textColor="#FFFFFF"
+                    android:textAlignment="center"
+                    android:textSize="16sp"/>
 
 
             </LinearLayout>
@@ -155,8 +160,8 @@
                     android:layout_height="match_parent"
                     android:textStyle="bold"
                     android:gravity="center_vertical"
-                    android:text="Especifique precio"
-                    android:textSize="12sp"
+                    android:text="Especifique precio:"
+                    android:textSize="16sp"
                     android:padding="8dp"/>
 
                 <com.google.android.material.textfield.TextInputLayout

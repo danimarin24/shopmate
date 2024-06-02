@@ -6,10 +6,10 @@ data class ItemCardLineEntity(
     val createdBy: Int,
     val assignedTo: Int,
     val assignedToUser: UserEntity? = null,
-    val amount: Int,
+    var amount: Int,
     val item: ItemEntity? = null,
     val itemId: Int,
-    val price: Float,
+    var price: Float,
     val unit: UnitEntity? = null,
     val unitId: Int,
 )

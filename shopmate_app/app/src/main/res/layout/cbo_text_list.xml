@@ -5,9 +5,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:text="GYM"
     android:gravity="center_horizontal"
-    android:background="@drawable/custom_bg_alert"
-    android:backgroundTint="#5DC0A4"
+    android:background="?attr/colorSecondaryContainer"
     android:textSize="@dimen/middleTextSize"
     android:fontFamily="@font/poppins_medium"
     android:singleLine="true"
+    android:paddingVertical="5dp"
     />

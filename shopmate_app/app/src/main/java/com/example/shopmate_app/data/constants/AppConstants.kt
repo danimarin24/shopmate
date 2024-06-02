@@ -16,6 +16,7 @@ object AppConstants {
     const val ITEMCARDLINE_ENDPOINT = "/api/itemcardline/"
     const val CATEGORY_ENDPOINT = "/api/category/"
     const val COLOR_ENDPOINT = "/api/color/"
+    const val UNIT_ENDPOINT = "/api/unit/"
     const val GET_IMAGES_ENDPOINT = "/api/images"
 
 
@@ -24,4 +25,8 @@ object AppConstants {
     const val USER_NAME = "userName"
     const val USER_EMAIL = "userEmail"
     const val USER_USERNAME = "userUsername"
+
+
+    // USEFUL STATIC IDs references
+    const val UNIT_ID_UNIT = 9
 }

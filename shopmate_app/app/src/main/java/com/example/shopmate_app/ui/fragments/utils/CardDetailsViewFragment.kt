@@ -12,8 +12,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.view.menu.MenuView.ItemView
 import androidx.cardview.widget.CardView
@@ -27,8 +29,10 @@ import com.bumptech.glide.Glide
 import com.example.shopmate_app.R
 import com.example.shopmate_app.data.constants.AppConstants
 import com.example.shopmate_app.databinding.FragmentCardDetailsViewBinding
+import com.example.shopmate_app.domain.entities.newtworkEntities.BoardEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.CategoryEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.ItemCardLineEntity
+import com.example.shopmate_app.domain.entities.newtworkEntities.UnitEntity
 import com.example.shopmate_app.domain.entities.providers.CardProvider
 import com.example.shopmate_app.domain.entities.providers.ItemProvider
 import com.example.shopmate_app.ui.adapters.CategoryAdapter

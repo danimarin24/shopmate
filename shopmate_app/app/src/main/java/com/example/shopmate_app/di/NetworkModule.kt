@@ -5,6 +5,7 @@ import com.example.shopmate_app.data.services.networkServices.BoardApiClient
 import com.example.shopmate_app.data.services.networkServices.CardApiClient
 import com.example.shopmate_app.data.services.networkServices.CategoryApiClient
 import com.example.shopmate_app.data.services.networkServices.ColorApiClient
+import com.example.shopmate_app.data.services.networkServices.UnitApiClient
 import com.example.shopmate_app.data.services.networkServices.UserApiClient
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -71,5 +72,11 @@ object NetworkModule {
     @Provides
     fun providesCategoryApiClient(retrofit: Retrofit):CategoryApiClient{
         return retrofit.create(CategoryApiClient::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun providesUnitApiClient(retrofit: Retrofit):UnitApiClient{
+        return retrofit.create(UnitApiClient::class.java)
     }
 }
