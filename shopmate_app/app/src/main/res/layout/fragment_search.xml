@@ -21,7 +21,7 @@
 
         <!-- Checkbox Board -->
         <LinearLayout
-            android:id="@+id/checkboxBoardLayout"
+            android:id="@+id/checkboxCardsLayout"
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -29,13 +29,13 @@
             android:padding="4dp">
 
             <CheckBox
-                android:id="@+id/checkboxBoard"
+                android:id="@+id/checkboxCards"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="?android:attr/selectableItemBackground"
                 android:button="@null"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Board"
+                android:text="Cards"
                 android:textAlignment="center"
                 android:textColor="?attr/colorButtonNormal"
                 android:textSize="14sp"

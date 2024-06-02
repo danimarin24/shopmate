@@ -33,7 +33,7 @@ class SearchFragment : Fragment() {
 
     private lateinit var context : Context
 
-    private lateinit var checkBoard: CheckBox
+    private lateinit var checkCards: CheckBox
     private lateinit var checkUser: CheckBox
 
     override fun onCreateView(
@@ -43,7 +43,7 @@ class SearchFragment : Fragment() {
 
 
         binding = FragmentSearchBinding.inflate(inflater, container, false)
-        checkBoard = binding.checkboxBoard
+        checkCards = binding.checkboxCards
         checkUser = binding.checkboxUser
         val editTextSearch = binding.etSearch
 
@@ -55,11 +55,11 @@ class SearchFragment : Fragment() {
         setupObservers()
         setupInitialColors()
 
-        checkBoard.setOnClickListener {
-            if (!checkBoard.isChecked) {
-                checkBoard.isChecked = true
+        checkCards.setOnClickListener {
+            if (!checkCards.isChecked) {
+                checkCards.isChecked = true
             }
-            updateCheckBoxState(checkBoard, checkUser, R.color.md_theme_onPrimaryFixedVariant)
+            updateCheckBoxState(checkCards, checkUser, R.color.md_theme_onPrimaryFixedVariant)
         }
 
 
@@ -67,15 +67,14 @@ class SearchFragment : Fragment() {
             if (!checkUser.isChecked) {
                 checkUser.isChecked = true
             }
-            updateCheckBoxState(checkUser, checkBoard, R.color.md_theme_onPrimaryFixedVariant)
+            updateCheckBoxState(checkUser, checkCards, R.color.md_theme_onPrimaryFixedVariant)
         }
         binding.etSearchLayout.setEndIconOnClickListener {
             val searchText = binding.etSearch.text.toString()
             if (searchText.isNotEmpty()) {
-                if (checkBoard.isChecked) {
+                if (checkCards.isChecked) {
                     searchViewModel.searchCards(searchText)
                 } else if (checkUser.isChecked){
-                    Log.e("olafsa", "ola")
                     searchViewModel.searchUsers(searchText)
                 }
             } else {
@@ -93,8 +92,8 @@ class SearchFragment : Fragment() {
         val initialColor = resources.getColor(R.color.md_theme_onPrimaryFixedVariant)
         val defaultColor = resources.getColor(R.color.md_theme_inversePrimary)
 
-        binding.checkboxBoard.isChecked = true
-        binding.checkboxBoard.setTextColor(initialColor)
+        binding.checkboxCards.isChecked = true
+        binding.checkboxCards.setTextColor(initialColor)
 
         binding.checkboxUser.isChecked = false
         binding.checkboxUser.setTextColor(defaultColor)
@@ -119,7 +118,7 @@ class SearchFragment : Fragment() {
 
     private fun setupObservers() {
         searchViewModel.searchCardStatsEntity.observe(viewLifecycleOwner) { cards ->
-            if (checkBoard.isChecked) {
+            if (checkCards.isChecked) {
                 if (cards.isNullOrEmpty()) {
                     binding.rcvSearch.showEmptyView()
                 } else {
