@@ -14,6 +14,7 @@ import com.example.shopmate_app.domain.usecases.card.GetCategoriesIconsUseCase
 import com.example.shopmate_app.domain.usecases.card.GetMembersFromACardUseCase
 import com.example.shopmate_app.domain.usecases.item.AddItemLineToACardUseCase
 import com.example.shopmate_app.domain.usecases.item.GetItemsFromACardUseCase
+import com.example.shopmate_app.domain.usecases.item.RemoveItemLineFromACardUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,10 +23,14 @@ import javax.inject.Inject
 class ItemViewModel @Inject constructor(
     private val getItemsFromACardUseCase: GetItemsFromACardUseCase,
     private val addItemLineToACard: AddItemLineToACardUseCase,
+    private val removeItemLineFromACardUseCase: RemoveItemLineFromACardUseCase,
 
 ) : ViewModel() {
     private val _items = MutableLiveData<List<ItemCardLineEntity>>()
     val items: LiveData<List<ItemCardLineEntity>> get() = _items
+
+    private val _lastRemovedItem = MutableLiveData<ItemCardLineEntity>()
+    val lastRemovedItem: LiveData<ItemCardLineEntity> get() = _lastRemovedItem
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
@@ -47,13 +52,13 @@ class ItemViewModel @Inject constructor(
         }
     }
 
-    fun addItemToACard(cardId: Int, itemCardLineEntity: ItemCardLineEntity) {
+    fun addItemToACard(itemCardLineEntity: ItemCardLineEntity) {
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                val newItem = addItemLineToACard(cardId, itemCardLineEntity)
-                val updatedCards = _items.value.orEmpty().toMutableList().apply { add(newItem) }
-                _items.value = updatedCards
+                val newItem = addItemLineToACard(itemCardLineEntity)
+                val updatedItems = _items.value.orEmpty().toMutableList().apply { add(newItem) }
+                _items.value = updatedItems
             } catch (e: Exception) {
                 // Handle error
                 _isError.value = true
@@ -64,8 +69,20 @@ class ItemViewModel @Inject constructor(
         }
     }
 
-    fun removeItem(item: ItemCardLineEntity) {
-        _items.value = _items.value?.filter { it != item }
+    fun removeItemFromACard(item: ItemCardLineEntity) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            try {
+                val removedItem = removeItemLineFromACardUseCase(item.cardId, item.itemId)
+                _items.value = _items.value?.filter { it != removedItem }
+            } catch (e: Exception) {
+                // Handle error
+                _isError.value = true
+                _isLoading.value = false
+            } finally {
+                _isLoading.value = false
+            }
+        }
     }
 
     fun assignItem(item: ItemCardLineEntity) {

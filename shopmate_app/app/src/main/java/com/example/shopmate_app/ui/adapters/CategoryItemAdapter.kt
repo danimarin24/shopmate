@@ -1,27 +1,40 @@
 package com.example.shopmate_app.ui.adapters
 
-import android.database.DataSetObserver
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListAdapter
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.shopmate_app.R
-import com.example.shopmate_app.data.constants.AppConstants
-import com.example.shopmate_app.domain.entities.newtworkEntities.CardEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.ItemCardLineEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.ItemEntity
-import com.example.shopmate_app.domain.entities.providers.CardProvider
-import com.example.shopmate_app.domain.entities.providers.ItemProvider
-import com.google.android.material.imageview.ShapeableImageView
+import com.example.shopmate_app.ui.viewmodels.ItemViewModel
 import com.google.android.material.textview.MaterialTextView
 
-class CategoryItemAdapter(private var itemList: List<ItemEntity>, private var cardId: Int)
+class CategoryItemAdapter(private var itemList: List<ItemEntity>,
+                          private var cardId: Int,
+                          private var userId: Int,
+                          private var selectedItemIds: Set<Int>,
+                          private var itemViewModel: ItemViewModel
+    )
     : RecyclerView.Adapter<CategoryItemAdapter.CardViewHolder>() {
 
-    private var cardSeleccionada: Int = -1
+
+    private val selectedPositions = mutableSetOf<Int>()
+
+    init {
+        // Inicializa los ítems seleccionados
+        Log.d("selectedItemIds:", selectedItemIds.toString())
+        Log.d("itemList:", itemList.toString())
+        for (item in itemList) {
+            if (selectedItemIds.contains(item.itemId)) {
+                val position = itemList.indexOf(item)
+                if (position != -1) {
+                    selectedPositions.add(position)
+                }
+            }
+        }
+    }
 
     class CardViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val txtItemName: MaterialTextView = view.findViewById(R.id.txtItemName)
@@ -40,13 +53,24 @@ class CategoryItemAdapter(private var itemList: List<ItemEntity>, private var ca
         val item = itemList[position]
         holder.txtItemName.text = item.name
 
+        var itemCardLine = ItemCardLineEntity(
+            itemCardLineId = 0, // assigned in the server
+            cardId = cardId,
+            createdBy = userId,
+            assignedTo = userId,
+            amount = 0,
+            itemId = item.itemId,
+            price = 0f,
+            unitId = 9 // Unit-unit
+        )
+
         holder.view.setOnClickListener {
-            if (cardSeleccionada == holder.adapterPosition) {
-                cardSeleccionada = -1
-                // eliminarla de la card
+            if (selectedPositions.contains(holder.adapterPosition)) {
+                selectedPositions.remove(holder.adapterPosition)
+                itemViewModel.removeItemFromACard(itemCardLine)
             } else {
-                cardSeleccionada = holder.adapterPosition
-                // añadirla a la card
+                selectedPositions.add(holder.adapterPosition)
+                itemViewModel.addItemToACard(itemCardLine)
             }
             notifyDataSetChanged()
         }
@@ -55,7 +79,7 @@ class CategoryItemAdapter(private var itemList: List<ItemEntity>, private var ca
     override fun getItemCount(): Int = itemList.size
 
     override fun getItemViewType(position: Int): Int {
-        return if (position == cardSeleccionada) 1 else 0
+        return if (selectedPositions.contains(position)) 1 else 0
     }
 
     fun getItem(position: Int): ItemEntity = itemList[position]

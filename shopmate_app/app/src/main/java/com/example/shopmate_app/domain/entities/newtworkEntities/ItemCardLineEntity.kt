@@ -5,6 +5,7 @@ data class ItemCardLineEntity(
     val cardId: Int,
     val createdBy: Int,
     val assignedTo: Int,
+    val assignedToUser: UserEntity? = null,
     val amount: Int,
     val item: ItemEntity? = null,
     val itemId: Int,

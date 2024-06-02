@@ -1,6 +1,7 @@
 package com.example.shopmate_app.ui.fragments.utils
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,14 +15,19 @@ import com.example.shopmate_app.databinding.FragmentCardDetailsViewBinding
 import com.example.shopmate_app.domain.entities.newtworkEntities.CategoryEntity
 import com.example.shopmate_app.domain.entities.providers.CardProvider
 import com.example.shopmate_app.domain.entities.providers.CategoryProvider
+import com.example.shopmate_app.domain.entities.providers.ItemProvider
 import com.example.shopmate_app.ui.adapters.CategoryItemAdapter
 import com.example.shopmate_app.ui.viewmodels.CardViewModel
 import com.example.shopmate_app.ui.viewmodels.CategoryViewModel
 import com.example.shopmate_app.ui.viewmodels.ItemViewModel
+import com.example.shopmate_app.ui.viewmodels.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CardCategorySelectItemsFragment : Fragment() {
     private lateinit var binding: FragmentCardCategorySelectItemsBinding
 
+    private val mainViewModel: MainViewModel by viewModels()
     private val cardViewModel: CardViewModel by viewModels()
     private val categoryViewModel: CategoryViewModel by viewModels()
     private val itemsViewModel: ItemViewModel by viewModels()
@@ -50,7 +56,14 @@ class CardCategorySelectItemsFragment : Fragment() {
         binding.txtHeaderCategoryName.text = CategoryProvider.selectedCategory?.name
 
         if (cardId != -1 && CategoryProvider.selectedCategory?.items?.isNotEmpty() == true) {
-            binding.rcvItemsOfCurrentCategory.recyclerView.adapter = CategoryItemAdapter(CategoryProvider.selectedCategory?.items!!, cardId)
+            Log.e("items", ItemProvider.items.toString())
+            binding.rcvItemsOfCurrentCategory.recyclerView.adapter = CategoryItemAdapter(
+                CategoryProvider.selectedCategory?.items!!,
+                cardId,
+                mainViewModel.getUserId()!!,
+                ItemProvider.items.map { it.item!!.itemId }.toSet(),
+                itemsViewModel
+            )
             binding.rcvItemsOfCurrentCategory.recyclerView.layoutManager = GridLayoutManager(findNavController().context, 3, GridLayoutManager.VERTICAL, false)
         }
     }

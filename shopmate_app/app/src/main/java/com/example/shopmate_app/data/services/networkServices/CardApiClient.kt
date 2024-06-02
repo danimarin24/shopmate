@@ -10,6 +10,7 @@ import com.example.shopmate_app.domain.entities.newtworkEntities.ValidateShareLi
 import com.example.shopmate_app.domain.entities.newtworkEntities.ValidateShareLinkResponeEntity
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -36,8 +37,11 @@ interface CardApiClient {
     @POST("${AppConstants.BOARD_ENDPOINT}{boardId}/card")
     suspend fun addCardToABoard(@Path("boardId") boardId: Int, @Body card: CardEntity, @Header("x-api-key") apiKey: String): Response<CardEntity>
 
-    @POST("${AppConstants.ITEM_ENDPOINT}{cardId}/item")
-    suspend fun addItemToACard(@Path("cardId") cardId: Int, @Body item: ItemCardLineEntity, @Header("x-api-key") apiKey: String): Response<ItemCardLineEntity>
+    @POST(AppConstants.ITEMCARDLINE_ENDPOINT)
+    suspend fun addItemToACard(@Body item: ItemCardLineEntity, @Header("x-api-key") apiKey: String): Response<ItemCardLineEntity>
+
+    @DELETE("${AppConstants.ITEMCARDLINE_ENDPOINT}card/{cardId}/item/{itemId}")
+    suspend fun removeItemFromACard(@Path("cardId") cardId: Int, @Path("itemId") itemId: Int, @Header("x-api-key") apiKey: String): Response<ItemCardLineEntity>
 
 
     @POST("${AppConstants.CARD_ENDPOINT}generate-share-link")

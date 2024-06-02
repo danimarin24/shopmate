@@ -14,7 +14,9 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BottomDialogFragment : BottomSheetDialogFragment() {
     private lateinit var binding: BottomDialogLayoutBinding
 
@@ -48,7 +50,7 @@ class BottomDialogFragment : BottomSheetDialogFragment() {
                     price = 0f,
                     assignedTo = 1,
                     itemId = 1,
-                    unitId = 1)
+                    unitId = 9)
 
             }
         }

@@ -30,6 +30,7 @@ import com.example.shopmate_app.databinding.FragmentCardDetailsViewBinding
 import com.example.shopmate_app.domain.entities.newtworkEntities.CategoryEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.ItemCardLineEntity
 import com.example.shopmate_app.domain.entities.providers.CardProvider
+import com.example.shopmate_app.domain.entities.providers.ItemProvider
 import com.example.shopmate_app.ui.adapters.CategoryAdapter
 import com.example.shopmate_app.ui.adapters.ItemAdapter
 import com.example.shopmate_app.ui.viewmodels.CardViewModel
@@ -138,16 +139,16 @@ class CardDetailsViewFragment : Fragment() {
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
                         // Eliminar item
-                        itemsViewModel.removeItem(item)
-                        Snackbar.make(binding.root, "Item eliminado", Snackbar.LENGTH_LONG)
+                        itemsViewModel.removeItemFromACard(item)
+                        Snackbar.make(binding.root, "Item eliminado", Snackbar.LENGTH_SHORT)
                             .setAction("Deshacer") {
-                                itemsViewModel.removeItem(item)
+                                itemsViewModel.addItemToACard(ItemProvider.lastItemRemoved!!)
                             }.show()
                     }
                     ItemTouchHelper.RIGHT -> {
                         // Asignar item
                         itemsViewModel.assignItem(item)
-                        Snackbar.make(binding.root, "Item asignado", Snackbar.LENGTH_LONG)
+                        Snackbar.make(binding.root, "Item asignado", Snackbar.LENGTH_SHORT)
                             .setAction("Deshacer") {
                                 itemsViewModel.unassignItem(item)
                             }.show()
@@ -180,13 +181,14 @@ class CardDetailsViewFragment : Fragment() {
         val sizeInPx = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, sizeInDp.toFloat(), resources.displayMetrics).toInt()
 
+        binding.categoryIconsContainer.removeAllViews()
+
         for (url in iconUrls) {
             val imageView = ImageView(findNavController().context)
             val layoutParams = LinearLayout.LayoutParams(sizeInPx, sizeInPx)
-            layoutParams.setMargins(0, 0, 8, 0) // Márgenes opcionales
+            layoutParams.setMargins(0, 0, 8, 0)
             imageView.layoutParams = layoutParams
 
-            // Utiliza una biblioteca como Glide para cargar la imagen desde una URL
             Glide.with(this)
                 .load("${AppConstants.BASE_API_URL}${url}")
                 .into(imageView)

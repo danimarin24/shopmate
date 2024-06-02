@@ -4,6 +4,6 @@ import com.example.shopmate_app.domain.entities.newtworkEntities.ItemCardLineEnt
 import com.example.shopmate_app.domain.repo.CardRepository
 import javax.inject.Inject
 
-class AddItemLineToACardUseCase @Inject constructor(private val repository: CardRepository){
-    suspend operator fun invoke(itemCardLine: ItemCardLineEntity): ItemCardLineEntity = repository.addItemToACard(itemCardLine)
+class RemoveItemLineFromACardUseCase @Inject constructor(private val repository: CardRepository){
+    suspend operator fun invoke(cardId: Int, itemId: Int): ItemCardLineEntity = repository.removeItemFromACard(cardId, itemId)
 }
