@@ -17,4 +17,10 @@ public class ItemCardDto
     public double Price { get; set; }
 
     public ItemDto Item { get; set; }
+
+    public ItemCardDto()
+    {
+    }
+    
+    
 }

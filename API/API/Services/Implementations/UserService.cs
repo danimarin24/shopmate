@@ -31,20 +31,15 @@ namespace API.Services.Implementations
                 .ToListAsync();
         }
         
-        public async Task<IEnumerable<ItemCardDto>> GetItemsByCard(int cardId)
+        public async Task<IEnumerable<ItemCardLineDto>> GetItemsByCard(int cardId)
         {
            return await _context.ItemCardLines
+               .Include(i => i.Item)
+               .Include(i => i.Item.Category)
+               .Include(i => i.Unit)
+               .Include(i => i.AssignedToNavigation)
                .Where(i => i.CardId == cardId)
-                .Select(ic => new ItemCardDto()
-                {
-                    ItemCardLineId = ic.ItemCardLineId,
-                    CardId = ic.CardId,
-                    Amount = ic.Amount,
-                    AssignedTo = ic.AssignedTo,
-                    CreatedBy = ic.CreatedBy,
-                    Item = new ItemDto(ic.Item, ic.Item.Category),
-                    Unit = new UnitDto(ic.Unit)
-                })
+                .Select(ic => new ItemCardLineDto(ic))
                 .ToListAsync();
         }
     }

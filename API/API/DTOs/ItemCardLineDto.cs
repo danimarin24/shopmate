@@ -44,7 +44,7 @@ public class ItemCardLineDto
         Price = i.Price;
         ItemId = i.ItemId;
         AssignedToUser = new UserDto(i.AssignedToNavigation);
-        Item = new ItemDto(i.Item);
+        Item = new ItemDto(i.Item, i.Item.Category);
         Unit = new UnitDto(i.Unit);
     }
 

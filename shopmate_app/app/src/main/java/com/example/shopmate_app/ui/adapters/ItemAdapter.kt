@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ListAdapter
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.shopmate_app.R
@@ -40,9 +41,25 @@ class ItemAdapter(private var itemList: List<ItemCardLineEntity>)
         holder.txtItemQuantity.text = item.amount.toString()
         holder.txtItemName.text = item.item?.name
 
-        Glide.with(holder.view.context)
-            .load("${AppConstants.BASE_API_URL}${item.item?.category?.icon}")
-            .into(holder.ivAssignedTo)
+        if (item.assignedToUser?.profileImage == null) {
+            Glide.with(holder.view.context)
+                .load("${AppConstants.BASE_API_URL}api/images/default_image.jpg")
+                .into(holder.ivAssignedTo)
+        } else {
+            if (item.assignedToUser.googleToken.isNullOrEmpty()) {
+                Glide.with(holder.view.context)
+                    .load("${AppConstants.BASE_API_URL}${item.assignedToUser.profileImage}")
+                    .into(holder.ivAssignedTo)
+            } else {
+                Glide.with(holder.view.context)
+                    .load(item.assignedToUser.profileImage)
+                    .into(holder.ivAssignedTo)
+            }
+        }
+
+
+
+
 
         holder.view.setOnClickListener {
             if (cardSeleccionada == holder.adapterPosition) {
