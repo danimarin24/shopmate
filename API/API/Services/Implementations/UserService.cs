@@ -42,25 +42,8 @@ namespace API.Services.Implementations
                     Amount = ic.Amount,
                     AssignedTo = ic.AssignedTo,
                     CreatedBy = ic.CreatedBy,
-                    Item = new ItemDto() {
-                        ItemId = ic.Item.ItemId,
-                        Name = ic.Item.Name,
-                        Category = new CategoryDto(
-                            ic.Item.Category.CategoryId,
-                            ic.Item.Category.Name,
-                            ic.Item.Category.Icon,
-                            ic.Item.Category.UpdatedAt,
-                            ic.Item.Category.CreatedAt
-                            ),
-                        UpdatedAt = ic.Item.UpdatedAt,
-                        CreatedAt = ic.Item.CreatedAt
-                    },
-                    Unit = new UnitDto()
-                    {
-                        UnitId = ic.UnitId,
-                        Name = ic.Unit.Name,
-                        Prefix = ic.Unit.Prefix
-                    }
+                    Item = new ItemDto(ic.Item, ic.Item.Category),
+                    Unit = new UnitDto(ic.Unit)
                 })
                 .ToListAsync();
         }

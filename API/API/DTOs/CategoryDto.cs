@@ -27,7 +27,16 @@ public class CategoryDto
         Icon = c.Icon;
         UpdatedAt = c.UpdatedAt;
         CreatedAt = c.CreatedAt;
-        Items = c.Items.Select(i => new ItemDto(i)).ToList();
+        Items = c.Items.Select(i => new ItemDto(i, true)).ToList();
+    }
+    
+    public CategoryDto(Category c, List<Item>? items = null)
+    {
+        CategoryId = c.CategoryId;
+        Name = c.Name;
+        Icon = c.Icon;
+        UpdatedAt = c.UpdatedAt;
+        CreatedAt = c.CreatedAt;
     }
 
     public CategoryDto(uint categoryId, string name, string icon, DateTime updatedAt, DateTime createdAt)

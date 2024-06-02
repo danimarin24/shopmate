@@ -23,6 +23,24 @@ public class ItemDto
     {
         ItemId = i.ItemId;
         Name = i.Name;
+        Category = new CategoryDto(i.Category);
+        UpdatedAt = i.UpdatedAt;
+        CreatedAt = i.CreatedAt;
+    }
+    
+    public ItemDto(Item i, Category c)
+    {
+        ItemId = i.ItemId;
+        Name = i.Name;
+        Category = new CategoryDto(c, null); // without items
+        UpdatedAt = i.UpdatedAt;
+        CreatedAt = i.CreatedAt;
+    }
+    
+    public ItemDto(Item i, Boolean withoutCategory = false)
+    {
+        ItemId = i.ItemId;
+        Name = i.Name;
         UpdatedAt = i.UpdatedAt;
         CreatedAt = i.CreatedAt;
     }
