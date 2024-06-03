@@ -49,6 +49,8 @@ class ProfileFragment : Fragment() {
 
     private var profileId : Int = 0
 
+    private lateinit var currentUserId : String
+    private lateinit var profileUserId : String
 
     private lateinit var context : Context
 
@@ -61,25 +63,27 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         context = requireContext()
 
-        setupObservers()
-
         arguments?.let {
             profileId = it.getInt("profileId", 0)
         }
 
-        Log.e("profileID", profileId.toString())
-
         if (profileId != 0) {
-            // Fetch boards for a specific user
+            currentUserId = mainViewModel.getUserId().toString()
+            profileUserId = profileId.toString()
             cardViewModel.fetchAllCards(profileId)
             profileViewModel.getUserStats(profileId)
             profileViewModel.getUserInformation(profileId)
         } else {
-            // Fetch boards for a specific user
+            currentUserId = mainViewModel.getUserId().toString()
+            profileUserId = mainViewModel.getUserId().toString()
             cardViewModel.fetchAllCards(mainViewModel.getUserId()!!)
-            mainViewModel.getUserId()?.let { profileViewModel.getUserStats(it) }
-            mainViewModel.getUserId()?.let { profileViewModel.getUserInformation(it) }
+            profileViewModel.getUserStats(mainViewModel.getUserId()!!)
+            profileViewModel.getUserInformation(mainViewModel.getUserId()!!)
         }
+
+        setUpCorrectButtonsView()
+        setupObservers()
+        setUpListeners()
 
         return binding.root
     }
@@ -118,22 +122,10 @@ class ProfileFragment : Fragment() {
         })
 
         cardViewModel.cards.observe(viewLifecycleOwner) { cards ->
-            Log.e("CARDS", cards.toString())
             if (cards.isNullOrEmpty()) {
                 binding.rcvProfileCards.showEmptyView()
             } else {
                 binding.rcvProfileCards.hideAllViews()
-
-                var currentUserId = "1" // obtener el ID del usuario actual
-                var profileUserId = "1" // obtener el ID del perfil que se está viendo
-                if (profileId != 0) {
-                    currentUserId = mainViewModel.getUserId().toString()
-                    profileUserId = profileId.toString()
-                } else {
-                    currentUserId = mainViewModel.getUserId().toString()
-                    profileUserId = mainViewModel.getUserId().toString()
-                }
-
                 binding.rcvProfileCards.recyclerView.adapter = CardAdapter(cards, currentUserId, profileUserId, isEditMode = false, isHome = false)
                 binding.rcvProfileCards.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             }
@@ -149,6 +141,38 @@ class ProfileFragment : Fragment() {
             if (isError) {
                 binding.rcvProfileCards.showErrorView()
             }
+        }
+    }
+
+    private fun setUpCorrectButtonsView() {
+        binding.btnEditProfile.visibility = if (profileUserId == currentUserId) View.VISIBLE else View.GONE
+        binding.btnFollowUnfollow.visibility = if (profileUserId == currentUserId) View.GONE else View.VISIBLE
+
+        var isFollowing = true
+        // controll if im following or i need to follow
+        if (isFollowing) {
+            binding.btnFollowUnfollow.text = "Siguiendo"
+            binding.btnFollowUnfollow.setBackgroundColor(resources.getColor(R.color.md_theme_primaryContainer))
+        } else {
+            binding.btnFollowUnfollow.text = "Seguir"
+            binding.btnFollowUnfollow.setBackgroundColor(resources.getColor(R.color.md_theme_errorContainer_mediumContrast))
+        }
+    }
+
+    private fun setUpListeners() {
+        binding.btnFollowUnfollow.setOnClickListener {
+            // follow
+
+            // or unfollow depends
+        }
+
+        binding.btnEditProfile.setOnClickListener {
+            // navigate to edit profile
+
+        }
+
+        binding.btnShareProfile.setOnClickListener {
+            // shareProfile intent
         }
     }
 }
