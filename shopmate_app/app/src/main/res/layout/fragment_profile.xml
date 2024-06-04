@@ -44,6 +44,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/lytFolloweds"
                 android:layout_width="80dp"
                 android:layout_height="50dp"
                 android:gravity="center"
@@ -71,6 +72,7 @@
                 android:background="?android:attr/colorForeground" />
 
             <LinearLayout
+                android:id="@+id/lytFollowers"
                 android:layout_width="80dp"
                 android:layout_height="50dp"
                 android:gravity="center"
@@ -98,6 +100,7 @@
                 android:background="?android:attr/colorForeground" />
 
             <LinearLayout
+                android:id="@+id/lytSaves"
                 android:layout_width="80dp"
                 android:layout_height="50dp"
                 android:gravity="center"

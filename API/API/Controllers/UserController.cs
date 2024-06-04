@@ -85,9 +85,8 @@ namespace API.Controllers
         public async Task<ActionResult<IEnumerable<UserDto>>> GetUserFollowers(uint id)
         {
             var usersFollowers = await _context.Users
-                .SelectMany(u => u.UserFolloweds
-                    .Where(uf => uf.UserId == id)
-                    .Select(uf => new UserDto(uf)))
+                .Where(u => u.UserFolloweds.Any(uf => uf.UserId == id))
+                .Select(u => new UserDto(u))
                 .ToListAsync();
             
             if (usersFollowers == null)

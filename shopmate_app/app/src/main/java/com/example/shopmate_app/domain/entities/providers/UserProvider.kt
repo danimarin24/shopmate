@@ -6,6 +6,7 @@ import com.example.shopmate_app.domain.entities.utilsEntities.UserActionResponse
 class UserProvider {
     companion object {
         var users: List<UserEntity> = emptyList()
+        var selectedUser: UserEntity? = null
         var usersFolloweds: List<UserEntity> = emptyList()
         var usersFollowers: List<UserEntity> = emptyList()
 

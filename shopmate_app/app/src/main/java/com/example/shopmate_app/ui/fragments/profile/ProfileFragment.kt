@@ -20,6 +20,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +29,7 @@ import com.example.shopmate_app.R
 import com.example.shopmate_app.data.constants.AppConstants
 import com.example.shopmate_app.databinding.FragmentLoginBinding
 import com.example.shopmate_app.databinding.FragmentProfileBinding
+import com.example.shopmate_app.domain.entities.providers.UserProvider
 import com.example.shopmate_app.ui.adapters.BoardAdapter
 import com.example.shopmate_app.ui.adapters.CardAdapter
 import com.example.shopmate_app.ui.fragments.login.RegisterProfileFragmentArgs
@@ -137,6 +139,7 @@ class ProfileFragment : Fragment() {
                     .load(user.profileImage)
                     .into(binding.profileImage)
             }
+            UserProvider.selectedUser = user
         })
 
         cardViewModel.cards.observe(viewLifecycleOwner) { cards ->
@@ -178,6 +181,22 @@ class ProfileFragment : Fragment() {
 
         binding.btnShareProfile.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_shareProfileFragment)
+        }
+
+        binding.lytFollowers.setOnClickListener {
+            val bundle = Bundle().apply {
+                putInt("profileId", profileUserId.toInt())
+                putBoolean("isFollowerTab", true)
+            }
+            findNavController().navigate(R.id.action_profileFragment_to_profileStatsDetailsFragment, bundle)
+        }
+
+        binding.lytFolloweds.setOnClickListener {
+            val bundle = Bundle().apply {
+                putInt("profileId", profileUserId.toInt())
+                putBoolean("isFollowerTab", false)
+            }
+            findNavController().navigate(R.id.action_profileFragment_to_profileStatsDetailsFragment, bundle)
         }
     }
 }

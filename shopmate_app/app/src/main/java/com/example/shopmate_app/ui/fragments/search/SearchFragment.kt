@@ -80,8 +80,6 @@ class SearchFragment : Fragment() {
             } else {
                 Toast.makeText(context, "Please enter a search term", Toast.LENGTH_SHORT).show()
             }
-
-
         }
 
         return binding.root

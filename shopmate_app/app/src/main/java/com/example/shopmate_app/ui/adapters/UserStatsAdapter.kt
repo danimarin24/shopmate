@@ -18,11 +18,14 @@ import com.example.shopmate_app.domain.entities.newtworkEntities.UserEntity
 import com.example.shopmate_app.ui.fragments.login.RegisterFragmentDirections
 import com.example.shopmate_app.ui.fragments.profile.ProfileFragmentArgs
 import com.example.shopmate_app.ui.fragments.profile.ProfileFragmentDirections
+import com.example.shopmate_app.ui.viewmodels.UserViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textview.MaterialTextView
 
-class UserStatsAdapter(private var userList: List<UserEntity>)
+class UserStatsAdapter(private var userList: List<UserEntity>,
+                       private var userId: Int,
+                       private var userViewModel: UserViewModel)
     : RecyclerView.Adapter<UserStatsAdapter.CardViewHolder>() {
 
     class CardViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -34,7 +37,7 @@ class UserStatsAdapter(private var userList: List<UserEntity>)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserStatsAdapter.CardViewHolder {
         val layout = LayoutInflater.from(parent.context)
-        return CardViewHolder(layout.inflate(R.layout.card_item_user, parent, false))
+        return CardViewHolder(layout.inflate(R.layout.card_item_userstats, parent, false))
     }
 
     override fun onBindViewHolder(holder: UserStatsAdapter.CardViewHolder, position: Int) {
@@ -53,7 +56,7 @@ class UserStatsAdapter(private var userList: List<UserEntity>)
         }
 
         holder.btnAction.setOnClickListener {
-            // follow or unfollow
+            userViewModel.followUnfollowAction(userId, user.userId!!)
         }
 
         holder.view.setOnClickListener {

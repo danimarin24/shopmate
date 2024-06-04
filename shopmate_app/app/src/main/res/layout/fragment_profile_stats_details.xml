@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.profile.ProfileStatsDetailsFragment">
+
+    <!-- Header -->
+    <LinearLayout
+        android:id="@+id/lytHeader"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:weightSum="20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btnGoBackToProfile"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="30dp"
+            android:src="@drawable/chevron_left"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="5dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txtHeaderCategoryName"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height"
+            android:layout_weight="16"
+            android:fontFamily="@font/poppins"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="danimarin24"
+            android:textAlignment="center"
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="@dimen/defaultTextSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/btnRight"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="20dp"
+            app:tint="?android:attr/colorForeground"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/currentSearchActive"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="@dimen/littleMargin"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/lytHeader"
+        >
+
+        <!-- Checkbox Board -->
+        <LinearLayout
+            android:id="@+id/checkboxCardsLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="4dp">
+
+            <CheckBox
+                android:id="@+id/checkboxFollowers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground"
+                android:button="@null"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Followers"
+                android:textAlignment="center"
+                android:textColor="?attr/colorButtonNormal"
+                android:textSize="14sp"
+                tools:layout_editor_absoluteX="4dp"
+                tools:layout_editor_absoluteY="102dp" />
+
+
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/spaceLine"
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:background="?attr/colorButtonNormal" />
+
+        <!-- Checkbox User -->
+        <LinearLayout
+            android:id="@+id/checkboxFollowedsLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="4dp">
+
+            <CheckBox
+                android:id="@+id/checkboxFolloweds"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground"
+                android:button="@null"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Following"
+                android:textAlignment="center"
+                android:textColor="?attr/colorButtonNormal"
+                android:textSize="14sp"
+                tools:layout_editor_absoluteX="61dp"
+                tools:layout_editor_absoluteY="102dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.example.shopmate_app.ui.components.LCEERecyclerView
+        android:id="@+id/rcvUsers"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:layout_marginTop="5dp"
+        android:layout_margin="10dp"
+        app:emptyIcon="@drawable/ic_empty"
+        app:emptyText="@string/errNoBoardFoundSearch"
+        app:errorIcon="@drawable/ic_error"
+        app:errorText="@string/errNoBoardFoundSearch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/currentSearchActive" />
+</androidx.constraintlayout.widget.ConstraintLayout>

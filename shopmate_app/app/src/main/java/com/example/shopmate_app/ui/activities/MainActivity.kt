@@ -112,6 +112,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.cardDetailsViewFragment -> {
                     changeHeaderInfo("cardDetailsView")
                 }
+                R.id.profileStatsDetailsFragment -> {
+                    changeHeaderInfo("profileStatsDetails")
+                }
 
             }
         }
@@ -314,6 +317,10 @@ class MainActivity : AppCompatActivity() {
             }
 
             "cardDetailsView" -> {
+                binding.lytHeader.visibility = View.GONE
+            }
+
+            "profileStatsDetails" -> {
                 binding.lytHeader.visibility = View.GONE
             }
 

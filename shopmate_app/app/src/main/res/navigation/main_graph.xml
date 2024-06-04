@@ -30,7 +30,18 @@
             app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_profileFragment_to_shareProfileFragment"
-            app:destination="@id/shareProfileFragment" />
+            app:destination="@id/shareProfileFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_profileFragment_to_profileStatsDetailsFragment"
+            app:destination="@id/profileStatsDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -95,4 +106,16 @@
         android:name="com.example.shopmate_app.ui.fragments.utils.CardCategorySelectItemsFragment"
         android:label="fragment_card_category_select_items"
         tools:layout="@layout/fragment_card_category_select_items" />
+    <fragment
+        android:id="@+id/profileStatsDetailsFragment"
+        android:name="com.example.shopmate_app.ui.fragments.profile.ProfileStatsDetailsFragment"
+        android:label="ProfileStatsDetailsFragment" >
+        <action
+            android:id="@+id/action_profileStatsDetailsFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
 </navigation>
