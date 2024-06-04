@@ -35,7 +35,7 @@ class ShareProfileFragment : Fragment() {
             if (user != null) {
                 binding.lblUsername.text = "@"+user.username
             }
-            }
+        }
 
         binding.tvShareWhatsapp.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND)
@@ -61,7 +61,6 @@ class ShareProfileFragment : Fragment() {
             } catch (e: ActivityNotFoundException) {
                 Toast.makeText(findNavController().context, "No esta instalado Facebook", Toast.LENGTH_SHORT).show()
             }
-
         }
 
         binding.etEmailLayout.setEndIconOnClickListener {
@@ -90,9 +89,8 @@ class ShareProfileFragment : Fragment() {
 
         }
         return binding.root
-
     }
-    }
+}
 
 
 
