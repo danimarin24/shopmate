@@ -99,7 +99,36 @@ namespace API.Controllers
         }
         
         // GET: api/User/5/action/16
-        [HttpGet("{id:int}/action/{userActionId:int}")]
+        [HttpGet("{id:int}/isfollowing/{userActionId:int}")]
+        public async Task<ActionResult<Boolean>> IsFollowing(uint id, uint userActionId)
+        {
+            var userActionResponse = new UserActionResponseDto(id, userActionId);
+            var user = await _context.Users.Include(u => u.UserFolloweds).FirstOrDefaultAsync(u => u.UserId == id); 
+            var userAction = await _context.Users.Include(u => u.UserFolloweds).FirstOrDefaultAsync(u => u.UserId == userActionId); 
+            
+            var isFollowingUserAction = _context.Users
+                .Where(u => u.UserId == id)
+                .SelectMany(u => u.UserFolloweds
+                    .Where(uf => uf.UserId == userActionId)
+                    .Select(uf => new UserDto(uf))
+                ).FirstOrDefault();
+            
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+                
+            if (userAction == null)
+            {
+                throw new Exception("UserAction not found");
+            }
+            
+            return !(isFollowingUserAction == null);
+
+        }
+        
+        // POST: api/User/5/action/16
+        [HttpPost("{id:int}/action/{userActionId:int}")]
         public async Task<ActionResult<UserActionResponseDto>> FollowUnfollowNewUser(uint id, uint userActionId)
         {
             var userActionResponse = new UserActionResponseDto(id, userActionId);

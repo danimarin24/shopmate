@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.shopmate_app.data.constants.AppConstants
 import com.example.shopmate_app.domain.entities.newtworkEntities.UserEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.UserStatsEntity
+import com.example.shopmate_app.domain.entities.utilsEntities.UserActionResponseEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -21,6 +22,34 @@ class UserService @Inject constructor(private val api: UserApiClient) {
         return withContext(Dispatchers.IO) {
             val response = api.getUserStats(id, AppConstants.API_KEY)
             response.body()
+        }
+    }
+
+    suspend fun getUsersFolloweds(id: Int): List<UserEntity> {
+        return withContext(Dispatchers.IO) {
+            val response = api.getUserFolloweds(id, AppConstants.API_KEY)
+            response.body() ?: emptyList()
+        }
+    }
+
+    suspend fun getUsersFollowers(id: Int): List<UserEntity> {
+        return withContext(Dispatchers.IO) {
+            val response = api.getUserFollowers(id, AppConstants.API_KEY)
+            response.body() ?: emptyList()
+        }
+    }
+
+    suspend fun isFollowingThisUser(id: Int, userActionId: Int): Boolean {
+        return withContext(Dispatchers.IO) {
+            val response = api.isFollowingThisUser(id, userActionId, AppConstants.API_KEY)
+            response.body() ?: false
+        }
+    }
+
+    suspend fun followUnfollowThisUser(id: Int, userActionId: Int): UserActionResponseEntity {
+        return withContext(Dispatchers.IO) {
+            val response = api.followUnfollowThisUser(id, userActionId, AppConstants.API_KEY)
+            response.body()!!
         }
     }
 

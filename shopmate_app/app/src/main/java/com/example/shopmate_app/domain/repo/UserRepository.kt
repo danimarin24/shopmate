@@ -5,6 +5,7 @@ import com.example.shopmate_app.data.services.networkServices.UserService
 import com.example.shopmate_app.domain.entities.newtworkEntities.UserEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.UserStatsEntity
 import com.example.shopmate_app.domain.entities.providers.UserStatsProvider
+import com.example.shopmate_app.domain.entities.utilsEntities.UserActionResponseEntity
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(private val api: UserService){
@@ -19,6 +20,31 @@ class UserRepository @Inject constructor(private val api: UserService){
         UserProvider.user = response
         return response
     }
+
+    suspend fun getUsersFolloweds(id: Int): List<UserEntity> {
+        val response = api.getUsersFolloweds(id)
+        UserProvider.usersFolloweds = response
+        return response
+    }
+
+    suspend fun getUsersFollowers(id: Int): List<UserEntity> {
+        val response = api.getUsersFollowers(id)
+        UserProvider.usersFollowers = response
+        return response
+    }
+
+    suspend fun isFollowingThisUser(id: Int, userActionId: Int): Boolean {
+        val response = api.isFollowingThisUser(id, userActionId)
+        UserProvider.isFollowing = response
+        return response
+    }
+
+    suspend fun followUnfollowThisUser(id: Int, userActionId: Int): UserActionResponseEntity {
+        val response = api.followUnfollowThisUser(id, userActionId)
+        UserProvider.responseAction = response
+        return response
+    }
+
 
     suspend fun getUserStats(id: Int): UserStatsEntity? {
         val response = api.getUserStats(id)

@@ -3,6 +3,7 @@ package com.example.shopmate_app.data.services.networkServices
 import com.example.shopmate_app.data.constants.AppConstants
 import com.example.shopmate_app.domain.entities.newtworkEntities.UserEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.UserStatsEntity
+import com.example.shopmate_app.domain.entities.utilsEntities.UserActionResponseEntity
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -39,6 +40,15 @@ interface UserApiClient {
     @GET("${AppConstants.USER_ENDPOINT}stats/{id}")
     suspend fun getUserStats(@Path("id") id: Int, @Header("x-api-key") apiKey: String): Response<UserStatsEntity>
 
+    @GET("${AppConstants.USER_ENDPOINT}{id}/followeds")
+    suspend fun getUserFolloweds(@Path("id") id: Int, @Header("x-api-key") apiKey: String): Response<List<UserEntity>>
+
+    @GET("${AppConstants.USER_ENDPOINT}{id}/followers")
+    suspend fun getUserFollowers(@Path("id") id: Int, @Header("x-api-key") apiKey: String): Response<List<UserEntity>>
+
+    @GET("${AppConstants.USER_ENDPOINT}{id}/isfollowing/{userActionId}")
+    suspend fun isFollowingThisUser(@Path("id") id: Int, @Path("userActionId") userActionId: Int, @Header("x-api-key") apiKey: String): Response<Boolean>
+
     @GET("${AppConstants.USER_ENDPOINT}filter/username/{username}")
     suspend fun getFilteredUsersByUsername(@Path("username")username: String, @Header("x-api-key") apiKey: String): Response<List<UserEntity>>
 
@@ -67,6 +77,10 @@ interface UserApiClient {
                             @Part("SettingId") SettingId: RequestBody,
                             @Part("StatId") StatId: RequestBody
     ): Response<UserEntity>
+
+    @POST("${AppConstants.USER_ENDPOINT}{id}/action/{userActionId}")
+    suspend fun followUnfollowThisUser(@Path("id") id: Int, @Path("userActionId") userActionId: Int, @Header("x-api-key") apiKey: String): Response<UserActionResponseEntity>
+
 
     // PUT
     @PUT("${AppConstants.USER_ENDPOINT}{id}")

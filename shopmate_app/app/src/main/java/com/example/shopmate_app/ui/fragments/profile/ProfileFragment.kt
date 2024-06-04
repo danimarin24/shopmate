@@ -35,7 +35,9 @@ import com.example.shopmate_app.ui.viewmodels.BoardViewModel
 import com.example.shopmate_app.ui.viewmodels.CardViewModel
 import com.example.shopmate_app.ui.viewmodels.MainViewModel
 import com.example.shopmate_app.ui.viewmodels.ProfileViewModel
+import com.example.shopmate_app.ui.viewmodels.UserViewModel
 import com.example.shopmate_app.utils.PasswordUtils
+import com.google.android.material.snackbar.Snackbar
 
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,7 +46,7 @@ class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private val mainViewModel: MainViewModel by viewModels()
     private val profileViewModel: ProfileViewModel by viewModels()
-    private val boardViewModel: BoardViewModel by viewModels()
+    private val userViewModel: UserViewModel by viewModels()
     private val cardViewModel: CardViewModel by viewModels()
 
     private var profileId : Int = 0
@@ -81,7 +83,7 @@ class ProfileFragment : Fragment() {
             profileViewModel.getUserInformation(mainViewModel.getUserId()!!)
         }
 
-
+        userViewModel.fetchIfIsFollowing(currentUserId.toInt(), profileUserId.toInt())
 
         setUpCorrectButtonsView()
         setupObservers()
@@ -91,6 +93,21 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setupObservers() {
+        userViewModel.isFollowing.observe(viewLifecycleOwner) {
+            profileViewModel.getUserStats(profileId)
+            if (it) {
+                binding.btnFollowUnfollow.text = "Siguiendo"
+                binding.btnFollowUnfollow.setBackgroundColor(resources.getColor(R.color.md_theme_primaryContainer))
+            } else {
+                binding.btnFollowUnfollow.text = "Seguir"
+                binding.btnFollowUnfollow.setBackgroundColor(resources.getColor(R.color.md_theme_errorContainer_mediumContrast))
+            }
+        }
+
+        userViewModel.actionResponse.observe(viewLifecycleOwner) { response ->
+            Snackbar.make(binding.root, response.message, Snackbar.LENGTH_SHORT).show()
+        }
+
         profileViewModel.userStatsEntity.observe(viewLifecycleOwner, Observer {userStat ->
             if (userStat == null) {
                 //err no existe ningun userStat para el id indicado
@@ -105,7 +122,6 @@ class ProfileFragment : Fragment() {
         profileViewModel.userEntity.observe(viewLifecycleOwner, Observer {user ->
             if (user == null) {
                 //err no existe ningun userStat para el id indicado
-                Log.e("ERROR", "ES NULL")
                 Toast.makeText(context, "No existe ningun user para el id indicado", Toast.LENGTH_SHORT).show()
                 return@Observer
             }
@@ -149,28 +165,15 @@ class ProfileFragment : Fragment() {
     private fun setUpCorrectButtonsView() {
         binding.btnEditProfile.visibility = if (profileUserId == currentUserId) View.VISIBLE else View.GONE
         binding.btnFollowUnfollow.visibility = if (profileUserId == currentUserId) View.GONE else View.VISIBLE
-
-        var isFollowing = true
-        // controll if im following or i need to follow
-        if (isFollowing) {
-            binding.btnFollowUnfollow.text = "Siguiendo"
-            binding.btnFollowUnfollow.setBackgroundColor(resources.getColor(R.color.md_theme_primaryContainer))
-        } else {
-            binding.btnFollowUnfollow.text = "Seguir"
-            binding.btnFollowUnfollow.setBackgroundColor(resources.getColor(R.color.md_theme_errorContainer_mediumContrast))
-        }
     }
 
     private fun setUpListeners() {
         binding.btnFollowUnfollow.setOnClickListener {
-            // follow
-
-            // or unfollow depends
+            userViewModel.followUnfollowAction(currentUserId.toInt(), profileUserId.toInt())
         }
 
         binding.btnEditProfile.setOnClickListener {
-            // navigate to edit profile
-
+            findNavController().navigate(R.id.action_profileFragment_to_profileSettingFragment)
         }
 
         binding.btnShareProfile.setOnClickListener {

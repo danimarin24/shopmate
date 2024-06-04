@@ -49,6 +49,16 @@
                 android:textColor="?android:attr/colorForeground"
                 android:textSize="8sp" />
         </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAction"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/custom_input_rounded"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="Siguiendo"
+            android:textSize="10sp" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
