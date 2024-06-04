@@ -1,5 +1,4 @@
-// FullScreenImageDialog.kt
-package com.example.myapp
+package com.example.shopmate_app.ui.fragments.profile
 
 import android.app.Dialog
 import android.content.Context
