@@ -30,20 +30,7 @@ public class BoardRepository : IBoardRepository
 
     public async Task<CardDto> AddCardToABoard(uint boardId, Card card)
     {
-        if (card == null)
-        {
-            throw new ArgumentNullException(nameof(card), "Cf adsfasdfard cannot be null");
-        }
-
-        if (card.Color == null)
-        {
-            throw new ArgumentNullException(nameof(card.Color), "f asdfasdfaCard color cannot be null");
-        }
-        
-        
-
         _logger.LogInformation($"Creating new card with ColorId: {card.Color.ColorId}");
-
         
         // Check if the color already exists
         var existingColor = await _context.Colors

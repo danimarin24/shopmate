@@ -98,6 +98,59 @@ namespace API.Controllers
             return usersFollowers;
         }
         
+        // GET: api/User/5/action/16
+        [HttpGet("{id:int}/action/{userActionId:int}")]
+        public async Task<ActionResult<UserActionResponseDto>> FollowUnfollowNewUser(uint id, uint userActionId)
+        {
+            var userActionResponse = new UserActionResponseDto(id, userActionId);
+            var user = await _context.Users.Include(u => u.UserFolloweds).FirstOrDefaultAsync(u => u.UserId == id); 
+            var userAction = await _context.Users.Include(u => u.UserFolloweds).FirstOrDefaultAsync(u => u.UserId == userActionId); 
+            
+            var isFollowingUserAction = _context.Users
+                .Where(u => u.UserId == id)
+                .SelectMany(u => u.UserFolloweds
+                    .Where(uf => uf.UserId == userActionId)
+                    .Select(uf => new UserDto(uf))
+                ).FirstOrDefault();
+            
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+                
+            if (userAction == null)
+            {
+                throw new Exception("UserAction not found");
+            }
+
+            try
+            {
+                if (isFollowingUserAction == null)
+                {
+                    // action to follow
+                    user.UserFolloweds.Add(userAction);
+                    await _context.SaveChangesAsync();
+                    userActionResponse.isActionPerformed = true;
+                    userActionResponse.Message = $"{user.Name} now is following {userAction.Name}";
+                }
+                else
+                {
+                    // action to unfollow
+                    user.UserFolloweds.Remove(userAction);
+                    await _context.SaveChangesAsync();
+                    userActionResponse.isActionPerformed = true;
+                    userActionResponse.Message = $"{user.Name} now is no longer following  {userAction.Name}";
+                }
+            }
+            catch (Exception e)
+            {
+                userActionResponse.isActionPerformed = true;
+                userActionResponse.Message = $"ERROR while {user.Name} has try to follow/unfollow {userAction.Name}";
+            }
+
+            return userActionResponse;
+        }
+        
         // GET: api/User/5
         [HttpGet("{id:int}")]
         public async Task<ActionResult<UserDto>> GetUser(uint id)
