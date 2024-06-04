@@ -97,4 +97,7 @@ dependencies {
     // HILT IMPORTANT TO INJECTION DEPENDENCIES
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+
+    // Blurry efect
+    implementation ("jp.wasabeef:blurry:4.0.0")
 }

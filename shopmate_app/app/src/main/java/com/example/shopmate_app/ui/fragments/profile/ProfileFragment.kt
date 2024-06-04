@@ -25,6 +25,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.example.myapp.FullScreenImageDialog
 import com.example.shopmate_app.R
 import com.example.shopmate_app.data.constants.AppConstants
 import com.example.shopmate_app.databinding.FragmentLoginBinding
@@ -90,6 +91,7 @@ class ProfileFragment : Fragment() {
         setUpCorrectButtonsView()
         setupObservers()
         setUpListeners()
+
 
         return binding.root
     }
@@ -196,7 +198,15 @@ class ProfileFragment : Fragment() {
                 putInt("profileId", profileUserId.toInt())
                 putBoolean("isFollowerTab", false)
             }
-            findNavController().navigate(R.id.action_profileFragment_to_profileStatsDetailsFragment, bundle)
+            findNavController().navigate(
+                R.id.action_profileFragment_to_profileStatsDetailsFragment,
+                bundle
+            )
+        }
+
+        binding.profileImage.setOnClickListener{
+            val dialog = FullScreenImageDialog()
+            dialog.show(childFragmentManager, "FullScreenImageDialog")
         }
     }
 }

@@ -107,6 +107,8 @@
     <string name="cdEmptyImage">Empty image</string>
     <string name="at">\@</string>
     <string name="errNoBoardFoundSearch">No se ha encontrado ningun resultado :(</string>
+    <string name="full_screen_image">Click to open the image to see it</string>
+    <string name="blurry_background">Blurry Background</string>
 
 
 </resources>
