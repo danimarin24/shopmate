@@ -87,10 +87,6 @@ class ProfileFragment : Fragment() {
         setupObservers()
         setUpListeners()
 
-        binding.btnShareProfile.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_shareProfileFragment)
-        }
-
         return binding.root
     }
 
@@ -178,7 +174,7 @@ class ProfileFragment : Fragment() {
         }
 
         binding.btnShareProfile.setOnClickListener {
-            // shareProfile intent
+            findNavController().navigate(R.id.action_profileFragment_to_shareProfileFragment)
         }
     }
 }
