@@ -24,9 +24,13 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:src="@drawable/logo_definitivo"
+            app:shapeAppearanceOverlay="@style/circular"
+            android:padding="5dp"
+            app:strokeWidth="3dp"
+            app:strokeColor="#4aa4e0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lytHeader" />
+            app:layout_constraintTop_toBottomOf="@+id/lytHeader"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txtUserUsername"

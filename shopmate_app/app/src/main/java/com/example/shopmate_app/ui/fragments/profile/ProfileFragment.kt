@@ -89,6 +89,11 @@ class ProfileFragment : Fragment() {
         setupObservers()
         setUpListeners()
 
+        binding.profileImage.setOnClickListener{
+
+        }
+
+
         return binding.root
     }
 
