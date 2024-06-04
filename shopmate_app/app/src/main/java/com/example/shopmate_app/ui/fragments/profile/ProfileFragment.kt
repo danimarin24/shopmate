@@ -24,6 +24,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.example.myapp.FullScreenImageDialog
 import com.example.shopmate_app.R
 import com.example.shopmate_app.data.constants.AppConstants
 import com.example.shopmate_app.databinding.FragmentLoginBinding
@@ -88,10 +89,6 @@ class ProfileFragment : Fragment() {
         setUpCorrectButtonsView()
         setupObservers()
         setUpListeners()
-
-        binding.profileImage.setOnClickListener{
-
-        }
 
 
         return binding.root
@@ -183,6 +180,10 @@ class ProfileFragment : Fragment() {
 
         binding.btnShareProfile.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_shareProfileFragment)
+        }
+        binding.profileImage.setOnClickListener{
+            val dialog = FullScreenImageDialog()
+            dialog.show(childFragmentManager, "FullScreenImageDialog")
         }
     }
 }
