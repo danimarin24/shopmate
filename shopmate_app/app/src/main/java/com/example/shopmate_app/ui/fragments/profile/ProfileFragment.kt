@@ -81,9 +81,15 @@ class ProfileFragment : Fragment() {
             profileViewModel.getUserInformation(mainViewModel.getUserId()!!)
         }
 
+
+
         setUpCorrectButtonsView()
         setupObservers()
         setUpListeners()
+
+        binding.btnShareProfile.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_shareProfileFragment)
+        }
 
         return binding.root
     }
