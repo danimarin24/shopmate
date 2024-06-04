@@ -61,6 +61,43 @@ namespace API.Controllers
 
             return userStats;
         }
+        
+        // GET: api/User/5/followeds
+        [HttpGet("{id:int}/followeds")]
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetUserFolloweds(uint id)
+        {
+            var usersFolloweds = await _context.Users
+                .Where(u => u.UserId == id)
+                .SelectMany(u => u.UserFolloweds)
+                .Select(uf => new UserDto(uf))
+                .ToListAsync();
+            
+            if (usersFolloweds == null)
+            {
+                return NotFound();
+            }
+
+            return usersFolloweds;
+        }
+        
+        // GET: api/User/5/followers
+        [HttpGet("{id:int}/followers")]
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetUserFollowers(uint id)
+        {
+            var usersFollowers = await _context.Users
+                .SelectMany(u => u.UserFolloweds
+                    .Where(uf => uf.UserId == id)
+                    .Select(uf => new UserDto(uf)))
+                .ToListAsync();
+            
+            if (usersFollowers == null)
+            {
+                return NotFound();
+            }
+
+            return usersFollowers;
+        }
+        
         // GET: api/User/5
         [HttpGet("{id:int}")]
         public async Task<ActionResult<UserDto>> GetUser(uint id)
