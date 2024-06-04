@@ -97,10 +97,10 @@ class ProfileFragment : Fragment() {
             profileViewModel.getUserStats(profileId)
             if (it) {
                 binding.btnFollowUnfollow.text = "Siguiendo"
-                binding.btnFollowUnfollow.setBackgroundColor(resources.getColor(R.color.md_theme_primaryContainer))
+                binding.btnFollowUnfollow.setBackgroundResource(R.drawable.custom_input_rounded)
             } else {
                 binding.btnFollowUnfollow.text = "Seguir"
-                binding.btnFollowUnfollow.setBackgroundColor(resources.getColor(R.color.md_theme_errorContainer_mediumContrast))
+                binding.btnFollowUnfollow.setBackgroundResource(R.drawable.custom_input_rounded_red)
             }
         }
 

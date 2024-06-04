@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="40dp">
+    android:layout_height="60dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,8 +14,8 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivUserProfileImage"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:padding="2dp"
             app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
             app:strokeColor="?attr/colorPrimary"
@@ -39,7 +39,7 @@
                 android:text="danimarin"
                 android:textStyle="bold"
                 android:textColor="?android:attr/colorForeground"
-                android:textSize="@dimen/littleTextSize" />
+                android:textSize="@dimen/bigTextSize" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txtUserName"
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:text="Dani Marín :D"
                 android:textColor="?android:attr/colorForeground"
-                android:textSize="8sp" />
+                android:textSize="@dimen/littleTextSize" />
         </LinearLayout>
     </LinearLayout>
 
