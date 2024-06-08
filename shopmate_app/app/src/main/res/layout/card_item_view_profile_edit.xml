@@ -96,6 +96,7 @@
                 android:layout_height="40dp"
                 app:shapeAppearanceOverlay="@style/circular"
                 android:layout_marginRight="-10dp"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lytHeader"/>
@@ -104,11 +105,8 @@
                 android:id="@+id/peopleProfilesContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/lytHeaderCard"
-                >
-                <!-- dynamic category icons -->
-
+                android:orientation="horizontal">
+                <!-- dynamic images icons -->
 
             </LinearLayout>
 
@@ -248,7 +246,8 @@
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView">
 
 
                 <ImageView
@@ -276,6 +275,15 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/btnOpenCard"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/defaultMargin"
+            android:src="@drawable/chevron_right_circle_outline"
+            android:visibility="gone"
+            app:tint="#ffffff"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

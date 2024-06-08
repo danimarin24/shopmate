@@ -4,6 +4,7 @@
 
 
     <!-- TEXT SIZES -->
+    <dimen name="extraLittleTextSize">10sp</dimen>
     <dimen name="littleTextSize">12sp</dimen>
     <dimen name="defaultTextSize">16sp</dimen>
     <dimen name="middleTextSize">18sp</dimen>

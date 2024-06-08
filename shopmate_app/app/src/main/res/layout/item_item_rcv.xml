@@ -62,6 +62,7 @@
                 android:layout_height="34dp"
                 android:padding="2dp"
                 android:src="@drawable/custom_dialog_bg"
+                android:scaleType="centerCrop"
                 app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
                 app:strokeColor="?attr/colorPrimary"
                 app:strokeWidth="1dp" />

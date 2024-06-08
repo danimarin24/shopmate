@@ -19,6 +19,7 @@
             android:padding="2dp"
             app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
             app:strokeColor="?attr/colorPrimary"
+            android:scaleType="centerCrop"
             app:strokeWidth="1dp"
             android:src="@drawable/custom_dialog_bg"
             />

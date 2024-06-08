@@ -112,6 +112,7 @@
                     android:layout_height="40dp"
                     app:shapeAppearanceOverlay="@style/circular"
                     android:layout_marginRight="-10dp"
+                    android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/lytHeader"/>
@@ -294,6 +295,17 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btnOpenCard"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/defaultMargin"
+            android:src="@drawable/chevron_right_circle_outline"
+            android:visibility="gone"
+            app:tint="#ffffff"
+            app:layout_constraintEnd_toEndOf="parent" />
+
 
 
 

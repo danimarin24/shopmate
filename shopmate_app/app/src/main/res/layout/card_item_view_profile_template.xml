@@ -95,6 +95,7 @@
                 android:layout_height="40dp"
                 app:shapeAppearanceOverlay="@style/circular"
                 android:layout_marginRight="-10dp"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lytHeader"/>
@@ -266,7 +267,7 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/poppins_semibold"
                     android:gravity="center"
-                    android:text="Guardar lista"
+                    android:text="Guardar"
                     android:textAlignment="center"
                     android:textColor="#ffffff"
                     android:textSize="12sp" />
@@ -275,6 +276,15 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/btnOpenCard"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/defaultMargin"
+            android:src="@drawable/chevron_right_circle_outline"
+            android:visibility="gone"
+            app:tint="#ffffff"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

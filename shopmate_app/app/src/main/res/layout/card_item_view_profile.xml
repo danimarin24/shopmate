@@ -95,6 +95,7 @@
                 android:layout_height="40dp"
                 app:shapeAppearanceOverlay="@style/circular"
                 android:layout_marginRight="-10dp"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lytHeader"/>
@@ -167,7 +168,7 @@
                     android:gravity="center_vertical"
                     android:text="Ver lista"
                     android:textColor="#ffffff"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/extraLittleTextSize" />
 
             </LinearLayout>
 
@@ -199,6 +200,41 @@
                     android:fontFamily="@font/poppins_semibold"
                     android:gravity="center"
                     android:text="Compartir"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/extraLittleTextSize" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btnEditList"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="center"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/baseline_edit_note_24"
+                    />
+
+                <Space
+                    android:layout_width="5dp"
+                    android:layout_height="match_parent"/>
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:gravity="center"
+                    android:text="Editar lista"
                     android:textAlignment="center"
                     android:textColor="#ffffff"
                     android:textSize="12sp" />
@@ -236,12 +272,21 @@
                     android:text="Guardar lista"
                     android:textAlignment="center"
                     android:textColor="#ffffff"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/extraLittleTextSize" />
 
             </LinearLayout>
 
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/btnOpenCard"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/defaultMargin"
+            android:src="@drawable/chevron_right_circle_outline"
+            android:visibility="gone"
+            app:tint="#ffffff"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

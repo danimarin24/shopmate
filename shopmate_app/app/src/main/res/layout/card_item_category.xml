@@ -24,6 +24,7 @@
             app:strokeColor="?attr/colorPrimary"
             app:strokeWidth="1dp"
             android:src="@drawable/custom_dialog_bg"
+            android:scaleType="centerCrop"
             />
 
         <com.google.android.material.textview.MaterialTextView
