@@ -8,6 +8,7 @@ class ItemProvider {
         var items: List<ItemCardLineEntity> = emptyList()
 
         var item: ItemCardLineEntity? = null
+        var lastItemModified: ItemCardLineEntity? = null
         var lastItemRemoved: ItemCardLineEntity? = null
         var selectedItem: ItemCardLineEntity? = null
     }

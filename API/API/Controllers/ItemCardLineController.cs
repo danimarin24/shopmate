@@ -46,7 +46,7 @@ namespace API.Controllers
         // PUT: api/ItemCardLine/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutItemCardLine(uint id, ItemCardLine itemCardLine)
+        public async Task<ActionResult<ItemCardLineDto>> PutItemCardLine(uint id, ItemCardLine itemCardLine)
         {
             if (id != itemCardLine.ItemCardLineId)
             {
@@ -58,6 +58,21 @@ namespace API.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                
+                // Cargar las propiedades de navegación
+                var itemCardLineWithDetails = await _context.ItemCardLines
+                    .Include(ic => ic.AssignedToNavigation)
+                    .Include(ic => ic.Item)
+                    .Include(ic => ic.Item.Category)
+                    .Include(ic => ic.Unit)
+                    .FirstOrDefaultAsync(ic => ic.ItemCardLineId == itemCardLine.ItemCardLineId);
+
+                if (itemCardLineWithDetails == null)
+                {
+                    return NotFound();
+                }
+
+                return new ItemCardLineDto(itemCardLineWithDetails);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -70,8 +85,6 @@ namespace API.Controllers
                     throw;
                 }
             }
-
-            return NoContent();
         }
 
         // POST: api/ItemCardLine
@@ -86,6 +99,7 @@ namespace API.Controllers
             var itemCardLineWithDetails = await _context.ItemCardLines
                 .Include(ic => ic.AssignedToNavigation)
                 .Include(ic => ic.Item)
+                .Include(ic => ic.Item.Category)
                 .Include(ic => ic.Unit)
                 .FirstOrDefaultAsync(ic => ic.ItemCardLineId == itemCardLine.ItemCardLineId);
 
@@ -119,8 +133,20 @@ namespace API.Controllers
         {
             var itemCardLine = await _context.ItemCardLines
                 .FirstOrDefaultAsync(icl => icl.CardId == cardId && icl.ItemId == itemId);
-    
+
             if (itemCardLine == null)
+            {
+                return NotFound();
+            }
+            
+            // Cargar las propiedades de navegación
+            var itemCardLineWithDetails = await _context.ItemCardLines
+                .Include(ic => ic.AssignedToNavigation)
+                .Include(ic => ic.Item)
+                .Include(ic => ic.Unit)
+                .FirstOrDefaultAsync(ic => ic.ItemCardLineId == itemCardLine.ItemCardLineId);
+
+            if (itemCardLineWithDetails == null)
             {
                 return NotFound();
             }
@@ -128,7 +154,7 @@ namespace API.Controllers
             _context.ItemCardLines.Remove(itemCardLine);
             await _context.SaveChangesAsync();
 
-            return new ItemCardLineDto(itemCardLine);
+            return Ok(itemCardLineWithDetails);
         }
 
         private bool ItemCardLineExists(uint id)

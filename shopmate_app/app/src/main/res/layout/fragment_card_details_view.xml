@@ -1,5 +1,5 @@
 <!-- fragment_card_details_view.xml -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -97,7 +97,6 @@
                     android:layout_width="match_parent"
                     android:minHeight="900dp"
                     android:layout_marginTop="50dp"
-                    android:layout_marginBottom="70dp"
                     android:layout_height="wrap_content"
                     android:divider="@android:color/darker_gray"
                     android:dividerHeight="1dp" />
@@ -113,11 +112,211 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@drawable/cart_plus"
+            android:visibility="gone"
             app:tint="#ffffff"
-            android:layout_marginBottom="70dp"
             style="@style/Widget.Material3.ExtendedFloatingActionButton.Icon.Secondary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>
+
+
+    <!-- Bottom sheet -->
+    <FrameLayout
+        android:id="@+id/standard_bottom_sheet"
+        style="@style/Widget.Material3.BottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <!-- Drag handle for accessibility -->
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+            android:id="@+id/drag_handle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
+            android:weightSum="20">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etNameItemLyt"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="18"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etNameItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:autofillHints="password"
+                    android:background="@drawable/custom_input_rounded"
+                    android:fontFamily="@font/poppins_medium"
+                    android:hint="¿Que necesitas comprar?"
+                    android:inputType="text"
+                    android:padding="0dp"
+                    android:textColor="?attr/colorOnPrimaryContainer"
+                    android:textColorHint="?attr/colorOnPrimaryContainer"
+                    android:textSize="13sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/btnSave"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="2"
+                android:gravity="center_vertical"
+                android:text="Listo"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/remaining_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:orientation="vertical"
+            android:paddingHorizontal="10dp"
+            android:visibility="gone">
+
+            <!-- MORE CONTENT -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="Información adicional del producto: "
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txtItemName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="Agua"
+                    android:textSize="14sp"
+                    android:textStyle="italic" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="11"
+                    android:gravity="center_vertical"
+                    android:padding="8dp"
+                    android:text="Seleccione cantidad: "
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etAmountLyt"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:autofillHints="password"
+                        android:background="@drawable/custom_input_rounded"
+                        android:fontFamily="@font/poppins_medium"
+                        android:hint="1, 5, 8"
+                        android:inputType="text"
+                        android:padding="0dp"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:textColorHint="?attr/colorOnPrimaryContainer"
+                        android:textSize="13sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <Spinner
+                    android:id="@+id/cboUnits"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="4"
+                    android:background="@drawable/custom_bg_alert"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="11"
+                    android:gravity="center_vertical"
+                    android:padding="8dp"
+                    android:text="Especifique precio:"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etPriceLyt"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="9"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:autofillHints="password"
+                        android:background="@drawable/custom_input_rounded"
+                        android:fontFamily="@font/poppins_medium"
+                        android:hint="p, ej: 1,5€"
+                        android:inputType="text"
+                        android:padding="0dp"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:textColorHint="?attr/colorOnPrimaryContainer"
+                        android:textSize="13sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
+        </LinearLayout>
+    </FrameLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

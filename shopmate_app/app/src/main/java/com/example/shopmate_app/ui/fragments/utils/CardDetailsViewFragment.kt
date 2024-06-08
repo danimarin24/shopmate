@@ -1,11 +1,9 @@
 package com.example.shopmate_app.ui.fragments.utils
 
 import android.app.Dialog
-import android.content.ClipData.Item
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -13,12 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.ArrayAdapter
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.view.menu.MenuView.ItemView
-import androidx.cardview.widget.CardView
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -29,8 +26,6 @@ import com.bumptech.glide.Glide
 import com.example.shopmate_app.R
 import com.example.shopmate_app.data.constants.AppConstants
 import com.example.shopmate_app.databinding.FragmentCardDetailsViewBinding
-import com.example.shopmate_app.domain.entities.newtworkEntities.BoardEntity
-import com.example.shopmate_app.domain.entities.newtworkEntities.CategoryEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.ItemCardLineEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.UnitEntity
 import com.example.shopmate_app.domain.entities.providers.CardProvider
@@ -41,6 +36,8 @@ import com.example.shopmate_app.ui.viewmodels.CardViewModel
 import com.example.shopmate_app.ui.viewmodels.CategoryViewModel
 import com.example.shopmate_app.ui.viewmodels.ItemViewModel
 import com.example.shopmate_app.ui.viewmodels.MainViewModel
+import com.example.shopmate_app.ui.viewmodels.UnitViewModel
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -51,11 +48,15 @@ class CardDetailsViewFragment : Fragment() {
     private val mainViewModel: MainViewModel by viewModels()
 
     private val cardViewModel: CardViewModel by viewModels()
+    private val unitViewModel: UnitViewModel by viewModels()
+
     private val categoryViewModel: CategoryViewModel by viewModels()
     private val itemsViewModel: ItemViewModel by viewModels()
 
 
     private lateinit var itemAdapter: ItemAdapter
+
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
 
 
     override fun onCreateView(
@@ -65,9 +66,42 @@ class CardDetailsViewFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentCardDetailsViewBinding.inflate(inflater, container, false)
 
+        // Initialize the BottomSheetBehavior
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.standardBottomSheet)
+
+        // Set the initial state of the bottom sheet
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        //bottomSheetBehavior.isHideable = false
+
+        // Optionally set a callback to handle state changes and slide offset updates
+        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                // Ensure the bottom sheet is never hidden
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                }
+
+                // Show or hide the remaining content based on the state
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    binding.remainingContent.visibility = View.VISIBLE
+                } else {
+                    binding.remainingContent.visibility = View.GONE
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                // Handle slide offset changes
+            }
+        })
+
+
+
+
         binding.txtCardName.text = CardProvider.selectedCard?.cardName
 //        binding.tvOwnerId.text = CardProvider.selectedCard?.ownerId.toString()
 //        binding.tvEstimatedPrice.text = CardProvider.selectedCard?.estimatedPrice.toString()
+
+        unitViewModel.getUnits()
 
         categoryViewModel.fetchCategories()
         cardViewModel.fetchCategoriesIconsByCard(CardProvider.selectedCard?.cardId!!)
@@ -122,6 +156,45 @@ class CardDetailsViewFragment : Fragment() {
             if (loading)
                 binding.rcvCategories.showLoadingView()
         }
+
+
+        unitViewModel.units.observe(viewLifecycleOwner) { units ->
+            if (!units.isNullOrEmpty()) {
+                val adapter = object : ArrayAdapter<UnitEntity>(
+                    findNavController().context,
+                    R.layout.cbo_text_list,
+                    units
+                ) {
+                    override fun getView(
+                        position: Int,
+                        convertView: View?,
+                        parent: ViewGroup
+                    ): View {
+                        val view = super.getView(position, convertView, parent)
+                        (view as TextView).text = getItem(position)?.prefix
+                        return view
+                    }
+
+                    override fun getDropDownView(
+                        position: Int,
+                        convertView: View?,
+                        parent: ViewGroup
+                    ): View {
+                        val view = super.getDropDownView(position, convertView, parent)
+                        (view as TextView).text = getItem(position)?.prefix
+                        return view
+                    }
+                }
+                adapter.setDropDownViewResource(R.layout.cbo_text_list)
+                binding.cboUnits.adapter = adapter
+
+                val defaultUnit = units.find { it.unitId == AppConstants.UNIT_ID_UNIT }
+                val defaultPosition = units.indexOf(defaultUnit)
+                if (defaultPosition >= 0) {
+                    binding.cboUnits.setSelection(defaultPosition)
+                }
+            }
+        }
     }
 
     private fun setUpRecyclerView() {
@@ -146,15 +219,26 @@ class CardDetailsViewFragment : Fragment() {
                         itemsViewModel.removeItemFromACard(item)
                         Snackbar.make(binding.root, "Item eliminado", Snackbar.LENGTH_SHORT)
                             .setAction("Deshacer") {
-                                itemsViewModel.addItemToACard(ItemProvider.lastItemRemoved!!)
+                                var itemCardLineRemoved = ItemCardLineEntity(
+                                    itemCardLineId = ItemProvider.lastItemRemoved!!.itemCardLineId,
+                                    cardId = ItemProvider.lastItemRemoved!!.cardId,
+                                    createdBy = ItemProvider.lastItemRemoved!!.createdBy,
+                                    amount = ItemProvider.lastItemRemoved!!.amount,
+                                    assignedTo = ItemProvider.lastItemRemoved!!.assignedTo,
+                                    price = ItemProvider.lastItemRemoved!!.price,
+                                    itemId = ItemProvider.lastItemRemoved!!.itemId,
+                                    unitId = ItemProvider.lastItemRemoved!!.unitId
+                                )
+                                itemsViewModel.addItemToACard(itemCardLineRemoved)
                             }.show()
                     }
                     ItemTouchHelper.RIGHT -> {
                         // Asignar item
-                        itemsViewModel.assignItem(item)
+                        var assignedUserId = item.assignedTo
+                        itemsViewModel.assignItem(item, mainViewModel.getUserId()!!)
                         Snackbar.make(binding.root, "Item asignado", Snackbar.LENGTH_SHORT)
                             .setAction("Deshacer") {
-                                itemsViewModel.unassignItem(item)
+                                itemsViewModel.unassignItem(item, assignedUserId)
                             }.show()
                     }
                 }
@@ -170,13 +254,50 @@ class CardDetailsViewFragment : Fragment() {
         }
 
         binding.btnAddNewItem.setOnClickListener {
-            val bottomDialogFragment = BottomDialogFragment()
-            bottomDialogFragment.show(childFragmentManager, BottomDialogFragment.TAG)
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
 
         binding.rcvCategories.setOnRetryClickListener {
             Snackbar.make(binding.root, "Cargando categorías", Snackbar.LENGTH_SHORT).show()
             categoryViewModel.fetchCategories()
+        }
+
+        binding.etNameItem.addTextChangedListener {
+            binding.txtItemName.text = binding.etNameItem.text
+        }
+
+        binding.btnSave.setOnClickListener {
+
+            var txtAmount = binding.etAmount.text.toString()
+            var txtPrice = binding.etAmount.text.toString()
+
+            var itemCardLineDefault = ItemCardLineEntity(
+                itemCardLineId = 0,
+                cardId = 0,
+                createdBy = 1,
+                amount = 1,
+                price = 0f,
+                assignedTo = 1,
+                itemId = 1,
+                unitId = AppConstants.UNIT_ID_UNIT)
+
+            if (binding.txtItemName.text.isNotEmpty()) {
+                // can add product
+                Snackbar.make(binding.root, "Producto añadido", Snackbar.LENGTH_SHORT).show()
+
+                if (txtAmount.isNotEmpty()) {
+                    itemCardLineDefault.amount = txtAmount.toInt()
+                }
+                if (txtPrice.isNotEmpty()){
+                    itemCardLineDefault.price = txtPrice.toFloat()
+                }
+
+                // crear item sino existe, sino conseguir id del que existe
+                // then
+                // crear itemcardline con la información adicional si ha puesto el usuario,
+                // sino
+                // añadir por defecto la amount de "1", y la Unit de "u" (unidad), precio = null
+            }
         }
     }
 

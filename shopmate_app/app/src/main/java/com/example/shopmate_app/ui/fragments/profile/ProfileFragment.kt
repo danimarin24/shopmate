@@ -130,7 +130,7 @@ class ProfileFragment : Fragment() {
                 binding.rcvProfileCards.showEmptyView()
             } else {
                 binding.rcvProfileCards.hideAllViews()
-                binding.rcvProfileCards.recyclerView.adapter = CardAdapter(cards, currentUserId, profileUserId, isEditMode = false, isHome = false)
+                binding.rcvProfileCards.recyclerView.adapter = CardAdapter(cards, currentUserId, profileUserId, isEditMode = false, isHome = false, icons = emptyList())
                 binding.rcvProfileCards.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             }
         }

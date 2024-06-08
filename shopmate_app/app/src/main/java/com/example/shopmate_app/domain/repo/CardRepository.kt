@@ -55,6 +55,12 @@ class CardRepository @Inject constructor(private val api: CardService){
         return response!!
     }
 
+    suspend fun modifyItemFromACard(itemId: Int, item: ItemCardLineEntity): ItemCardLineEntity {
+        val response = api.modifyItem(itemId, item)
+        ItemProvider.lastItemModified = response
+        return response
+    }
+
     suspend fun getMembersFromACard(cardId: Int): List<UserRoleEntity> {
         val response = api.getMembersFromACard(cardId)
         CardProvider.membersCard = response

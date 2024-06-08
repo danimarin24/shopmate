@@ -27,6 +27,7 @@ class ItemAdapter(private var itemList: List<ItemCardLineEntity>)
     class CardViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val txtItemQuantity: MaterialTextView = view.findViewById(R.id.txtItemQuantity)
         val txtItemName: MaterialTextView = view.findViewById(R.id.txtItemName)
+        val txtItemPrice: MaterialTextView = view.findViewById(R.id.txtItemPrice)
         val ivAssignedTo: ShapeableImageView = view.findViewById(R.id.ivAssignedTo)
     }
 
@@ -38,8 +39,9 @@ class ItemAdapter(private var itemList: List<ItemCardLineEntity>)
 
     override fun onBindViewHolder(holder: ItemAdapter.CardViewHolder, position: Int) {
         val item = itemList[position]
-        holder.txtItemQuantity.text = item.amount.toString()
+        holder.txtItemQuantity.text = "${item.amount} ${item.unit?.prefix}"
         holder.txtItemName.text = item.item?.name
+        holder.txtItemPrice.text = "${item.price}€"
 
         if (item.assignedToUser?.profileImage == null) {
             Glide.with(holder.view.context)

@@ -1,88 +1,293 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragments.utils.CardCategorySelectItemsFragment">
-
-    <!-- Header -->
-    <LinearLayout
-        android:id="@+id/lytHeader"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:weightSum="20"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/btnGoBackToCard"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="30dp"
-            android:src="@drawable/chevron_left"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="5dp" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txtHeaderCategoryName"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/height"
-            android:layout_weight="16"
-            android:fontFamily="@font/poppins"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="Productos para mascotas"
-            android:textAlignment="center"
-            android:textColor="?android:attr/colorForeground"
-            android:textSize="@dimen/defaultTextSize"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/btnRight"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="30dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="20dp"
-            app:tint="?android:attr/colorForeground"
-            />
-
-    </LinearLayout>
-
-    <androidx.core.widget.NestedScrollView
+    tools:context=".ui.fragments.utils.CardCategorySelectItemsFragment"
+    >
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        app:layout_constraintTop_toBottomOf="@+id/lytHeader"
-        tools:layout_editor_absoluteX="0dp">
+        >
+
+        <!-- Header -->
+        <LinearLayout
+            android:id="@+id/lytHeader"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:weightSum="20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/btnGoBackToCard"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="30dp"
+                android:src="@drawable/chevron_left"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="5dp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txtHeaderCategoryName"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/height"
+                android:layout_weight="16"
+                android:fontFamily="@font/poppins"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Productos para mascotas"
+                android:textAlignment="center"
+                android:textColor="?android:attr/colorForeground"
+                android:textSize="@dimen/defaultTextSize"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/btnRight"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="30dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="20dp"
+                app:tint="?android:attr/colorForeground"
+                />
+
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            app:layout_constraintTop_toBottomOf="@+id/lytHeader"
+            tools:layout_editor_absoluteX="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/defaultPaddingLeft"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Ordenados De A a Z"
+                    android:fontFamily="@font/poppins_medium"
+                    />
+
+                <com.example.shopmate_app.ui.components.LCEERecyclerView
+                    android:id="@+id/rcvItemsOfCurrentCategory"
+                    android:layout_width="match_parent"
+                    android:minHeight="600dp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Bottom sheet -->
+    <FrameLayout
+        android:id="@+id/standard_bottom_sheet"
+        style="@style/Widget.Material3.BottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <!-- Drag handle for accessibility -->
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+            android:id="@+id/drag_handle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/defaultPaddingLeft"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
+            android:weightSum="20">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etNameItemLyt"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="18"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etNameItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:autofillHints="password"
+                    android:background="@drawable/custom_input_rounded"
+                    android:fontFamily="@font/poppins_medium"
+                    android:hint="¿Que necesitas comprar?"
+                    android:inputType="text"
+                    android:padding="0dp"
+                    android:textColor="?attr/colorOnPrimaryContainer"
+                    android:textColorHint="?attr/colorOnPrimaryContainer"
+                    android:textSize="13sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Ordenados De A a Z"
-                android:fontFamily="@font/poppins_medium"
-                />
-
-            <com.example.shopmate_app.ui.components.LCEERecyclerView
-                android:id="@+id/rcvItemsOfCurrentCategory"
-                android:layout_width="match_parent"
-                android:minHeight="600dp"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnSave"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="2"
+                android:gravity="center_vertical"
+                android:text="Listo"
+                android:textStyle="bold" />
 
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+
+        <LinearLayout
+            android:id="@+id/remaining_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:orientation="vertical"
+            android:paddingHorizontal="10dp"
+            android:visibility="gone">
+
+            <!-- MORE CONTENT -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="Información adicional del producto: "
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txtItemName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="Agua"
+                    android:textSize="14sp"
+                    android:textStyle="italic" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="11"
+                    android:gravity="center_vertical"
+                    android:padding="8dp"
+                    android:text="Seleccione cantidad: "
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etAmountLyt"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:autofillHints="password"
+                        android:background="@drawable/custom_input_rounded"
+                        android:fontFamily="@font/poppins_medium"
+                        android:hint="1, 5, 8"
+                        android:inputType="text"
+                        android:padding="0dp"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:textColorHint="?attr/colorOnPrimaryContainer"
+                        android:textSize="13sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <Spinner
+                    android:id="@+id/cboUnits"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="4"
+                    android:background="@drawable/custom_bg_alert"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="11"
+                    android:gravity="center_vertical"
+                    android:padding="8dp"
+                    android:text="Especifique precio:"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etPriceLyt"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="9"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:autofillHints="password"
+                        android:background="@drawable/custom_input_rounded"
+                        android:fontFamily="@font/poppins_medium"
+                        android:hint="p, ej: 1,5€"
+                        android:inputType="text"
+                        android:padding="0dp"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:textColorHint="?attr/colorOnPrimaryContainer"
+                        android:textSize="13sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
+        </LinearLayout>
+    </FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -14,6 +14,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface CardApiClient {
@@ -39,6 +40,9 @@ interface CardApiClient {
 
     @POST(AppConstants.ITEMCARDLINE_ENDPOINT)
     suspend fun addItemToACard(@Body item: ItemCardLineEntity, @Header("x-api-key") apiKey: String): Response<ItemCardLineEntity>
+
+    @PUT("${AppConstants.ITEMCARDLINE_ENDPOINT}{id}")
+    suspend fun modifyItemFromACard(@Path("id") id: Int, @Body item: ItemCardLineEntity, @Header("x-api-key") apiKey: String): Response<ItemCardLineEntity>
 
     @DELETE("${AppConstants.ITEMCARDLINE_ENDPOINT}card/{cardId}/item/{itemId}")
     suspend fun removeItemFromACard(@Path("cardId") cardId: Int, @Path("itemId") itemId: Int, @Header("x-api-key") apiKey: String): Response<ItemCardLineEntity>

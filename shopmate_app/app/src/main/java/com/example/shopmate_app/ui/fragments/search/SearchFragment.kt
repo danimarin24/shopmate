@@ -49,7 +49,7 @@ class SearchFragment : Fragment() {
 
         context = requireContext()
 
-        binding.rcvSearch.recyclerView.adapter = CardAdapter(emptyList(), "1", "1", isEditMode = false, isHome = false) // Esto se ignorara igualmente
+        binding.rcvSearch.recyclerView.adapter = CardAdapter(emptyList(), "1", "1", isEditMode = false, isHome = false, icons = emptyList()) // Esto se ignorara igualmente
         binding.rcvSearch.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         setupObservers()
@@ -121,7 +121,7 @@ class SearchFragment : Fragment() {
                     binding.rcvSearch.showEmptyView()
                 } else {
                     binding.rcvSearch.hideAllViews()
-                    binding.rcvSearch.recyclerView.adapter = CardAdapter(cards, "1", "1", isEditMode = false, isHome = false) // Esto se ignorara igualmente
+                    binding.rcvSearch.recyclerView.adapter = CardAdapter(cards, "1", "1", isEditMode = false, isHome = false, icons = emptyList()) // Esto se ignorara igualmente
                 }
             }
         }

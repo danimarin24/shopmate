@@ -14,6 +14,7 @@ import com.example.shopmate_app.domain.usecases.card.GetCategoriesIconsUseCase
 import com.example.shopmate_app.domain.usecases.card.GetMembersFromACardUseCase
 import com.example.shopmate_app.domain.usecases.item.AddItemLineToACardUseCase
 import com.example.shopmate_app.domain.usecases.item.GetItemsFromACardUseCase
+import com.example.shopmate_app.domain.usecases.item.ModifyItemLineFromACardUseCase
 import com.example.shopmate_app.domain.usecases.item.RemoveItemLineFromACardUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -24,6 +25,7 @@ class ItemViewModel @Inject constructor(
     private val getItemsFromACardUseCase: GetItemsFromACardUseCase,
     private val addItemLineToACard: AddItemLineToACardUseCase,
     private val removeItemLineFromACardUseCase: RemoveItemLineFromACardUseCase,
+    private val modifyItemLineFromACardUseCase: ModifyItemLineFromACardUseCase
 
 ) : ViewModel() {
     private val _items = MutableLiveData<List<ItemCardLineEntity>>()
@@ -31,6 +33,9 @@ class ItemViewModel @Inject constructor(
 
     private val _lastRemovedItem = MutableLiveData<ItemCardLineEntity>()
     val lastRemovedItem: LiveData<ItemCardLineEntity> get() = _lastRemovedItem
+
+    private val _lastItemClicked = MutableLiveData<ItemCardLineEntity>()
+    val lastItemClicked: LiveData<ItemCardLineEntity> get() = _lastItemClicked
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
@@ -59,6 +64,7 @@ class ItemViewModel @Inject constructor(
                 val newItem = addItemLineToACard(itemCardLineEntity)
                 val updatedItems = _items.value.orEmpty().toMutableList().apply { add(newItem) }
                 _items.value = updatedItems
+                _lastItemClicked.value = newItem
             } catch (e: Exception) {
                 // Handle error
                 _isError.value = true
@@ -75,6 +81,7 @@ class ItemViewModel @Inject constructor(
             try {
                 val removedItem = removeItemLineFromACardUseCase(item.cardId, item.itemId)
                 _items.value = _items.value?.filter { it != removedItem }
+                _lastRemovedItem.value = removedItem
             } catch (e: Exception) {
                 // Handle error
                 _isError.value = true
@@ -85,11 +92,30 @@ class ItemViewModel @Inject constructor(
         }
     }
 
-    fun assignItem(item: ItemCardLineEntity) {
-        // Lógica para asignar el item
+    fun modifyItemFromACard(item: ItemCardLineEntity) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            try {
+                val modifiedItem = modifyItemLineFromACardUseCase(item.itemCardLineId, item)
+            } catch (e: Exception) {
+                // Handle error
+                _isError.value = true
+                _isLoading.value = false
+            } finally {
+                _isLoading.value = false
+            }
+        }
     }
 
-    fun unassignItem(item: ItemCardLineEntity) {
+    fun assignItem(item: ItemCardLineEntity, userToAssingId: Int) {
+        // Lógica para asignar el item
+        item.assignedTo = userToAssingId
+        modifyItemFromACard(item)
+    }
+
+    fun unassignItem(item: ItemCardLineEntity, beforeAssignedUserId: Int) {
         // Lógica para desasignar el item
+        item.assignedTo = beforeAssignedUserId
+        modifyItemFromACard(item)
     }
 }

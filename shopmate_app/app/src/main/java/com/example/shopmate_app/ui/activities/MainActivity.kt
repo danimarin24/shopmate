@@ -237,6 +237,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun changeHeaderInfo(activeFragment: String) {
+        binding.lytCoordinatorMenu.visibility = View.VISIBLE
         binding.lytHeader.visibility = View.VISIBLE
         binding.btnLeft.setImageResource(android.R.color.transparent)
         binding.btnLeft.setOnClickListener{}
@@ -318,6 +319,7 @@ class MainActivity : AppCompatActivity() {
 
             "cardDetailsView" -> {
                 binding.lytHeader.visibility = View.GONE
+                binding.lytCoordinatorMenu.visibility = View.GONE
             }
 
             "profileStatsDetails" -> {

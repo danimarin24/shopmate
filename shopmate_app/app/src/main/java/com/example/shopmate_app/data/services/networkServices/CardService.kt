@@ -54,6 +54,13 @@ class CardService @Inject constructor(private val api: CardApiClient) {
         }
     }
 
+    suspend fun modifyItem(itemId: Int, item: ItemCardLineEntity): ItemCardLineEntity {
+        return withContext(Dispatchers.IO) {
+            val response = api.modifyItemFromACard(itemId, item, AppConstants.API_KEY)
+            response.body()!!
+        }
+    }
+
     suspend fun getItemsCardLine(cardId: Int): List<ItemCardLineEntity> {
         return withContext(Dispatchers.IO) {
             val response = api.getItemsCardLine(cardId, AppConstants.API_KEY)

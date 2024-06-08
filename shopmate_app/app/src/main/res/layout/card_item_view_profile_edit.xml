@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:layout_marginBottom="20dp"
@@ -10,14 +11,16 @@
         android:id="@+id/cardContraintBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingHorizontal="20dp"
         android:background="#FF9E80"
         >
 
         <LinearLayout
+            android:id="@+id/lytHeaderCard"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:weightSum="100"
             android:gravity="center_vertical"
+            android:weightSum="100"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -25,69 +28,15 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txtCardTitle"
                 android:layout_width="0dp"
-                android:layout_weight="20"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:background="#ffffff"
                 android:layout_height="20dp"
-                android:text="Receta"/>
+                android:layout_weight="80"
+                android:text="Lista de la compra de la semana"
+                android:textColor="#111111"
+                android:textStyle="bold" />
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5"/>
-
-            <GridLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:useDefaultMargins="true"
-                android:layout_weight="50">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/baseline_remove_red_eye_24"
-                    />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/baseline_remove_red_eye_24"
-                    />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/baseline_remove_red_eye_24"
-                    />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/baseline_remove_red_eye_24"
-                    />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/baseline_remove_red_eye_24"
-                    />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/baseline_remove_red_eye_24"
-                    />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/baseline_remove_red_eye_24"
-                    />
-
-            </GridLayout>
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5"/>
 
             <LinearLayout
-                android:id="@+id/lsaves"
+                android:id="@+id/txtNSavesLyt"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="20"
@@ -101,25 +50,35 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/baseline_bookmark_border_24"
-                    />
+                    android:src="@drawable/baseline_bookmark_border_24" />
 
                 <Space
                     android:layout_width="5dp"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txtNSaves"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/poppins_semibold"
                     android:gravity="center_vertical"
-                    android:text="946"
+                    android:text="000"
                     android:textColor="#ffffff"
                     android:textSize="12sp" />
 
             </LinearLayout>
 
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/categoryIconsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/lytHeaderCard"
+            >
+            <!-- dynamic category icons -->
         </LinearLayout>
 
 
@@ -131,11 +90,12 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="10dp"
             android:weightSum="12"
             >
 
             <LinearLayout
-                android:id="@+id/l1"
+                android:id="@+id/btnViewList"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="4"
@@ -168,7 +128,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/l2"
+                android:id="@+id/btnShareList"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="4"
@@ -202,7 +162,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayout"
+                android:id="@+id/btnEditList"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="4"

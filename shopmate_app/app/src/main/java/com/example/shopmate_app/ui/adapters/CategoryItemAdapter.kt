@@ -21,7 +21,6 @@ class CategoryItemAdapter(private var itemList: List<ItemEntity>,
 
 
     private val selectedPositions = mutableSetOf<Int>()
-
     init {
         // Inicializa los ítems seleccionados
         Log.d("selectedItemIds:", selectedItemIds.toString())
@@ -58,7 +57,7 @@ class CategoryItemAdapter(private var itemList: List<ItemEntity>,
             cardId = cardId,
             createdBy = userId,
             assignedTo = userId,
-            amount = 0,
+            amount = 1,
             itemId = item.itemId,
             price = 0f,
             unitId = 9 // Unit-unit
@@ -81,6 +80,5 @@ class CategoryItemAdapter(private var itemList: List<ItemEntity>,
     override fun getItemViewType(position: Int): Int {
         return if (selectedPositions.contains(position)) 1 else 0
     }
-
     fun getItem(position: Int): ItemEntity = itemList[position]
 }
