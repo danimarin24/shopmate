@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -108,7 +109,8 @@ class CardDetailsViewFragment : Fragment() {
 
         itemsViewModel.fetchAllItems(CardProvider.selectedCard?.cardId!!)
 
-        itemAdapter = ItemAdapter(emptyList())
+        itemAdapter = ItemAdapter()
+        binding.rcvCurrentItems.recyclerView.adapter = itemAdapter
 
         setUpObvservers()
         setUpRecyclerView()
@@ -130,8 +132,7 @@ class CardDetailsViewFragment : Fragment() {
                 binding.rcvCurrentItems.showEmptyView("Vaya no hay ningún item assignado a esta lista.")
             } else {
                 binding.rcvCurrentItems.hideAllViews()
-                itemAdapter = ItemAdapter(items)
-                binding.rcvCurrentItems.recyclerView.adapter = itemAdapter
+                itemAdapter.submitList(items)
             }
         }
 

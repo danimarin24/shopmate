@@ -62,8 +62,7 @@ class ItemViewModel @Inject constructor(
             _isLoading.value = true
             try {
                 val newItem = addItemLineToACard(itemCardLineEntity)
-                val updatedItems = _items.value.orEmpty().toMutableList().apply { add(newItem) }
-                _items.value = updatedItems
+                fetchAllItems(newItem.cardId)
                 _lastItemClicked.value = newItem
             } catch (e: Exception) {
                 // Handle error
@@ -80,7 +79,7 @@ class ItemViewModel @Inject constructor(
             _isLoading.value = true
             try {
                 val removedItem = removeItemLineFromACardUseCase(item.cardId, item.itemId)
-                _items.value = _items.value?.filter { it != removedItem }
+                fetchAllItems(item.cardId)
                 _lastRemovedItem.value = removedItem
             } catch (e: Exception) {
                 // Handle error
