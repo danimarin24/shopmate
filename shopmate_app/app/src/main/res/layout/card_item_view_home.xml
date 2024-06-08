@@ -6,33 +6,14 @@
     android:layout_marginBottom="20dp"
     app:cardCornerRadius="16dp">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cardContraintBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingHorizontal="20dp"
         android:background="#FF9E80"
         >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txtCardTitle"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:textStyle="bold"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:text="Lista de la compra"
-                />
-
-
-        </LinearLayout>
 
         <ImageView
             android:id="@+id/btnOpenCard"
@@ -40,64 +21,288 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="@dimen/defaultMargin"
             android:src="@drawable/chevron_right_circle_outline"
+            app:tint="#ffffff"
             app:layout_constraintEnd_toEndOf="parent" />
 
-
         <LinearLayout
-            android:id="@+id/lytMembersCard"
+            android:id="@+id/lytHeaderCard"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_margin="8dp"
+            android:layout_height="50dp"
             android:gravity="center_vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:weightSum="100"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:weightSum="12">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/ivMember1"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:padding="2dp"
-                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-                app:strokeColor="?attr/colorPrimary"
-                app:strokeWidth="1dp"
-                android:src="@drawable/custom_dialog_bg"
-                />
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/ivMember2"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:padding="2dp"
-                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-                app:strokeColor="?attr/colorPrimary"
-                app:strokeWidth="1dp"
-                android:src="@drawable/custom_dialog_bg"
-                />
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/ivMember3"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:padding="2dp"
-                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-                app:strokeColor="?attr/colorPrimary"
-                app:strokeWidth="1dp"
-                android:src="@drawable/custom_dialog_bg"
-                />
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/ivMoreMembersNum"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/custom_bg_rounded"
-                android:gravity="center"
-                android:text="20"
-                android:textAlignment="center"
-                android:textColor="?attr/colorOnPrimarySurface"
+                android:id="@+id/txtCardTitle"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="80"
+                android:text="Lista de la compra de la semana"
+                android:textColor="#111111"
                 android:textStyle="bold" />
 
 
+            <LinearLayout
+                android:id="@+id/txtNSavesLyt"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="20"
+                android:visibility="gone"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView">
 
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/baseline_bookmark_border_24" />
+
+                <Space
+                    android:layout_width="5dp"
+                    android:layout_height="match_parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txtNSaves"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:gravity="center_vertical"
+                    android:text="000"
+                    android:textColor="#ffffff"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/categoryIconsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/lytHeaderCard"
+            >
+            <!-- dynamic category icons -->
+        </LinearLayout>
+
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="10dp"
+            android:weightSum="100"
+            >
+
+            <LinearLayout
+                android:id="@+id/peopleProfilesLyt"
+                android:layout_width="0dp"
+                android:layout_weight="100"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/lytHeaderCard"
+                >
+                <!-- dynamic category icons -->
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/profileImage"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:shapeAppearanceOverlay="@style/circular"
+                    android:layout_marginRight="-10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lytHeader"/>
+
+                <LinearLayout
+                    android:id="@+id/peopleProfilesContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@+id/lytHeaderCard"
+                    >
+                    <!-- dynamic category icons -->
+
+
+                </LinearLayout>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btnAddNewMember"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:fabCustomSize="40dp"
+                    android:contentDescription="add new people into this card"
+                    android:src="@drawable/account_multiple_plus"
+                    app:tint="#ffffff"
+                    android:backgroundTint="?attr/colorOnPrimaryFixedVariant"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btnEditList"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="30"
+                android:visibility="gone"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView">
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/baseline_edit_note_24"
+                    />
+
+                <Space
+                    android:layout_width="5dp"
+                    android:layout_height="match_parent"/>
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:gravity="center"
+                    android:text="Editar lista"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginBottom="10dp"
+                android:weightSum="12"
+                android:visibility="gone"
+                >
+
+                <LinearLayout
+                    android:id="@+id/btnViewList"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView">
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/baseline_remove_red_eye_24"
+                        />
+
+                    <Space
+                        android:layout_width="5dp"
+                        android:layout_height="match_parent"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="center_vertical"
+                        android:text="Ver lista"
+                        android:textColor="#ffffff"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnShareList"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView">
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/baseline_ios_share_24"
+                        />
+                    <Space
+                        android:layout_width="5dp"
+                        android:layout_height="match_parent"/>
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="center"
+                        android:text="Compartir"
+                        android:textAlignment="center"
+                        android:textColor="#ffffff"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnSaveList"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/baseline_bookmark_border_24"
+                        />
+
+                    <Space
+                        android:layout_width="5dp"
+                        android:layout_height="match_parent"/>
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="center"
+                        android:text="Guardar lista"
+                        android:textAlignment="center"
+                        android:textColor="#ffffff"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 

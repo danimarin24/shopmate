@@ -81,6 +81,51 @@
             <!-- dynamic category icons -->
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/peopleProfilesLyt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/lytHeaderCard"
+            >
+            <!-- dynamic category icons -->
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profileImage"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:shapeAppearanceOverlay="@style/circular"
+                android:layout_marginRight="-10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lytHeader"/>
+
+            <LinearLayout
+                android:id="@+id/peopleProfilesContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/lytHeaderCard"
+                >
+                <!-- dynamic category icons -->
+
+
+            </LinearLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnAddNewMember"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:fabCustomSize="40dp"
+                android:visibility="gone"
+                android:contentDescription="add new people into this card"
+                android:src="@drawable/account_multiple_plus"
+                app:tint="#ffffff"
+                android:backgroundTint="?attr/colorOnPrimaryFixedVariant"
+                />
+
+        </LinearLayout>
+
 
 
 
@@ -135,8 +180,7 @@
                 android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView">
+                app:layout_constraintStart_toStartOf="parent">
 
 
                 <ImageView
@@ -169,8 +213,7 @@
                 android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView">
+                app:layout_constraintStart_toStartOf="parent">
 
 
                 <ImageView
@@ -190,6 +233,41 @@
                     android:fontFamily="@font/poppins_semibold"
                     android:gravity="center"
                     android:text="Editar lista"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btnSaveList"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="center"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/baseline_bookmark_border_24"
+                    />
+
+                <Space
+                    android:layout_width="5dp"
+                    android:layout_height="match_parent"/>
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:gravity="center"
+                    android:text="Guardar lista"
                     android:textAlignment="center"
                     android:textColor="#ffffff"
                     android:textSize="12sp" />

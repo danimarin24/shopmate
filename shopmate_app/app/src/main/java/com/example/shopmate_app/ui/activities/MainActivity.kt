@@ -112,6 +112,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.cardDetailsViewFragment -> {
                     changeHeaderInfo("cardDetailsView")
                 }
+                R.id.cardCategorySelectItemsFragment -> {
+                    changeHeaderInfo("cardCategorySelectItems")
+                }
                 R.id.profileStatsDetailsFragment -> {
                     changeHeaderInfo("profileStatsDetails")
                 }
@@ -252,35 +255,6 @@ class MainActivity : AppCompatActivity() {
                 binding.btnLeft.setImageResource(R.drawable.application_edit_outline)
                 binding.btnLeft.setOnClickListener {
                     binding.btnLeft.setImageResource(R.drawable.application_edit_outline)
-                    //Toast.makeText(context, "boton editar", Toast.LENGTH_SHORT).show()
-
-                    /*
-                    val currentFragment = supportFragmentManager.findFragmentByTag("home")
-                    if (currentFragment != null && currentFragment is HomeFragment) {
-
-                        val recyclerView = currentFragment.view?.findViewById<LCEERecyclerView>(R.id.rcvBoardHome)
-                        boardViewModel.fetchBoards(mainViewModel.getUserId()!!)
-                        boardViewModel.boards.observe(this) { boards ->
-                            if (boards.isNullOrEmpty()) {
-                                recyclerView?.showEmptyView()
-                            } else {
-                                recyclerView?.hideAllViews()
-                                boardViewModel.cardsByBoard.observe(this) { cardsByBoard ->
-                                    Toast.makeText(context, "barraoan", Toast.LENGTH_SHORT).show()
-
-                                    recyclerView?.recyclerView?.adapter = BoardEditAdapter(boards, cardsByBoard)
-                                    recyclerView?.recyclerView?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                    }
-
-                            }
-                        }
-                    } else {
-                        Toast.makeText(context, "Fragmento no encontrado o incorrecto", Toast.LENGTH_SHORT).show()
-
-                    }
-                     */
-
-
                 }
 
                 binding.btnRight.setImageResource(R.drawable.plus_circle_outline)
@@ -318,6 +292,11 @@ class MainActivity : AppCompatActivity() {
             }
 
             "cardDetailsView" -> {
+                binding.lytHeader.visibility = View.GONE
+                binding.lytCoordinatorMenu.visibility = View.GONE
+            }
+
+            "cardCategorySelectItems" -> {
                 binding.lytHeader.visibility = View.GONE
                 binding.lytCoordinatorMenu.visibility = View.GONE
             }
