@@ -69,6 +69,8 @@ class CardDetailsViewFragment : Fragment() {
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
 
+    private var canManage : Boolean = false
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,6 +78,16 @@ class CardDetailsViewFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentCardDetailsViewBinding.inflate(inflater, container, false)
+
+        arguments?.let {
+            canManage = it.getBoolean("canManage", false)
+        }
+
+        binding.btnAddMember.visibility = if (canManage) View.VISIBLE else View.GONE
+        binding.btnCardSettings.visibility = if (canManage) View.VISIBLE else View.GONE
+        binding.rcvCategories.visibility = if (canManage) View.VISIBLE else View.GONE
+        binding.standardBottomSheet.visibility = if (canManage) View.VISIBLE else View.GONE
+
 
         // Initialize the BottomSheetBehavior
         bottomSheetBehavior = BottomSheetBehavior.from(binding.standardBottomSheet)
@@ -214,53 +226,55 @@ class CardDetailsViewFragment : Fragment() {
         binding.rcvCurrentItems.recyclerView.layoutManager =
             LinearLayoutManager(findNavController().context)
 
-        val itemTouchHelper = ItemTouchHelper(object : SwipeToDeleteCallback(requireContext()) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
+        if (canManage) {
+            val itemTouchHelper = ItemTouchHelper(object : SwipeToDeleteCallback(requireContext()) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
-                val item = itemAdapter.getItem(position)
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val position = viewHolder.adapterPosition
+                    val item = itemAdapter.getItem(position)
 
-                when (direction) {
-                    ItemTouchHelper.LEFT -> {
-                        // Eliminar item
-                        itemsViewModel.removeItemFromACard(item)
-                        Snackbar.make(binding.root, "Item eliminado", Snackbar.LENGTH_SHORT)
-                            .setAction("Deshacer") {
-                                var itemCardLineRemoved = ItemCardLineEntity(
-                                    itemCardLineId = ItemProvider.lastItemRemoved!!.itemCardLineId,
-                                    cardId = ItemProvider.lastItemRemoved!!.cardId,
-                                    createdBy = ItemProvider.lastItemRemoved!!.createdBy,
-                                    amount = ItemProvider.lastItemRemoved!!.amount,
-                                    assignedTo = ItemProvider.lastItemRemoved!!.assignedTo,
-                                    price = ItemProvider.lastItemRemoved!!.price,
-                                    itemId = ItemProvider.lastItemRemoved!!.itemId,
-                                    unitId = ItemProvider.lastItemRemoved!!.unitId
-                                )
-                                itemsViewModel.addItemToACard(itemCardLineRemoved)
-                            }.show()
-                    }
+                    when (direction) {
+                        ItemTouchHelper.LEFT -> {
+                            // Eliminar item
+                            itemsViewModel.removeItemFromACard(item)
+                            Snackbar.make(binding.root, "Item eliminado", Snackbar.LENGTH_SHORT)
+                                .setAction("Deshacer") {
+                                    var itemCardLineRemoved = ItemCardLineEntity(
+                                        itemCardLineId = ItemProvider.lastItemRemoved!!.itemCardLineId,
+                                        cardId = ItemProvider.lastItemRemoved!!.cardId,
+                                        createdBy = ItemProvider.lastItemRemoved!!.createdBy,
+                                        amount = ItemProvider.lastItemRemoved!!.amount,
+                                        assignedTo = ItemProvider.lastItemRemoved!!.assignedTo,
+                                        price = ItemProvider.lastItemRemoved!!.price,
+                                        itemId = ItemProvider.lastItemRemoved!!.itemId,
+                                        unitId = ItemProvider.lastItemRemoved!!.unitId
+                                    )
+                                    itemsViewModel.addItemToACard(itemCardLineRemoved)
+                                }.show()
+                        }
 
-                    ItemTouchHelper.RIGHT -> {
-                        // Asignar item
-                        var assignedUserId = item.assignedTo
-                        itemsViewModel.assignItem(item, mainViewModel.getUserId()!!)
-                        Snackbar.make(binding.root, "Item asignado", Snackbar.LENGTH_SHORT)
-                            .setAction("Deshacer") {
-                                itemsViewModel.unassignItem(item, assignedUserId)
-                            }.show()
+                        ItemTouchHelper.RIGHT -> {
+                            // Asignar item
+                            var assignedUserId = item.assignedTo
+                            itemsViewModel.assignItem(item, mainViewModel.getUserId()!!)
+                            Snackbar.make(binding.root, "Item asignado", Snackbar.LENGTH_SHORT)
+                                .setAction("Deshacer") {
+                                    itemsViewModel.unassignItem(item, assignedUserId)
+                                }.show()
+                        }
                     }
                 }
-            }
-        })
+            })
 
-        itemTouchHelper.attachToRecyclerView(binding.rcvCurrentItems.recyclerView)
+            itemTouchHelper.attachToRecyclerView(binding.rcvCurrentItems.recyclerView)
+        }
     }
 
     private fun setUpListeners() {

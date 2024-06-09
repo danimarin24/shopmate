@@ -2,6 +2,7 @@ package com.example.shopmate_app.ui.adapters
 
 import android.content.res.Resources
 import android.graphics.Color
+import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -73,6 +74,9 @@ class CardAdapter(private var cardList: List<CardEntity>,
         val card = cardList[position]
         holder.txtCardTitle.text = card.cardName
         val colorHex = card.color.colorHex
+        val bundle = Bundle().apply {
+            putBoolean("canManage", currentUserId == profileUserId)
+        }
         try {
             if (colorHex != null && colorHex.isNotEmpty()) {
                 holder.cardBakground.setBackgroundColor(Color.parseColor("#$colorHex"))
@@ -90,7 +94,7 @@ class CardAdapter(private var cardList: List<CardEntity>,
                 cardSeleccionada = holder.adapterPosition
                 //changeVisibility(holder, false)
                 CardProvider.selectedCard = card
-                holder.view.findNavController().navigate(R.id.cardDetailsViewFragment)
+                holder.view.findNavController().navigate(R.id.cardDetailsViewFragment, bundle)
             }
             notifyDataSetChanged()
         }
@@ -103,7 +107,7 @@ class CardAdapter(private var cardList: List<CardEntity>,
                 cardSeleccionada = holder.adapterPosition
                 //changeVisibility(holder, false)
                 CardProvider.selectedCard = card
-                holder.view.findNavController().navigate(R.id.cardDetailsViewFragment)
+                holder.view.findNavController().navigate(R.id.cardDetailsViewFragment, bundle)
             }
             notifyDataSetChanged()
         }
@@ -116,7 +120,7 @@ class CardAdapter(private var cardList: List<CardEntity>,
                 cardSeleccionada = holder.adapterPosition
                 //changeVisibility(holder, false)
                 CardProvider.selectedCard = card
-                holder.view.findNavController().navigate(R.id.cardDetailsViewFragment)
+                holder.view.findNavController().navigate(R.id.cardDetailsViewFragment, bundle)
             }
             notifyDataSetChanged()
         }
