@@ -29,4 +29,5 @@ object AppConstants {
 
     // USEFUL STATIC IDs references
     const val UNIT_ID_UNIT = 9
+    const val ROLE_GUEST = 10
 }

@@ -118,4 +118,8 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
+    <fragment
+        android:id="@+id/shareCardFragment"
+        android:name="com.example.shopmate_app.ui.fragments.utils.ShareCardFragment"
+        android:label="ShareCardFragment" />
 </navigation>

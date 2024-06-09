@@ -3,6 +3,8 @@ package com.example.shopmate_app.data.services.networkServices
 import android.content.ClipData.Item
 import com.example.shopmate_app.data.constants.AppConstants
 import com.example.shopmate_app.domain.entities.newtworkEntities.CardEntity
+import com.example.shopmate_app.domain.entities.newtworkEntities.CardShareLinkRequestEntity
+import com.example.shopmate_app.domain.entities.newtworkEntities.CardShareLinkResponseEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.ItemCardLineEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.UserRoleEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.ValidateShareLinkRequestEntity
@@ -29,6 +31,13 @@ class CardService @Inject constructor(private val api: CardApiClient) {
     suspend fun getCardsByTitle(textToSearch: String): List<CardEntity>? {
         return withContext(Dispatchers.IO) {
             val response = api.getCardsByTitle(textToSearch, AppConstants.API_KEY)
+            response.body()!!
+        }
+    }
+
+    suspend fun generateCardShareLinkToken(cardShareLinkRequest: CardShareLinkRequestEntity): CardShareLinkResponseEntity {
+        return withContext(Dispatchers.IO) {
+            val response = api.generateShareLink(cardShareLinkRequest, AppConstants.API_KEY)
             response.body()!!
         }
     }

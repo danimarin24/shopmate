@@ -126,6 +126,11 @@ class CardAdapter(private var cardList: List<CardEntity>,
             notifyDataSetChanged()
         }
 
+        holder.btnShareList.setOnClickListener {
+            holder.view.findNavController().navigate(R.id.shareCardFragment, bundle)
+
+        }
+
 
         var sizeInDp = 20 // Tamaño en dp
         var sizeInPx = TypedValue.applyDimension(
