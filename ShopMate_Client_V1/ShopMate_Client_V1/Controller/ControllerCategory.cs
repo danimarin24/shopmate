@@ -202,20 +202,20 @@ namespace ShopMate_Client_V1.Controller
                 uint categoryId = selectedDGV_Category().CategoryId;
 
                 // Subir la imagen si existe
-                Image categoryImage = fCatForm.pictureBox_cat.Image;
-                if (categoryImage != null)
-                {
-                    try
-                    {
-                        string imageUrl = await r.PostImageAsync("category", categoryImage);
-                        selectedDGV_Category().Icon = imageUrl;
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Error uploading image: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-                }
+                //Image categoryImage = fCatForm.pictureBox_cat.Image;
+                //if (categoryImage != null)
+                //{
+                //    try
+                //    {
+                //        // string imageUrl = await r.PostImageAsync("category", categoryImage);
+                //        // selectedDGV_Category().Icon = imageUrl;
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        MessageBox.Show($"Error uploading image: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //        return;
+                //    }
+                //}
 
                 r.PutCategory(cAux, categoryId, newName);
                 goBack(sender, e);
@@ -363,7 +363,7 @@ namespace ShopMate_Client_V1.Controller
 
         private void modifyItem(object sender, DataGridViewCellEventArgs e)
         {
-            fItemForm.btn_add.Text = "Modify Item"; // Cambiar el texto del botón
+            fItemForm.btn_add.Text = "Modify Item"; 
 
             if (e.RowIndex >= 0)
             {
