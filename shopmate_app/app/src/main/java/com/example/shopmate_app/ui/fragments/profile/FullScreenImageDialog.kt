@@ -37,6 +37,18 @@ class FullScreenImageDialog: DialogFragment() {
 
     private lateinit var context: Context
 
+    companion object {
+        private const val ARG_PROFILE_ID = "profileId"
+
+        fun newInstance(profileId: Int): FullScreenImageDialog {
+            val args = Bundle()
+            args.putInt(ARG_PROFILE_ID, profileId)
+            val fragment = FullScreenImageDialog()
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

@@ -186,7 +186,7 @@ class ProfileFragment : Fragment() {
         }
 
         binding.profileImage.setOnClickListener{
-            val dialog = FullScreenImageDialog()
+            val dialog = FullScreenImageDialog.newInstance(profileUserId.toInt())
             dialog.show(childFragmentManager, "FullScreenImageDialog")
         }
     }
