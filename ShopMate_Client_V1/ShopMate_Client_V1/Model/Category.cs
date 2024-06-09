@@ -19,7 +19,7 @@ namespace ShopMate_Client_V1.Model
 
         public DateTime? CreatedAt { get; set; }
 
-        public virtual ICollection<Item> Items { get; set; } = new List<Item>();
+       // public virtual ICollection<Item> Items { get; set; } = new List<Item>();
       
     }
 }

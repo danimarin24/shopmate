@@ -65,7 +65,7 @@ namespace ShopMate_Client_V1.Controller
             fCatForm.btn_back_fCat.Click += goBack;
             // ITEM FORM-----------------------------
             fItemForm.btn_add.Click += postItem;
-            dtgItem.CellDoubleClick += modifyItem; // Afegir aquest esdeveniment
+            dtgItem.CellDoubleClick += modifyItem; 
 
 
 
@@ -138,6 +138,9 @@ namespace ShopMate_Client_V1.Controller
                     Image categoryImage = r.GetImageLocal(categorySelected.Icon.ToString());
                     fCatForm.pictureBox_cat.SizeMode = PictureBoxSizeMode.Zoom;
                     fCatForm.pictureBox_cat.Image = categoryImage;
+
+                    cAux = categorySelected;
+
                 }
 
             }
@@ -214,7 +217,7 @@ namespace ShopMate_Client_V1.Controller
                     }
                 }
 
-                r.PutCategory(selectedDGV_Category(), categoryId, newName);
+                r.PutCategory(cAux, categoryId, newName);
                 goBack(sender, e);
             }
 
@@ -333,6 +336,12 @@ namespace ShopMate_Client_V1.Controller
             String selectedCategoryName = fItemForm.combo_category.Text.ToString();
             Category selectedCategory = categoryList.FirstOrDefault(c => c.Name.Equals(selectedCategoryName));
 
+            if (selectedCategory == null)
+            {
+                MessageBox.Show("The selected category does not exist. Please select a valid category.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             iAux.Name = fItemForm.txt_name.Text.ToString();
             iAux.CategoryId = selectedCategory.CategoryId;
             iAux.UpdatedAt = DateTime.Now;
@@ -344,17 +353,17 @@ namespace ShopMate_Client_V1.Controller
             }
             else if (fItemForm.btn_add.Text.Equals("Modify"))
             {
-                iAux.ItemId = selectedDGV_Item().ItemId;
-                r.PutItem(iAux,iAux.ItemId, fItemForm.txt_name.Text.ToString(), selectedCategory.CategoryId);
+                r.PutItem(iAux, iAux.ItemId, iAux.Name, (uint)iAux.CategoryId);
             }
 
             fItemForm.Close();
-            dtgItem.DataSource = r.GetItems();
+            itemList = r.GetItems(); // Asegúrate de recargar la lista de ítems después de la operación
+            dtgItem.DataSource = itemList;
         }
 
         private void modifyItem(object sender, DataGridViewCellEventArgs e)
         {
-            fItemForm.btn_add.Text = "Modify Item"; // Canviar el text del botó
+            fItemForm.btn_add.Text = "Modify Item"; // Cambiar el texto del botón
 
             if (e.RowIndex >= 0)
             {
@@ -363,15 +372,14 @@ namespace ShopMate_Client_V1.Controller
 
                 if (selectedItem != null)
                 {
+                    iAux = selectedItem;
                     fItemForm.txt_name.Text = selectedItem.Name.ToString();
                     fItemForm.combo_category.SelectedItem = categoryList.FirstOrDefault(c => c.CategoryId == selectedItem.CategoryId)?.Name;
-                  
 
                     fItemForm.ShowDialog();
                 }
             }
         }
-
         private Item selectedDGV_Item()
         {
             int rowIndex = dtgItem.CurrentCell.RowIndex;

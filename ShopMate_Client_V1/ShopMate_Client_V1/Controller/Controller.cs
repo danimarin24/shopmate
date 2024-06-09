@@ -47,14 +47,14 @@ namespace ShopMate_Client_V1.Controller
         public void LoadData()
         {
             originalUserList = r.GetUsers();
-            userDTOList = originalUserList.Select(u => new UserDTO(u)).ToList(); 
+            userDTOList = originalUserList.Select(u => new UserDTO(u)).ToList();
             f.dtg_client.DataSource = userDTOList;
             itemList = r.GetItems(); 
 
 
 
             // f.dtg_client.DataSource = originalUserList;
-            f.combo_cat.DataSource = new string[] { " ", "Name", "Last Update", "Register Date" };
+            f.combo_cat.DataSource = new string[] { " ", "Name" };
             f.combo_user.DataSource = new string[] { " ", "Name", "Last Connection", "Register Date" };
             f.combo_item.DataSource = new string[] { " ", "Name", "Category", "Last Update", "Register Date" };
             
@@ -73,6 +73,7 @@ namespace ShopMate_Client_V1.Controller
             f.btn_delete_user.Click += deleteSelectedUsers;
             f.txt_search_user.TextChanged += searchUser;
             f.combo_user.SelectedIndexChanged += orderUser;
+            f.dtg_client.CellFormatting += new DataGridViewCellFormattingEventHandler(dtg_client_CellFormatting);
             fUser.btn_add.Click += postUser;
             fUser.btn_add_image.Click += addImage;
             fUser.btn_modify.Click += putUser;
@@ -120,12 +121,12 @@ namespace ShopMate_Client_V1.Controller
                     case "Name":
                         f.dtg_client.DataSource = userDTOList.OrderBy(u => u.Name).ToList();
                         break;
-                    case "Last Connection":
-                        f.dtg_client.DataSource = userDTOList.OrderBy(u => u.LastConnection).ToList();
-                        break;
-                    case "Register Date":
-                        f.dtg_client.DataSource = userDTOList.OrderBy(u => u.RegisterDate).ToList();
-                        break;
+                    //case "Last Connection":
+                    //    f.dtg_client.DataSource = userDTOList.OrderBy(u => u.LastConnection).ToList();
+                    //    break;
+                    //case "Register Date":
+                    //    f.dtg_client.DataSource = userDTOList.OrderBy(u => u.RegisterDate).ToList();
+                    //    break;
                     case " ":
                         f.dtg_client.DataSource = userDTOList;
                         break;
@@ -391,6 +392,23 @@ namespace ShopMate_Client_V1.Controller
             fUser.btn_add_image.Enabled = true;
             fUser.ShowDialog();
         }
+        private void dtg_client_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            var column = f.dtg_client.Columns[e.ColumnIndex].Name;
+            if (column == "GoogleToken" || column == "FacebookToken" || column == "ProfileImage")
+            {
+                if (e.Value != null && e.Value.ToString() == "1")
+                {
+                    e.CellStyle.BackColor = Color.LightBlue;
+                    e.CellStyle.ForeColor = Color.LightBlue;
+                }
+                else
+                {
+                    e.CellStyle.BackColor = Color.LightGray;
+                    e.CellStyle.ForeColor = Color.LightGray;
+                }
+            }
+        }
         private void clearForm()
         {
 
@@ -475,7 +493,7 @@ namespace ShopMate_Client_V1.Controller
         private void orderCategory(object sender, EventArgs e)
         {
             String selectedOrder = f.combo_cat.Text.ToString();
-            // categoryController.orderByComboCategory(selectedOrder);
+            categoryController.orderByComboCategory(selectedOrder);
         }
         private void searchCategory(object sender, EventArgs e)
         {

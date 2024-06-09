@@ -27,9 +27,9 @@ namespace ShopMate_Client_V1.Model
 
         public string FacebookToken { get; set; }
 
-        public DateTime RegisterDate { get; set; }
+        //public DateTime RegisterDate { get; set; }
 
-        public DateTime? LastConnection { get; set; }
+        //public DateTime? LastConnection { get; set; }
 
 
 
@@ -45,8 +45,8 @@ namespace ShopMate_Client_V1.Model
             ProfileImage = checkProfileImage(u.ProfileImage);
             GoogleToken = checkGoogleToken(u.GoogleToken);
             FacebookToken = checkFacebookToken(u.FacebookToken);
-            RegisterDate = u.RegisterDate;
-            LastConnection = u.LastConnection;
+            //RegisterDate = u.RegisterDate;
+            //LastConnection = u.LastConnection;
         }
         private string checkGoogleToken(string token) => !string.IsNullOrEmpty(token) ? "1" : "0";
         private string checkFacebookToken(string token) => !string.IsNullOrEmpty(token) ? "1" : "0";
