@@ -40,6 +40,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
 }
 
 dependencies {
@@ -100,4 +101,17 @@ dependencies {
 
     // Blurry efect
     implementation ("jp.wasabeef:blurry:4.0.0")
+
+    implementation ("androidx.recyclerview:recyclerview:1.2.1")
+    implementation ("androidx.core:core-ktx:1.7.0")
+    implementation ("com.google.android.material:material:1.5.0")
+    implementation ("com.itextpdf:itext7-core:7.2.1")
+    //implementation ("com.itextpdf:itext7-fonts:7.2.1")
+    // implementation ("com.itextpdf:itext7-layout:7.2.1")
+   //  implementation ("om.itextpdf:itext7-pdfhtml:3.0.6")
+
+    // Opcional: Si necesitas soporte para documentos PDF/A
+    // implementation ("com.itextpdf:itext7-pdfa:7.2.1")
+
+
 }

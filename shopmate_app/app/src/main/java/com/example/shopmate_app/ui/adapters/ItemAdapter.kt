@@ -71,4 +71,8 @@ class ItemAdapter(private var itemList: List<ItemCardLineEntity> = listOf())
         itemList = newItemList
         notifyDataSetChanged()
     }
+
+    fun getCurrentList(): List<ItemCardLineEntity> {
+        return itemList
+    }
 }

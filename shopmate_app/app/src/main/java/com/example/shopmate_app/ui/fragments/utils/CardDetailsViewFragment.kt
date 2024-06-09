@@ -1,8 +1,14 @@
 package com.example.shopmate_app.ui.fragments.utils
 
 import android.app.Dialog
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
+import android.graphics.pdf.PdfDocument
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
@@ -16,6 +22,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.FileProvider
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -41,6 +48,9 @@ import com.example.shopmate_app.ui.viewmodels.UnitViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 
 @AndroidEntryPoint
@@ -75,7 +85,8 @@ class CardDetailsViewFragment : Fragment() {
         //bottomSheetBehavior.isHideable = false
 
         // Optionally set a callback to handle state changes and slide offset updates
-        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 // Ensure the bottom sheet is never hidden
                 if (newState == BottomSheetBehavior.STATE_HIDDEN) {
@@ -121,7 +132,7 @@ class CardDetailsViewFragment : Fragment() {
     }
 
     private fun setUpObvservers() {
-        cardViewModel.categoriesIcons.observe(viewLifecycleOwner) {icons ->
+        cardViewModel.categoriesIcons.observe(viewLifecycleOwner) { icons ->
             if (icons.isNotEmpty()) {
                 loadCategoryIcons(icons)
             }
@@ -133,6 +144,7 @@ class CardDetailsViewFragment : Fragment() {
             } else {
                 binding.rcvCurrentItems.hideAllViews()
                 itemAdapter.submitList(items)
+                itemAdapter.notifyDataSetChanged()
             }
         }
 
@@ -199,7 +211,8 @@ class CardDetailsViewFragment : Fragment() {
     }
 
     private fun setUpRecyclerView() {
-        binding.rcvCurrentItems.recyclerView.layoutManager = LinearLayoutManager(findNavController().context)
+        binding.rcvCurrentItems.recyclerView.layoutManager =
+            LinearLayoutManager(findNavController().context)
 
         val itemTouchHelper = ItemTouchHelper(object : SwipeToDeleteCallback(requireContext()) {
             override fun onMove(
@@ -233,6 +246,7 @@ class CardDetailsViewFragment : Fragment() {
                                 itemsViewModel.addItemToACard(itemCardLineRemoved)
                             }.show()
                     }
+
                     ItemTouchHelper.RIGHT -> {
                         // Asignar item
                         var assignedUserId = item.assignedTo
@@ -280,7 +294,8 @@ class CardDetailsViewFragment : Fragment() {
                 price = 0f,
                 assignedTo = 1,
                 itemId = 1,
-                unitId = AppConstants.UNIT_ID_UNIT)
+                unitId = AppConstants.UNIT_ID_UNIT
+            )
 
             if (binding.txtItemName.text.isNotEmpty()) {
                 // can add product
@@ -289,7 +304,7 @@ class CardDetailsViewFragment : Fragment() {
                 if (txtAmount.isNotEmpty()) {
                     itemCardLineDefault.amount = txtAmount.toInt()
                 }
-                if (txtPrice.isNotEmpty()){
+                if (txtPrice.isNotEmpty()) {
                     itemCardLineDefault.price = txtPrice.toFloat()
                 }
 
@@ -305,7 +320,8 @@ class CardDetailsViewFragment : Fragment() {
     private fun loadCategoryIcons(iconUrls: List<String>) {
         val sizeInDp = 20 // Tamaño en dp
         val sizeInPx = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, sizeInDp.toFloat(), resources.displayMetrics).toInt()
+            TypedValue.COMPLEX_UNIT_DIP, sizeInDp.toFloat(), resources.displayMetrics
+        ).toInt()
 
         binding.categoryIconsContainer.removeAllViews()
 
@@ -334,7 +350,6 @@ class CardDetailsViewFragment : Fragment() {
         val lytMembersConfig = dialog.findViewById<LinearLayout>(R.id.lytMembersConfig)
         val lytRecommendAFriend = dialog.findViewById<LinearLayout>(R.id.lytRecommendAFriend)
 
-
         lytShareCard.setOnClickListener {
             dialog.dismiss()
             Snackbar.make(binding.root, "Sharing card...", Snackbar.LENGTH_SHORT).show()
@@ -347,6 +362,7 @@ class CardDetailsViewFragment : Fragment() {
 
         lytPrintCard.setOnClickListener {
             dialog.dismiss()
+            generatePdfFromRecyclerView(itemAdapter.getCurrentList())
             Snackbar.make(binding.root, "Print card...", Snackbar.LENGTH_SHORT).show()
         }
 
@@ -357,13 +373,237 @@ class CardDetailsViewFragment : Fragment() {
 
         lytRecommendAFriend.setOnClickListener {
             dialog.dismiss()
-            Snackbar.make(binding.root, "Recommend ShopMate to a friend...", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(binding.root, "Recommend ShopMate to a friend...", Snackbar.LENGTH_SHORT)
+                .show()
         }
 
         dialog.show()
-        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
         dialog.window?.setGravity(Gravity.BOTTOM)
+    }
+
+    private fun generatePdfFromRecyclerView(items: List<ItemCardLineEntity>) {
+        val pdfDocument = PdfDocument()
+        val pageInfo = PdfDocument.PageInfo.Builder(300, 600, 1).create()
+        var currentPage = pdfDocument.startPage(pageInfo)
+        var canvas = currentPage.canvas
+
+        var yPosition = 25
+
+        // Definir ancho de columnas
+        val columnWidths = floatArrayOf(3.5f, 1.5f, 1.5f) // Ajusta según tus necesidades
+        val tableWidth = 300f
+
+        val table = PdfTable(columnWidths, tableWidth)
+
+        // Agregar encabezados
+        table.addCell(PdfCell().addText("Item").setBackgroundColor(Color.LTGRAY))
+        table.addCell(PdfCell().addText("Amount").setBackgroundColor(Color.LTGRAY))
+        table.addCell(PdfCell().addText("Price").setBackgroundColor(Color.LTGRAY))
+
+        // Añadir filas de datos
+        for (item in items) {
+            table.addCell(PdfCell().addText(item.item?.name ?: ""))
+            table.addCell(PdfCell().addText(item.amount.toString()))
+            table.addCell(PdfCell().addText(item.price.toString()))
+        }
+
+        // Calcular total de precios
+        val totalPrice = items.sumOf { it.price.toDouble() } // Asegúrate de que price es convertible a Double
+
+        // Dibujar encabezados y datos de la tabla
+        yPosition += table.drawHeaders(tableWidth.toInt(), canvas, 10f, yPosition)
+        yPosition = table.draw(tableWidth.toInt(), canvas, 10f, yPosition, pdfDocument, pageInfo, 25)
+
+        // Dibujar la línea final con el total
+        if (yPosition + 40 > canvas.height) {
+            pdfDocument.finishPage(currentPage)
+            currentPage = pdfDocument.startPage(pageInfo)
+            canvas = currentPage.canvas
+            yPosition = 25
+        }
+        val paint = Paint()
+        paint.color = Color.BLACK
+        paint.textSize = 14f
+        canvas.drawLine(10f, (yPosition + 10).toFloat(), tableWidth - 10, (yPosition + 10).toFloat(), paint)
+        canvas.drawText("Total: $totalPrice", tableWidth - 80, (yPosition + 30).toFloat(), paint)
+
+        // Finalizar la página actual
+        pdfDocument.finishPage(currentPage)
+
+        // Guardar el PDF en un archivo
+        val file = File(requireContext().getExternalFilesDir(null), "CardItems.pdf")
+        try {
+            pdfDocument.writeTo(FileOutputStream(file))
+            Snackbar.make(
+                binding.root,
+                "PDF generado en: ${file.absolutePath}",
+                Snackbar.LENGTH_LONG
+            ).show()
+            showPdfFile(file.absolutePath)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Snackbar.make(binding.root, "Error al generar el PDF", Snackbar.LENGTH_SHORT).show()
+        } finally {
+            pdfDocument.close()
+        }
+    }
+
+    private fun showPdfFile(filePath: String) {
+        val file = File(filePath)
+        val uri = FileProvider.getUriForFile(
+            requireContext(),
+            "${requireContext().packageName}.provider",
+            file
+        )
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        intent.setDataAndType(uri, "application/pdf")
+        try {
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            Snackbar.make(binding.root, "No se encontró visor de PDF", Snackbar.LENGTH_SHORT).show()
+        }
+    }
+
+    private class PdfTable(private val columnWidths: FloatArray, private val tableWidth: Float) {
+
+        private val cellPadding = 10f // Ajusta según tus necesidades
+
+        private val cells = mutableListOf<PdfCell>()
+        var totalHeight = 0
+        var headerHeight = 0
+
+        fun addCell(cell: PdfCell): PdfTable {
+            cells.add(cell)
+            return this
+        }
+
+        fun drawHeaders(tableWidth: Int, canvas: Canvas, xPosition: Float, yPosition: Int): Int {
+            var currentX = xPosition
+            var currentY = yPosition.toFloat()
+
+            headerHeight = 0
+
+            for (i in 0 until columnWidths.size) {
+                val width = columnWidths[i] * (tableWidth / columnWidths.sum())
+                val pdfCell = cells[i]
+                pdfCell.calculateHeight(width - 2 * cellPadding)
+
+                if (pdfCell.height > headerHeight) {
+                    headerHeight = pdfCell.height.toInt()
+                }
+
+                pdfCell.draw(
+                    currentX + cellPadding,
+                    currentY + cellPadding,
+                    width - 2 * cellPadding,
+                    canvas
+                )
+                currentX += width
+            }
+
+            return headerHeight + (2 * cellPadding).toInt()
+        }
+
+        fun draw(
+            tableWidth: Int,
+            canvas: Canvas,
+            xPosition: Float,
+            yPosition: Int,
+            pdfDocument: PdfDocument,
+            pageInfo: PdfDocument.PageInfo,
+            initialYPosition: Int
+        ): Int {
+            var currentX = xPosition
+            var currentY = yPosition.toFloat()
+
+            var maxHeightInRow = 0f
+
+            // Calcular el ancho total de las columnas
+            val totalColumnWidth = columnWidths.sum()
+
+            for ((index, pdfCell) in cells.withIndex()) {
+                if (index % columnWidths.size == 0 && index != 0) {
+                    currentY += maxHeightInRow + 2 * cellPadding
+                    currentX = xPosition
+                    maxHeightInRow = 0f
+
+                    if (currentY + maxHeightInRow + 2 * cellPadding > canvas.height) {
+                        // Finalizar la página actual
+                        pdfDocument.finishPage(pdfDocument.startPage(pageInfo))
+
+                        // Iniciar una nueva página
+                        currentY = initialYPosition.toFloat()
+
+                        // Dibujar encabezados en la nueva página
+                        currentY += drawHeaders(tableWidth, canvas, xPosition, initialYPosition)
+                    }
+                }
+
+                val width =
+                    columnWidths[index % columnWidths.size] * (tableWidth / totalColumnWidth)
+                pdfCell.calculateHeight(width - 2 * cellPadding)
+                if (pdfCell.height > maxHeightInRow) {
+                    maxHeightInRow = pdfCell.height
+                }
+
+                // Dibujar la celda
+                pdfCell.draw(
+                    currentX + cellPadding,
+                    currentY + cellPadding,
+                    width - 2 * cellPadding,
+                    canvas
+                )
+
+                currentX += width
+            }
+
+            totalHeight = (currentY + maxHeightInRow - yPosition).toInt()
+            return totalHeight
+        }
+    }
+
+    // Clase PdfCell que crea las celdas de la tabla dentro del documento PDF
+    private class PdfCell {
+        private val paint = Paint()
+        private val textPaint = Paint()
+
+        var height = 0f
+
+        init {
+            paint.style = Paint.Style.STROKE
+            textPaint.textSize = 12f // Ajusta según tus necesidades
+        }
+
+        fun addText(text: String): PdfCell {
+            this.text = text
+            return this
+        }
+
+        fun setBackgroundColor(color: Int): PdfCell {
+            this.color = color
+            return this
+        }
+
+        fun calculateHeight(width: Float) {
+            val textBounds = Rect()
+            textPaint.getTextBounds(text, 0, text.length, textBounds)
+            height = textBounds.height().toFloat()
+        }
+
+        fun draw(x: Float, y: Float, width: Float, canvas: Canvas) {
+            paint.color = color
+            canvas.drawRect(x, y, x + width, y + height, paint)
+            canvas.drawText(text, x, y + height, textPaint)
+        }
+
+        private var text: String = ""
+        private var color: Int = Color.WHITE
     }
 }
