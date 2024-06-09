@@ -24,14 +24,7 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent" />
 
-<ImageView
-    android:id="@+id/ivProfilePicker"
-    android:layout_width="100dp"
-    android:layout_height="100dp"
-    android:src="@drawable/profile_icon"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/textView" />
+
 
 
 <!-- PASSWORD EDITEXT -->
@@ -39,10 +32,10 @@
     android:id="@+id/lytEtPassword"
     android:layout_width="@dimen/maxWidth"
     android:layout_height="@dimen/height"
-    android:layout_marginTop="@dimen/defaultMargin"
+    android:layout_marginTop="100dp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/ivProfilePicker">
+    app:layout_constraintTop_toBottomOf="@id/textView">
 
     <RelativeLayout
         android:layout_width="@dimen/height"

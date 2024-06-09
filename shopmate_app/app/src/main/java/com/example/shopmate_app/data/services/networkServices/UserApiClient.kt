@@ -75,7 +75,7 @@ interface UserApiClient {
                             @Part("RegisterDate") RegisterDate: RequestBody,
                             @Part("LastConnection") LastConnection: RequestBody,
                             @Part("SettingId") SettingId: RequestBody,
-                            @Part("StatId") StatId: RequestBody
+                            @Header("x-api-key") apiKey: String
     ): Response<UserEntity>
 
     @POST("${AppConstants.USER_ENDPOINT}{id}/action/{userActionId}")

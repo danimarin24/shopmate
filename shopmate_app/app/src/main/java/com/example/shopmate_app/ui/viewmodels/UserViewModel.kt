@@ -9,6 +9,7 @@ import com.example.shopmate_app.domain.entities.newtworkEntities.CardEntity
 import com.example.shopmate_app.domain.entities.newtworkEntities.UserEntity
 import com.example.shopmate_app.domain.entities.utilsEntities.UserActionResponseEntity
 import com.example.shopmate_app.domain.usecases.user.AddUserUseCase
+import com.example.shopmate_app.domain.usecases.user.AddUserWithImageUseCase
 import com.example.shopmate_app.domain.usecases.user.GetGoogleSubByGoogleTokenUseCase
 import com.example.shopmate_app.domain.usecases.user.GetIfIsFollowingThisUserUseCase
 import com.example.shopmate_app.domain.usecases.user.GetUserByEmailUseCase
@@ -38,6 +39,7 @@ class UserViewModel @Inject constructor(
     private val postFollowUnfollowThisUserUseCase: PostFollowUnfollowThisUserUseCase,
     private val getUserByGoogleSubUseCase : GetUserByGoogleSubUseCase,
     private val addUserUseCase : AddUserUseCase,
+    private val addUserWithImageUseCase: AddUserWithImageUseCase,
     private val putUserUseCase : PutUserUseCase,
 ) : ViewModel() {
 
@@ -205,6 +207,18 @@ class UserViewModel @Inject constructor(
         viewModelScope.launch {
             _isLoading.value = true
             val result = addUserUseCase(user)
+
+            if (result != null) {
+                userEntity.postValue(result)
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun addUserWithImage(user: UserEntity) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            val result = addUserWithImageUseCase(user)
 
             if (result != null) {
                 userEntity.postValue(result)

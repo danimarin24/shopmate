@@ -141,7 +141,7 @@ class LoginFragment : Fragment() {
                                     // user has setting and stat id set to null, because in the api, we will create automatically a new setting and a new stat.
                                     val user : UserEntity = UserEntity(null, googleUsernameGenerated!!, googleName, null,
                                         googleEmail, googlePhoneNumber, googleProfileImage, googleSubHashed, null,
-                                        LocalDate.now().toString(), LocalDate.now().toString(), 0, 0)
+                                        LocalDate.now().toString(), LocalDate.now().toString(), 0)
 
                                     var userInserted: UserEntity? = null
                                     userViewModel.addUser(user)

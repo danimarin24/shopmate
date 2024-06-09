@@ -16,7 +16,7 @@ namespace API.Controllers
     {
         private readonly ShopMateContext _context;
         private readonly string _pathServer = "wwwroot/api/images/";
-        private readonly string _pathCleanPath = "/api/images/user";
+        private readonly string _pathClean = "/api/images/";
         private readonly string _pathImatge = "user/";
 
         private readonly string _googleClientId =
@@ -430,85 +430,67 @@ namespace API.Controllers
         // POST: api/User/profileImage
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("profileImage")]
-        public async Task<ActionResult<UserDto>> PostUserImage([FromForm] UserViewModel model)
+        public async Task<ActionResult<UserDto>> PostUserImage([FromForm] UserViewModel userViewModel)
         {
-            if (model.ProfileImage == null)
+            if (userViewModel.ProfileImage == null)
             {
                 return BadRequest("No se proporcionó una imagen.");
             }
 
             try
             {
-                var file = model.ProfileImage;
+                var file = userViewModel.ProfileImage;
                 var fileSize = file.Length;
 
                 if (fileSize > 0)
                 {
                     var fileName = Path.GetFileName(file.FileName);
-                    var filePath = $"{_pathServer}{_pathImatge}{fileName}";
-
+                    string imageUrlHash = $"{DateTime.Now.Ticks}{Path.GetExtension(fileName)}";
+                    string filePath = Path.Combine(_pathServer, _pathImatge, imageUrlHash);
+                    
                     await using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await file.CopyToAsync(stream);
                     }
 
-                    var profileImageUrl = $"{_pathCleanPath}{_pathImatge}{fileName}";
-
-                    var UserDto = new UserDto
-                    {
-                        Name = model.Name,
-                        Username = model.Username,
-                        Password = model.Password,
-                        Email = model.Email,
-                        PhoneNumber = model.PhoneNumber,
-                        ProfileImage = profileImageUrl,
-                        RegisterDate = model.RegisterDate,
-                        LastConnection = model.LastConnection
-                    };
+                    // Construir la URL final
+                    string finalUrl = $"{_pathClean}{_pathImatge}{imageUrlHash}";
+                    
                     
                     using (var transaction = _context.Database.BeginTransaction())
                     {
                         try
                         {
                             var setting = new Setting(DateTime.Now, 1, 0, 1, 0, DateTime.Now);
-                            if (UserDto.Password != null)
+                            if (userViewModel.Password != null)
                             {
-                                setting.LastPasswordHash = UserDto.Password;
-                            }
-                            else if (UserDto.GoogleToken != null)
-                            {
-                                setting.LastPasswordHash = UserDto.GoogleToken;
-                            }
-                            else if (UserDto.FacebookToken != null)
-                            {
-                                setting.LastPasswordHash = UserDto.FacebookToken;
+                                setting.LastPasswordHash = userViewModel.Password;
                             }
 
                             _context.Settings.Add(setting);
 
                             await _context.SaveChangesAsync();
 
-                            UserDto.SettingId = setting.SettingId;
+                            userViewModel.SettingId = setting.SettingId;
 
-                            _context.Users.Add(
-                                new User {
-                                    UserId = UserDto.UserId,
-                                    Username = UserDto.Username,
-                                    Email = UserDto.Email,
-                                    FacebookToken = UserDto.FacebookToken,
-                                    GoogleToken = UserDto.GoogleToken,
-                                    LastConnection = UserDto.LastConnection,
-                                    Name = UserDto.Name,
-                                    Password = UserDto.Password,
-                                    PhoneNumber = UserDto.PhoneNumber,
-                                    ProfileImage = UserDto.ProfileImage,
-                                    SettingId = UserDto.SettingId
-                                }
-                                );
+                            var user = new User
+                            {
+                                UserId = 0,
+                                Username = userViewModel.Username,
+                                Email = userViewModel.Email,
+                                LastConnection = userViewModel.LastConnection,
+                                Name = userViewModel.Name,
+                                Password = userViewModel.Password,
+                                PhoneNumber = userViewModel.PhoneNumber,
+                                ProfileImage = finalUrl,
+                                SettingId = userViewModel.SettingId
+                            };
+
+                            _context.Users.Add(user);
                             await _context.SaveChangesAsync();
 
                             transaction.Commit(); // Confirma la transacción ya que todo ha ido bien
-                            return CreatedAtAction("GetUser", new { id = UserDto.UserId }, UserDto);
+                            return CreatedAtAction("GetUser", new { id = user.UserId }, new UserDto(user));
                         }
                         catch (Exception)
                         {

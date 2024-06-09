@@ -1,5 +1,6 @@
 package com.example.shopmate_app.data.services.networkServices
 
+import android.text.TextUtils
 import android.util.Log
 import com.example.shopmate_app.data.constants.AppConstants
 import com.example.shopmate_app.domain.entities.newtworkEntities.UserEntity
@@ -7,6 +8,13 @@ import com.example.shopmate_app.domain.entities.newtworkEntities.UserStatsEntity
 import com.example.shopmate_app.domain.entities.utilsEntities.UserActionResponseEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.w3c.dom.Text
+import java.io.File
 import javax.inject.Inject
 
 class UserService @Inject constructor(private val api: UserApiClient) {
@@ -115,6 +123,48 @@ class UserService @Inject constructor(private val api: UserApiClient) {
             val response = api.getFilteredUsersByUsername(textToSearch, AppConstants.API_KEY)
             Log.e("dasf", response.body().toString())
             response.body() ?: emptyList()
+        }
+    }
+
+    private fun createPartFromString(stringData: String): RequestBody {
+        return stringData.toRequestBody("text/plain".toMediaTypeOrNull())
+    }
+
+    suspend fun uploadUserWithImage(user: UserEntity): UserEntity? {
+        val newImagePath = user.profileImage ?: return null
+        val file = File(newImagePath)
+        if (!file.exists()) {
+            Log.e("ERROR", "La ruta de este archivo no existe: $newImagePath")
+            return null
+        }
+
+
+        val photo: RequestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
+        val bodyImage = MultipartBody.Part.createFormData("profileImage", file.name, photo)
+
+        val username = createPartFromString(user.username)
+        val name = createPartFromString(user.name)
+        val password = createPartFromString(user.password!!)
+        val email = createPartFromString(user.email)
+        val phoneNumber = createPartFromString(user.phoneNumber!!)
+        val registerDate = createPartFromString(user.registerDate)
+        val lastConnection = createPartFromString(user.lastConnection!!)
+        val settingId = createPartFromString(user.settingId.toString())
+
+        return withContext(Dispatchers.IO) {
+            Log.i("uploadUserWithImage", "test uploading image")
+            val response = api.addUserPart(
+                bodyImage,
+                username,
+                name,
+                password,
+                email,
+                phoneNumber,
+                registerDate,
+                lastConnection,
+                settingId
+                ,AppConstants.API_KEY)
+            response.body()
         }
     }
 }

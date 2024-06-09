@@ -24,14 +24,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/ivProfilePicker"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/profile_icon"
+    <RelativeLayout
+        android:id="@+id/lytIvContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        >
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivProfilePicker"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/circular"
+            android:src="@drawable/profile_icon" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/editIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignBottom="@id/ivProfilePicker"
+            android:layout_alignEnd="@id/ivProfilePicker"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/circle_background"
+            android:padding="8dp"
+            android:src="@drawable/pencil"
+            app:tint="#ffffff"/>
+
+    </RelativeLayout>
 
 
     <!-- USER EDITEXT -->
@@ -42,7 +65,7 @@
         android:layout_marginTop="@dimen/defaultMargin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivProfilePicker">
+        app:layout_constraintTop_toBottomOf="@id/lytIvContainer">
 
         <RelativeLayout
             android:layout_width="@dimen/height"
